@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">PRACTICE_JETPACK</string>
+    <string name="app_name">jet-pack</string>
+
+    <string name="msg_hello_world_anko">Hello Anko World!</string>
 </resources>
