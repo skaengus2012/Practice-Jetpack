@@ -15,4 +15,10 @@ class CompanyViewModel : BaseObservable() {
         field = value
         notifyPropertyChanged(BR.name)
     }
+
+    @Bindable var subCompany: CompanyViewModel? = null
+    set(value) {
+        field = value
+        notifyPropertyChanged(BR.subCompany)
+    }
 }

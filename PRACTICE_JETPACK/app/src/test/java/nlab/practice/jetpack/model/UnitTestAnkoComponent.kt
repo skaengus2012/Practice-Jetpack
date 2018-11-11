@@ -11,5 +11,8 @@ import nlab.practice.jetpack.ui.viewmodel.CompanyViewModel
  */
 class UnitTestAnkoComponent(private val _viewModel: CompanyViewModel) {
 
-    fun createView() : UnitTestView = UnitTestView().drive(_viewModel, BR.name) { display(it.name) }
+    fun createView() : UnitTestView = UnitTestView().drive(_viewModel, BR.name, BR.subCompany) {
+        display(it.name)
+        it.subCompany?.name?.run { display(this) }
+    }
 }

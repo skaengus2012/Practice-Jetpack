@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import nlab.practice.jetpack.MainActivity
 import nlab.practice.jetpack.R
+import nlab.practice.jetpack.ui.databinding.drive
+import nlab.practice.jetpack.ui.viewmodel.MainTestViewModel
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
@@ -16,7 +18,7 @@ import org.jetbrains.anko.constraint.layout.constraintLayout
  * @author Doohyun
  * @since 2018. 10. 19
  */
-class ActivityMainUI(private val _text : ObservableField<String>) : AnkoComponent<MainActivity> {
+class ActivityMainUI(private val _viewModel : MainTestViewModel) : AnkoComponent<MainActivity> {
 
     override fun createView(ui: AnkoContext<MainActivity>): View = ui.apply {
         constraintLayout {
@@ -31,6 +33,8 @@ class ActivityMainUI(private val _text : ObservableField<String>) : AnkoComponen
                 topToTop = PARENT_ID
                 bottomToBottom = PARENT_ID
                 endToEnd = PARENT_ID
+            }.drive(_viewModel.observableTest) {
+                text = it.get()
             }
         }
 
