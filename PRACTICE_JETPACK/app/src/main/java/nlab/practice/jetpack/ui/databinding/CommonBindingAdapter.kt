@@ -94,6 +94,7 @@ fun <TARGET: ViewComponentBindingAdapter<ITEM>, OBS: ObservableList<ITEM>, ITEM:
             weakTargetRef.get()?.let {
                 it.items.clear()
                 it.items.addAll(obs)
+                it.initializeViewTypeMapper()
                 it.notifyDataSetChanged()
             }
         }
