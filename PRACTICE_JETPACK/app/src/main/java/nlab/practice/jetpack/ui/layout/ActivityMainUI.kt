@@ -4,10 +4,9 @@ import android.graphics.Typeface
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.core.content.ContextCompat
-import androidx.databinding.ObservableField
 import nlab.practice.jetpack.MainActivity
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.ui.databinding.drive
+import nlab.practice.jetpack.util.databinding.drive
 import nlab.practice.jetpack.ui.viewmodel.MainTestViewModel
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout

@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.databinding
+package nlab.practice.jetpack.util.databinding
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Observable
@@ -6,10 +6,10 @@ import androidx.databinding.ObservableList
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import nlab.practice.jetpack.ui.databinding.callback.SimpleOnListChangedCallback
-import nlab.practice.jetpack.ui.databinding.callback.WeakPropertyChangedCallback
-import nlab.practice.jetpack.ui.databinding.recyclerview.ViewComponentBindingAdapter
-import nlab.practice.jetpack.ui.databinding.recyclerview.ViewComponentBindingItem
+import nlab.practice.jetpack.util.databinding.callback.SimpleOnListChangedCallback
+import nlab.practice.jetpack.util.databinding.callback.WeakPropertyChangedCallback
+import nlab.practice.jetpack.util.databinding.recyclerview.ViewComponentBindingAdapter
+import nlab.practice.jetpack.util.databinding.recyclerview.ViewComponentBindingItem
 import java.lang.ref.WeakReference
 
 /**
@@ -88,7 +88,7 @@ fun <TARGET: ViewComponentBindingAdapter<ITEM>, OBS: ObservableList<ITEM>, ITEM:
         callback: ObservableList.OnListChangedCallback<ObservableList<ITEM>>? = null) {
 
     val obs = this
-    var applyCallback = callback ?: object: SimpleOnListChangedCallback<ITEM>() {
+    val applyCallback = callback ?: object: SimpleOnListChangedCallback<ITEM>() {
 
         override fun onChanged(sender: ObservableList<ITEM>?) {
             weakTargetRef.get()?.let {

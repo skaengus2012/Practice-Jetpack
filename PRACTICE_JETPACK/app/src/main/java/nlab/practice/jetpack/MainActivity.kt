@@ -15,6 +15,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         _viewModel = ViewModelProviders.of(this).get(MainTestViewModel::class.java)
+
+     //   ViewModelProviders.of(this).get(DIAndroidViewModel::class.java)
+
+
         ActivityMainUI(_viewModel).setContentView(this)
 
     }

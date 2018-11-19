@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.databinding.recyclerview
+package nlab.practice.jetpack.util.databinding.recyclerview
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
