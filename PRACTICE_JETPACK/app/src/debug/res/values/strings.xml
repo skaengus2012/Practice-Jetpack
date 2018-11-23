@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anko_first_message">Hello</string>
+    <string name="anko_first_message_change">Changed value</string>
+    <string name="anko_first_message_change_delay">Changed value delayed</string>
+    <string name="anko_first_btn_change_text">CHANGE TEXT</string>
+    <string name="anko_first_btn_change_text_delay">CHANGE TEXT - DELAYED</string>
+</resources>

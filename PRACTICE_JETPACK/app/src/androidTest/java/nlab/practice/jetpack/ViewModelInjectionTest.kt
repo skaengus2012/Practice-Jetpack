@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
-import nlab.practice.jetpack.util.di.component.DaggerViewModelComponent
+import nlab.practice.jetpack.util.di.component.DaggerViewModelInjectComponent
 import nlab.practice.jetpack.util.di.module.ViewModelModule
 import org.junit.Before
 import org.junit.Rule
@@ -36,8 +36,8 @@ class ViewModelInjectionTest {
     fun useAppContext() {
         val viewModelModule = ViewModelModule(_application)
 
-        val component = DaggerViewModelComponent.builder().viewModelModule(viewModelModule).build()
-        val component2 = DaggerViewModelComponent.builder().viewModelModule(viewModelModule).build()
+        val component = DaggerViewModelInjectComponent.builder().viewModelModule(viewModelModule).build()
+        val component2 = DaggerViewModelInjectComponent.builder().viewModelModule(viewModelModule).build()
 
         val aViewModel = DITestViewModel().apply { component.inject(this) }
         val bViewModel = DITestViewModel().apply { component.inject(this) }

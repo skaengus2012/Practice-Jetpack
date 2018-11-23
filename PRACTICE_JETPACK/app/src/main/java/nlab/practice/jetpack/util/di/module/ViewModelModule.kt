@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.util.di.module
 
 import android.app.Application
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -24,4 +25,7 @@ class ViewModelModule(private val application: Application){
 
     @Provides
     fun provideApplication() : Application = application
+
+    @Provides
+    fun provideContext() : Context = application.baseContext
 }
