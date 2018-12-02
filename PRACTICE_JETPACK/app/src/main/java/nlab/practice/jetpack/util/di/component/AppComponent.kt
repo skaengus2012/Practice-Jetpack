@@ -14,7 +14,6 @@ import dagger.android.AndroidInjectionModule
 @Singleton
 @Component(modules = [
     AppModule::class,
-    AndroidInjectionModule::class,
     RepositoryModule::class
 ])
 interface AppComponent {
