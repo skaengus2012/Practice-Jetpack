@@ -2,9 +2,9 @@ package nlab.practice.jetpack.util.di.android
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import nlab.practice.jetpack.util.di.component.DaggerViewModelInjectComponent
+import nlab.practice.jetpack.util.di.component.AppComponent
 import nlab.practice.jetpack.util.di.component.ViewModelInjectComponent
-import nlab.practice.jetpack.util.di.module.ViewModelModule
+import java.lang.RuntimeException
 
 /**
  * 의존성 주입을 지원하는 AndroidViewModel
@@ -15,7 +15,14 @@ import nlab.practice.jetpack.util.di.module.ViewModelModule
 abstract class InjectableAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
     protected val injector: ViewModelInjectComponent by lazy {
-        DaggerViewModelInjectComponent.builder().viewModelModule(ViewModelModule(application)).build()
+        if (application is AppComponent.Supplier) {
+            (application as AppComponent.Supplier)
+                    .getAppComponent()
+                    .viewModelComponent()
+                    .build()
+        } else {
+            throw RuntimeException("Error by none support AppComponent.Supplier")
+        }
     }
 
 }

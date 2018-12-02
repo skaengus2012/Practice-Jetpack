@@ -3,7 +3,7 @@ package nlab.practice.jetpack.util.di.module
 import dagger.Module
 import dagger.Provides
 import nlab.practice.jetpack.repository.SimpleRepository
-import nlab.practice.jetpack.util.di.scope.ViewModelLifeCycle
+import javax.inject.Singleton
 
 /**
  * @author Doohyun
@@ -12,7 +12,7 @@ import nlab.practice.jetpack.util.di.scope.ViewModelLifeCycle
 @Module
 class RepositoryModule {
 
-    @ViewModelLifeCycle
+    @Singleton
     @Provides
     fun provideSimpleRepository() : SimpleRepository = SimpleRepository()
 }
