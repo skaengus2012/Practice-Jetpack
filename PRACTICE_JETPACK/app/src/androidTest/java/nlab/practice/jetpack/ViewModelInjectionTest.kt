@@ -4,9 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import nlab.practice.jetpack.anko.AnkoFirstActivity
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
-import nlab.practice.jetpack.util.di.component.DaggerViewModelInjectComponent
-import nlab.practice.jetpack.util.di.module.ViewModelModule
+import nlab.practice.jetpack.util.di.component.DaggerAppComponent
 import org.junit.Before
 import org.junit.Rule
 
@@ -25,7 +25,7 @@ class ViewModelInjectionTest {
     private lateinit var _application: Application
 
     @get:Rule
-    val activityTest: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+    val activityTest: ActivityTestRule<AnkoFirstActivity> = ActivityTestRule(AnkoFirstActivity::class.java)
 
     @Before
     fun init() {
@@ -34,10 +34,13 @@ class ViewModelInjectionTest {
 
     @Test
     fun useAppContext() {
-        val viewModelModule = ViewModelModule(_application)
 
-        val component = DaggerViewModelInjectComponent.builder().viewModelModule(viewModelModule).build()
-        val component2 = DaggerViewModelInjectComponent.builder().viewModelModule(viewModelModule).build()
+        val appComponent = DaggerAppComponent.builder()
+                .application(_application)
+                .build()
+
+        val component = appComponent.viewModelComponent().build()
+        val component2 = appComponent.viewModelComponent().build()
 
         val aViewModel = DITestViewModel().apply { component.inject(this) }
         val bViewModel = DITestViewModel().apply { component.inject(this) }
