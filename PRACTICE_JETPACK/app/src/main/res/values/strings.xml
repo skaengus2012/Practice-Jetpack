@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">jet-pack</string>
 
-    <string name="msg_hello_world_anko">Hello Anko World!</string>
+    <!-- bottom menu -->
+    <string name="bottom_nav_test">테스트</string>
+    <string name="bottom_nav_introduce">소개</string>
 </resources>
