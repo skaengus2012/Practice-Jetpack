@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main_holder.*
+import nlab.practice.jetpack.util.setupWithNavController
 
 /**
  * Fragment 들의 Host Activity
@@ -24,7 +24,8 @@ class MainHolderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_holder)
 
         _navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        NavigationUI.setupWithNavController(bottom_navigation, _navController)
+      //  NavigationUI.setupWithNavController(bottom_navigation, _navController)
+        bottom_navigation.setupWithNavController(_navController)
     }
 
 
