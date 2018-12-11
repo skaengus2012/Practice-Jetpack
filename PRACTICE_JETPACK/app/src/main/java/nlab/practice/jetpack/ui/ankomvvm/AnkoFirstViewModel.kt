@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.anko
+package nlab.practice.jetpack.ui.ankomvvm
 
 import android.app.Application
 import android.content.Context
@@ -16,7 +16,7 @@ import javax.inject.Inject
  * @author Doohyun
  * @since 2018. 11. 23
  */
-class AnkoViewModel(application: Application) : InjectableAndroidViewModel(application) {
+class AnkoFirstViewModel(application: Application) : InjectableAndroidViewModel(application) {
 
     @Inject lateinit var disposable: CompositeDisposable
 

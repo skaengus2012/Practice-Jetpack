@@ -17,6 +17,8 @@ class JetPackApplication : Application(), AppComponent.Supplier {
         _appComponent = DaggerAppComponent.builder()
                 .application(this)
                 .build()
+
+        LeakCanaryWatcher.initialize(this)
     }
 
     override fun getAppComponent(): AppComponent = _appComponent
