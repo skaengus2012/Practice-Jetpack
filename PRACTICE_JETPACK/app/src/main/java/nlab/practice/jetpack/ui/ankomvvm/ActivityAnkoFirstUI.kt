@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.anko
+package nlab.practice.jetpack.ui.ankomvvm
 
 import android.content.Context
 import android.graphics.Typeface
@@ -22,7 +22,7 @@ const val HORIZONTAL_GUIDE_LINE_ID = 1
  * @author Doohyun
  * @since 2018. 11. 23
  */
-class ActivityAnkoFirstUI(private val viewModel: AnkoViewModel) : AnkoComponent<AnkoFirstActivity> {
+class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoComponent<AnkoFirstActivity> {
 
     override fun createView(ui: AnkoContext<AnkoFirstActivity>): View = ui.apply {
         constraintLayout {

@@ -19,7 +19,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".anko.AnkoFirstActivity">
+		<activity android:name=".ui.ankomvvm.AnkoFirstActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 			</intent-filter>

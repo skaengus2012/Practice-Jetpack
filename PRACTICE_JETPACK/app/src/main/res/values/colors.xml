@@ -11,5 +11,4 @@
     <!-- bottom menu -->
     <color name="bottom_navigation_item_color">#6b6b6b</color>
     <color name="bottom_navigation_item_activated_color">@color/colorAccent</color>
-
 </resources>

@@ -1,7 +1,7 @@
 package nlab.practice.jetpack.util.di.component
 
 import dagger.Subcomponent
-import nlab.practice.jetpack.anko.AnkoViewModel
+import nlab.practice.jetpack.ui.ankomvvm.AnkoFirstViewModel
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
 import nlab.practice.jetpack.ui.viewmodel.MainTestViewModel
 import nlab.practice.jetpack.util.di.module.ViewModelModule
@@ -22,7 +22,7 @@ interface ViewModelInjectComponent {
 
     fun inject(mainTestViewModel: MainTestViewModel)
 
-    fun inject(ankoViewModel: AnkoViewModel)
+    fun inject(ankoViewModel: AnkoFirstViewModel)
 
     fun inject(diTestViewModel: DITestViewModel)
 }

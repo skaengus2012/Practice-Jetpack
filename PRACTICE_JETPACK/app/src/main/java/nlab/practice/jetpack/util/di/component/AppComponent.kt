@@ -6,7 +6,6 @@ import nlab.practice.jetpack.util.di.module.RepositoryModule
 import javax.inject.Singleton
 import nlab.practice.jetpack.util.di.module.AppModule
 import dagger.BindsInstance
-import dagger.android.AndroidInjectionModule
 
 /**
  * @author Doohyun
@@ -27,7 +26,7 @@ interface AppComponent {
     }
 
     interface Supplier {
-        fun getAppComponent() : AppComponent
+        fun getAppComponent(): AppComponent
     }
 
     fun viewModelComponent(): ViewModelInjectComponent.Builder

@@ -18,19 +18,25 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.debug
         }
-
         release {
             debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
+    }
+
+    buildTypes.each {
+        it.buildConfigField 'Boolean', 'BUILD_DEV', it.name == 'debug' ? 'true' : 'false'
     }
 
     dataBinding {
@@ -65,6 +71,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko-support-v4-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-support-v4:$anko_version"
     implementation "org.jetbrains.anko:anko-constraint-layout:$anko_version"
+    // debug
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     // for Unit Test
     testImplementation "junit:junit:4.12"
     androidTestImplementation "androidx.test.ext:junit:1.0.0"

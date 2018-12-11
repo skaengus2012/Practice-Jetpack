@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.anko
+package nlab.practice.jetpack.ui.ankomvvm
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,12 +13,12 @@ import org.jetbrains.anko.setContentView
  */
 class AnkoFirstActivity : AppCompatActivity() {
 
-    private lateinit var _viewModel: AnkoViewModel
+    private lateinit var _viewModel: AnkoFirstViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        _viewModel = ViewModelProviders.of(this).get(AnkoViewModel::class.java)
+        _viewModel = ViewModelProviders.of(this).get(AnkoFirstViewModel::class.java)
         ActivityAnkoFirstUI(_viewModel).setContentView(this)
     }
 
