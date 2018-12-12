@@ -13,12 +13,12 @@ import org.jetbrains.anko.constraint.layout.matchConstraint
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 /**
- * RecyclerView 만 가지고 있는 UI 정의
+ * Main 화면 Container 에 대한 UI 정의
  *
  * @author Doohyun
  * @since 2018. 12. 12
  */
-class MainContainerRecyclerViewUI(private val _viewModel: RecyclerViewUIViewModel) : AnkoComponent<ViewGroup> {
+class MainContainerUI(private val _viewModel: RecyclerViewUIViewModel) : AnkoComponent<ViewGroup> {
 
     override fun createView(ui: AnkoContext<ViewGroup>): View = ui.apply {
         constraintLayout {

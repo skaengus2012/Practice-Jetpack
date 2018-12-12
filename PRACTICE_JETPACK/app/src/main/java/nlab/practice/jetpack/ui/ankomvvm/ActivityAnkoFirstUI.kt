@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.*
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.color
-import nlab.practice.jetpack.util.databinding.drive
+import nlab.practice.jetpack.ui.common.databinding.drive
 import nlab.practice.jetpack.util.string
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout

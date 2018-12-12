@@ -1,9 +1,9 @@
-package nlab.practice.jetpack.util.di.module
+package nlab.practice.jetpack.di.module
 
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
-import nlab.practice.jetpack.util.di.scope.ViewModelLifeCycle
+import nlab.practice.jetpack.di.scope.ViewModelLifeCycle
 
 /**
  * @author Doohyun

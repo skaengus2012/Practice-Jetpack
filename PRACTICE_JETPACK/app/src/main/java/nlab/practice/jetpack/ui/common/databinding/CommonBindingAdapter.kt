@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.databinding
+package nlab.practice.jetpack.ui.common.databinding
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Observable
@@ -6,10 +6,10 @@ import androidx.databinding.ObservableList
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import nlab.practice.jetpack.util.databinding.callback.SimpleOnListChangedCallback
-import nlab.practice.jetpack.util.databinding.callback.WeakPropertyChangedCallback
-import nlab.practice.jetpack.util.databinding.recyclerview.ViewComponentBindingAdapter
-import nlab.practice.jetpack.util.databinding.recyclerview.ViewComponentBindingItem
+import nlab.practice.jetpack.ui.common.databinding.callback.SimpleOnListChangedCallback
+import nlab.practice.jetpack.ui.common.databinding.callback.WeakPropertyChangedCallback
+import nlab.practice.jetpack.ui.common.databinding.recyclerview.ViewComponentBindingAdapter
+import nlab.practice.jetpack.ui.common.databinding.recyclerview.ViewComponentBindingItem
 import java.lang.ref.WeakReference
 
 /**

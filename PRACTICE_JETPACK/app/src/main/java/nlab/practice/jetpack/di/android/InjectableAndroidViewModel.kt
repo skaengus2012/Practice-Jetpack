@@ -1,9 +1,9 @@
-package nlab.practice.jetpack.util.di.android
+package nlab.practice.jetpack.di.android
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import nlab.practice.jetpack.util.di.component.AppComponent
-import nlab.practice.jetpack.util.di.component.ViewModelInjectComponent
+import nlab.practice.jetpack.di.component.AppComponent
+import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import java.lang.RuntimeException
 
 /**

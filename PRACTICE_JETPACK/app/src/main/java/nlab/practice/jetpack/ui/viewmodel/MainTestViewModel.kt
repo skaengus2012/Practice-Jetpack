@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import nlab.practice.jetpack.util.di.android.InjectableAndroidViewModel
+import nlab.practice.jetpack.di.android.InjectableAndroidViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

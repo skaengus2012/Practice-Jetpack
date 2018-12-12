@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.di.scope
+package nlab.practice.jetpack.di.scope
 
 import javax.inject.Scope
 

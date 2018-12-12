@@ -1,10 +1,10 @@
-package nlab.practice.jetpack.util.di.component
+package nlab.practice.jetpack.di.component
 
 import android.app.Application
 import dagger.Component
-import nlab.practice.jetpack.util.di.module.RepositoryModule
+import nlab.practice.jetpack.di.module.RepositoryModule
 import javax.inject.Singleton
-import nlab.practice.jetpack.util.di.module.AppModule
+import nlab.practice.jetpack.di.module.AppModule
 import dagger.BindsInstance
 
 /**

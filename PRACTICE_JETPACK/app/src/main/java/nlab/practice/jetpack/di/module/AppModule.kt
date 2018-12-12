@@ -1,10 +1,10 @@
-package nlab.practice.jetpack.util.di.module
+package nlab.practice.jetpack.di.module
 
 import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import nlab.practice.jetpack.util.di.component.ViewModelInjectComponent
+import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import javax.inject.Singleton
 
 /**

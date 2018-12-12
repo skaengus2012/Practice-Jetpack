@@ -1,7 +1,7 @@
 package nlab.practice.jetpack.model
 
 import androidx.databinding.library.baseAdapters.BR
-import nlab.practice.jetpack.util.databinding.drive
+import nlab.practice.jetpack.ui.common.databinding.drive
 import nlab.practice.jetpack.ui.viewmodel.CompanyViewModel
 
 /**

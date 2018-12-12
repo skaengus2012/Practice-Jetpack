@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.di.module
+package nlab.practice.jetpack.di.module
 
 import dagger.Module
 import dagger.Provides
