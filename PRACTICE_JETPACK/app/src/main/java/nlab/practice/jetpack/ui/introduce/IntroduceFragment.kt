@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.ui.layout.NavigationExampleUI
 import nlab.practice.jetpack.util.fromViewGroup
 import org.jetbrains.anko.AnkoContext
 

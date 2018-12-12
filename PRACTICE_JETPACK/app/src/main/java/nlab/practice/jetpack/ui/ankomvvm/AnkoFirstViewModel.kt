@@ -9,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.di.android.InjectableAndroidViewModel
+import nlab.practice.jetpack.util.string
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -27,7 +28,7 @@ class AnkoFirstViewModel(application: Application) : InjectableAndroidViewModel(
     init {
         injector.inject(this)
 
-        context.getString(R.string.anko_first_message).run { message.set(this) }
+        context.string(R.string.anko_first_message).run { message.set(this) }
     }
 
     override fun onCleared() {

@@ -9,12 +9,14 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.*
-import androidx.core.content.ContextCompat
 import nlab.practice.jetpack.R
+import nlab.practice.jetpack.util.color
 import nlab.practice.jetpack.util.databinding.drive
+import nlab.practice.jetpack.util.string
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.guideline
+import org.jetbrains.anko.constraint.layout.matchConstraint
 
 const val HORIZONTAL_GUIDE_LINE_ID = 1
 
@@ -26,11 +28,11 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
 
     override fun createView(ui: AnkoContext<AnkoFirstActivity>): View = ui.apply {
         constraintLayout {
-            setBackgroundColor(ContextCompat.getColor(ctx, R.color.colorAccent))
+            setBackgroundColor(color(R.color.colorAccent))
 
             textView {
-                textColor = ContextCompat.getColor(ctx, android.R.color.white)
-                textSize = 20f
+                textColor = color(android.R.color.white)
+                textSize = sp(20).toFloat()
                 setTypeface(typeface, Typeface.BOLD)
             }.lparams (width = wrapContent, height = wrapContent){
                 startToStart = PARENT_ID
@@ -59,7 +61,7 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
                             rightMargin = dip(20)
                         }
                         .setOnClickListener {
-                            viewModel.changeTextDelayTime(ctx.getString(R.string.anko_first_message_change))
+                            viewModel.changeTextDelayTime(string(R.string.anko_first_message_change))
                         }
 
                 getTextChangeButton(ctx, R.string.anko_first_btn_change_text_delay)
@@ -69,10 +71,10 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
                             rightMargin = dip(20)
                         }
                         .setOnClickListener {
-                            viewModel.changeTextDelayTime(ctx.getString(R.string.anko_first_message_change_delay), 5)
+                            viewModel.changeTextDelayTime(string(R.string.anko_first_message_change_delay), 5)
                         }
 
-            }.lparams(width = dip(0), height = dip(0)) {
+            }.lparams(width = matchConstraint, height = matchConstraint) {
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
                 topToBottom = HORIZONTAL_GUIDE_LINE_ID
@@ -85,9 +87,9 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
     private fun ViewManager.getTextChangeButton(ctx: Context, @StringRes labelRes: Int) : Button = button(labelRes) {
         minimumHeight = dip(40)
 
-        backgroundColor = ContextCompat.getColor(ctx, android.R.color.black)
+        backgroundColor = ctx.color(android.R.color.black)
 
-        textColor = ContextCompat.getColor(ctx, android.R.color.white)
+        textColor = ctx.color(android.R.color.white)
         textSize = 15f
         setTypeface(typeface, Typeface.BOLD)
         setPadding(dip(15), dip(10), dip(15), dip(10))

@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.layout
+package nlab.practice.jetpack.ui.introduce
 
 import android.view.View
 import android.view.ViewGroup

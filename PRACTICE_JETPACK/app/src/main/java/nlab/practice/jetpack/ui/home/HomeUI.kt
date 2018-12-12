@@ -1,9 +1,7 @@
-package nlab.practice.jetpack.ui.layout
+package nlab.practice.jetpack.ui.home
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import nlab.practice.jetpack.R
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 

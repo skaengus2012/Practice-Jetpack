@@ -24,7 +24,9 @@ class MainHolderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_holder)
 
         _navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-      //  NavigationUI.setupWithNavController(bottom_navigation, _navController)
+
+        // FIXME 2018 12/12 NavigationUI 를 포크 뜨지 않고 사용할 수 있는 방법을 찾아볼 것.
+        // NavigationUI.setupWithNavController(bottom_navigation, _navController)
         bottom_navigation.setupWithNavController(_navController)
     }
 
