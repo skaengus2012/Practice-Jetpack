@@ -18,8 +18,6 @@ import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.guideline
 import org.jetbrains.anko.constraint.layout.matchConstraint
 
-const val HORIZONTAL_GUIDE_LINE_ID = 1
-
 /**
  * @author Doohyun
  * @since 2018. 11. 23
@@ -32,19 +30,19 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
 
             textView {
                 textColor = color(android.R.color.white)
-                textSize = sp(20).toFloat()
+                textSize = 20f
                 setTypeface(typeface, Typeface.BOLD)
             }.lparams (width = wrapContent, height = wrapContent){
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
                 topToTop = PARENT_ID
-                bottomToTop = HORIZONTAL_GUIDE_LINE_ID
+                bottomToTop = R.id.common_guideline_horizontal
             }.drive(viewModel.message) {
                 text = it.get()
             }
 
             guideline{
-                id = HORIZONTAL_GUIDE_LINE_ID
+                id = R.id.common_guideline_horizontal
             }.lparams(width = wrapContent, height = wrapContent) {
                 orientation = HORIZONTAL
                 guidePercent = 0.5f
@@ -77,7 +75,7 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
             }.lparams(width = matchConstraint, height = matchConstraint) {
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
-                topToBottom = HORIZONTAL_GUIDE_LINE_ID
+                topToBottom = R.id.common_guideline_horizontal
                 bottomToBottom = PARENT_ID
             }
         }

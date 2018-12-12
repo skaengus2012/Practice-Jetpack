@@ -7,6 +7,7 @@ import nlab.practice.jetpack.ui.viewmodel.MainTestViewModel
 import nlab.practice.jetpack.di.module.ViewModelModule
 import nlab.practice.jetpack.di.scope.ViewModelLifeCycle
 import nlab.practice.jetpack.ui.home.HomeHeaderViewModel
+import nlab.practice.jetpack.ui.home.HomeViewModel
 
 /**
  * @author Doohyun
@@ -22,6 +23,7 @@ interface ViewModelInjectComponent {
     }
 
     fun inject(viewModel: AnkoFirstViewModel)
+    fun inject(viewModel: HomeViewModel)
     fun inject(viewModel: HomeHeaderViewModel)
     fun inject(viewModel: MainTestViewModel)
     fun inject(viewModel: DITestViewModel)

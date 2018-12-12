@@ -4,5 +4,6 @@
     <dimen name="main_bottom_navigation_height">60dp</dimen>
 
     <!-- main container -->
+    <dimen name="container_page_header_height">84dp</dimen>
     <dimen name="container_page_padding_bottom">75dp</dimen>
 </resources>

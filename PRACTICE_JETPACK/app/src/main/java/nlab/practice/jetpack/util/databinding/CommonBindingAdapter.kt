@@ -83,7 +83,7 @@ fun <TARGET: RecyclerView, LIST: List<ITEM>, ITEM: AnkoViewBindingItem> TARGET.d
     }.let {
         adapter
         ->
-
+        this.adapter = adapter
         adapter.notifyItemViewTypeChanged()
         adapter.notifyDataSetChanged()
 

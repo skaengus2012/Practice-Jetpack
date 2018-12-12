@@ -26,13 +26,19 @@ class MainContainerUI(private val _viewModel: MainContainerViewModel) : AnkoComp
                 layoutManager = LinearLayoutManager(ctx)
                 descendantFocusability = FOCUS_BLOCK_DESCENDANTS
                 clipToPadding = false
+                leftPadding = dip(20)
+                rightPadding = dip(20)
                 bottomPadding = dimen(R.dimen.container_page_padding_bottom)
             }.lparams(width = matchConstraint, height = matchConstraint) {
                 topToTop = PARENT_ID
                 bottomToBottom = PARENT_ID
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
-            }.driveList(items = _viewModel.getItems(), headerItem =  _viewModel.getHeader(), footerItem = _viewModel.getFooter())
+            }.driveList(
+                items = _viewModel.getItems(),
+                headerItem =  _viewModel.getHeader(),
+                footerItem = _viewModel.getFooter()
+            )
         }
     }.view
 }

@@ -6,6 +6,30 @@
     <color name="colorAccent">#ff0050</color>
 
     <color name="white">#ffffff</color>
+    <color name="white_opa08">#14ffffff</color>
+    <color name="white_opa10">#1affffff</color>
+    <color name="white_opa12">#1effffff</color>
+    <color name="white_opa20">#33ffffff</color>
+    <color name="white_opa30">#4cffffff</color>
+    <color name="white_opa40">#66ffffff</color>
+    <color name="white_opa50">#80ffffff</color>
+    <color name="white_opa60">#99ffffff</color>
+    <color name="white_opa70">#b2ffffff</color>
+    <color name="white_opa80">#ccffffff</color>
+    <color name="white_opa90">#e6ffffff</color>
+    <color name="black_opa10">#1a000000</color>
+    <color name="black_opa20">#33000000</color>
+    <color name="black_opa30">#4c000000</color>
+    <color name="black_opa40">#66000000</color>
+    <color name="black_opa50">#7f000000</color>
+    <color name="black_opa60">#99000000</color>
+    <color name="black_opa70">#b2000000</color>
+    <color name="black_opa80">#cc000000</color>
+    <color name="black_opa84">#d6000000</color>
+    <color name="black_opa85">#d9000000</color>
+    <color name="black_opa88">#e0000000</color>
+    <color name="black_opa90">#e6000000</color>
+    <color name="black_opa94">#f0000000</color>
 
     <color name="HomeBackGround">#ffffff</color>
     <color name="TwoBackGround">#ff0000</color>
