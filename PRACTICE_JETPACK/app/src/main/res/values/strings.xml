@@ -9,7 +9,11 @@
     <string name="anko_first_btn_change_text_delay">CHANGE TEXT - DELAYED</string>
 
     <!-- bottom menu -->
-    <string name="bottom_nav_test">테스트</string>
-    <string name="bottom_nav_introduce">소개</string>
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_introduce">Setting</string>
+
+    <!-- Home -->
+    <string name="home_title">테스트</string>
+    <string name="home_time_format">현재 시간 mm월 dd일 hh시 MM분</string>
 
 </resources>

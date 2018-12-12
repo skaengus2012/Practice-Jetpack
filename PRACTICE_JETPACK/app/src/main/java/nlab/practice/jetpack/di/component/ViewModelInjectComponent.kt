@@ -6,6 +6,7 @@ import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
 import nlab.practice.jetpack.ui.viewmodel.MainTestViewModel
 import nlab.practice.jetpack.di.module.ViewModelModule
 import nlab.practice.jetpack.di.scope.ViewModelLifeCycle
+import nlab.practice.jetpack.ui.home.HomeHeaderViewModel
 
 /**
  * @author Doohyun
@@ -20,9 +21,8 @@ interface ViewModelInjectComponent {
         fun build() : ViewModelInjectComponent
     }
 
-    fun inject(mainTestViewModel: MainTestViewModel)
-
-    fun inject(ankoViewModel: AnkoFirstViewModel)
-
-    fun inject(diTestViewModel: DITestViewModel)
+    fun inject(viewModel: AnkoFirstViewModel)
+    fun inject(viewModel: HomeHeaderViewModel)
+    fun inject(viewModel: MainTestViewModel)
+    fun inject(viewModel: DITestViewModel)
 }

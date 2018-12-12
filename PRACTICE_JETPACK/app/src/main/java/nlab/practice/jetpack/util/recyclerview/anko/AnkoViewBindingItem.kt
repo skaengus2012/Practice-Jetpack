@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.common.databinding.recyclerview
+package nlab.practice.jetpack.util.recyclerview.anko
 
 import android.view.ViewGroup
 import androidx.databinding.BaseObservable
@@ -9,7 +9,7 @@ import org.jetbrains.anko.AnkoComponent
  *
  * @author Doohyun
  */
-abstract class ViewComponentBindingItem : BaseObservable() {
+abstract class AnkoViewBindingItem : BaseObservable() {
 
     /**
      * 정의된 Anko Component

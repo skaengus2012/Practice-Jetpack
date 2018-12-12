@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.common.databinding.callback
+package nlab.practice.jetpack.util.databinding.callback
 
 import androidx.databinding.ObservableList
 

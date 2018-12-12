@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.common.databinding
+package nlab.practice.jetpack.util.databinding
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Observable
@@ -6,10 +6,10 @@ import androidx.databinding.ObservableList
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import nlab.practice.jetpack.ui.common.databinding.callback.SimpleOnListChangedCallback
-import nlab.practice.jetpack.ui.common.databinding.callback.WeakPropertyChangedCallback
-import nlab.practice.jetpack.ui.common.databinding.recyclerview.ViewComponentBindingAdapter
-import nlab.practice.jetpack.ui.common.databinding.recyclerview.ViewComponentBindingItem
+import nlab.practice.jetpack.util.databinding.callback.SimpleOnListChangedCallback
+import nlab.practice.jetpack.util.databinding.callback.WeakPropertyChangedCallback
+import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingAdapter
+import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
 import java.lang.ref.WeakReference
 
 /**
@@ -61,28 +61,45 @@ fun <TARGET, OBS: BaseObservable> OBS.addOnWeakPropertyChangedCallback(
     })
 }
 
-fun <TARGET: RecyclerView, OBS: ObservableList<ITEM>, ITEM: ViewComponentBindingItem> TARGET.driveList(
-        observableList: OBS,
-        headerItems: ITEM? = null,
-        footerItems: ITEM? = null,
+/**
+ * [items], [headerItem], [footerItem] 을 RecyclerView 에 적용 시킨다.
+ */
+fun <TARGET: RecyclerView, LIST: List<ITEM>, ITEM: AnkoViewBindingItem> TARGET.driveList(
+        items: LIST? = null,
+        headerItem: ITEM? = null,
+        footerItem: ITEM? = null,
         callback: ObservableList.OnListChangedCallback<ObservableList<ITEM>>? = null) {
 
-    // 레이아웃 매니저가 없다면, Linear 기본으로 세팅
     if (layoutManager == null) {
         layoutManager = LinearLayoutManager(context)
     }
 
-    // 어댑터 생성 및 주입
-    val adapter = ViewComponentBindingAdapter(observableList).apply {
-        header = headerItems
-        footer = footerItems
-    }
-    setAdapter(adapter)
+    // 레이아웃 매니저가 없다면, Linear 기본으로 세팅
 
-    observableList.addOnWeakListChangedCallback(WeakReference(adapter), callback)
+    AnkoViewBindingAdapter<ITEM>().apply {
+        header = headerItem
+        footer = footerItem
+        this.items = items?.toMutableList()
+    }.let {
+        adapter
+        ->
+
+        adapter.notifyItemViewTypeChanged()
+        adapter.notifyDataSetChanged()
+
+        if (adapter.items != null) {
+            @Suppress("UNCHECKED_CAST")
+            (adapter.items as? ObservableList<ITEM>)?.run { addOnWeakListChangedCallback(WeakReference(adapter), callback) }
+        }
+    }
 }
 
-fun <TARGET: ViewComponentBindingAdapter<ITEM>, OBS: ObservableList<ITEM>, ITEM: ViewComponentBindingItem>
+/**
+ * 아이템 변경에 대한 리스너 적용
+ *
+ * [callback] 이 Null 이라면 자동으로 SimpleOnListChangedCallback 의 구현체가 생성
+ */
+private fun <TARGET: AnkoViewBindingAdapter<ITEM>, OBS: ObservableList<ITEM>, ITEM: AnkoViewBindingItem>
         OBS.addOnWeakListChangedCallback(
         weakTargetRef: WeakReference<TARGET>,
         callback: ObservableList.OnListChangedCallback<ObservableList<ITEM>>? = null) {
@@ -91,11 +108,14 @@ fun <TARGET: ViewComponentBindingAdapter<ITEM>, OBS: ObservableList<ITEM>, ITEM:
     val applyCallback = callback ?: object: SimpleOnListChangedCallback<ITEM>() {
 
         override fun onChanged(sender: ObservableList<ITEM>?) {
-            weakTargetRef.get()?.let {
-                it.items.clear()
-                it.items.addAll(obs)
-                it.initializeViewTypeMapper()
-                it.notifyDataSetChanged()
+            weakTargetRef.get()?.run {
+                items?.run {
+                    clear()
+                    addAll(obs)
+                }
+
+                notifyItemViewTypeChanged()
+                notifyDataSetChanged()
             }
         }
     }
