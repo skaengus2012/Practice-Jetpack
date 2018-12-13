@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import nlab.practice.jetpack.util.databinding.callback.SimpleOnListChangedCallback
 import nlab.practice.jetpack.util.databinding.callback.WeakPropertyChangedCallback
+import nlab.practice.jetpack.util.databinding.model.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingAdapter
 import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
 import java.lang.ref.WeakReference
@@ -20,6 +21,7 @@ import java.lang.ref.WeakReference
  * @param observableConsumer 데이터에 대한 활용 함수
  * @return 요청자 본인
  */
+@Deprecated("더이상 필요치 않음")
 inline fun <TARGET, OBS: BaseObservable> TARGET.drive(
         observable: OBS,
         vararg propertyIds: Int,
@@ -68,13 +70,10 @@ fun <TARGET: RecyclerView, LIST: List<ITEM>, ITEM: AnkoViewBindingItem> TARGET.d
         items: LIST? = null,
         headerItem: ITEM? = null,
         footerItem: ITEM? = null,
+        config: RecyclerViewConfig? = null,
         callback: ObservableList.OnListChangedCallback<ObservableList<ITEM>>? = null) {
 
-    if (layoutManager == null) {
-        layoutManager = LinearLayoutManager(context)
-    }
-
-    // 레이아웃 매니저가 없다면, Linear 기본으로 세팅
+    (config ?: RecyclerViewConfig()).bindRecyclerView(this)
 
     AnkoViewBindingAdapter<ITEM>().apply {
         header = headerItem

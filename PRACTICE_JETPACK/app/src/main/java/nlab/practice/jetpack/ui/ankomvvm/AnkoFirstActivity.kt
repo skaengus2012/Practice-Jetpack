@@ -19,7 +19,8 @@ class AnkoFirstActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         _viewModel = ViewModelProviders.of(this).get(AnkoFirstViewModel::class.java)
-        ActivityAnkoFirstUI(_viewModel).setContentView(this)
+
+        ActivityAnkoFirstUI().setViewModel(_viewModel).setContentView(this)
     }
 
 

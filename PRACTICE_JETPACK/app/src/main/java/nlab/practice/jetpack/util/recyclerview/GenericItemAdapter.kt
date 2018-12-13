@@ -34,7 +34,7 @@ abstract class GenericItemAdapter<T, VIEW_HOLDER: GenericItemAdapter.GenericItem
                 footer?: items?.run { get(size - 1) }
 
             else -> {
-                val findPosition = header?.let { position + 1 } ?: position
+                val findPosition = header?.let { position - 1 } ?: position
                 items?.get(findPosition)
             }
         }?.run { holder.onBind(this) }

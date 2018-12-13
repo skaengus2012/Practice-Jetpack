@@ -17,4 +17,8 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="MainContainerSubTitle" parent="MainContainerTitle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

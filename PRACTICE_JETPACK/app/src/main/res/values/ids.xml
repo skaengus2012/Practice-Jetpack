@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="common_guideline_horizontal" type="id"/>
+    <item name="guideline_common_horizontal" type="id"/>
 
     <!-- main -->
-    <item name="main_container_title" type="id"/>
-    <item name="main_container_sub_title" type="id"/>
+    <item name="tv_main_container_title" type="id"/>
+    <item name="tv_main_container_sub_title" type="id"/>
+
+    <!-- home -->
+    <item name="card_home" type="id"/>
+    <item name="tv_home_title" type="id"/>
 </resources>

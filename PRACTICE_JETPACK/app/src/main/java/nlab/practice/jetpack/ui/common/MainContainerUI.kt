@@ -23,7 +23,6 @@ class MainContainerUI(private val _viewModel: MainContainerViewModel) : AnkoComp
     override fun createView(ui: AnkoContext<ViewGroup>): View = ui.apply {
         constraintLayout {
             recyclerView {
-                layoutManager = LinearLayoutManager(ctx)
                 descendantFocusability = FOCUS_BLOCK_DESCENDANTS
                 clipToPadding = false
                 leftPadding = dip(20)
@@ -37,7 +36,8 @@ class MainContainerUI(private val _viewModel: MainContainerViewModel) : AnkoComp
             }.driveList(
                 items = _viewModel.getItems(),
                 headerItem =  _viewModel.getHeader(),
-                footerItem = _viewModel.getFooter()
+                footerItem = _viewModel.getFooter(),
+                config = _viewModel.getRecyclerViewConfig()
             )
         }
     }.view

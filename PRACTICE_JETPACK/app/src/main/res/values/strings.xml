@@ -8,6 +8,11 @@
     <string name="anko_first_btn_change_text">CHANGE TEXT</string>
     <string name="anko_first_btn_change_text_delay">CHANGE TEXT - DELAYED</string>
 
+    <!-- Test menu-->
+    <string name="test_menu_anko_first">Android DSL Anko Tutorial</string>
+    <string name="test_menu_paging">Jetpack Paging component</string>
+    <string name="test_menu_paging_description">Jetpack Paging 에 대한 연습</string>
+
     <!-- bottom menu -->
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_introduce">Setting</string>

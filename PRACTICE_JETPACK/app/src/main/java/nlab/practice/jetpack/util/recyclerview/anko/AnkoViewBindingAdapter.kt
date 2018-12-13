@@ -86,7 +86,7 @@ class AnkoViewBindingAdapter<T: AnkoViewBindingItem> : GenericItemAdapter<T, Ank
 
         else ->
             items?.run {
-                val findPosition = header?.let { position + 1 } ?: position
+                val findPosition = header?.let { position - 1 } ?: position
                 get(findPosition)
             }?.getViewComponent()?.getTag()?.let { _viewTagByTypeGroup[it] }
 

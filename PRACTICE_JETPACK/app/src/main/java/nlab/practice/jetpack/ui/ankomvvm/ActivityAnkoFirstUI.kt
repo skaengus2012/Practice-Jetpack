@@ -11,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.*
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.color
+import nlab.practice.jetpack.util.databinding.DataBindingAnkoComponent
 import nlab.practice.jetpack.util.databinding.drive
 import nlab.practice.jetpack.util.string
 import org.jetbrains.anko.*
@@ -22,7 +23,7 @@ import org.jetbrains.anko.constraint.layout.matchConstraint
  * @author Doohyun
  * @since 2018. 11. 23
  */
-class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoComponent<AnkoFirstActivity> {
+class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFirstActivity>() {
 
     override fun createView(ui: AnkoContext<AnkoFirstActivity>): View = ui.apply {
         constraintLayout {
@@ -36,13 +37,15 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
                 topToTop = PARENT_ID
-                bottomToTop = R.id.common_guideline_horizontal
-            }.drive(viewModel.message) {
+                bottomToTop = R.id.guideline_common_horizontal
+            }.binder {
+                it.message
+            }.drive {
                 text = it.get()
             }
 
             guideline{
-                id = R.id.common_guideline_horizontal
+                id = R.id.guideline_common_horizontal
             }.lparams(width = wrapContent, height = wrapContent) {
                 orientation = HORIZONTAL
                 guidePercent = 0.5f
@@ -58,9 +61,8 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
                             leftMargin = dip(20)
                             rightMargin = dip(20)
                         }
-                        .setOnClickListener {
-                            viewModel.changeTextDelayTime(string(R.string.anko_first_message_change))
-                        }
+                        .binder()
+                        .drive { vm -> setOnClickListener { vm.changeTextDelayTime(string(R.string.anko_first_message_change), 0) } }
 
                 getTextChangeButton(ctx, R.string.anko_first_btn_change_text_delay)
                         .lparams(width = matchParent, height = wrapContent) {
@@ -68,14 +70,13 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
                             leftMargin = dip(20)
                             rightMargin = dip(20)
                         }
-                        .setOnClickListener {
-                            viewModel.changeTextDelayTime(string(R.string.anko_first_message_change_delay), 5)
-                        }
+                        .binder()
+                        .drive { vm -> setOnClickListener { vm.changeTextDelayTime(string(R.string.anko_first_message_change_delay), 5) } }
 
             }.lparams(width = matchConstraint, height = matchConstraint) {
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
-                topToBottom = R.id.common_guideline_horizontal
+                topToBottom = R.id.guideline_common_horizontal
                 bottomToBottom = PARENT_ID
             }
         }

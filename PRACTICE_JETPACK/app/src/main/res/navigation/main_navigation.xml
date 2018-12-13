@@ -8,8 +8,12 @@
 			  android:name="nlab.practice.jetpack.ui.home.HomeFragment"
 			  android:label="HomeFragment">
 		<action
-			android:id="@+id/nav_introduce_fragment"
+			android:id="@+id/nav_paging_test_fragment"
 			app:destination="@id/introduce2_fragment"/>
+
+		<action
+			android:id="@+id/nav_anko_first_activity"
+			app:destination="@id/ankoFirstActivity"/>
 	</fragment>
 
 	<fragment android:id="@+id/introduce_fragment"
@@ -22,7 +26,11 @@
 
 	<fragment android:id="@+id/introduce2_fragment"
 			  android:name="nlab.practice.jetpack.ui.introduce.Introduce2Fragment"
-			  android:label="Introduce2Fragment">
-	</fragment>
+			  android:label="Introduce2Fragment"/>
+
+	<activity android:id="@+id/ankoFirstActivity"
+			  android:name="nlab.practice.jetpack.ui.ankomvvm.AnkoFirstActivity"
+			  android:label="AnkoFirstActivity"/>
+
 
 </navigation>
