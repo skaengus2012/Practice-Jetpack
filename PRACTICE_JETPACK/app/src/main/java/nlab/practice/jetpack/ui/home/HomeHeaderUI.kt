@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewParent
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.databinding.library.baseAdapters.BR
+import androidx.navigation.Navigation
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.databinding.drive
 import nlab.practice.jetpack.util.string
@@ -28,6 +29,8 @@ class HomeHeaderUI(private val _viewModel: HomeHeaderViewModel) : AnkoComponent<
                 bottomToBottom = PARENT_ID
                 startToStart = PARENT_ID
                 endToStart = R.id.main_container_sub_title
+            }.setOnClickListener {
+                Navigation.findNavController(it).navigate(R.id.nav_introduce_fragment)
             }
 
             textView {

@@ -23,6 +23,7 @@ class HomeViewModel(application: Application): InjectableAndroidViewModel(applic
     }
 
     override fun onCleared() {
+        stopHeaderTimer()
         disposables.clear()
     }
 

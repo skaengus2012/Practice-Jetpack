@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main_holder.*
-import nlab.practice.jetpack.util.setupWithNavController
 
 /**
  * Fragment 들의 Host Activity
@@ -24,10 +24,7 @@ class MainHolderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_holder)
 
         _navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-
-        // FIXME 2018 12/12 NavigationUI 를 포크 뜨지 않고 사용할 수 있는 방법을 찾아볼 것.
-        // NavigationUI.setupWithNavController(bottom_navigation, _navController)
-        bottom_navigation.setupWithNavController(_navController)
+        NavigationUI.setupWithNavController(bottom_navigation, _navController)
     }
 
 
