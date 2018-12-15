@@ -9,40 +9,43 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.*
-import androidx.core.content.ContextCompat
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.util.databinding.drive
+import nlab.practice.jetpack.util.color
+import nlab.practice.jetpack.util.databinding.DataBindingAnkoComponent
+import nlab.practice.jetpack.util.databinding.binder.onClick
+import nlab.practice.jetpack.util.string
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.guideline
-
-const val HORIZONTAL_GUIDE_LINE_ID = 1
+import org.jetbrains.anko.constraint.layout.matchConstraint
 
 /**
  * @author Doohyun
  * @since 2018. 11. 23
  */
-class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoComponent<AnkoFirstActivity> {
+class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFirstActivity>() {
 
     override fun createView(ui: AnkoContext<AnkoFirstActivity>): View = ui.apply {
         constraintLayout {
-            setBackgroundColor(ContextCompat.getColor(ctx, R.color.colorAccent))
+            setBackgroundColor(color(R.color.colorAccent))
 
             textView {
-                textColor = ContextCompat.getColor(ctx, android.R.color.white)
+                textColor = color(android.R.color.white)
                 textSize = 20f
                 setTypeface(typeface, Typeface.BOLD)
             }.lparams (width = wrapContent, height = wrapContent){
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
                 topToTop = PARENT_ID
-                bottomToTop = HORIZONTAL_GUIDE_LINE_ID
-            }.drive(viewModel.message) {
+                bottomToTop = R.id.guideline_common_horizontal
+            }.binder {
+                it.message
+            }.drive {
                 text = it.get()
             }
 
             guideline{
-                id = HORIZONTAL_GUIDE_LINE_ID
+                id = R.id.guideline_common_horizontal
             }.lparams(width = wrapContent, height = wrapContent) {
                 orientation = HORIZONTAL
                 guidePercent = 0.5f
@@ -58,9 +61,8 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
                             leftMargin = dip(20)
                             rightMargin = dip(20)
                         }
-                        .setOnClickListener {
-                            viewModel.changeTextDelayTime(ctx.getString(R.string.anko_first_message_change))
-                        }
+                        .binder()
+                        .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change), 0) }
 
                 getTextChangeButton(ctx, R.string.anko_first_btn_change_text_delay)
                         .lparams(width = matchParent, height = wrapContent) {
@@ -68,14 +70,13 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
                             leftMargin = dip(20)
                             rightMargin = dip(20)
                         }
-                        .setOnClickListener {
-                            viewModel.changeTextDelayTime(ctx.getString(R.string.anko_first_message_change_delay), 5)
-                        }
+                        .binder()
+                        .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change_delay), 5) }
 
-            }.lparams(width = dip(0), height = dip(0)) {
+            }.lparams(width = matchConstraint, height = matchConstraint) {
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
-                topToBottom = HORIZONTAL_GUIDE_LINE_ID
+                topToBottom = R.id.guideline_common_horizontal
                 bottomToBottom = PARENT_ID
             }
         }
@@ -85,9 +86,9 @@ class ActivityAnkoFirstUI(private val viewModel: AnkoFirstViewModel) : AnkoCompo
     private fun ViewManager.getTextChangeButton(ctx: Context, @StringRes labelRes: Int) : Button = button(labelRes) {
         minimumHeight = dip(40)
 
-        backgroundColor = ContextCompat.getColor(ctx, android.R.color.black)
+        backgroundColor = ctx.color(android.R.color.black)
 
-        textColor = ContextCompat.getColor(ctx, android.R.color.white)
+        textColor = ctx.color(android.R.color.white)
         textSize = 15f
         setTypeface(typeface, Typeface.BOLD)
         setPadding(dip(15), dip(10), dip(15), dip(10))

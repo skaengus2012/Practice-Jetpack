@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- main -->
+    <dimen name="main_bottom_navigation_height">60dp</dimen>
+
+    <!-- main container -->
+    <dimen name="container_page_header_height">84dp</dimen>
+    <dimen name="container_page_padding_bottom">75dp</dimen>
+
+    <!-- home -->
+    <dimen name="home_page_item_bottom_margin">48dp</dimen>
+</resources>

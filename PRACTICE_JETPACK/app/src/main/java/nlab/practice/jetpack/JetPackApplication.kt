@@ -1,8 +1,8 @@
 package nlab.practice.jetpack
 
 import android.app.Application
-import nlab.practice.jetpack.util.di.component.AppComponent
-import nlab.practice.jetpack.util.di.component.DaggerAppComponent
+import nlab.practice.jetpack.di.component.AppComponent
+import nlab.practice.jetpack.di.component.DaggerAppComponent
 
 /**
  * @author Doohyun

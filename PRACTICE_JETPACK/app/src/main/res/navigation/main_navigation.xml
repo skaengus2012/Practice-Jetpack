@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/main_navigation"
+			app:startDestination="@id/home_fragment">
+
+	<fragment android:id="@+id/home_fragment"
+			  android:name="nlab.practice.jetpack.ui.home.HomeFragment"
+			  android:label="HomeFragment">
+		<action
+			android:id="@+id/nav_paging_test_fragment"
+			app:destination="@id/introduce2_fragment"/>
+
+		<action
+			android:id="@+id/nav_anko_first_activity"
+			app:destination="@id/ankoFirstActivity"/>
+	</fragment>
+
+	<fragment android:id="@+id/introduce_fragment"
+			  android:name="nlab.practice.jetpack.ui.introduce.IntroduceFragment"
+			  android:label="IntroduceFragment">
+		<action
+			android:id="@+id/nav_introduce_fragment"
+			app:destination="@id/introduce2_fragment"/>
+	</fragment>
+
+	<fragment android:id="@+id/introduce2_fragment"
+			  android:name="nlab.practice.jetpack.ui.introduce.Introduce2Fragment"
+			  android:label="Introduce2Fragment"/>
+
+	<activity android:id="@+id/ankoFirstActivity"
+			  android:name="nlab.practice.jetpack.ui.ankomvvm.AnkoFirstActivity"
+			  android:label="AnkoFirstActivity"/>
+
+
+</navigation>

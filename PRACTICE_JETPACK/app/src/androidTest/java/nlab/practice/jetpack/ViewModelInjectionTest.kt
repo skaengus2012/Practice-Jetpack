@@ -4,9 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import nlab.practice.jetpack.ankomvvm.AnkoFirstActivity
+import nlab.practice.jetpack.ui.ankomvvm.AnkoFirstActivity
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
-import nlab.practice.jetpack.util.di.component.DaggerAppComponent
+import nlab.practice.jetpack.di.component.DaggerAppComponent
 import org.junit.Before
 import org.junit.Rule
 

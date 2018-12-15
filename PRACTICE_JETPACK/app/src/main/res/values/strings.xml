@@ -1,9 +1,24 @@
 <resources>
     <string name="app_name">jet-pack</string>
 
+    <!-- anko first -->
     <string name="anko_first_message">Hello</string>
     <string name="anko_first_message_change">Changed value</string>
     <string name="anko_first_message_change_delay">Changed value delayed</string>
     <string name="anko_first_btn_change_text">CHANGE TEXT</string>
     <string name="anko_first_btn_change_text_delay">CHANGE TEXT - DELAYED</string>
+
+    <!-- Test menu-->
+    <string name="test_menu_anko_first">Android DSL Anko Tutorial</string>
+    <string name="test_menu_paging">Jetpack Paging component</string>
+    <string name="test_menu_paging_description">Jetpack Paging 에 대한 연습</string>
+
+    <!-- bottom menu -->
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_introduce">Setting</string>
+
+    <!-- Home -->
+    <string name="home_title">테스트</string>
+    <string name="home_time_format">현재 시간 MM월 dd일 hh시 mm분</string>
+
 </resources>
