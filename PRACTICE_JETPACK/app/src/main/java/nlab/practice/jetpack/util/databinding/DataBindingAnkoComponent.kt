@@ -6,6 +6,8 @@ import nlab.practice.jetpack.util.databinding.binder.*
 import org.jetbrains.anko.AnkoComponent
 
 /**
+ * DataBinding 을 처리할 수 있도록 Binder 를 의존하는 AnkoComponent
+ *
  * @author Doohyun
  */
 abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoComponent<U> {
