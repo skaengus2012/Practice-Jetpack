@@ -14,7 +14,7 @@ import android.view.View
 /**
  * onClick 에 대한 리스너 연결을 수행한다.
  */
-inline fun <T: View, OBS> PropertyBinder<T, OBS>.onClick(crossinline onClickBehavior: View.(OBS)-> Unit) = drive {
+inline fun <T: View, OBS> PropertyBinder<T, OBS>.onClick(crossinline onClickBehavior: View.(OBS)-> Unit) : T = drive {
     observable
     ->
     setOnClickListener {

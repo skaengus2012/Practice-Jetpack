@@ -9,7 +9,7 @@ import androidx.databinding.BaseObservable
  */
 class PropertyBinderMappingDecorator<T, OBS, PROP: BaseObservable>(
         private val _mapper: (OBS) -> PROP,
-        private val _propertyBinder: PropertyBinder<T, PROP>): Binder<OBS>() {
+        private val _propertyBinder: PropertyBinder<T, PROP>): Binder<OBS> {
 
     override fun addCallback(any: OBS) {
         _propertyBinder.addCallback(_mapper(any))

@@ -19,10 +19,7 @@ abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoCo
         _viewModel?.run { _binders.forEach { it.removeCallback() } }
 
         _viewModel = viewModel
-        _binders.forEach {
-            it.addCallback(viewModel)
-            it.notifyChanged()
-        }
+        _binders.forEach { it.addCallback(viewModel) }
 
         return this
     }

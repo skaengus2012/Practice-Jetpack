@@ -5,15 +5,17 @@ import androidx.databinding.Observable
 import androidx.databinding.library.baseAdapters.BR
 import java.lang.ref.WeakReference
 
+private typealias PCallback<T, OBS> = PropertyBinder.DefaultActionOnPropertyChangedCallback<T, OBS>
+
 /**
  * BaseObservable 의 Property 를 Support 하는 Binder
  *
  * @author Doohyun
  */
-class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS>() {
+class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS> {
 
     private var _observable: OBS? = null
-    private val _onPropertyChangedCallbacks = ArrayList<DefaultActionOnPropertyChangedCallback<T, OBS>>()
+    private val _onPropertyChangedCallbacks = ArrayList<PCallback<T, OBS>>()
 
     /**
      * [any] 에 내부 생성된 Callback 을 추가한다.
@@ -23,12 +25,12 @@ class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS>() {
      */
     override fun addCallback(any: OBS) {
         _observable = any
+        _onPropertyChangedCallbacks.forEach { addCallback(any, it) }
+    }
 
-        _onPropertyChangedCallbacks.forEach {
-            _observable?.toObservable()
-                    ?.run { addOnPropertyChangedCallback(it) }
-                    ?:kotlin.run { it.changeCallback(_target, any) }
-        }
+    private fun addCallback(observable: OBS, callback: PCallback<T, OBS>) {
+        callback.changeCallback(_target, observable)
+        observable.toObservable()?.run { addOnPropertyChangedCallback(callback) }
     }
 
     /**
@@ -46,36 +48,33 @@ class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS>() {
     }
 
     /**
-     * 알림으로 등장한 [propertyId] 가 유효한가?
+     * 알림으로 등장한 [checkPropertyId] 가 유효한가?
      *
      * 조건
-     *  [propertyId] 가 [propertyIds] 에 속해있음
-     *  [propertyId] 가 all 임
+     *  [checkPropertyId] 가 [validPropertyIds] 에 속해있음
+     *  [checkPropertyId] 가 all 임
      *
-     * @param propertyIds   리스너에서 서포트하는 목록
-     * @param propertyId    업데이트 항목
+     * @param validPropertyIds   리스너에서 서포트하는 목록
+     * @param checkPropertyId    업데이트 항목
      * @return              유효 여부
      */
-    private fun isValidPropertyId(propertyIds: IntArray, propertyId: Int) : Boolean = when(propertyId) {
+    private fun isValidPropertyId(validPropertyIds: IntArray, checkPropertyId: Int) : Boolean = when(checkPropertyId) {
         BR._all -> true
-        in propertyIds -> true
+        in validPropertyIds -> true
         else -> false
     }
 
     private fun OBS.toObservable(): BaseObservable? = this as? BaseObservable
-
-    private abstract class DefaultActionOnPropertyChangedCallback<T, OBS>(val changeCallback: T.(OBS) -> Unit):
-            Observable.OnPropertyChangedCallback()
 
     /**
      * [propertyIds] 에 속한 요청에 대해 업데이트 시, [changeCallback] 을 처리하는 리스너를 추가한다.
      *
      * 상세 조건은 PropertyBinder::isValidPropertyId 에 따른다.
      */
-    fun drive(vararg propertyIds: Int, changeCallback: T.(OBS) -> Unit): PropertyBinder<T, OBS> {
+    fun drive(vararg propertyIds: Int, changeCallback: T.(OBS) -> Unit): T {
         val weakRef  = WeakReference(_target)
 
-        val propertyCallback = object: DefaultActionOnPropertyChangedCallback<T, OBS>(changeCallback) {
+        object: PCallback<T, OBS>(changeCallback) {
 
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 _observable?.let {
@@ -84,16 +83,17 @@ class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS>() {
                     }
                 }
             }
-        }
-        _onPropertyChangedCallbacks.add(propertyCallback)
 
-        _observable?.run {
-            changeCallback(_target, this)
-            _observable?.toObservable()
-                    ?.run { addOnPropertyChangedCallback(propertyCallback) }
-                    ?:kotlin.run { propertyCallback.changeCallback(_target, this) }
+        }.let {
+            callback
+            ->
+            _onPropertyChangedCallbacks.add(callback)
+            _observable?.run { addCallback(this, callback) }
         }
 
-        return this
+        return _target
     }
+
+    abstract class DefaultActionOnPropertyChangedCallback<T, OBS>(val changeCallback: T.(OBS) -> Unit):
+            Observable.OnPropertyChangedCallback()
 }

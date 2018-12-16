@@ -7,11 +7,12 @@ package nlab.practice.jetpack.util.databinding.binder
  *
  * @author Doohyun
  */
-abstract class Binder<T> {
+interface Binder<T> {
 
-    abstract fun addCallback(any: T)
+    fun addCallback(any: T)
 
-    abstract fun removeCallback()
+    fun removeCallback()
 
-    abstract fun notifyChanged()
+    fun notifyChanged()
+
 }

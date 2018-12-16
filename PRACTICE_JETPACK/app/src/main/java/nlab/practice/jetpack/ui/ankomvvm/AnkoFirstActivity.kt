@@ -20,8 +20,9 @@ class AnkoFirstActivity : AppCompatActivity() {
 
         _viewModel = ViewModelProviders.of(this).get(AnkoFirstViewModel::class.java)
 
-        ActivityAnkoFirstUI().setViewModel(_viewModel).setContentView(this)
+        val ui =  ActivityAnkoFirstUI()
+        ui.setContentView(this)
+
+        ui.setViewModel(_viewModel)
     }
-
-
 }
