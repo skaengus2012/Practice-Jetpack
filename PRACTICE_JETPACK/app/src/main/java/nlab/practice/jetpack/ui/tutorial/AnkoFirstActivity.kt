@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.ankomvvm
+package nlab.practice.jetpack.ui.tutorial
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,9 +20,13 @@ class AnkoFirstActivity : AppCompatActivity() {
 
         _viewModel = ViewModelProviders.of(this).get(AnkoFirstViewModel::class.java)
 
-        val ui =  ActivityAnkoFirstUI()
-        ui.setContentView(this)
+        ActivityAnkoFirstUI().let {
+            it.setContentView(this)
 
-        ui.setViewModel(_viewModel)
+            // 일부로 viewModel 을 나중에 세팅함 -> viewModel set 에 대한 테스트 진행을 위해
+            it.setViewModel(_viewModel)
+        }
     }
+
+
 }

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import nlab.practice.jetpack.di.component.AppComponent
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
-import java.lang.RuntimeException
 
 /**
  * 의존성 주입을 지원하는 AndroidViewModel
@@ -21,7 +20,7 @@ abstract class InjectableAndroidViewModel(application: Application) : AndroidVie
                     .viewModelComponent()
                     .build()
         } else {
-            throw RuntimeException("Error by none support AppComponent.Supplier")
+            throw Throwable("Error by none support AppComponent.Supplier")
         }
     }
 

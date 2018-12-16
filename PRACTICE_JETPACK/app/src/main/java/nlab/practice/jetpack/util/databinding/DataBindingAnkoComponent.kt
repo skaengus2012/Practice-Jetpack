@@ -2,6 +2,7 @@ package nlab.practice.jetpack.util.databinding
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.RecyclerView
 import nlab.practice.jetpack.util.databinding.binder.*
 import org.jetbrains.anko.AnkoComponent
 
@@ -27,7 +28,7 @@ abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoCo
     fun <TARGET, U: BaseObservable> TARGET.binder(mapper: (ViewModel) -> U): PropertyBinder<TARGET, U> {
         val binder = PropertyBinder<TARGET, U>(this)
 
-        PropertyBinderMappingDecorator(mapper, binder).apply {
+        PropertyMappingBindAdapter(mapper, binder).apply {
             _viewModel?.run { addCallback(this) }
             _binders.add(this)
         }
@@ -40,5 +41,16 @@ abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoCo
             _viewModel?.run { addCallback(this) }
             _binders.add(this)
         }
+    }
+
+    fun <TARGET: RecyclerView, ITEM> TARGET.binderList(mapper: (ViewModel)-> List<ITEM>): ListBinder<TARGET, ITEM> {
+        val binder = ListBinder<TARGET, ITEM>(this)
+
+        ListMappingBindAdapter(mapper, binder).apply {
+            _viewModel?.run { addCallback(this) }
+            _binders.add(this)
+        }
+
+        return binder
     }
 }

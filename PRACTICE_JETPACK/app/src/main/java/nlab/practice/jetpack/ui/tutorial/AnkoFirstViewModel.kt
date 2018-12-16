@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.ankomvvm
+package nlab.practice.jetpack.ui.tutorial
 
 import android.app.Application
 import android.content.Context

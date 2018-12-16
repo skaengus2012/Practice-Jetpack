@@ -21,7 +21,6 @@ import java.lang.ref.WeakReference
  * @param observableConsumer 데이터에 대한 활용 함수
  * @return 요청자 본인
  */
-@Deprecated("더이상 필요치 않음")
 inline fun <TARGET, OBS: BaseObservable> TARGET.drive(
         observable: OBS,
         vararg propertyIds: Int,

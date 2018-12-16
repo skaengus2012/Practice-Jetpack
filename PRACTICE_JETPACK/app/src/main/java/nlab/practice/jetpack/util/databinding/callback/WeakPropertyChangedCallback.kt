@@ -11,6 +11,5 @@ import java.lang.ref.WeakReference
  * @author Doohyun
  * @since 2018. 11. 16
  */
-@Deprecated("더이상 필요치 않음")
 abstract class WeakPropertyChangedCallback<TARGET>(val targetRef: WeakReference<TARGET>)
     : Observable.OnPropertyChangedCallback()
