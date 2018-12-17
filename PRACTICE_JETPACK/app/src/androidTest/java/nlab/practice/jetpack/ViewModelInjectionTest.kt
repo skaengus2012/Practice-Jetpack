@@ -8,7 +8,7 @@ import androidx.test.runner.AndroidJUnit4
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
 import nlab.practice.jetpack.di.component.DaggerAppComponent
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 
@@ -49,10 +49,11 @@ class ViewModelInjectionTest {
         val bViewModel = DITestViewModel().apply { component.inject(this) }
 
 
-        assert(aViewModel.simpleRepository === bViewModel.simpleRepository)
+
+        Assert.assertEquals(aViewModel.simpleRepository, bViewModel.simpleRepository)
         Log.d(LOG_NAME, "equals component injection test : ${aViewModel.simpleRepository === bViewModel.simpleRepository}")
 
-        assertEquals(true, aViewModel.simpleRepository != bViewModel.simpleRepository)
+        Assert.assertEquals(true, aViewModel.simpleRepository != bViewModel.simpleRepository)
         component2.inject(bViewModel)
         Log.d(LOG_NAME, "another component injection test : ${aViewModel.simpleRepository === bViewModel.simpleRepository}")
     }
