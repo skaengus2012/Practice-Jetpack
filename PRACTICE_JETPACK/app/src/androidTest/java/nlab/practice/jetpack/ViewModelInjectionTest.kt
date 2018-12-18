@@ -7,7 +7,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
-import nlab.practice.jetpack.di.component.DaggerAppComponent
+import nlab.practice.jetpack.util.app.DaggerAppComponent
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule

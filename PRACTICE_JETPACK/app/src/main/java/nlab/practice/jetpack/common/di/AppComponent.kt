@@ -1,11 +1,14 @@
-package nlab.practice.jetpack.di.component
+package nlab.practice.jetpack.common.di
 
 import android.app.Application
 import dagger.Component
 import nlab.practice.jetpack.di.module.RepositoryModule
 import javax.inject.Singleton
-import nlab.practice.jetpack.di.module.AppModule
 import dagger.BindsInstance
+import dagger.android.AndroidInjectionModule
+import nlab.practice.jetpack.JetPackApplication
+import nlab.practice.jetpack.di.component.ViewModelInjectComponent
+import nlab.practice.jetpack.common.di.activity.ActivityBinder
 
 /**
  * @author Doohyun
@@ -13,7 +16,8 @@ import dagger.BindsInstance
 @Singleton
 @Component(modules = [
     AppModule::class,
-    RepositoryModule::class
+    AndroidInjectionModule::class,
+    ActivityBinder::class
 ])
 interface AppComponent {
 
@@ -28,6 +32,8 @@ interface AppComponent {
     interface Supplier {
         fun getAppComponent(): AppComponent
     }
+
+    fun inject(application: JetPackApplication)
 
     fun viewModelComponent(): ViewModelInjectComponent.Builder
 }
