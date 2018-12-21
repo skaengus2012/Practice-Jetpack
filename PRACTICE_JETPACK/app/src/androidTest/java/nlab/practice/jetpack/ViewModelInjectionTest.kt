@@ -1,13 +1,12 @@
 package nlab.practice.jetpack
 
 import android.app.Application
-import android.util.Log
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import androidx.test.runner.AndroidJUnit4
+import nlab.practice.jetpack.common.di.DaggerAppComponent
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
-import nlab.practice.jetpack.util.app.DaggerAppComponent
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -15,8 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
-const val LOG_NAME = "TEST_LOG"
 
 /**
  * ViewModel Injection 에 대한 테스트 케이스 정의
@@ -36,7 +33,7 @@ class ViewModelInjectionTest {
     }
 
     @Test
-    fun useAppContext() {
+    fun testSingletonInjection() {
 
         val appComponent = DaggerAppComponent.builder()
                 .application(_application)
@@ -48,13 +45,9 @@ class ViewModelInjectionTest {
         val aViewModel = DITestViewModel().apply { component.inject(this) }
         val bViewModel = DITestViewModel().apply { component.inject(this) }
 
-
-
         Assert.assertEquals(aViewModel.simpleRepository, bViewModel.simpleRepository)
-        Log.d(LOG_NAME, "equals component injection test : ${aViewModel.simpleRepository === bViewModel.simpleRepository}")
 
-        Assert.assertEquals(true, aViewModel.simpleRepository != bViewModel.simpleRepository)
         component2.inject(bViewModel)
-        Log.d(LOG_NAME, "another component injection test : ${aViewModel.simpleRepository === bViewModel.simpleRepository}")
+        Assert.assertEquals(true, aViewModel.simpleRepository === bViewModel.simpleRepository)
     }
 }
