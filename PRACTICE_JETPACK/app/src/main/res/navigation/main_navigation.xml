@@ -29,7 +29,7 @@
 			  android:label="Introduce2Fragment"/>
 
 	<activity android:id="@+id/ankoFirstActivity"
-			  android:name="nlab.practice.jetpack.ui.ankomvvm.AnkoFirstActivity"
+			  android:name="nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity"
 			  android:label="AnkoFirstActivity"/>
 
 

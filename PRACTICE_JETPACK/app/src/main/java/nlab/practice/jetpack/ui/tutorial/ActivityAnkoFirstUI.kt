@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.ankomvvm
+package nlab.practice.jetpack.ui.tutorial
 
 import android.content.Context
 import android.graphics.Typeface
@@ -38,11 +38,7 @@ class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFir
                 endToEnd = PARENT_ID
                 topToTop = PARENT_ID
                 bottomToTop = R.id.guideline_common_horizontal
-            }.binder {
-                it.message
-            }.drive {
-                text = it.get()
-            }
+            }.binder { it.message }.drive { text = it.get() }
 
             guideline{
                 id = R.id.guideline_common_horizontal
