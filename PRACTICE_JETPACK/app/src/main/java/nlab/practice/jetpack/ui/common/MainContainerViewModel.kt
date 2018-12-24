@@ -1,7 +1,7 @@
 package nlab.practice.jetpack.ui.common
 
 import nlab.practice.jetpack.util.databinding.model.RecyclerViewConfig
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
+import nlab.practice.jetpack.util.recyclerview_de.anko.AnkoViewBindingItem
 
 /**
  * @author Doohyun

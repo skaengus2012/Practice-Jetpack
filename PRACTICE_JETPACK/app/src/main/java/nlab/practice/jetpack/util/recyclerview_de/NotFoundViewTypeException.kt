@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.recyclerview
+package nlab.practice.jetpack.util.recyclerview_de
 
 /**
  * View Type 이 존재하지 않을 때의 예외 정의

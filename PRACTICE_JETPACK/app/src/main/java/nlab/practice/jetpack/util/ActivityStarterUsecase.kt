@@ -8,11 +8,11 @@ import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
  * @author Doohyun
  * @since 2018. 12. 18
  */
-interface ScreenStarterUsecase {
+interface ActivityStarterUsecase {
     fun startAnkoFistActivity()
 }
 
-class ScreenStarterUsecaseImpl(private val _context: Context) : ScreenStarterUsecase {
+class ActivityStarterUsecaseImpl(private val _context: Context) : ActivityStarterUsecase {
     override fun startAnkoFistActivity() {
         _context.startActivity(Intent(_context, AnkoFirstActivity::class.java))
     }

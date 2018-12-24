@@ -1,8 +1,8 @@
-package nlab.practice.jetpack.util.recyclerview.anko
+package nlab.practice.jetpack.util.recyclerview_de.anko
 
 import android.view.ViewGroup
-import nlab.practice.jetpack.util.recyclerview.GenericItemAdapter
-import nlab.practice.jetpack.util.recyclerview.NotFoundViewTypeException
+import nlab.practice.jetpack.util.recyclerview_de.GenericItemAdapter
+import nlab.practice.jetpack.util.recyclerview_de.NotFoundViewTypeException
 import nlab.practice.jetpack.util.fromViewGroup
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext

@@ -7,7 +7,7 @@ import nlab.practice.jetpack.di.android.InjectableAndroidViewModel
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.ui.common.MainContainerViewModel
 import nlab.practice.jetpack.util.databinding.model.RecyclerViewConfig
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
+import nlab.practice.jetpack.util.recyclerview_de.anko.AnkoViewBindingItem
 import javax.inject.Inject
 
 /**

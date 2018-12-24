@@ -6,7 +6,7 @@ import androidx.annotation.IdRes
 import androidx.navigation.Navigation
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import nlab.practice.jetpack.repository.model.TestMenu
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
+import nlab.practice.jetpack.util.recyclerview_de.anko.AnkoViewBindingItem
 import org.jetbrains.anko.AnkoComponent
 
 /**

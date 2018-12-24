@@ -1,11 +1,11 @@
 package nlab.practice.jetpack
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main_holder.*
+import nlab.practice.jetpack.common.BaseActivity
 
 /**
  * Fragment 들의 Host Activity
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main_holder.*
  *
  * @author Doohyun
  */
-class MainHolderActivity : AppCompatActivity() {
+class MainHolderActivity : BaseActivity() {
 
     private lateinit var _navController: NavController
 

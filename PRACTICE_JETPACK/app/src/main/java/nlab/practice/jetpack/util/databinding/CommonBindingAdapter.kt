@@ -4,13 +4,12 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Observable
 import androidx.databinding.ObservableList
 import androidx.databinding.library.baseAdapters.BR
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import nlab.practice.jetpack.util.databinding.callback.SimpleOnListChangedCallback
 import nlab.practice.jetpack.util.databinding.callback.WeakPropertyChangedCallback
 import nlab.practice.jetpack.util.databinding.model.RecyclerViewConfig
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingAdapter
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
+import nlab.practice.jetpack.util.recyclerview_de.anko.AnkoViewBindingAdapter
+import nlab.practice.jetpack.util.recyclerview_de.anko.AnkoViewBindingItem
 import java.lang.ref.WeakReference
 
 /**

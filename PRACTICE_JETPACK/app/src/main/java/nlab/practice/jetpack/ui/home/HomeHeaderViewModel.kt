@@ -11,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
+import nlab.practice.jetpack.util.recyclerview_de.anko.AnkoViewBindingItem
 import nlab.practice.jetpack.util.string
 import org.jetbrains.anko.AnkoComponent
 import java.util.concurrent.TimeUnit

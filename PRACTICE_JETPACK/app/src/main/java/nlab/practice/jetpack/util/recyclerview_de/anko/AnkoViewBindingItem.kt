@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.recyclerview.anko
+package nlab.practice.jetpack.util.recyclerview_de.anko
 
 import android.view.ViewGroup
 import androidx.databinding.BaseObservable

@@ -2,6 +2,7 @@ package nlab.practice.jetpack.common.di.activity
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import nlab.practice.jetpack.MainHolderActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 
 /**
@@ -9,7 +10,13 @@ import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
  * @since 2018. 12. 18
  */
 @Module
-abstract class ActivityBinder {
+abstract class ActivityBindModule {
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [
+        ActivityCommonModule::class
+    ])
+    abstract fun mainHolerActivity(): MainHolderActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [
