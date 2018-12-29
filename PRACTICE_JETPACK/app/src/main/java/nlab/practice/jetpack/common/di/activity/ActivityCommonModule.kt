@@ -4,8 +4,8 @@ import android.app.Activity
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.common.di.fragment.FragmentBindModule
 import nlab.practice.jetpack.util.ActivityStarterUsecase
-import nlab.practice.jetpack.util.ActivityStarterUsecaseImpl
 import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 
@@ -13,7 +13,7 @@ import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
  * @author Doohyun
  * @since 2018. 12. 18
  */
-@Module
+@Module(includes = [FragmentBindModule::class])
 class ActivityCommonModule {
 
     @ActivityScope
@@ -32,6 +32,6 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideActivityStarterUsecase(activity: Activity): ActivityStarterUsecase = ActivityStarterUsecaseImpl(activity)
+    fun provideActivityStarterUsecase(activity: Activity): ActivityStarterUsecase = ActivityStarterUsecase(activity)
 
 }

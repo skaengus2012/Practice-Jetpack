@@ -3,7 +3,11 @@ package nlab.practice.jetpack.common
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
 import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import javax.inject.Inject
@@ -12,7 +16,10 @@ import javax.inject.Inject
  * @author Doohyun
  * @since 2018. 12. 20
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var injector: DispatchingAndroidInjector<Fragment>
 
     @Inject
     lateinit var lifeCycleBinder: ActivityLifeCycleBinder
@@ -66,4 +73,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
         lifeCycleBinder.apply(ActivityLifeCycle.FINISH)
     }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = injector
 }

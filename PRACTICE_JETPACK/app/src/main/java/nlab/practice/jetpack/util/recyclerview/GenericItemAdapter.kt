@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class GenericItemAdapter<T, VIEW_HOLDER: GenericItemAdapter.GenericItemViewHolder<T>> :
         RecyclerView.Adapter<VIEW_HOLDER>() {
 
-    var contents: MutableList<T>? = null
+    var items: MutableList<T>? = null
     var headers: MutableList<T>? = null
     var footers: MutableList<T>? = null
 
     override fun getItemCount(): Int {
-        var itemSize = contents?.size ?: 0
+        var itemSize = items?.size ?: 0
 
         // header & footer 의 사이즈를 고려해서 처리
         headers?.run { itemSize += size }
@@ -29,18 +29,18 @@ abstract class GenericItemAdapter<T, VIEW_HOLDER: GenericItemAdapter.GenericItem
 
     protected fun getItemWithCategory(position: Int): T? {
         val headerSize = headers?.size ?: 0
-        val contentSize = contents?.size ?: 0
+        val itemSize = items?.size ?: 0
         val footerSize = footers?.size ?: 0
 
-        val headerContentSize = headerSize + contentSize
+        val headerContentSize = headerSize + itemSize
         val totalSize = headerContentSize + footerSize
 
         return when {
             // Content 에 데이터가 존재할 경우
-            contentSize != 0 && position in headerSize until contentSize -> {
+            itemSize != 0 && position in headerSize until itemSize -> {
                 val contentPosition = position - headerSize
 
-                contents?.get(contentPosition)
+                items?.get(contentPosition)
             }
 
             // Header 에 데이터가 존재할 경우

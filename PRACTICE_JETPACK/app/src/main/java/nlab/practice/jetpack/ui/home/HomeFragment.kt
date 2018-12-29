@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import nlab.practice.jetpack.common.BaseFragment
 import nlab.practice.jetpack.ui.common.MainContainerUI
 import nlab.practice.jetpack.util.fromViewGroup
 import org.jetbrains.anko.AnkoContext
@@ -14,7 +15,7 @@ import org.jetbrains.anko.AnkoContext
  * @author Doohyun
  * @since 2018. 12. 10
  */
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     private lateinit var _viewModel: HomeViewModel
 

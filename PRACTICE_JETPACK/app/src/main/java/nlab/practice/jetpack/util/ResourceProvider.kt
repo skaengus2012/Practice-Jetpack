@@ -10,11 +10,8 @@ import androidx.annotation.StringRes
  * @since 2018. 12. 18
  */
 
-interface ResourceProvider {
-    fun getString(@StringRes stringRes: Int): CharSequence
-}
+class ResourceProvider(private val _context: Context) {
 
-class ResourceProviderImpl(private val _context: Context) : ResourceProvider {
+    fun getString(@StringRes stringRes: Int): CharSequence = _context.getString(stringRes)
 
-    override fun getString(stringRes: Int): CharSequence = _context.getString(stringRes)
 }

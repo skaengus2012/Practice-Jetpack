@@ -5,6 +5,7 @@ import dagger.Component
 import javax.inject.Singleton
 import dagger.BindsInstance
 import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
 import nlab.practice.jetpack.JetPackApplication
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import nlab.practice.jetpack.common.di.activity.ActivityBindModule
@@ -16,6 +17,7 @@ import nlab.practice.jetpack.common.di.activity.ActivityBindModule
 @Component(modules = [
     AppModule::class,
     AndroidInjectionModule::class,
+    AndroidSupportInjectionModule::class,
     ActivityBindModule::class
 ])
 interface AppComponent {

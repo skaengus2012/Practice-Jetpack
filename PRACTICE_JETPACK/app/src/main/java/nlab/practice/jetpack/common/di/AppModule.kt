@@ -7,7 +7,6 @@ import dagger.Provides
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import nlab.practice.jetpack.di.module.RepositoryModule
 import nlab.practice.jetpack.util.ResourceProvider
-import nlab.practice.jetpack.util.ResourceProviderImpl
 import javax.inject.Singleton
 
 /**
@@ -25,5 +24,5 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideResource(application: Application): ResourceProvider = ResourceProviderImpl(application.applicationContext)
+    fun provideResource(application: Application): ResourceProvider = ResourceProvider(application.applicationContext)
 }

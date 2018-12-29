@@ -1,7 +1,7 @@
 package nlab.practice.jetpack.util.lifecycle
 
 /**
- * LifeCycle 종류 정의
+ * Activity LifeCycle 종류 정의
  *
  * @author Doohyun
  */
