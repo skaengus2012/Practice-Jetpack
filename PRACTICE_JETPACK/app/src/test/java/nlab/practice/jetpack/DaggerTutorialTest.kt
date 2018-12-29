@@ -1,8 +1,8 @@
 package nlab.practice.jetpack
 
 import android.view.View
-import nlab.practice.jetpack.common.di.itemview.DaggerItemViewUsecaseComponent
-import nlab.practice.jetpack.common.di.itemview.ItemViewUsecaseModule
+import nlab.practice.jetpack.util.di.itemview.DaggerItemViewUsecaseComponent
+import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseModule
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

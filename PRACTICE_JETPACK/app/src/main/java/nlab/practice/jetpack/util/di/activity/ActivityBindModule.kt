@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.common.di.activity
+package nlab.practice.jetpack.util.di.activity
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -6,6 +6,8 @@ import nlab.practice.jetpack.MainHolderActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 
 /**
+ * Activity 공통 모듈 정의
+ *
  * @author Doohyun
  * @since 2018. 12. 18
  */

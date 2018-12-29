@@ -2,7 +2,7 @@ package nlab.practice.jetpack.util.recyclerview.databinding
 
 import androidx.annotation.LayoutRes
 import androidx.databinding.BaseObservable
-import nlab.practice.jetpack.common.di.itemview.ItemViewUsecaseComponent
+import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseComponent
 
 /**
  * @author Doohyun

@@ -1,7 +1,7 @@
 package nlab.practice.jetpack.ui.tutorial
 
 import android.os.Bundle
-import nlab.practice.jetpack.common.BaseActivity
+import nlab.practice.jetpack.util.di.activity.InjectableActivity
 import org.jetbrains.anko.setContentView
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ import javax.inject.Inject
  * @author Doohyun
  * @since 2018. 11. 23
  */
-class AnkoFirstActivity : BaseActivity() {
+class AnkoFirstActivity : InjectableActivity() {
 
     @Inject
     lateinit var viewModel: AnkoFirstViewModel

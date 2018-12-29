@@ -2,9 +2,9 @@ package nlab.practice.jetpack.util.recyclerview.databinding
 
 import androidx.databinding.ViewDataBinding
 import nlab.practice.jetpack.BR
-import nlab.practice.jetpack.common.di.itemview.DaggerItemViewUsecaseComponent
-import nlab.practice.jetpack.common.di.itemview.ItemViewUsecaseComponent
-import nlab.practice.jetpack.common.di.itemview.ItemViewUsecaseModule
+import nlab.practice.jetpack.util.di.itemview.DaggerItemViewUsecaseComponent
+import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseComponent
+import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseModule
 import nlab.practice.jetpack.util.recyclerview.GenericItemAdapter
 
 /**

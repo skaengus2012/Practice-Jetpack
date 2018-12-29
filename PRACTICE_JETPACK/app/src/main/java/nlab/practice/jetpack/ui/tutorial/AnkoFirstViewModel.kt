@@ -12,6 +12,7 @@ import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+
 /**
  * @author Doohyun
  * @since 2018. 11. 23

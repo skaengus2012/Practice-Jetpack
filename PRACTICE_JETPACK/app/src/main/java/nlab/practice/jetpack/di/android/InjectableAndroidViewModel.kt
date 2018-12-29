@@ -2,7 +2,7 @@ package nlab.practice.jetpack.di.android
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import nlab.practice.jetpack.common.di.AppComponent
+import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 
 /**

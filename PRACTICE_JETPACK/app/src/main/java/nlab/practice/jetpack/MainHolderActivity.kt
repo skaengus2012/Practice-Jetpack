@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main_holder.*
-import nlab.practice.jetpack.common.BaseActivity
+import nlab.practice.jetpack.util.di.activity.InjectableActivity
 
 /**
  * Fragment 들의 Host Activity
@@ -14,7 +14,7 @@ import nlab.practice.jetpack.common.BaseActivity
  *
  * @author Doohyun
  */
-class MainHolderActivity : BaseActivity() {
+class MainHolderActivity : InjectableActivity() {
 
     private lateinit var _navController: NavController
 

@@ -35,11 +35,24 @@ fun bindRecyclerView(
  * 추가해야하는 세팅이 존재할 때, 해당 메소드에 기능을 추가할 것
  */
 private fun bindConfig(recyclerView: RecyclerView, config: RecyclerViewConfig?) {
-    recyclerView.layoutManager = config?.layoutManager ?: LinearLayoutManager(recyclerView.context)
-
+    // 어댑터 세팅
     if (recyclerView.adapter == null) {
         recyclerView.adapter = DataBindingItemAdapter()
     }
+
+    config?.run {
+        // 레이아웃 매니저 설정
+        recyclerView.layoutManager = layoutManager ?: LinearLayoutManager(recyclerView.context)
+
+        // 아이템 데코레이션 정의
+        for (index in 0 until itemDecorations.size) {
+            recyclerView.addItemDecoration(itemDecorations[index], index)
+        }
+    }
+
+    // 레이아웃 매니저 정의
+    recyclerView.layoutManager = config?.layoutManager ?: LinearLayoutManager(recyclerView.context)
+
 }
 
 private fun bindHeaders(recyclerView: RecyclerView, items: ViewModelList) = getAdapter(recyclerView)?.headers?.run {

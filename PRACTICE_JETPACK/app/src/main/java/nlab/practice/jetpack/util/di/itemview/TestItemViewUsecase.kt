@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.common.di.itemview
+package nlab.practice.jetpack.util.di.itemview
 
 import android.view.View
 import javax.inject.Inject

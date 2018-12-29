@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import nlab.practice.jetpack.common.di.DaggerAppComponent
+import nlab.practice.jetpack.util.di.DaggerAppComponent
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
 import org.junit.Assert

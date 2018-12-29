@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.common.di.fragment
+package nlab.practice.jetpack.util.di.fragment
 
 import javax.inject.Scope
 

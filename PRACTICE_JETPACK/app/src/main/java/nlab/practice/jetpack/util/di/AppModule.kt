@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.common.di
+package nlab.practice.jetpack.util.di
 
 import android.app.Application
 import android.content.Context
@@ -7,13 +7,24 @@ import dagger.Provides
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import nlab.practice.jetpack.di.module.RepositoryModule
 import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
+import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
 import javax.inject.Singleton
 
 /**
  * @author Doohyun
  */
-@Module(subcomponents = [ViewModelInjectComponent::class],
-        includes = [RepositoryModule::class, BundleModule::class]
+@Module(
+        subcomponents = [
+            ViewModelInjectComponent::class,
+            ActivityBindComponent::class,
+            FragmentBindComponent::class
+        ],
+
+        includes = [
+            RepositoryModule::class,
+            BundleModule::class
+        ]
 )
 class AppModule {
 

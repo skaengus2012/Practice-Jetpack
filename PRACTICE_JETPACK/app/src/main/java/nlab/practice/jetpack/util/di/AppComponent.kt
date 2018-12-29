@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.common.di
+package nlab.practice.jetpack.util.di
 
 import android.app.Application
 import dagger.Component
@@ -8,7 +8,9 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import nlab.practice.jetpack.JetPackApplication
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
-import nlab.practice.jetpack.common.di.activity.ActivityBindModule
+import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
+import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
+import nlab.practice.jetpack.util.di.itemview.ItemViewModelFactory
 
 /**
  * @author Doohyun
@@ -17,15 +19,14 @@ import nlab.practice.jetpack.common.di.activity.ActivityBindModule
 @Component(modules = [
     AppModule::class,
     AndroidInjectionModule::class,
-    AndroidSupportInjectionModule::class,
-    ActivityBindModule::class
+    AndroidSupportInjectionModule::class
 ])
 interface AppComponent {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(application: Application): Builder
+        fun setApplication(application: Application): Builder
 
         fun build(): AppComponent
     }
@@ -35,6 +36,12 @@ interface AppComponent {
     }
 
     fun inject(application: JetPackApplication)
+
+    fun activityBindComponent(): ActivityBindComponent.Builder
+
+    fun fragmentBindComponent(): FragmentBindComponent.Builder
+
+    fun viewModelFactory(): ItemViewModelFactory.Builder
 
     fun viewModelComponent(): ViewModelInjectComponent.Builder
 }
