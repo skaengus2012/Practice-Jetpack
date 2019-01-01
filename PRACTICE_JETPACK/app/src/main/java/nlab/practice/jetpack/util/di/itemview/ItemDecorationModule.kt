@@ -1,9 +1,9 @@
-package nlab.practice.jetpack.di.module
+package nlab.practice.jetpack.util.di.itemview
 
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import nlab.practice.jetpack.di.scope.ViewModelLifeCycle
+import dagger.Reusable
 import nlab.practice.jetpack.ui.home.HomeItemDecoration
 
 /**
@@ -13,7 +13,7 @@ import nlab.practice.jetpack.ui.home.HomeItemDecoration
 @Module
 class ItemDecorationModule {
 
-    @ViewModelLifeCycle
+    @Reusable
     @Provides
     fun provideHomeDecoration(context: Context) = HomeItemDecoration(context)
 }

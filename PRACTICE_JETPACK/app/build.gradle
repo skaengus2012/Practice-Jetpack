@@ -21,6 +21,11 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         debug {
             debuggable true
@@ -79,6 +84,12 @@ dependencies {
     implementation "org.jetbrains.anko:anko-support-v4:$anko_version"
     implementation "org.jetbrains.anko:anko-constraint-layout:$anko_version"
     implementation "org.jetbrains.anko:anko-cardview-v7:$anko_version"
+
+    // etc
+    implementation 'com.google.auto.factory:auto-factory:1.0-beta6@jar'
+    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta6'
+    kapt 'com.google.auto.factory:auto-factory:1.0-beta6'
+
     // debug
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'

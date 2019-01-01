@@ -33,22 +33,7 @@ abstract class InjectableFragment : BaseFragment() {
     @CallSuper
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            initializeDI()
-        }
-
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_ATTACH)
-    }
-
-    @CallSuper
-    @SuppressWarnings("deprecation")
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            initializeDI()
-        }
+        initializeDI()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_ATTACH)
     }

@@ -1,7 +1,7 @@
 package nlab.practice.jetpack.di.component
 
 import dagger.Subcomponent
-import nlab.practice.jetpack.di.module.ItemDecorationModule
+import nlab.practice.jetpack.util.di.itemview.ItemDecorationModule
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstViewModel
 import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
 import nlab.practice.jetpack.ui.viewmodel.MainTestViewModel
