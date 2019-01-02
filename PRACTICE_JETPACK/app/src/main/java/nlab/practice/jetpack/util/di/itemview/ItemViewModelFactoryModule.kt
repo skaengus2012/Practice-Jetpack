@@ -5,7 +5,7 @@ import dagger.Module
 /**
  * @author Doohyun
  */
-@Module
-class ItemViewModelFactoryModule {
+@Module(includes = [
 
-}
+])
+class ItemViewModelFactoryModule

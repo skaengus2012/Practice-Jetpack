@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentInjector
@@ -25,6 +26,9 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var lifeCycleBinder: ActivityLifeCycleBinder
+
+    @Inject
+    lateinit var compositeDisposable: CompositeDisposable
 
     private lateinit var _activityBindComponent: ActivityBindComponent
 
@@ -79,6 +83,7 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
         super.onDestroy()
 
         lifeCycleBinder.apply(ActivityLifeCycle.ON_DESTROY)
+        compositeDisposable.clear()
     }
 
     @CallSuper

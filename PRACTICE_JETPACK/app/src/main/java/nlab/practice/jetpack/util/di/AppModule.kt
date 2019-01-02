@@ -4,9 +4,12 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import nlab.practice.jetpack.di.module.RepositoryModule
 import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.ResourceProviderImpl
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
 import javax.inject.Singleton
@@ -35,5 +38,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideResource(application: Application): ResourceProvider = ResourceProvider(application.applicationContext)
+    fun provideResource(application: Application): ResourceProvider = ResourceProviderImpl(application.applicationContext)
+
+    @Provides
+    fun provideAndroidScheduler(): Scheduler = AndroidSchedulers.mainThread()
 }

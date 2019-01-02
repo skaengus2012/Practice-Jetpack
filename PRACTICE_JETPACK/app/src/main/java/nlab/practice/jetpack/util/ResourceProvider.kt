@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.util
 
 import android.content.Context
+import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
 
 /**
@@ -9,9 +10,12 @@ import androidx.annotation.StringRes
  * @author Doohyun
  * @since 2018. 12. 18
  */
+interface ResourceProvider {
+    fun getString(@StringRes stringRes: Int): CharSequence
+    fun getDimensionPixelSize(@DimenRes resource: Int): Int
+}
 
-class ResourceProvider(private val _context: Context) {
-
-    fun getString(@StringRes stringRes: Int): CharSequence = _context.getString(stringRes)
-
+class ResourceProviderImpl(private val _context: Context): ResourceProvider {
+    override fun getString(@StringRes stringRes: Int): CharSequence = _context.getString(stringRes)
+    override fun getDimensionPixelSize(@DimenRes resource: Int): Int = _context.resources.getDimensionPixelSize(resource)
 }

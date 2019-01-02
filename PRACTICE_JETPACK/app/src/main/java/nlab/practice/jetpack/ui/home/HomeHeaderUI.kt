@@ -14,7 +14,7 @@ import org.jetbrains.anko.constraint.layout.constraintLayout
  * @author Doohyun
  * @since 2018. 12. 12
  */
-class HomeHeaderUI(private val _viewModel: HomeHeaderViewModel) : AnkoComponent<ViewParent> {
+class HomeHeaderUI(private val _viewModel: HomeHeaderDeViewModel) : AnkoComponent<ViewParent> {
 
     override fun createView(ui: AnkoContext<ViewParent>): View = ui.apply {
         constraintLayout {

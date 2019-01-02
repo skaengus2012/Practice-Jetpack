@@ -3,9 +3,9 @@ package nlab.practice.jetpack.di.module
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import nlab.practice.jetpack.repository.SimpleRepository
 import nlab.practice.jetpack.repository.TestMenuRepository
-import javax.inject.Singleton
 
 /**
  * @author Doohyun
@@ -14,11 +14,11 @@ import javax.inject.Singleton
 @Module
 class RepositoryModule {
 
-    @Singleton
+    @Reusable
     @Provides
     fun provideSimpleRepository() : SimpleRepository = SimpleRepository()
 
-    @Singleton
+    @Reusable
     @Provides
     fun provideTestMenuRepository(context: Context): TestMenuRepository = TestMenuRepository(context)
 }

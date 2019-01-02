@@ -23,9 +23,9 @@ class HomeDeViewModel(application: Application): InjectableAndroidViewModel(appl
     lateinit var testMenuRepository: TestMenuRepository
 
     @Inject
-    lateinit var homeItemDecoration: HomeItemDecoration
+    lateinit var homeItemDecoration: HomeItemDelDecoration
 
-    private val homeHeaderViewModel = HomeHeaderViewModel(injector)
+    private val homeHeaderViewModel = HomeHeaderDeViewModel(injector)
 
     init {
         injector.inject(this)
@@ -47,12 +47,12 @@ class HomeDeViewModel(application: Application): InjectableAndroidViewModel(appl
         addItemDecoration(homeItemDecoration)
     }
 
-    private fun createAnkoFirstViewModel(): HomeItemViewModel = testMenuRepository.getAnkoFirstViewMenu().run {
-        HomeItemViewModel(injector, this, R.id.nav_anko_first_activity)
+    private fun createAnkoFirstViewModel(): HomeItemDeViewModel = testMenuRepository.getAnkoFirstViewMenu().run {
+        HomeItemDeViewModel(injector, this, R.id.nav_anko_first_activity)
     }
 
-    private fun createPagingTestViewModel(): HomeItemViewModel = testMenuRepository.getPagingTestMenu().run {
-        HomeItemViewModel(injector, this, R.id.nav_paging_test_fragment)
+    private fun createPagingTestViewModel(): HomeItemDeViewModel = testMenuRepository.getPagingTestMenu().run {
+        HomeItemDeViewModel(injector, this, R.id.nav_paging_test_fragment)
     }
 
     fun startHeaderTimer() {

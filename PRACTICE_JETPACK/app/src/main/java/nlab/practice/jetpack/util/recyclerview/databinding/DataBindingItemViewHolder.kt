@@ -27,8 +27,9 @@ class DataBindingItemViewHolder<T: DataBindingItemViewModel>(private val _viewDa
         item.itemViewUsecaseComponent = _itemViewUsecaseComponent
 
         // FIXME 적절한 아이디로 수정 필요
+        // -> 수정되었음 모든 ID 를 viewModel
         _viewDataBinding.run {
-            setVariable(BR._all, item)
+            setVariable(BR.viewModel, item)
             executePendingBindings()
         }
     }

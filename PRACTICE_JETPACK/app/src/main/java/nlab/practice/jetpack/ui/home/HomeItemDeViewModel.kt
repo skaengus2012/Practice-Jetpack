@@ -13,7 +13,7 @@ import org.jetbrains.anko.AnkoComponent
  * @author Doohyun
  * @since 2018. 12. 13
  */
-class HomeItemViewModel(
+class HomeItemDeViewModel(
         injector: ViewModelInjectComponent,
         val testMenu: TestMenu,
         @IdRes val naviActionId: Int): AnkoViewBindingItem() {

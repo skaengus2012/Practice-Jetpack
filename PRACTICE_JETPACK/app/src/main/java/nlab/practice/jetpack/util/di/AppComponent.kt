@@ -10,8 +10,6 @@ import nlab.practice.jetpack.JetPackApplication
 import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
-import nlab.practice.jetpack.util.di.itemview.ItemViewModelFactory
-
 /**
  * @author Doohyun
  */
@@ -40,8 +38,6 @@ interface AppComponent {
     fun activityBindComponent(): ActivityBindComponent.Builder
 
     fun fragmentBindComponent(): FragmentBindComponent.Builder
-
-    fun viewModelFactory(): ItemViewModelFactory.Builder
 
     fun viewModelComponent(): ViewModelInjectComponent.Builder
 }

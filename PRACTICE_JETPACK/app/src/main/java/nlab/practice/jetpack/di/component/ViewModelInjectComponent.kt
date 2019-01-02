@@ -7,8 +7,8 @@ import nlab.practice.jetpack.ui.viewmodel.DITestViewModel
 import nlab.practice.jetpack.ui.viewmodel.MainTestViewModel
 import nlab.practice.jetpack.di.module.ViewModelModule
 import nlab.practice.jetpack.di.scope.ViewModelLifeCycle
-import nlab.practice.jetpack.ui.home.HomeHeaderViewModel
-import nlab.practice.jetpack.ui.home.HomeItemViewModel
+import nlab.practice.jetpack.ui.home.HomeHeaderDeViewModel
+import nlab.practice.jetpack.ui.home.HomeItemDeViewModel
 import nlab.practice.jetpack.ui.home.HomeDeViewModel
 
 /**
@@ -26,8 +26,8 @@ interface ViewModelInjectComponent {
 
     fun inject(viewModel: AnkoFirstViewModel)
     fun inject(viewModel: HomeDeViewModel)
-    fun inject(viewModel: HomeHeaderViewModel)
-    fun inject(viewModel: HomeItemViewModel)
+    fun inject(viewModel: HomeHeaderDeViewModel)
+    fun inject(viewModel: HomeItemDeViewModel)
     fun inject(viewModel: MainTestViewModel)
     fun inject(viewModel: DITestViewModel)
 }

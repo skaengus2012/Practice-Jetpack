@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+	<data>
+		<variable name="viewModel" type="nlab.practice.jetpack.ui.home.HomeHeaderViewModel"/>
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/container_page_header_height">
+
+		<TextView
+			android:id="@+id/tvHomeTitle"
+			style="@style/MainContainerTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/home_title"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/tvHomeSubTitle"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"/>
+
+		<TextView
+			android:id="@+id/tvHomeSubTitle"
+			style="@style/MainContainerSubTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="6dp"
+			android:text="@{viewModel.currentTimeString}"
+			android:textColor="@color/white_opa40"
+			app:layout_constraintBottom_toBottomOf="@id/tvHomeTitle"
+			app:layout_constraintStart_toEndOf="@id/tvHomeTitle"
+			app:layout_constraintTop_toTopOf="@id/tvHomeTitle"
+			app:layout_constraintVertical_bias="0.7"
+			tools:text="서브 텍스트"/>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

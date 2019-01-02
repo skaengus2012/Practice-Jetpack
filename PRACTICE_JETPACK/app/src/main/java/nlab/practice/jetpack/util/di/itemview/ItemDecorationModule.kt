@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import nlab.practice.jetpack.ui.home.HomeItemDecoration
+import nlab.practice.jetpack.ui.home.HomeItemDelDecoration
 
 /**
  * @author Doohyun
@@ -15,5 +15,5 @@ class ItemDecorationModule {
 
     @Reusable
     @Provides
-    fun provideHomeDecoration(context: Context) = HomeItemDecoration(context)
+    fun provideHomeDecoration(context: Context) = HomeItemDelDecoration(context)
 }
