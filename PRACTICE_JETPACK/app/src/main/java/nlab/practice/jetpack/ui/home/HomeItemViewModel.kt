@@ -26,6 +26,9 @@ class HomeItemViewModel(
     fun getCardTitle(): String? = _testMenu.cardTitle
 
     @Bindable
+    fun getCardColor(): Int = _testMenu.cardColorRes
+
+    @Bindable
     fun getTitle(): String = _testMenu.title
 
     fun onClick() {
