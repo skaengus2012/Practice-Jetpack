@@ -63,8 +63,9 @@ class HomeTest {
                 .doOnSuccess { assert(it) }
                 .subscribe(testObserver)
 
-        testObserver.awaitTerminalEvent()
-        testObserver.assertValue(true)
-
+        testObserver.run {
+            awaitTerminalEvent()
+            assertValue(true)
+        }
     }
 }

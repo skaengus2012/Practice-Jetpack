@@ -33,7 +33,7 @@ class HomeHeaderViewModel @Inject constructor(
             notifyPropertyChanged(BR.currentTimeString)
         }
 
-    override fun getLayoutRes(): Int = 0
+    override fun getLayoutRes(): Int = R.layout.view_home_header
 
     fun startTimer() {
         Observable.timer(100, TimeUnit.MILLISECONDS)
