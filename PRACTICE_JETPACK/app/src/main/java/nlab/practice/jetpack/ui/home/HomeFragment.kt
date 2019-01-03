@@ -17,10 +17,16 @@ class HomeFragment : InjectableFragment() {
     @Inject
     lateinit var viewModel: HomeViewModel
 
-    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
+    private lateinit var _binding: FragmentHomeBinding
 
-        return binding.root
+    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return _binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        _binding.viewModel = viewModel
     }
 }

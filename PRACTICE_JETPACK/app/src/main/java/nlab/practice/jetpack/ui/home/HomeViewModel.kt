@@ -30,14 +30,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         _homeHeaderViewModel.startTimer()
-
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_ACTIVITY_CREATED) { loadItems() }
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY) { _homeHeaderViewModel.stopTimer() }
-    }
-
-    private fun loadItems() {
         headers.add(_homeHeaderViewModel)
-        items.addAll(createItems())
+        refreshItems()
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY) { _homeHeaderViewModel.stopTimer() }
     }
 
     private fun createItems(): List<HomeItemViewModel> = listOf(
@@ -51,6 +47,11 @@ class HomeViewModel @Inject constructor(
 
     private fun createPagingTestMenuViewModel(): HomeItemViewModel = _testMenuRepository.getPagingTestMenu().let {
         _homeItemViewModelFactory.create(it, R.id.nav_paging_test_fragment)
+    }
+
+    private fun refreshItems() {
+        items.clear()
+        items.addAll(createItems())
     }
 
 
