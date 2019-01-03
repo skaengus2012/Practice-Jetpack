@@ -29,6 +29,8 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
+        _homeHeaderViewModel.startTimer()
+
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_ACTIVITY_CREATED) { loadItems() }
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY) { _homeHeaderViewModel.stopTimer() }
     }
