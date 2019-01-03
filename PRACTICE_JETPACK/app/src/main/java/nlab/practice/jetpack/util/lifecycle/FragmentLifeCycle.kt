@@ -7,7 +7,7 @@ package nlab.practice.jetpack.util.lifecycle
  */
 enum class FragmentLifeCycle {
     ON_CREATE_VIEW,
-    ON_VIEW_CREATED,
+    ON_ACTIVITY_CREATED,
     ON_START,
     ON_RESUME,
     ON_PAUSE,

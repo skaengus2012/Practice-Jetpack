@@ -65,10 +65,10 @@ abstract class InjectableFragment : BaseFragment() {
     abstract fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
     @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_VIEW_CREATED)
+        lifeCycleBinder.apply(FragmentLifeCycle.ON_ACTIVITY_CREATED)
     }
 
     @CallSuper
