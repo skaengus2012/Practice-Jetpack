@@ -1,6 +1,6 @@
 package nlab.practice.jetpack.util.di.fragment
 
-import android.content.Context
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,7 @@ import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.BaseFragment
 import nlab.practice.jetpack.util.di.AppComponent
+import nlab.practice.jetpack.util.di.activity.InjectableActivity
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import javax.inject.Inject
@@ -32,49 +33,36 @@ abstract class InjectableFragment : BaseFragment() {
 
     private lateinit var _fragmentBindComponent: FragmentBindComponent
 
-    @CallSuper
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        initializeDI()
-
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_ATTACH)
-    }
-
-    private fun initializeDI() {
-        activity?.application
-                ?.let { it as? AppComponent.Supplier }
-                ?.getAppComponent()
-                ?.fragmentBindComponent()
-                ?.build()
-                ?.run { _fragmentBindComponent = this }
+    private fun initializeDI(activity: Activity) {
+        (activity as? InjectableActivity)?.run {
+            (application as? AppComponent.Supplier)
+                    ?.getAppComponent()
+                    ?.fragmentBindComponent()
+                    ?.setActivityLifeCycleBinder(lifeCycleBinder)
+                    ?.build()
+                    ?.run { _fragmentBindComponent = this }
+        }
 
         AndroidSupportInjection.inject(this)
     }
 
     fun getFragmentBindComponent(): FragmentBindComponent = _fragmentBindComponent
 
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // 먼저 수행을 해야, lifeCycleBinder 가 onCreateView 를 detect 할 수 있음
+        activity?.run { initializeDI(this) }
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE)
-    }
-
-    @CallSuper
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-
+        val view = onCreateBindingView(inflater, container, savedInstanceState)
         lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE_VIEW)
-
         return view
     }
 
-    @CallSuper
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_ACTIVITY_CREATED)
-    }
+    /**
+     * onCreateView 의 추상 객체
+     *
+     * onCreateView 에서 lifecycle 을 제공해야하기때문에 해당 메소드로 대체
+     */
+    abstract fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,6 +104,7 @@ abstract class InjectableFragment : BaseFragment() {
         super.onDestroyView()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY_VIEW)
+        compositeDisposable.clear()
     }
 
     @CallSuper
@@ -123,13 +112,5 @@ abstract class InjectableFragment : BaseFragment() {
         super.onDestroy()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY)
-        compositeDisposable.clear()
-    }
-
-    @CallSuper
-    override fun onDetach() {
-        super.onDetach()
-
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_DETACH)
     }
 }

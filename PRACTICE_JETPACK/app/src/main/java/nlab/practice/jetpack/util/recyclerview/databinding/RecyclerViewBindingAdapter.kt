@@ -13,7 +13,7 @@ private typealias ViewModelMutableList = MutableList<DataBindingItemViewModel>
  * @author Doohyun
  */
 
-@BindingAdapter(value = ["list_items", "list_headers", "list_footers", "list_Config"], requireAll = false)
+@BindingAdapter(value = ["list_items", "list_headers", "list_footers", "list_config"], requireAll = false)
 fun bindRecyclerView(
         recyclerView: RecyclerView,
         items: ViewModelList? = null,
@@ -55,25 +55,20 @@ private fun bindConfig(recyclerView: RecyclerView, config: RecyclerViewConfig?) 
 
 }
 
-private fun bindHeaders(recyclerView: RecyclerView, items: ViewModelList) = getAdapter(recyclerView)?.headers?.run {
-    replaceItems(this, items)
+private fun bindHeaders(recyclerView: RecyclerView, items: ViewModelList) {
+    getAdapter(recyclerView)?.headers = items.toMutableList()
 }
 
-private fun bindItems(recyclerView: RecyclerView, items: ViewModelList) = getAdapter(recyclerView)?.items?.run {
-    replaceItems(this, items)
+
+private fun bindItems(recyclerView: RecyclerView, items: ViewModelList) {
+    getAdapter(recyclerView)?.items = items.toMutableList()
 }
 
-private fun bindFooters(recyclerView: RecyclerView, items: ViewModelList) = getAdapter(recyclerView)?.footers?.run {
-    replaceItems(this, items)
+private fun bindFooters(recyclerView: RecyclerView, items: ViewModelList) {
+    getAdapter(recyclerView)?.footers = items.toMutableList()
 }
 
 private fun getAdapter(recyclerView: RecyclerView): DataBindingItemAdapter? = recyclerView.adapter?.let {
     it as? DataBindingItemAdapter
 }
-
-private fun replaceItems(target: ViewModelMutableList, newItem: ViewModelList) {
-    target.clear()
-    target.addAll(newItem)
-}
-
 

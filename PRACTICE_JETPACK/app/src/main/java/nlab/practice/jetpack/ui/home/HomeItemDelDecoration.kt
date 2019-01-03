@@ -13,7 +13,7 @@ import org.jetbrains.anko.dimen
  */
 class HomeItemDelDecoration(context: Context) : RecyclerView.ItemDecoration() {
 
-    private val _bottomMargin = context.dimen(R.dimen.home_page_item_bottom_margin)
+    private val _bottomMargin = context.dimen(R.dimen.home_page_item_margin_bottom)
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)

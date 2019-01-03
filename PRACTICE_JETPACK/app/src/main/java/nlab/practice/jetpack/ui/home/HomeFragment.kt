@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import nlab.practice.jetpack.databinding.FragmentHomeBinding
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
-import nlab.practice.jetpack.ui.common.MainContainerUI
-import nlab.practice.jetpack.util.fromViewGroup
-import org.jetbrains.anko.AnkoContext
+import javax.inject.Inject
 
 /**
  * @author Doohyun
@@ -16,23 +14,13 @@ import org.jetbrains.anko.AnkoContext
  */
 class HomeFragment : InjectableFragment() {
 
-    private lateinit var _viewModel: HomeDeViewModel
+    @Inject
+    lateinit var viewModel: HomeViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _viewModel = ViewModelProviders.of(this).get(HomeDeViewModel::class.java)
+    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
 
-        return container?.let { MainContainerUI(_viewModel).createView(AnkoContext.fromViewGroup(it)) }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        _viewModel.startHeaderTimer()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        _viewModel.stopHeaderTimer()
+        return binding.root
     }
 }

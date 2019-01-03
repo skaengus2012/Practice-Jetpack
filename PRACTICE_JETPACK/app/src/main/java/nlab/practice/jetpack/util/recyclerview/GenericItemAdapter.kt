@@ -37,7 +37,7 @@ abstract class GenericItemAdapter<T, VIEW_HOLDER: GenericItemAdapter.GenericItem
 
         return when {
             // Content 에 데이터가 존재할 경우
-            itemSize != 0 && position in headerSize until itemSize -> {
+            itemSize != 0 && position in headerSize until headerContentSize -> {
                 val contentPosition = position - headerSize
 
                 items?.get(contentPosition)

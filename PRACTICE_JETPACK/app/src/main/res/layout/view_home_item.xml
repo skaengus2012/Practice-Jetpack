@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+	<data>
+		<import type="android.view.View"/>
+
+		<variable
+			name="viewModel"
+			type="nlab.practice.jetpack.ui.home.HomeItemViewModel"/>
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<TextView
+			android:id="@+id/tvTitle"
+			style="@style/MainContainerSubTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="12dp"
+			android:text="@{viewModel.cardTitle}"
+			android:visibility="@{viewModel.titleVisibleYn ? View.VISIBLE : View.GONE}"
+			app:layout_constraintBottom_toTopOf="@id/cardHome"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:text="타이틀"/>
+
+		<androidx.cardview.widget.CardView
+			android:id="@+id/cardHome"
+			android:layout_width="match_parent"
+			android:layout_height="154dp"
+			android:onClick="@{() -> viewModel.onClick()}"
+			app:cardCornerRadius="4dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="@color/colorAccent">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="14dp"
+					android:layout_marginBottom="21.5dp"
+					android:singleLine="true"
+					android:text="@{viewModel.title}"
+					android:textColor="@color/white"
+					android:textSize="19sp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					tools:text="카드 타이틀"/>
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+		</androidx.cardview.widget.CardView>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
