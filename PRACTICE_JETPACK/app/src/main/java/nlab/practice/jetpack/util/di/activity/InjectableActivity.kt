@@ -83,7 +83,6 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
         super.onDestroy()
 
         lifeCycleBinder.apply(ActivityLifeCycle.ON_DESTROY)
-        compositeDisposable.clear()
     }
 
     @CallSuper
@@ -91,6 +90,7 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
         super.finish()
 
         lifeCycleBinder.apply(ActivityLifeCycle.FINISH)
+        compositeDisposable.clear()
     }
 
     final override fun supportFragmentInjector(): AndroidInjector<Fragment> = FragmentInjector

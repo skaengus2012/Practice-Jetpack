@@ -1,10 +1,8 @@
 package nlab.practice.jetpack.util.di.fragment
 
 import androidx.fragment.app.Fragment
-import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.DispatchingAndroidInjector
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 
 /**
  * Fragment Binding 을 담당하는 Component
@@ -23,9 +21,6 @@ interface FragmentBindComponent {
      */
     @Subcomponent.Builder
     interface Builder {
-        @BindsInstance
-        fun setActivityLifeCycleBinder(activityLifeCycleBinder: ActivityLifeCycleBinder): Builder
-
         fun build() : FragmentBindComponent
     }
 }
