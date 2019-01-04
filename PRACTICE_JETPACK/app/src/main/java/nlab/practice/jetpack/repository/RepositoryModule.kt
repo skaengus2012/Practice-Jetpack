@@ -14,9 +14,5 @@ class RepositoryModule {
 
     @Reusable
     @Provides
-    fun provideSimpleRepository() : SimpleRepository = SimpleRepository()
-
-    @Reusable
-    @Provides
     fun provideTestMenuRepository(resourceProvider: ResourceProvider): TestMenuRepository = TestMenuRepository(resourceProvider)
 }
