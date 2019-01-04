@@ -1,33 +1,37 @@
 package nlab.practice.jetpack.ui.home
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.navigation.Navigation
-import nlab.practice.jetpack.di.component.ViewModelInjectComponent
+import androidx.databinding.Bindable
+import com.google.auto.factory.AutoFactory
+import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.model.TestMenu
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
-import org.jetbrains.anko.AnkoComponent
+import nlab.practice.jetpack.util.recyclerview.databinding.DataBindingItemViewModel
 
 /**
+ * Home 에서 사용하는 Item 정의
+ *
  * @author Doohyun
- * @since 2018. 12. 13
  */
+@AutoFactory
 class HomeItemViewModel(
-        injector: ViewModelInjectComponent,
-        val testMenu: TestMenu,
-        @IdRes val naviActionId: Int): AnkoViewBindingItem() {
+        private val _testMenu: TestMenu,
+        @IdRes private val _navActionId: Int) : DataBindingItemViewModel() {
 
-    private val _viewComponent = HomeItemUI(this)
+    override fun getLayoutRes(): Int = R.layout.view_home_item
 
-    init {
-        injector.inject(this)
+    @Bindable
+    fun getTitleVisibleYn(): Boolean = _testMenu.cardTitle != null
+
+    @Bindable
+    fun getCardTitle(): String? = _testMenu.cardTitle
+
+    @Bindable
+    fun getCardColor(): Int = _testMenu.cardColorRes
+
+    @Bindable
+    fun getTitle(): String = _testMenu.title
+
+    fun onClick() {
+        itemViewUsecaseFactory?.navigateViewUsecase()?.navigatePage(_navActionId)
     }
-
-    fun isCardTitleVisible(): Boolean = testMenu.cardTitle != null
-
-    fun onClickCardView(): (View) -> Unit = { Navigation.findNavController(it).navigate(naviActionId) }
-
-    override fun getViewComponent(): AnkoComponent<ViewGroup> = _viewComponent
-
 }

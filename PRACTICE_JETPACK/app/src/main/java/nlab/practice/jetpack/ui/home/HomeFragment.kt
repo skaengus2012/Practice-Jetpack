@@ -4,35 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import nlab.practice.jetpack.ui.common.MainContainerUI
-import nlab.practice.jetpack.util.fromViewGroup
-import org.jetbrains.anko.AnkoContext
+import nlab.practice.jetpack.databinding.FragmentHomeBinding
+import nlab.practice.jetpack.util.di.fragment.InjectableFragment
+import javax.inject.Inject
 
 /**
  * @author Doohyun
  * @since 2018. 12. 10
  */
-class HomeFragment : Fragment() {
+class HomeFragment : InjectableFragment() {
 
-    private lateinit var _viewModel: HomeViewModel
+    @Inject
+    lateinit var viewModel: HomeViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+    private lateinit var _binding: FragmentHomeBinding
 
-        return container?.let { MainContainerUI(_viewModel).createView(AnkoContext.fromViewGroup(it)) }
+    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return _binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-        _viewModel.startHeaderTimer()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        _viewModel.stopHeaderTimer()
+        _binding.viewModel = viewModel
     }
 }

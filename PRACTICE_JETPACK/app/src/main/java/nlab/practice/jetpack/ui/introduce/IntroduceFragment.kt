@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.util.fromViewGroup
+import nlab.practice.jetpack.util.anko.fromViewGroup
 import org.jetbrains.anko.AnkoContext
 
 /**

@@ -1,66 +1,54 @@
 package nlab.practice.jetpack.ui.home
 
 import Njava.util.time.TimeBuilder
-import android.content.Context
-import android.view.ViewGroup
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.Scheduler
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.di.component.ViewModelInjectComponent
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
-import nlab.practice.jetpack.util.string
-import org.jetbrains.anko.AnkoComponent
+import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.createLazyCompositeDisposable
+import nlab.practice.jetpack.util.recyclerview.databinding.DataBindingItemViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
+ * Home 상단 프로필에 대한 이벤트 정의
+ *
  * @author Doohyun
- * @since 2018. 12. 12
  */
-class HomeHeaderViewModel(injector: ViewModelInjectComponent) : AnkoViewBindingItem() {
+class HomeHeaderViewModel @Inject constructor(
+        resourceProvider: ResourceProvider,
+        private val androidScheduler: Scheduler): DataBindingItemViewModel() {
 
-    @Inject lateinit var context: Context
+    private val _timerDisposables = createLazyCompositeDisposable()
 
-    private val _timerDisposables : CompositeDisposable by lazy { CompositeDisposable() }
-    private val _viewComponent = HomeHeaderUI(this)
-    private val _dateFormat: String
+    private val _dateFormat: CharSequence = resourceProvider.getString(R.string.home_time_format)
 
     @Bindable
-    var currentTimeString: String = ""
-    set(value) {
-        field = value
-        notifyPropertyChanged(BR.currentTimeString)
-    }
+    var currentTimeString: String = getCurrentTimeDateFormat()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.currentTimeString)
+        }
 
-    init {
-        injector.inject(this)
-
-        _dateFormat = context.string(R.string.home_time_format)
-        currentTimeString = getCurrentTimeDateFormat()
-    }
-
-    override fun getViewComponent(): AnkoComponent<ViewGroup> = _viewComponent
+    override fun getLayoutRes(): Int = R.layout.view_home_header
 
     fun startTimer() {
         Observable.timer(100, TimeUnit.MILLISECONDS)
                 .repeat()
                 .map { getCurrentTimeDateFormat() }
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(androidScheduler)
                 .filter { it != currentTimeString}
                 .doOnNext { currentTimeString = it }
                 .subscribe()
                 .addTo(_timerDisposables)
     }
 
-    fun stopTimer() {
-        _timerDisposables.clear()
-    }
+    fun stopTimer() = _timerDisposables.clear()
 
     private fun getCurrentTimeDateFormat(): String = TimeBuilder.Create()
-            .getStringFormat(_dateFormat)
+            .getStringFormat(_dateFormat.toString())
             .blockingGet("")
 }

@@ -1,65 +1,58 @@
 package nlab.practice.jetpack.ui.home
 
-import android.app.Application
-import io.reactivex.disposables.CompositeDisposable
+import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.di.android.InjectableAndroidViewModel
 import nlab.practice.jetpack.repository.TestMenuRepository
-import nlab.practice.jetpack.ui.common.MainContainerViewModel
-import nlab.practice.jetpack.util.databinding.model.RecyclerViewConfig
-import nlab.practice.jetpack.util.recyclerview.anko.AnkoViewBindingItem
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.recyclerview.databinding.RecyclerViewConfig
 import javax.inject.Inject
 
 /**
+ * HomeFragment 에 대한 ViewModel
+ *
  * @author Doohyun
- * @since 2018. 12. 12
  */
-class HomeViewModel(application: Application): InjectableAndroidViewModel(application), MainContainerViewModel {
+class HomeViewModel @Inject constructor(
+        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+        homeItemDecoration: HomeItemDecoration,
+        private val _homeHeaderViewModel: HomeHeaderViewModel,
+        private val _homeItemViewModelFactory: HomeItemViewModelFactory,
+        private val _testMenuRepository: TestMenuRepository) {
 
-    @Inject
-    lateinit var disposables: CompositeDisposable
+    val headers = ObservableArrayList<HomeHeaderViewModel>()
 
-    @Inject
-    lateinit var testMenuRepository: TestMenuRepository
+    val items = ObservableArrayList<HomeItemViewModel>()
 
-    @Inject
-    lateinit var homeItemDecoration: HomeItemDecoration
-
-    private val homeHeaderViewModel = HomeHeaderViewModel(injector)
+    val recyclerViewConfig = RecyclerViewConfig().apply {
+        itemDecorations.add(homeItemDecoration)
+    }
 
     init {
-        injector.inject(this)
+        _homeHeaderViewModel.startTimer()
+        headers.add(_homeHeaderViewModel)
+        refreshItems()
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY) { _homeHeaderViewModel.stopTimer() }
     }
 
-    override fun onCleared() {
-        stopHeaderTimer()
-        disposables.clear()
-    }
-
-    override fun getHeader(): AnkoViewBindingItem? = homeHeaderViewModel
-
-    override fun getItems(): List<AnkoViewBindingItem>? = listOf(
-            createAnkoFirstViewModel(),
-            createPagingTestViewModel()
+    private fun createItems(): List<HomeItemViewModel> = listOf(
+            createHomeAnkoFirstViewMenuViewModel(),
+            createPagingTestMenuViewModel()
     )
 
-    override fun getRecyclerViewConfig(): RecyclerViewConfig? = RecyclerViewConfig().apply {
-        addItemDecoration(homeItemDecoration)
+    private fun createHomeAnkoFirstViewMenuViewModel(): HomeItemViewModel = _testMenuRepository.getAnkoFirstViewMenu().let {
+        _homeItemViewModelFactory.create(it, R.id.nav_anko_first_activity)
     }
 
-    private fun createAnkoFirstViewModel(): HomeItemViewModel = testMenuRepository.getAnkoFirstViewMenu().run {
-        HomeItemViewModel(injector, this, R.id.nav_anko_first_activity)
+    private fun createPagingTestMenuViewModel(): HomeItemViewModel = _testMenuRepository.getPagingTestMenu().let {
+        _homeItemViewModelFactory.create(it, R.id.nav_paging_test_fragment)
     }
 
-    private fun createPagingTestViewModel(): HomeItemViewModel = testMenuRepository.getPagingTestMenu().run {
-        HomeItemViewModel(injector, this, R.id.nav_paging_test_fragment)
+    private fun refreshItems() {
+        items.clear()
+        items.addAll(createItems())
     }
 
-    fun startHeaderTimer() {
-        homeHeaderViewModel.startTimer()
-    }
 
-    fun stopHeaderTimer() {
-        homeHeaderViewModel.stopTimer()
-    }
 }

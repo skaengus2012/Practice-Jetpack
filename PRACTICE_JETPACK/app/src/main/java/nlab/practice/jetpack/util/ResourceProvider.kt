@@ -1,7 +1,10 @@
 package nlab.practice.jetpack.util
 
 import android.content.Context
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 
 /**
  * Resource 제공자 정의
@@ -9,12 +12,10 @@ import androidx.annotation.StringRes
  * @author Doohyun
  * @since 2018. 12. 18
  */
+class ResourceProvider(private val _context: Context) {
+    fun getColor(@ColorRes colorRes: Int) : Int = ContextCompat.getColor(_context, colorRes)
 
-interface ResourceProvider {
-    fun getString(@StringRes stringRes: Int): CharSequence
-}
+    fun getString(@StringRes stringRes: Int): CharSequence = _context.getString(stringRes)
 
-class ResourceProviderImpl(private val _context: Context) : ResourceProvider {
-
-    override fun getString(stringRes: Int): CharSequence = _context.getString(stringRes)
+    fun getDimensionPixelSize(@DimenRes resource: Int): Int = _context.resources.getDimensionPixelSize(resource)
 }

@@ -4,45 +4,60 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * RecyclerView 에 여러 타입의 아이템을 추가할 수 있는 GenericAdapter 정의
- *
  * @author Doohyun
- * @since 2018. 12. 12
  */
 abstract class GenericItemAdapter<T, VIEW_HOLDER: GenericItemAdapter.GenericItemViewHolder<T>> :
         RecyclerView.Adapter<VIEW_HOLDER>() {
 
     var items: MutableList<T>? = null
-    var header: T? = null
-    var footer: T? = null
+    var headers: MutableList<T>? = null
+    var footers: MutableList<T>? = null
 
-    final override fun getItemCount(): Int {
+    override fun getItemCount(): Int {
         var itemSize = items?.size ?: 0
 
         // header & footer 의 사이즈를 고려해서 처리
-        header?.run { ++itemSize }
-        footer?.run { ++itemSize }
+        headers?.run { itemSize += size }
+        footers?.run { itemSize += size }
 
         return itemSize
     }
 
-    final override fun onBindViewHolder(holder: VIEW_HOLDER, position: Int) {
-        when(position) {
-            0 -> header?: items?.get(0)
-
-            itemCount - 1 ->
-                footer?: items?.run { get(size - 1) }
-
-            else -> {
-                val findPosition = header?.let { position - 1 } ?: position
-                items?.get(findPosition)
-            }
-        }?.run { holder.onBind(this) }
+    override fun onBindViewHolder(holder: VIEW_HOLDER, position: Int) {
+        getItemWithCategory(position)?.run { holder.onBind(this) }
     }
 
-    open fun notifyItemViewTypeChanged() {}
+    protected fun getItemWithCategory(position: Int): T? {
+        val headerSize = headers?.size ?: 0
+        val itemSize = items?.size ?: 0
+        val footerSize = footers?.size ?: 0
 
-    abstract class GenericItemViewHolder<T>(view: View): RecyclerView.ViewHolder(view) {
+        val headerContentSize = headerSize + itemSize
+        val totalSize = headerContentSize + footerSize
+
+        return when {
+            // Content 에 데이터가 존재할 경우
+            itemSize != 0 && position in headerSize until headerContentSize -> {
+                val contentPosition = position - headerSize
+
+                items?.get(contentPosition)
+            }
+
+            // Header 에 데이터가 존재할 경우
+            headerSize != 0 && position in 0 until headerSize -> headers?.get(position)
+
+            // footer 에 데이터가 존재할 경우
+            footerSize != 0 && position in headerContentSize until totalSize -> {
+                val footerPosition = position - headerContentSize
+
+                footers?.get(footerPosition)
+            }
+
+            else -> null
+        }
+    }
+
+    abstract class GenericItemViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
         abstract fun onBind(item: T)
     }
 }

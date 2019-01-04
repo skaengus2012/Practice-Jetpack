@@ -2,7 +2,7 @@ package nlab.practice.jetpack.ui.tutorial
 
 import androidx.databinding.ObservableField
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
@@ -12,12 +12,14 @@ import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+
 /**
  * @author Doohyun
  * @since 2018. 11. 23
  */
 class AnkoFirstViewModel @Inject constructor(
         private val _disposable: CompositeDisposable,
+        private val _androidScheduler: Scheduler,
         ankoFirstDataBundle: AnkoFirstDataBundle,
         lifeCycleBinder: ActivityLifeCycleBinder,
         resourceProvider: ResourceProvider) {
@@ -35,14 +37,13 @@ class AnkoFirstViewModel @Inject constructor(
 
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
             message.get()?.run { ankoFirstDataBundle.message = this }
-            _disposable.clear()
         }
     }
 
 
     fun changeTextDelayTime(message: String, second: Long = 0L) {
         Observable.timer(second, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(_androidScheduler)
                 .doOnNext { this.message.set(message) }
                 .subscribe()
                 .addTo(_disposable)
