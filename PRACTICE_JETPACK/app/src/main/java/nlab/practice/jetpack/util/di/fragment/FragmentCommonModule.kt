@@ -8,13 +8,17 @@ import nlab.practice.jetpack.util.ActivityStarterUsecase
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
+import nlab.practice.jetpack.util.nav.FragmentScopeNavModule
+
 
 /**
  * Fragment 공통 모듈 정의
  *
  * @author Doohyun
  */
-@Module
+@Module(includes = [
+    FragmentScopeNavModule::class
+])
 class FragmentCommonModule {
 
     @FragmentScope

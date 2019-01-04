@@ -1,10 +1,11 @@
-package nlab.practice.jetpack
+package nlab.practice.jetpack.ui.main
 
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.activity_main_holder.*
+import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
 
 /**

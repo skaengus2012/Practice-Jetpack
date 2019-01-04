@@ -2,8 +2,9 @@ package nlab.practice.jetpack.util.di.activity
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import nlab.practice.jetpack.MainHolderActivity
+import nlab.practice.jetpack.ui.main.MainHolderActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
+import nlab.practice.jetpack.util.nav.ActivityScopeNavModule
 
 /**
  * Activity 공통 모듈 정의
@@ -16,7 +17,8 @@ abstract class ActivityBindModule {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [
-        ActivityCommonModule::class
+        ActivityCommonModule::class,
+        ActivityScopeNavModule::class
     ])
     abstract fun mainHolerActivity(): MainHolderActivity
 

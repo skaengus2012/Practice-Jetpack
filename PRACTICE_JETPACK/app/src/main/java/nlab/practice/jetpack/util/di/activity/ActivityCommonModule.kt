@@ -8,12 +8,15 @@ import nlab.practice.jetpack.util.ActivityStarterUsecase
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
+import nlab.practice.jetpack.util.nav.ActivityScopeNavModule
 
 /**
  * @author Doohyun
  * @since 2018. 12. 18
  */
-@Module
+@Module(includes = [
+    ActivityScopeNavModule::class
+])
 class ActivityCommonModule {
 
     @ActivityScope
