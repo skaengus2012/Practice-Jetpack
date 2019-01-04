@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.databinding.callback
+package nlab.practice.jetpack.util.anko.callback
 
 import androidx.databinding.Observable
 import java.lang.ref.WeakReference

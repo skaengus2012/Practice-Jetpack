@@ -6,7 +6,6 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.ActivityStarterUsecase
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
-import nlab.practice.jetpack.util.di.itemview.ItemViewModelFactoryModule
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 
@@ -15,9 +14,7 @@ import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
  *
  * @author Doohyun
  */
-@Module(includes = [
-    ItemViewModelFactoryModule::class
-])
+@Module
 class FragmentCommonModule {
 
     @FragmentScope

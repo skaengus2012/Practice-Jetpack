@@ -7,7 +7,6 @@ import dagger.BindsInstance
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import nlab.practice.jetpack.JetPackApplication
-import nlab.practice.jetpack.di.component.ViewModelInjectComponent
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
 /**
@@ -38,6 +37,4 @@ interface AppComponent {
     fun activityBindComponent(): ActivityBindComponent.Builder
 
     fun fragmentBindComponent(): FragmentBindComponent.Builder
-
-    fun viewModelComponent(): ViewModelInjectComponent.Builder
 }

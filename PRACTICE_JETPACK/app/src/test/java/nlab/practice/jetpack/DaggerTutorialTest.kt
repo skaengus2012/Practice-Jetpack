@@ -1,8 +1,7 @@
 package nlab.practice.jetpack
 
 import android.view.View
-import nlab.practice.jetpack.util.di.itemview.DaggerItemViewUsecaseComponent
-import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseModule
+import nlab.practice.jetpack.util.di.itemview.DaggerItemViewUsecaseFactory
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -25,21 +24,21 @@ class DaggerTutorialTest {
 
     @Test
     fun testScopeForItemViewUsecaseComponent() {
-        val aItemViewComponent = DaggerItemViewUsecaseComponent
+        val aFactory = DaggerItemViewUsecaseFactory
                 .builder()
-                .itemViewUsecaseModule(ItemViewUsecaseModule(mockView))
+                .setView(mockView)
                 .build()
 
         // 같은 컴포넌트에서 나온 Usecase 는 같은가?
-        Assert.assertEquals(aItemViewComponent.testItemViewUsecase(), aItemViewComponent.testItemViewUsecase())
+        Assert.assertEquals(aFactory.navigateViewUsecase(), aFactory.navigateViewUsecase())
 
-        val bItemViewUsecaseComponent = DaggerItemViewUsecaseComponent
+        val bFactory = DaggerItemViewUsecaseFactory
                 .builder()
-                .itemViewUsecaseModule(ItemViewUsecaseModule(mockView))
+                .setView(mockView)
                 .build()
 
         // 다른 컴포넌트에서 나온 Usecase 는 다른가?
-        Assert.assertNotEquals(aItemViewComponent.testItemViewUsecase(), bItemViewUsecaseComponent.testItemViewUsecase())
+        Assert.assertNotEquals(aFactory.navigateViewUsecase(), bFactory.navigateViewUsecase())
     }
 
 

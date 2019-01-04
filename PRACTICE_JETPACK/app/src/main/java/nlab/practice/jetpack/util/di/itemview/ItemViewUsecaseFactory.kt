@@ -20,7 +20,5 @@ interface ItemViewUsecaseFactory {
         fun build(): ItemViewUsecaseFactory
     }
 
-    fun testItemViewUsecase(): TestItemViewUsecase
-
     fun navigateViewUsecase(): NavigateViewUsecase
 }

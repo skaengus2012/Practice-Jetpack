@@ -1,9 +1,9 @@
-package nlab.practice.jetpack.util.databinding
+package nlab.practice.jetpack.util.anko
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
-import nlab.practice.jetpack.util.databinding.binder.*
+import nlab.practice.jetpack.util.anko.binder.*
 import org.jetbrains.anko.AnkoComponent
 
 /**

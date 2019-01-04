@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.databinding.binder
+package nlab.practice.jetpack.util.anko.binder
 
 import android.view.View
 

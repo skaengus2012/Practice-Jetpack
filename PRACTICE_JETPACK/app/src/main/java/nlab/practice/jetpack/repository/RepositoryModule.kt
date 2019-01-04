@@ -1,10 +1,8 @@
-package nlab.practice.jetpack.di.module
+package nlab.practice.jetpack.repository
 
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import nlab.practice.jetpack.repository.SimpleRepository
-import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.util.ResourceProvider
 
 /**

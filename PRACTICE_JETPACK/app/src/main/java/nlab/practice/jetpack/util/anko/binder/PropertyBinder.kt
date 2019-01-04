@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.databinding.binder
+package nlab.practice.jetpack.util.anko.binder
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Observable
