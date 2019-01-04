@@ -15,7 +15,7 @@ import nlab.practice.jetpack.util.recyclerview.databinding.DataBindingItemViewMo
 @AutoFactory
 class HomeItemViewModel(
         private val _testMenu: TestMenu,
-        @IdRes private val _navActionId: Int) : DataBindingItemViewModel() {
+        @IdRes private val _navigateAction: () -> Unit) : DataBindingItemViewModel() {
 
     override fun getLayoutRes(): Int = R.layout.view_home_item
 
@@ -32,6 +32,6 @@ class HomeItemViewModel(
     fun getTitle(): String = _testMenu.title
 
     fun onClick() {
-        itemViewUsecaseFactory?.navigateViewUsecase()?.navigatePage(_navActionId)
+        _navigateAction()
     }
 }

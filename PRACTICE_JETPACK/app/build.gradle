@@ -6,8 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: "androidx.navigation.safeargs"
-
 android {
     compileSdkVersion 28
 
@@ -60,12 +58,11 @@ dependencies {
     // android X
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    implementation "android.arch.navigation:navigation-fragment:$nav_version"
-    implementation "android.arch.navigation:navigation-ui:$nav_version"
 
     // rx
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
     implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
+    implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
     implementation "com.github.skaengus2012:N-java:v0.5.0-beta"
 
     // dagger

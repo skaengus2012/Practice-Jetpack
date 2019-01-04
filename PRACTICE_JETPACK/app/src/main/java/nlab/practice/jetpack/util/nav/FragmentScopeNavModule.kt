@@ -17,11 +17,11 @@ class FragmentScopeNavModule {
     @FragmentScope
     @Provides
     fun provideNavController(fragment: Fragment): NavController {
-        return (fragment.activity as? AppCompatActivity)?.supportFragmentManager?.let { NavController(it) }!!
+        return (fragment.activity as? AppCompatActivity)?.supportFragmentManager?.let { NavController(it, 0) }!!
     }
 
     @Named(NavController.Named.CHILD)
     @FragmentScope
     @Provides
-    fun provideChildNavController(fragment: Fragment): NavController = NavController(fragment.childFragmentManager)
+    fun provideChildNavController(fragment: Fragment): NavController = NavController(fragment.childFragmentManager, 0)
 }

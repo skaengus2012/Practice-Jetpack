@@ -4,19 +4,17 @@ import android.app.Activity
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.ActivityCallbackBinder
 import nlab.practice.jetpack.util.ActivityStarterUsecase
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
-import nlab.practice.jetpack.util.nav.ActivityScopeNavModule
 
 /**
  * @author Doohyun
  * @since 2018. 12. 18
  */
-@Module(includes = [
-    ActivityScopeNavModule::class
-])
+@Module
 class ActivityCommonModule {
 
     @ActivityScope
@@ -31,4 +29,7 @@ class ActivityCommonModule {
     @Provides
     fun provideActivityStarterUsecase(activity: Activity): ActivityStarterUsecase = ActivityStarterUsecase(activity)
 
+    @ActivityScope
+    @Provides
+    fun provideActivityCallbackBinder(): ActivityCallbackBinder = ActivityCallbackBinder()
 }

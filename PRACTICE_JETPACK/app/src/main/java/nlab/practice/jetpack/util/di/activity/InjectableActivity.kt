@@ -7,6 +7,7 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.ActivityCallbackBinder
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentInjector
@@ -29,6 +30,9 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var compositeDisposable: CompositeDisposable
+
+    @Inject
+    lateinit var activityCallbackBinder: ActivityCallbackBinder
 
     private lateinit var _activityBindComponent: ActivityBindComponent
 
@@ -91,6 +95,14 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
         lifeCycleBinder.apply(ActivityLifeCycle.FINISH)
         compositeDisposable.clear()
+    }
+
+    override fun onBackPressed() {
+        val commandActionResult = activityCallbackBinder.getOnBackPressCommand()?.invoke() ?: false
+
+        if (!commandActionResult) {
+            super.onBackPressed()
+        }
     }
 
     final override fun supportFragmentInjector(): AndroidInjector<Fragment> = FragmentInjector

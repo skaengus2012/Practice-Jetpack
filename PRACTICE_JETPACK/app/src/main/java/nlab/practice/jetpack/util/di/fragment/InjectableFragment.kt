@@ -45,6 +45,7 @@ abstract class InjectableFragment : BaseFragment() {
                 ?.let { it as? AppComponent.Supplier }
                 ?.getAppComponent()
                 ?.fragmentBindComponent()
+                ?.setOwner(this)
                 ?.build()
                 ?.run { _fragmentBindComponent = this }
 

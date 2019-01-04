@@ -1,6 +1,8 @@
 package nlab.practice.jetpack.util.nav
 
+import androidx.annotation.IdRes
 import androidx.annotation.StringDef
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 /**
@@ -8,7 +10,9 @@ import androidx.fragment.app.FragmentManager
  *
  * @author Doohyun
  */
-class NavController(private val _fragmentManager: FragmentManager) {
+class NavController(
+        val fragmentManager: FragmentManager,
+        @IdRes val fragmentResId: Int) {
 
     @StringDef(value = [Named.DEFAULT, Named.CHILD])
     annotation class Named {
@@ -20,11 +24,30 @@ class NavController(private val _fragmentManager: FragmentManager) {
         }
     }
 
-    fun replace() {
+    inline fun replacePrimaryFragment(tag: String, crossinline fragmentProvider: () -> Fragment) {
+        val fragmentTransaction = fragmentManager.beginTransaction()
 
-    }
+        val targetFragment: Fragment = fragmentManager.findFragmentByTag(tag) ?: fragmentProvider().apply {
+            fragmentTransaction.add(fragmentResId, this, tag)
+        }
 
-    fun add() {
+        // 현재 Primary Nav 가 보여야할 Target 과 다르면 숨김처리 수행
+        val isNeedChangePrimary = fragmentManager.primaryNavigationFragment?.let { it != targetFragment } ?: true
+        if (isNeedChangePrimary) {
+            fragmentManager.primaryNavigationFragment?.run { fragmentTransaction.hide(this) }
 
+
+            /**
+             * NOTE
+             *
+             * commitNow 실행 시, backstack 사용 불가 -> Primary 사용이니 이 메소드를 호출
+             * Activity 에서 실행해야하기 때문에, StateLoss 사용 -> onSaveInstanceState 의 제약에서 벗어나기 위함
+             */
+            fragmentTransaction
+                    .show(targetFragment)
+                    .setPrimaryNavigationFragment(targetFragment)
+                    .setReorderingAllowed(true)
+                    .commitNowAllowingStateLoss()
+        }
     }
 }

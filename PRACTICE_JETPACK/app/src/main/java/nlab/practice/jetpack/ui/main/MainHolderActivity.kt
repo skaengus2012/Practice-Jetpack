@@ -1,12 +1,11 @@
 package nlab.practice.jetpack.ui.main
 
 import android.os.Bundle
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
-import kotlinx.android.synthetic.main.activity_main_holder.*
+import androidx.databinding.DataBindingUtil
 import nlab.practice.jetpack.R
+import nlab.practice.jetpack.databinding.ActivityMainHolderBinding
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
+import javax.inject.Inject
 
 /**
  * Fragment 들의 Host Activity
@@ -17,19 +16,15 @@ import nlab.practice.jetpack.util.di.activity.InjectableActivity
  */
 class MainHolderActivity : InjectableActivity() {
 
-    private lateinit var _navController: NavController
+    @Inject
+    lateinit var viewModel: MainHolderViewModel
+
+    private lateinit var _binding: ActivityMainHolderBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main_holder)
-
-        _navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        NavigationUI.setupWithNavController(bottom_navigation, _navController)
-    }
-
-
-    override fun onSupportNavigateUp(): Boolean {
-        return _navController.navigateUp()
+        _binding = DataBindingUtil.setContentView(this, R.layout.activity_main_holder)
+        _binding.viewModel = viewModel
     }
 }
