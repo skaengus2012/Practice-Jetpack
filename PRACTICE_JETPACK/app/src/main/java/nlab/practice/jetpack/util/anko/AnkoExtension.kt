@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util
+package nlab.practice.jetpack.util.anko
 
 import android.content.Context
 import android.view.View
