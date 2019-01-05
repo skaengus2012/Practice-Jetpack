@@ -3,6 +3,7 @@ package nlab.practice.jetpack.util.nav
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import kotlin.reflect.KClass
 
 /**
  * Child 에서 활용하는 NavController 정의
@@ -36,3 +37,5 @@ class ChildNavController(fm: FragmentManager, @IdRes idRes: Int) : AbsNavControl
         }
     }
 }
+
+fun <T: Fragment> KClass<T>.fragmentTag(): String = this.java.name

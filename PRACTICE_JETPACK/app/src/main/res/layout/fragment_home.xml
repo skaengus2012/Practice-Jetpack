@@ -19,5 +19,10 @@
 			app:list_headers="@{viewModel.headers}"
 			app:list_items="@{viewModel.items}"/>
 
+		<FrameLayout
+			android:id="@+id/layout_container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
