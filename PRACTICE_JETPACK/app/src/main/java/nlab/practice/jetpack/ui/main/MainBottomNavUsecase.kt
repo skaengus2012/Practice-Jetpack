@@ -6,14 +6,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.introduce.IntroduceFragment
-import nlab.practice.jetpack.util.nav.NavController
 
 /**
  * Main 에서 표시된 BottomNavigationView 의 컨트롤러
  *
  * @author Doohyun
  */
-class MainBottomNavUsecase(private val _navController: NavController, bottomNavViewProvider: () -> BottomNavigationView):
+class MainBottomNavUsecase(private val _navController: MainNavController, bottomNavViewProvider: () -> BottomNavigationView):
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     private val _bottomNavigationView: BottomNavigationView by lazy(bottomNavViewProvider)

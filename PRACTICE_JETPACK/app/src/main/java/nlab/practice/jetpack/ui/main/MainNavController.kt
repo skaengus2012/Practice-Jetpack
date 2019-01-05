@@ -1,39 +1,24 @@
-package nlab.practice.jetpack.util.nav
+package nlab.practice.jetpack.ui.main
 
 import androidx.annotation.IdRes
-import androidx.annotation.StringDef
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import nlab.practice.jetpack.util.nav.AbsNavController
 
 /**
- * Fragment 를 Navigation 할 수 있는 컨트롤러
+ * Main 에서 사용하는 NavController 정의
  *
  * @author Doohyun
  */
-class NavController(
-        val fragmentManager: FragmentManager,
-        @IdRes val fragmentResId: Int) {
-
-    @StringDef(value = [Named.DEFAULT, Named.CHILD])
-    annotation class Named {
-        companion object {
-            private const val TAG = "NavController"
-
-            const val DEFAULT = "${TAG}_default"
-            const val CHILD = "${TAG}_child"
-        }
-    }
+class MainNavController(fm: FragmentManager, @IdRes resId: Int) : AbsNavController(fm, resId) {
 
     inline fun replacePrimaryFragment(tag: String, crossinline fragmentProvider: () -> Fragment) {
         val fragmentTransaction = fragmentManager.beginTransaction()
 
-        val targetFragment: Fragment = fragmentManager.findFragmentByTag(tag) ?: fragmentProvider().apply {
-            fragmentTransaction.add(fragmentResId, this, tag)
-        }
+        val targetFragment: Fragment = fragmentManager.findFragmentByTag(tag, fragmentTransaction, fragmentProvider)
 
         // 현재 Primary Nav 가 보여야할 Target 과 다르면 숨김처리 수행
-        val isNeedChangePrimary = fragmentManager.primaryNavigationFragment?.let { it != targetFragment } ?: true
-        if (isNeedChangePrimary) {
+        if (fragmentManager.isNeedChangePrimaryNavigationFragment(targetFragment)) {
             fragmentManager.primaryNavigationFragment?.run { fragmentTransaction.hide(this) }
 
 
