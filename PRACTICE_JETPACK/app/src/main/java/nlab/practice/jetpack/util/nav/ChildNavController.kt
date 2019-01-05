@@ -15,9 +15,7 @@ class ChildNavController(fm: FragmentManager, @IdRes idRes: Int) : AbsNavControl
         fragmentManager.popBackStack()
     }
 
-    fun clearFragments() {
-        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
+    fun clearFragments(): Boolean = fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
     inline fun addFragment(tag: String, crossinline fragmentProvider: () -> Fragment) {
         val fragmentTransaction = fragmentManager.beginTransaction()

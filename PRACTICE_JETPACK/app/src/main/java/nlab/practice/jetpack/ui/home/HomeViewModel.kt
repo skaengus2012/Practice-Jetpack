@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createPagingTestMenuViewModel(): HomeItemViewModel = _testMenuRepository.getPagingTestMenu().let {
-        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navIntroduce2() }
+        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navPaging() }
     }
 
     private fun refreshItems() {

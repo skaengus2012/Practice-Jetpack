@@ -22,17 +22,17 @@ class HomeFragment : InjectableFragment(), ContainerFragment {
     @Inject
     lateinit var navController: ChildNavController
 
-    private lateinit var _binding: FragmentHomeBinding
+    lateinit var binding: FragmentHomeBinding
 
     override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return _binding.root
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        _binding.viewModel = viewModel
+        binding.viewModel = viewModel
     }
 
     override fun getChildNavController(): ChildNavController = navController
