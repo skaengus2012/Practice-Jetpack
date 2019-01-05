@@ -10,8 +10,8 @@ import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.BaseFragment
 import nlab.practice.jetpack.util.di.AppComponent
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import javax.inject.Inject
 
 /**
@@ -45,6 +45,7 @@ abstract class InjectableFragment : BaseFragment() {
                 ?.let { it as? AppComponent.Supplier }
                 ?.getAppComponent()
                 ?.fragmentBindComponent()
+                ?.setOwner(this)
                 ?.build()
                 ?.run { _fragmentBindComponent = this }
 

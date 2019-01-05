@@ -7,11 +7,12 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.component.callback.ActivityCallbackDelegate
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentInjector
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import javax.inject.Inject
 
 /**
@@ -30,15 +31,22 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var compositeDisposable: CompositeDisposable
 
+    @Inject
+    lateinit var activityCallbackBinder: ActivityCallbackDelegate
+
     private lateinit var _activityBindComponent: ActivityBindComponent
 
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
+    final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initializeDI()
+
+        onCreateBinding(savedInstanceState)
 
         lifeCycleBinder.apply(ActivityLifeCycle.ON_CREATE)
     }
+
+    abstract fun onCreateBinding(savedInstanceState: Bundle?)
 
     private fun initializeDI() {
         _activityBindComponent = (application as AppComponent.Supplier).getAppComponent()
@@ -91,6 +99,13 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
         lifeCycleBinder.apply(ActivityLifeCycle.FINISH)
         compositeDisposable.clear()
+    }
+
+    final override fun onBackPressed() {
+        val isSuperMethodCall = !(activityCallbackBinder.onBackPressedCommand?.execute()?: false)
+        if (isSuperMethodCall) {
+            super.onBackPressed()
+        }
     }
 
     final override fun supportFragmentInjector(): AndroidInjector<Fragment> = FragmentInjector

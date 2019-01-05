@@ -1,10 +1,11 @@
 package nlab.practice.jetpack.ui.home
 
 import androidx.databinding.ObservableArrayList
-import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.TestMenuRepository
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.nav.ActivityNavUsecase
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 import nlab.practice.jetpack.util.recyclerview.databinding.RecyclerViewConfig
 import javax.inject.Inject
 
@@ -16,6 +17,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         homeItemDecoration: HomeItemDecoration,
+        private val _activityNavUsecase: ActivityNavUsecase,
+        private val _fragmentNavUsecase: FragmentNavUsecase,
         private val _homeHeaderViewModel: HomeHeaderViewModel,
         private val _homeItemViewModelFactory: HomeItemViewModelFactory,
         private val _testMenuRepository: TestMenuRepository) {
@@ -42,11 +45,11 @@ class HomeViewModel @Inject constructor(
     )
 
     private fun createHomeAnkoFirstViewMenuViewModel(): HomeItemViewModel = _testMenuRepository.getAnkoFirstViewMenu().let {
-        _homeItemViewModelFactory.create(it, R.id.nav_anko_first_activity)
+        _homeItemViewModelFactory.create(it) { _activityNavUsecase.startAnkoFistActivity() }
     }
 
     private fun createPagingTestMenuViewModel(): HomeItemViewModel = _testMenuRepository.getPagingTestMenu().let {
-        _homeItemViewModelFactory.create(it, R.id.nav_paging_test_fragment)
+        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navPaging() }
     }
 
     private fun refreshItems() {
