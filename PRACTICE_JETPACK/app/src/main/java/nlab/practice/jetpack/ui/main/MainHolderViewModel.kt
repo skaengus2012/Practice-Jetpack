@@ -1,10 +1,10 @@
 package nlab.practice.jetpack.ui.main
 
-import android.view.MenuItem
+import androidx.databinding.BaseObservable
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.util.ActivityCallbackBinder
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.component.callback.ActivityCallbackDelegate
+import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import javax.inject.Inject
 
 /**
@@ -14,34 +14,25 @@ import javax.inject.Inject
  */
 class MainHolderViewModel @Inject constructor(
         activityLifeCycleBinder: ActivityLifeCycleBinder,
-        activityCallbackBinder: ActivityCallbackBinder,
-        private val _mainNavUsecase: MainNavUsecase) {
+        activityCallbackDelegate: ActivityCallbackDelegate,
+        private val _mainNavUsecase: MainBottomNavUsecase): BaseObservable() {
 
     init {
         activityLifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
-            _mainNavUsecase.navHome()
+            _mainNavUsecase.initialize()
         }
 
-        activityCallbackBinder.onBackPressed {
-            false
-        }
+        activityCallbackDelegate.onBackPressed(this::executeOnBackPressed)
     }
 
-    fun onBottomNavigationItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
-        R.id.menu_home -> {
+    private fun executeOnBackPressed(): Boolean = when {
+        // 현재 메뉴가 Home 이 아닐 경우 홈으로 이동
+        _mainNavUsecase.getSelectedItemId() != R.id.menu_home -> {
             _mainNavUsecase.navHome()
             true
         }
 
-        R.id.menu_setting -> {
-            _mainNavUsecase.navSetting()
-            true
-        }
-
+        // 그 외 거짓
         else -> false
-    }
-
-    fun onBottomNavigationItemReSelected(menuItem: MenuItem) {
-
     }
 }

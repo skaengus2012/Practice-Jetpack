@@ -16,9 +16,7 @@ class AnkoFirstActivity : InjectableActivity() {
     @Inject
     lateinit var viewModel: AnkoFirstViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onCreateBinding(savedInstanceState: Bundle?) {
         ActivityAnkoFirstUI().let {
             it.setContentView(this)
 

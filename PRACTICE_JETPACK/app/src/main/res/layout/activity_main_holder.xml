@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 	<data>
+		<import type="android.view.MenuItem"/>
 		<variable name="viewModel" type="nlab.practice.jetpack.ui.main.MainHolderViewModel"/>
 	</data>
 
@@ -27,8 +28,6 @@
 			app:itemIconTint="@color/bottom_menu_color"
 			app:itemTextColor="@color/bottom_menu_color"
 			app:layout_constraintBottom_toBottomOf="parent"
-			app:onNavigationItemSelected="@{viewModel::onBottomNavigationItemSelected}"
-			app:onNavigationItemReSelected="@{viewModel::onBottomNavigationItemReSelected}"
 			app:menu="@menu/bottom_navigation_menu"/>
 
 	</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.lifecycle
+package nlab.practice.jetpack.util.component.lifecycle
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo

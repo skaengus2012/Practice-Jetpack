@@ -3,8 +3,8 @@ package nlab.practice.jetpack.ui.home
 import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.util.ActivityStarterUsecase
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.databinding.RecyclerViewConfig
 import javax.inject.Inject
 

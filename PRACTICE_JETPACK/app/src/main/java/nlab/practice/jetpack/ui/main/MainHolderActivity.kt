@@ -19,12 +19,10 @@ class MainHolderActivity : InjectableActivity() {
     @Inject
     lateinit var viewModel: MainHolderViewModel
 
-    private lateinit var _binding: ActivityMainHolderBinding
+    lateinit var binding: ActivityMainHolderBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        _binding = DataBindingUtil.setContentView(this, R.layout.activity_main_holder)
-        _binding.viewModel = viewModel
+    override fun onCreateBinding(savedInstanceState: Bundle?) {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main_holder)
+        binding.viewModel = viewModel
     }
 }

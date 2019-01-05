@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.lifecycle
+package nlab.practice.jetpack.util.component.lifecycle
 
 /**
  * Fragment LifeCycle 종류 정의

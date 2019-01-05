@@ -6,8 +6,8 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.ActivityStarterUsecase
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
-import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.nav.FragmentScopeNavModule
 
 

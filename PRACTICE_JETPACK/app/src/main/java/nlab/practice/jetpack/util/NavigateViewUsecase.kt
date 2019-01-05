@@ -2,7 +2,6 @@ package nlab.practice.jetpack.util
 
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.navigation.Navigation
 import nlab.practice.jetpack.util.di.itemview.ItemViewScope
 import javax.inject.Inject
 
@@ -15,6 +14,6 @@ import javax.inject.Inject
 class NavigateViewUsecase @Inject constructor(private val _view: View) {
 
     fun navigatePage(@IdRes navActionId: Int) {
-        Navigation.findNavController(_view).navigate(navActionId)
+
     }
 }
