@@ -6,6 +6,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.introduce.IntroduceFragment
+import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 import nlab.practice.jetpack.util.nav.fragmentTag
 
 /**
@@ -13,22 +14,27 @@ import nlab.practice.jetpack.util.nav.fragmentTag
  *
  * @author Doohyun
  */
-class MainBottomNavUsecase(private val _navController: MainNavController, bottomNavViewProvider: () -> BottomNavigationView):
-        BottomNavigationView.OnNavigationItemSelectedListener {
+class MainBottomNavUsecase(
+        private val _navController: MainNavController,
+        private val _fragmentNavUsecase: FragmentNavUsecase,
+        bottomNavViewProvider: () -> BottomNavigationView)
+    : BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
 
     private val _bottomNavigationView: BottomNavigationView by lazy(bottomNavViewProvider)
 
     fun initialize() {
         _bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        navHome()
+        navFirstPage()
+
+        _bottomNavigationView.setOnNavigationItemReselectedListener(this)
+    }
+
+    fun navFirstPage() {
+        _bottomNavigationView.selectedItemId = R.id.menu_home
     }
 
     @IdRes
     fun getSelectedItemId(): Int =_bottomNavigationView.selectedItemId
-
-    fun navHome() {
-        _bottomNavigationView.selectedItemId = R.id.menu_home
-    }
 
     override fun onNavigationItemSelected(updateMenu: MenuItem): Boolean =  when (updateMenu.itemId) {
         R.id.menu_home -> {
@@ -41,5 +47,9 @@ class MainBottomNavUsecase(private val _navController: MainNavController, bottom
         }
 
         else -> false
+    }
+
+    override fun onNavigationItemReselected(updateMenu: MenuItem) {
+        _fragmentNavUsecase.clearFragments()
     }
 }

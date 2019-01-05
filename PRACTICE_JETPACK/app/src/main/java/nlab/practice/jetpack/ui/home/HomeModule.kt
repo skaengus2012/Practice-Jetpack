@@ -26,5 +26,7 @@ class HomeModule {
 
     @FragmentScope
     @Provides
-    fun provideNavUsecase(navController: ChildNavController) : FragmentNavUsecase = FragmentNavUsecase(navController)
+    fun provideNavUsecase(navController: ChildNavController) : FragmentNavUsecase = FragmentNavUsecase {
+        navController
+    }
 }
