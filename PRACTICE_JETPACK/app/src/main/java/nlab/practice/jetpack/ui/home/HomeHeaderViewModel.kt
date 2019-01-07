@@ -20,7 +20,7 @@ import javax.inject.Inject
  */
 class HomeHeaderViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
-        private val androidScheduler: Scheduler): DataBindingItemViewModel() {
+        private val _androidScheduler: Scheduler): DataBindingItemViewModel() {
 
     private val _timerDisposables = createLazyCompositeDisposable()
 
@@ -39,7 +39,7 @@ class HomeHeaderViewModel @Inject constructor(
         Observable.timer(100, TimeUnit.MILLISECONDS)
                 .repeat()
                 .map { getCurrentTimeDateFormat() }
-                .observeOn(androidScheduler)
+                .observeOn(_androidScheduler)
                 .filter { it != currentTimeString}
                 .doOnNext { currentTimeString = it }
                 .subscribe()
