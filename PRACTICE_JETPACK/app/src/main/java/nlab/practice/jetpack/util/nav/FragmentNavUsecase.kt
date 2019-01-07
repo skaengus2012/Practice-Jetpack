@@ -1,6 +1,5 @@
 package nlab.practice.jetpack.util.nav
 
-import nlab.practice.jetpack.ui.introduce.IntroduceFragment
 import nlab.practice.jetpack.ui.paging.PagingFragment
 
 /**
@@ -18,9 +17,5 @@ class FragmentNavUsecase(private val _navControllerGetter: () -> ChildNavControl
 
     fun navPaging() {
         getNavController()?.addFragment(PagingFragment::class.fragmentTag()) { PagingFragment() }
-    }
-
-    fun navIntroduce() {
-        getNavController()?.addFragment(IntroduceFragment::class.fragmentTag()) { IntroduceFragment() }
     }
 }

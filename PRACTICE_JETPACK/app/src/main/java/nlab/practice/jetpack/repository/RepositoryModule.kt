@@ -15,4 +15,8 @@ class RepositoryModule {
     @Reusable
     @Provides
     fun provideTestMenuRepository(resourceProvider: ResourceProvider): TestMenuRepository = TestMenuRepository(resourceProvider)
+
+    @Reusable
+    @Provides
+    fun providePagingDataSourceRepository() : PagingDataSourceRepository = PagingDataSourceRepository(PagingItemRepository())
 }
