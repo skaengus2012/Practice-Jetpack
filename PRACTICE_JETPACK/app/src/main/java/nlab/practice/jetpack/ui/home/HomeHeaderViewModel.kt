@@ -9,7 +9,7 @@ import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
-import nlab.practice.jetpack.util.recyclerview.databinding.DataBindingItemViewModel
+import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ import javax.inject.Inject
  */
 class HomeHeaderViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
-        private val _androidScheduler: Scheduler): DataBindingItemViewModel() {
+        private val _androidScheduler: Scheduler): BindingItemViewModel() {
 
     private val _timerDisposables = createLazyCompositeDisposable()
 

@@ -18,4 +18,6 @@ class PagingDataSourceRepository internal constructor(private val _pagingItemRep
         _pagingItemRepository.getItems(offset, limit)
     }
 
+    fun getItemTotalCount(): Single<Long> = Single.fromCallable { _pagingItemRepository.getItemCount() }
+
 }

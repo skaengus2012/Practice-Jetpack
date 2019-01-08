@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.recyclerview.databinding
+package nlab.practice.jetpack.util.recyclerview.binding
 
 import androidx.annotation.LayoutRes
 import androidx.databinding.BaseObservable
@@ -7,8 +7,7 @@ import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseFactory
 /**
  * @author Doohyun
  */
-abstract class DataBindingItemViewModel: BaseObservable() {
-
+abstract class BindingItemViewModel: BaseObservable() {
     var itemViewUsecaseFactory: ItemViewUsecaseFactory? = null
 
     @LayoutRes

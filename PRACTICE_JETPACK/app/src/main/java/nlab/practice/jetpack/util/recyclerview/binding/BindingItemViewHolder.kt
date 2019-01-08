@@ -1,18 +1,21 @@
-package nlab.practice.jetpack.util.recyclerview.databinding
+package nlab.practice.jetpack.util.recyclerview.binding
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import nlab.practice.jetpack.BR
 import nlab.practice.jetpack.util.di.itemview.DaggerItemViewUsecaseFactory
 import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseFactory
-import nlab.practice.jetpack.util.recyclerview.GenericItemAdapter
+import nlab.practice.jetpack.util.recyclerview.AbsGenericItemAdapter
 
 /**
  * DataBinding 을 통해 RecyclerView 에 Item 을 셋할 경우, 생성되는 ViewHolder
  *
  * @author Doohyun
  */
-class DataBindingItemViewHolder<T: DataBindingItemViewModel>(private val _viewDataBinding: ViewDataBinding) :
-        GenericItemAdapter.GenericItemViewHolder<T>(_viewDataBinding.root) {
+class BindingItemViewHolder(private val _viewDataBinding: ViewDataBinding) :
+        AbsGenericItemAdapter.GenericItemViewHolder<BindingItemViewModel>(_viewDataBinding.root) {
 
     // ItemViewModel 에서 View 관련 레퍼런스 사용 시, 필요한 Usecase 를 정의한 컴포넌트
     private val _itemViewUsecaseFactory: ItemViewUsecaseFactory by lazy {
@@ -22,7 +25,7 @@ class DataBindingItemViewHolder<T: DataBindingItemViewModel>(private val _viewDa
                 .build()
     }
 
-    override fun onBind(item: T) {
+    override fun onBind(item: BindingItemViewModel) {
         item.itemViewUsecaseFactory = _itemViewUsecaseFactory
 
         // FIXME 적절한 아이디로 수정 필요
@@ -30,6 +33,17 @@ class DataBindingItemViewHolder<T: DataBindingItemViewModel>(private val _viewDa
         _viewDataBinding.run {
             setVariable(BR.viewModel, item)
             executePendingBindings()
+        }
+    }
+
+    companion object {
+        fun create(parent: ViewGroup, viewType: Int): BindingItemViewHolder {
+            val layoutInflater = LayoutInflater.from(parent.context)
+
+            val viewDataBinding =
+                    DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
+
+            return BindingItemViewHolder(viewDataBinding)
         }
     }
 }

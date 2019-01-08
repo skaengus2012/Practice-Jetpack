@@ -9,6 +9,7 @@ import nlab.practice.jetpack.repository.RepositoryModule
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
+import nlab.practice.jetpack.util.recyclerview.binding.paging.PagingModule
 import javax.inject.Singleton
 
 /**
@@ -22,6 +23,7 @@ import javax.inject.Singleton
 
         includes = [
             RepositoryModule::class,
+            PagingModule::class,
             BundleModule::class
         ]
 )

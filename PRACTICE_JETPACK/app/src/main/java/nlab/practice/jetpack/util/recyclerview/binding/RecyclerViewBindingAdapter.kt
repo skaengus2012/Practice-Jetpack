@@ -1,11 +1,11 @@
-package nlab.practice.jetpack.util.recyclerview.databinding
+package nlab.practice.jetpack.util.recyclerview.binding
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 
-private typealias ViewModelList = List<DataBindingItemViewModel>
-private typealias ViewModelMutableList = MutableList<DataBindingItemViewModel>
+private typealias ViewModelList = List<BindingItemViewModel>
 
 /**
  * RecyclerView DataBindingAdapter 정의
@@ -37,7 +37,7 @@ fun bindRecyclerView(
 private fun bindConfig(recyclerView: RecyclerView, config: RecyclerViewConfig?) {
     // 어댑터 세팅
     if (recyclerView.adapter == null) {
-        recyclerView.adapter = DataBindingItemAdapter()
+        recyclerView.adapter = BindingItemAdapter()
     }
 
     config?.run {
@@ -68,7 +68,7 @@ private fun bindFooters(recyclerView: RecyclerView, items: ViewModelList) {
     getAdapter(recyclerView)?.footers = items.toMutableList()
 }
 
-private fun getAdapter(recyclerView: RecyclerView): DataBindingItemAdapter? = recyclerView.adapter?.let {
-    it as? DataBindingItemAdapter
+private fun getAdapter(recyclerView: RecyclerView): BindingItemAdapter? = recyclerView.adapter?.let {
+    it as? BindingItemAdapter
 }
 

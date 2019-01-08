@@ -36,7 +36,7 @@ class MainBottomNavUsecase(
     @IdRes
     fun getSelectedItemId(): Int =_bottomNavigationView.selectedItemId
 
-    override fun onNavigationItemSelected(updateMenu: MenuItem): Boolean =  when (updateMenu.itemId) {
+    override fun onNavigationItemSelected(updateMenu: MenuItem): Boolean = when (updateMenu.itemId) {
         R.id.menu_home -> {
             _navController.replacePrimaryFragment(HomeFragment::class.fragmentTag()) { HomeFragment() }
             true

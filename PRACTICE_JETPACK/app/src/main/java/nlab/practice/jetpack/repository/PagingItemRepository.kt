@@ -18,12 +18,18 @@ internal class PagingItemRepository {
 
     companion object {
         private val ITEM_POOLS: List<PagingItem> = (0..1000).map {
-            PagingItem("TITLE (No.$it)")
+            PagingItem(it, "TITLE (No.$it)")
         }
     }
 
     private fun sleepRequestDuration() = Random.nextInt(100, 1000).run {
         Thread.sleep(toLong())
+    }
+
+    fun getItemCount(): Long {
+        sleepRequestDuration()
+
+        return ITEM_POOLS.size.toLong()
     }
 
     /**
