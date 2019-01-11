@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Header, Footer,
+ * Header, Footer, Content 를 지원하는 어댑터
  *
  * @author Doohyun
  */
