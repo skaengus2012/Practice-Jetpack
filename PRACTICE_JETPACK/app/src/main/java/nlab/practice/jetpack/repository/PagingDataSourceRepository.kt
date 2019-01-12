@@ -15,6 +15,7 @@ import nlab.practice.jetpack.repository.rqrs.PagingOffsetBasedRs
 class PagingDataSourceRepository internal constructor(private val _pagingItemRepository: PagingItemRepository) {
 
     fun getOffsetBasedItems(offset: Long, limit: Long) : Single<PagingOffsetBasedRs> = Single.fromCallable {
+
         _pagingItemRepository.getItems(offset, limit)
     }
 

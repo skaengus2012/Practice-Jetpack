@@ -15,6 +15,7 @@ import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 @Module
 class HomeModule {
 
+    @FragmentScope
     @Provides
     fun provideHomeItemViewModelFactory(): HomeItemViewModelFactory = HomeItemViewModelFactory()
 

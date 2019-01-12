@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.recyclerview.binding.paging
+package nlab.practice.jetpack.util.recyclerview.paging
 
 import androidx.recyclerview.widget.DiffUtil
 

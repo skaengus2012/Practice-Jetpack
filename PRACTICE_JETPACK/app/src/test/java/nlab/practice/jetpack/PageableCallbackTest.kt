@@ -1,7 +1,8 @@
 package nlab.practice.jetpack
 
-import nlab.practice.jetpack.util.recyclerview.binding.paging.Pageable
-import nlab.practice.jetpack.util.recyclerview.binding.paging.PageableCallbackEx
+import nlab.practice.jetpack.util.recyclerview.paging.PageableCallbackEx
+import nlab.practice.jetpack.model.NonePageableItem
+import nlab.practice.jetpack.model.PagingItem
 import org.junit.Assert
 import org.junit.Test
 
@@ -13,25 +14,11 @@ import org.junit.Test
  */
 class PageableCallbackTest {
 
-    private class NonePageableItem
-
-    private data class PagingItem(private val _id: Int, private val _title: String) : Pageable<PagingItem> {
-        override fun areItemsTheSame(newItem: PagingItem): Boolean {
-           return _id == newItem._id
-        }
-
-        override fun areContentsTheSame(newItem: PagingItem): Boolean {
-            return  areItemsTheSame(newItem) and (_title == newItem._title)
-        }
-
-        override fun getChangePayload(newItem: PagingItem): Any? = newItem
-    }
-
     /**
      * Pageable 을 구현하지 않은 객체에 대해 비교가 잘 이루어 지는가?
      */
     @Test
-    fun testNonePagingItem() {
+    fun testCompareNonePagingItem() {
         val callback = PageableCallbackEx<NonePageableItem>()
 
         val item1 = NonePageableItem()
@@ -45,8 +32,11 @@ class PageableCallbackTest {
         Assert.assertNull(callback.getChangePayload(item1, item2))
     }
 
+    /**
+     * Pageable 를 구현한 객체의 비교가 잘 이루어지는 가?
+     */
     @Test
-    fun testPagingItem() {
+    fun testComparePagingItem() {
         val callback = PageableCallbackEx<PagingItem>()
 
         val item1 = PagingItem(1, "One")

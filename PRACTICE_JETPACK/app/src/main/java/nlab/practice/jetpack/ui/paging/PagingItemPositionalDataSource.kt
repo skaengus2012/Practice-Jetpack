@@ -1,6 +1,8 @@
 package nlab.practice.jetpack.ui.paging
 
 import androidx.paging.PositionalDataSource
+import com.google.auto.factory.AutoFactory
+import com.google.auto.factory.Provided
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -17,9 +19,10 @@ private typealias SingleResult = Single<PagingOffsetBasedRs>
  *
  * @author Doohyun
  */
+@AutoFactory
 class PagingItemPositionalDataSource @Inject constructor(
-        private val _pagingDataSourceRepository: PagingDataSourceRepository,
-        private val _disposables: CompositeDisposable) : PositionalDataSource<PagingItem>() {
+        @Provided private val _pagingDataSourceRepository: PagingDataSourceRepository,
+        @Provided private val _disposables: CompositeDisposable) : PositionalDataSource<PagingItem>() {
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<PagingItem>) {
         loadRangeInternal(params.startPosition.toLong(), params.loadSize.toLong())
@@ -52,6 +55,8 @@ class PagingItemPositionalDataSource @Inject constructor(
                 .subscribe()
                 .addTo(_disposables)
     }
+
+
 
     private fun loadRangeInternal(position: Long, totalSize: Long): SingleResult =
             _pagingDataSourceRepository.getOffsetBasedItems(position, totalSize).doOnError { invalidate() }

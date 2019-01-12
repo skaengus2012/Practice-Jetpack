@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.util.recyclerview.binding.paging
+package nlab.practice.jetpack.util.recyclerview.paging
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -20,9 +20,7 @@ class BindingPagedListAdapter<T: BindingItemViewModel> private constructor(callb
         getItem(position)?.run { holder.onBind(this) }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return getItem(position)?.getLayoutRes() ?: 0
-    }
+    override fun getItemViewType(position: Int): Int = getItem(position)?.getLayoutRes() ?: 0
 
     companion object {
         fun <T: BindingItemViewModel> create(): BindingPagedListAdapter<T> {

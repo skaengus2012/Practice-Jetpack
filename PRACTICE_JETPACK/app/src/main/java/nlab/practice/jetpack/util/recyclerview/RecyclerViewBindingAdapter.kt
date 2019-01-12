@@ -1,9 +1,10 @@
-package nlab.practice.jetpack.util.recyclerview.binding
+package nlab.practice.jetpack.util.recyclerview
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
+import nlab.practice.jetpack.util.recyclerview.binding.BindingItemAdapter
+import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 
 private typealias ViewModelList = List<BindingItemViewModel>
 
@@ -20,6 +21,11 @@ fun bindRecyclerView(
         headers: ViewModelList? = null,
         footers: ViewModelList?  = null,
         config: RecyclerViewConfig? = null) {
+    // 어댑터 세팅
+    if (recyclerView.adapter == null) {
+        recyclerView.adapter = BindingItemAdapter()
+    }
+
     bindConfig(recyclerView, config)
 
     headers?.run { bindHeaders(recyclerView, this) }
@@ -29,17 +35,17 @@ fun bindRecyclerView(
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
+@BindingAdapter(value = ["paged_items", "list_config"], requireAll = false)
+fun bindPaged(recyclerView: RecyclerView,  items: ViewModelList? = null, config: RecyclerViewConfig? = null){
+
+}
+
 /**
  * RecyclerView Config 세팅
  *
  * 추가해야하는 세팅이 존재할 때, 해당 메소드에 기능을 추가할 것
  */
 private fun bindConfig(recyclerView: RecyclerView, config: RecyclerViewConfig?) {
-    // 어댑터 세팅
-    if (recyclerView.adapter == null) {
-        recyclerView.adapter = BindingItemAdapter()
-    }
-
     config?.run {
         // 레이아웃 매니저 설정
         recyclerView.layoutManager = layoutManager ?: LinearLayoutManager(recyclerView.context)

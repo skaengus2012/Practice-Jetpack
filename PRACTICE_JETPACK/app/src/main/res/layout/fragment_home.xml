@@ -6,19 +6,16 @@
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		style="@style/HolderFragmentStyle"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical">
+		android:layout_height="match_parent">
 
 		<androidx.recyclerview.widget.RecyclerView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:clipToPadding="false"
-			android:paddingBottom="@dimen/container_page_padding_bottom"
 			app:list_config="@{viewModel.recyclerViewConfig}"
 			app:list_headers="@{viewModel.headers}"
 			app:list_items="@{viewModel.items}"/>
-
 		<FrameLayout
 			android:id="@+id/layout_container"
 			android:layout_width="match_parent"
