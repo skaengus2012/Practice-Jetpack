@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-	<data>
-		<variable
-			name="viewModel"
-			type="nlab.practice.jetpack.ui.paging.CountablePagingViewModel"/>
-	</data>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="nlab.practice.jetpack.ui.paging.CountablePagingViewModel"/>
+    </data>
 
-	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		style="@style/HolderFragmentStyle"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/HolderFragmentStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/lv_content"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:clipToPadding="false"/>
-	</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:list_pageadapter="@{viewModel.listAdapter}"
+            app:list_config="@{viewModel.recyclerViewConfig}"/>
+    </LinearLayout>
 </layout>
