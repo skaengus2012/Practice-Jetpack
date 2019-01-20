@@ -4,44 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.DataSource
-import androidx.paging.PagedList
-import androidx.paging.RxPagedListBuilder
-import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_paging.*
-import nlab.practice.jetpack.databinding.FragmentPagingBinding
+import nlab.practice.jetpack.ui.main.ChildFragmentModule
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
-import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
-import java.util.concurrent.TimeUnit
+import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalPagingModule
 import javax.inject.Inject
 
 /**
  * @author Doohyun
  * @since 2018. 12. 10
  */
-class PagingFragment : InjectableFragment() {
+class CountablePagingFragment : InjectableFragment() {
 
     @Inject
-    lateinit var viewModel: PagingViewModel
-
-    @Inject
-    lateinit var dataSourceFactory: PagingItemPositionalDataSourceFactory
-
-    lateinit var binding: FragmentPagingBinding
-
-    var pagedList: PagedList<PagingItemViewModel>? = null
+    lateinit var viewModel: CountablePagingViewModel
 
     override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentPagingBinding.inflate(inflater, container, false)
+       // binding = FragmentPagingBinding.inflate(inflater, container, false)
 
-        return binding.root
+        return null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+/**
         val config = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(20)
                 .setPageSize(10)
@@ -68,6 +53,14 @@ class PagingFragment : InjectableFragment() {
                 .doOnNext {
                     pagedList = it
                     pagedListAdapter.submitList(it) }
-                .subscribe()
+                .subscribe()*/
+    }
+
+    @dagger.Module(includes = [
+        ChildFragmentModule::class,
+        PositionalPagingModule::class
+    ])
+    class Module {
+
     }
 }

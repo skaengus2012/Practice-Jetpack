@@ -4,10 +4,10 @@ import Njava.util.time.TimeBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import java.util.concurrent.TimeUnit
@@ -20,7 +20,7 @@ import javax.inject.Inject
  */
 class HomeHeaderViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
-        private val _androidScheduler: Scheduler): BindingItemViewModel() {
+        private val _schedulerFactory: SchedulerFactory): BindingItemViewModel() {
 
     private val _timerDisposables = createLazyCompositeDisposable()
 
@@ -39,7 +39,7 @@ class HomeHeaderViewModel @Inject constructor(
         Observable.timer(100, TimeUnit.MILLISECONDS)
                 .repeat()
                 .map { getCurrentTimeDateFormat() }
-                .observeOn(_androidScheduler)
+                .observeOn(_schedulerFactory.ui())
                 .filter { it != currentTimeString}
                 .doOnNext { currentTimeString = it }
                 .subscribe()
