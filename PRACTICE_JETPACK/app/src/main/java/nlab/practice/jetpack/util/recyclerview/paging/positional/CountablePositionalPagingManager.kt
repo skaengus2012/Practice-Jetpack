@@ -23,7 +23,7 @@ private constructor(
 
     interface DataRepository<T> {
         fun getTotalCount(): Single<Int>
-        fun getItems(offset: Int, limit: Int): Single<CountablePositionalRs<T>>
+        fun getItems(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
     }
 
     private var _totalCount: Int? = null

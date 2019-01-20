@@ -1,8 +1,10 @@
 package nlab.practice.jetpack.repository
 
 import io.reactivex.Observable
+import io.reactivex.Single
 import nlab.practice.jetpack.repository.model.PagingItem
-import nlab.practice.jetpack.repository.rqrs.PagingOffsetBasedRs
+import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
+import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
 import kotlin.random.Random
 
 /**
@@ -14,7 +16,7 @@ import kotlin.random.Random
  *
  * @author Doohyun
  */
-internal class PagingItemRepository {
+class PagingItemRepository : CountablePositionalPagingManager.DataRepository<PagingItem> {
 
     companion object {
         private val ITEM_POOLS: List<PagingItem> = (0..1000).map {
@@ -26,31 +28,29 @@ internal class PagingItemRepository {
         Thread.sleep(toLong())
     }
 
-    fun getItemCount(): Long {
+    override fun getTotalCount(): Single<Int> = Single.fromCallable {
         sleepRequestDuration()
-
-        return ITEM_POOLS.size.toLong()
+         ITEM_POOLS.size
     }
 
-    /**
-     * Offset 기반의 Paging 정보 출력
-     */
-    fun getItems(offset: Long, limit: Long): PagingOffsetBasedRs {
+    override fun getItems(offset: Int, limit: Int): Single<PagingItemRs> = Single.fromCallable {
         sleepRequestDuration()
 
         val resultSubList: List<PagingItem> = Observable.fromIterable(ITEM_POOLS)
-                .skip(offset)
-                .take(limit)
+                .skip(offset.toLong())
+                .take(limit.toLong())
                 .toList()
                 .blockingGet()
 
-
-        return PagingOffsetBasedRs(
-                total = ITEM_POOLS.size.toLong(),
-                limit = limit,
-                offset = offset,
-                count = resultSubList.size.toLong(),
-                items = resultSubList)
+        PagingItemRs(_totalCount = ITEM_POOLS.size, _items = resultSubList)
     }
+}
 
+class PagingItemRs(
+        private val _totalCount: Int,
+        private val _items: List<PagingItem>): CountablePositionalRs<PagingItem> {
+
+    override fun getTotalCount(): Int = _totalCount
+
+    override fun getItems(): List<PagingItem> = _items
 }
