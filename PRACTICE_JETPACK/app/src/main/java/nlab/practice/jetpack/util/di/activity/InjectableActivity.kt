@@ -51,6 +51,7 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     private fun initializeDI() {
         _activityBindComponent = (application as AppComponent.Supplier).getAppComponent()
                 .activityBindComponent()
+                .setActivity(this)
                 .build()
 
         AndroidInjection.inject(this)
