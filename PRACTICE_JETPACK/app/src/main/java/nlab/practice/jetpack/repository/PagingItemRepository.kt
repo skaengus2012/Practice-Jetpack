@@ -19,9 +19,11 @@ import kotlin.random.Random
 class PagingItemRepository : CountablePositionalPagingManager.DataRepository<PagingItem> {
 
     companion object {
-        private val IMAGE_POOLS: List<String> = listOf(
+        private val IMAGE_POOLS: List<String?> = listOf(
                 "https://spark.adobe.com/images/landing/examples/blizzard-album-cover.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjYcpib3ce6YBXVlVPkbOK7j7lK_Q7qUM8whmojc3GBbTCibvL",
                 "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/album-cover-flyer-template-0f1557abc84d45d5df797adcedaee519.jpg?ts=1478719448",
+                null,
                 "https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/12/attachment_68585523.jpg?auto=format&q=60&fit=max&w=930",
                 "https://t1.daumcdn.net/cfile/tistory/21266735579D869932",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0qMgPDmdWZ-2QeLX8fw4iDbZl0CneWX9EbfFDUeaJ6FQvuxhR",
