@@ -23,6 +23,6 @@
 
     <!-- Paging -->
     <string name="paging_title">페이징 예제</string>
-    <string name="paging_countable_sub_title">개수가 정해진 페이징 모듈 사용</string>
+    <string name="paging_countable_sub_title_format">개수가 정해진 페이징 모듈 사용, 총 개수: [%1$s]</string>
 
 </resources>
