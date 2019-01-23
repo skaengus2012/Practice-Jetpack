@@ -27,7 +27,7 @@ class CountablePagingViewModel @Inject constructor(
 
     init {
         subscribePagedList()
-        subscribeLoadErrorState()
+     //   subscribeLoadErrorState()
     }
 
     private fun subscribePagedList() {
@@ -52,13 +52,4 @@ class CountablePagingViewModel @Inject constructor(
             }
         }
     }
-
-    private fun subscribeLoadErrorState() {
-        _pagingManager.stateSubject
-                .filter { (it == DataLoadState.INIT_LOAD_ERROR) or (it == DataLoadState.LOAD_ERROR) }
-                .doOnNext { _pagingManager.invalidate() }
-                .subscribe()
-                .addTo(_disposables)
-    }
-
 }

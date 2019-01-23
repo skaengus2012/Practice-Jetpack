@@ -1,8 +1,9 @@
-package nlab.practice.jetpack.util.recyclerview
+package nlab.practice.jetpack.util.bindingadapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemAdapter
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
