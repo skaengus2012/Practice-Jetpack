@@ -13,7 +13,7 @@ import nlab.practice.jetpack.util.GlideApp
  * @since 2019. 01. 23
  */
 
-@BindingAdapter(value = ["imageUrl", "glideOption", "errorDrawable", "placeHolder"], requireAll = false)
+@BindingAdapter(value = ["imageUrl", "glideOptions", "errorDrawable", "placeHolder"], requireAll = false)
 fun setImageUrl(
         view: ImageView,
         imageUrl: String?,

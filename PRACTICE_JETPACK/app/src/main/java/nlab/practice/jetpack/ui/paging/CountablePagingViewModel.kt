@@ -9,7 +9,6 @@ import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
-import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager.*
 import javax.inject.Inject
 
 /**

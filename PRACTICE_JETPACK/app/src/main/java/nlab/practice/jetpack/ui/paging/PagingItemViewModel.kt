@@ -13,5 +13,8 @@ class PagingItemViewModel(private val _pagingItem: PagingItem) : BindingItemView
     @Bindable
     fun getTitle(): String = _pagingItem.title
 
+    @Bindable
+    fun getImageUrl(): String? = _pagingItem.imageUrl
+
     override fun getLayoutRes(): Int = R.layout.view_paging_item
 }
