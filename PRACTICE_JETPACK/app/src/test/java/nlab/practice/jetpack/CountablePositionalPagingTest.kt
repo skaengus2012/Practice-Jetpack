@@ -9,8 +9,8 @@ import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.Schedulers
 import nlab.practice.jetpack.model.NonePageableItem
 import nlab.practice.jetpack.model.NonePageableItemRs
-import nlab.practice.jetpack.util.recyclerview.paging.PagingDataLoadState
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
+import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager.*
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
 import org.junit.Assert
 import org.junit.Before
@@ -64,11 +64,11 @@ class CountablePositionalPagingTest {
         val observer = TestObserver<String>().apply { _pagingManager.stateSubject.subscribe(this) }
 
         dataSource.loadInitial(_initParam, _initCallback)
-        observer.assertValues(PagingDataLoadState.INIT_LOAD_START, PagingDataLoadState.INIT_LOAD_FINISH)
+        observer.assertValues(DataLoadState.INIT_LOAD_START, DataLoadState.INIT_LOAD_FINISH)
     }
 
     @Test
-    fun testInitLoadCallbackFailed() {
+    fun testInitLoadCallbackDataSizeChanged() {
         val dataSource = _pagingManager.newDataSource()
         val observeCodes = ArrayList<String>()
 
@@ -83,7 +83,7 @@ class CountablePositionalPagingTest {
         addItemToRepository()
 
         delayLoadTime()
-        Assert.assertEquals(listOf(PagingDataLoadState.INIT_LOAD_START, PagingDataLoadState.INIT_LOAD_ERROR), observeCodes)
+        Assert.assertEquals(listOf(DataLoadState.INIT_LOAD_START, DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED), observeCodes)
     }
 
     @Test
@@ -96,14 +96,14 @@ class CountablePositionalPagingTest {
         dataSource.loadRange(_rangeParam, _rangeCallback)
 
         observer.assertValues(
-                PagingDataLoadState.INIT_LOAD_START,
-                PagingDataLoadState.INIT_LOAD_FINISH,
-                PagingDataLoadState.LOAD_START,
-                PagingDataLoadState.LOAD_FINISH)
+                DataLoadState.INIT_LOAD_START,
+                DataLoadState.INIT_LOAD_FINISH,
+                DataLoadState.LOAD_START,
+                DataLoadState.LOAD_FINISH)
     }
 
     @Test
-    fun testLoadRangeCallbackFailed() {
+    fun testLoadRangeCallbackDataSizeChanged() {
         val dataSource = _pagingManager.newDataSource()
         val observeCodes = ArrayList<String>()
 
@@ -121,10 +121,10 @@ class CountablePositionalPagingTest {
 
         delayLoadTime()
         Assert.assertEquals(listOf(
-                PagingDataLoadState.INIT_LOAD_START,
-                PagingDataLoadState.INIT_LOAD_FINISH,
-                PagingDataLoadState.LOAD_START,
-                PagingDataLoadState.LOAD_ERROR), observeCodes)
+                DataLoadState.INIT_LOAD_START,
+                DataLoadState.INIT_LOAD_FINISH,
+                DataLoadState.LOAD_START,
+                DataLoadState.LOAD_DATA_SIZE_CHANGED), observeCodes)
     }
 
 }
