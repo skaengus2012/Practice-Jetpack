@@ -10,6 +10,6 @@ object GlideOptionProvider {
 
     @JvmStatic
     fun forPagingItem(): RequestOptions {
-        return RequestOptions().override(300, 300)
+        return RequestOptions().centerCrop()
     }
 }

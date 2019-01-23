@@ -18,5 +18,9 @@ class RepositoryModule {
 
     @Reusable
     @Provides
-    fun providePagingDataSourceRepository() : PagingItemRepository = PagingItemRepository()
+    fun provideImagePoolRepository(): ImagePoolRepository = ImagePoolRepository()
+
+    @Reusable
+    @Provides
+    fun providePagingDataSourceRepository(imagePoolRepository: ImagePoolRepository) : PagingItemRepository = PagingItemRepository(imagePoolRepository)
 }

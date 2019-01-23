@@ -20,12 +20,13 @@ fun setImageUrl(
         options: RequestOptions?,
         @DrawableRes errorDrawableRes: Int,
         @DrawableRes placeholderRes: Int) {
+
     val glideRequest = GlideApp.with(view.context)
             .load(imageUrl)
             .apply(options?: RequestOptions())
 
-    errorDrawableRes.takeIf { it != 0 }?.run { glideRequest.error(errorDrawableRes) }
-    placeholderRes.takeIf { it != 0 }?.run { glideRequest.placeholder(placeholderRes) }
+    errorDrawableRes.takeIf { it != 0 }?.run { glideRequest.error(this) }
+    placeholderRes.takeIf { it != 0 }?.run { glideRequest.placeholder(this) }
 
     glideRequest.into(view)
 }

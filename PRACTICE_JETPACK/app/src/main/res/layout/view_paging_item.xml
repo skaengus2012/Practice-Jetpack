@@ -35,6 +35,7 @@
             app:layout_constraintRight_toLeftOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:placeHolder="@{R.drawable.common_img_track_default}"
             tools:background="@drawable/common_img_track_default"/>
 
         <TextView
