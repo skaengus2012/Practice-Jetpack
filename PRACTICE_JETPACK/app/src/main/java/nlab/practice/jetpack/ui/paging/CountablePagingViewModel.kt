@@ -5,7 +5,10 @@ import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.PagingItemRepository
+import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
@@ -16,11 +19,14 @@ import javax.inject.Inject
  */
 class CountablePagingViewModel @Inject constructor(
         private val _disposables: CompositeDisposable,
+        private val _activityCommonUsecase: ActivityCommonUsecase,
+        resourceProvider: ResourceProvider,
         pagingItemRepository: PagingItemRepository,
         pagingManagerFactory: CountablePositionalPagingManager.Factory) {
 
     val listAdapter: BindingPagedListAdapter<PagingItemViewModel> = BindingPagedListAdapter.create()
     val recyclerViewConfig = RecyclerViewConfig()
+    val subTitle = resourceProvider.getString(R.string.paging_countable_sub_title)
 
     private val _pagingManager = pagingManagerFactory.create(pagingItemRepository)
 
@@ -28,6 +34,8 @@ class CountablePagingViewModel @Inject constructor(
         subscribePagedList()
      //   subscribeLoadErrorState()
     }
+
+    fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
 
     private fun subscribePagedList() {
         val config = PagedList.Config.Builder()
