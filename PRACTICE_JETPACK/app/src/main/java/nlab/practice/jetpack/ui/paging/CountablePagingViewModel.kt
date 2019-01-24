@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -57,11 +58,15 @@ class CountablePagingViewModel @Inject constructor(
         subscribePagedList()
         subscribeTotalCountChanged()
         subscribeLoadFinish()
+        subscribeLoadError()
     }
 
     fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
 
     private fun subscribePagedList() {
+        // NOTE : placeHolder 는 아이템의 전체 개수를 알고 있을 때만 사용 가능
+        //        이 곳에서는 사용하고 있으며 이는 에러가 발생했을 때, 오직 invalidate 를 통해서만 처리 가능
+        //        invalidate 를 하지 않으면, placeHolder 가 사라지지 않음 -> 이 때는 여러 조건이 필요할 순 있음
         val config = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(100)
                 .setPageSize(100)
@@ -70,7 +75,7 @@ class CountablePagingViewModel @Inject constructor(
                 .build()
 
         RxPagedListBuilder<Int, PagingItemViewModel>(createDataSourceFactory(), config)
-                .buildObservable()
+                .buildFlowable(BackpressureStrategy.BUFFER)
                 .doOnNext { listAdapter.submitList(it) }
                 .subscribe()
                 .addTo(_disposables)
@@ -83,6 +88,19 @@ class CountablePagingViewModel @Inject constructor(
                 .doOnNext {
                     _toastHelper.showToast(R.string.paging_notify_data_size_changed)
                     _pagingManager.invalidate()
+                }
+                .subscribe()
+                .addTo(_disposables)
+    }
+
+    private fun subscribeLoadError() {
+        _pagingManager.stateSubject
+                .observeOn(_schedulerFactory.ui())
+                .filter { it == DataLoadState.LOAD_ERROR || it == DataLoadState.INIT_LOAD_ERROR }
+                .filter { _isRefreshLock }
+                .doOnNext {
+                    _pagingManager.invalidate()
+                    _isRefreshLock = false
                 }
                 .subscribe()
                 .addTo(_disposables)
