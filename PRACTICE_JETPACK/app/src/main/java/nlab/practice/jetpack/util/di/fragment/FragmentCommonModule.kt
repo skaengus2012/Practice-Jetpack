@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
@@ -28,6 +29,10 @@ class FragmentCommonModule {
     @FragmentScope
     @Provides
     fun provideActivityNavUsecase(fragment: Fragment): ActivityNavUsecase = ActivityNavUsecase(fragment.activity!!)
+
+    @FragmentScope
+    @Provides
+    fun provideActivityCommonUsecase(fragment: Fragment): ActivityCommonUsecase = ActivityCommonUsecase(fragment.activity!!)
 
     @FragmentScope
     @Provides

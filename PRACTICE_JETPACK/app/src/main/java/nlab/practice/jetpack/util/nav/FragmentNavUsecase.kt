@@ -1,7 +1,6 @@
 package nlab.practice.jetpack.util.nav
 
-import nlab.practice.jetpack.ui.introduce.IntroduceFragment
-import nlab.practice.jetpack.ui.paging.PagingFragment
+import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 
 /**
  * @author Doohyun
@@ -16,11 +15,7 @@ class FragmentNavUsecase(private val _navControllerGetter: () -> ChildNavControl
 
     fun clearFragments(): Boolean = getNavController()?.clearFragments() ?: true
 
-    fun navPaging() {
-        getNavController()?.addFragment(PagingFragment::class.fragmentTag()) { PagingFragment() }
-    }
-
-    fun navIntroduce() {
-        getNavController()?.addFragment(IntroduceFragment::class.fragmentTag()) { IntroduceFragment() }
+    fun navCountablePaging() {
+        getNavController()?.addFragment(CountablePagingFragment::class.fragmentTag()) { CountablePagingFragment() }
     }
 }

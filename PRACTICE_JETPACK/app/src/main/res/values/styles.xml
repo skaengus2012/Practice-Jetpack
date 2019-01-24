@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/rippleMaterialDark</item>
     </style>
 
     <style name="MainContainerTitle">
@@ -19,6 +20,12 @@
 
     <style name="MainContainerSubTitle" parent="MainContainerTitle">
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="HolderFragmentStyle">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
     </style>
 
 </resources>

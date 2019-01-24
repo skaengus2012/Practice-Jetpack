@@ -17,5 +17,11 @@ class ResourceProvider(private val _context: Context) {
 
     fun getString(@StringRes stringRes: Int): CharSequence = _context.getString(stringRes)
 
+    fun getString(@StringRes stringFormatRes: Int, vararg arguments: Any?): String{
+        val format = getString(stringFormatRes)
+
+        return String.format(format.toString(), *arguments)
+    }
+
     fun getDimensionPixelSize(@DimenRes resource: Int): Int = _context.resources.getDimensionPixelSize(resource)
 }

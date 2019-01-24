@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.util.di.activity
 
 import android.app.Activity
+import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.DispatchingAndroidInjector
 
@@ -21,6 +22,9 @@ interface ActivityBindComponent {
      */
     @Subcomponent.Builder
     interface Builder {
+        @BindsInstance
+        fun setActivity(activity: Activity): ActivityBindComponent.Builder
+
         fun build() : ActivityBindComponent
     }
 }

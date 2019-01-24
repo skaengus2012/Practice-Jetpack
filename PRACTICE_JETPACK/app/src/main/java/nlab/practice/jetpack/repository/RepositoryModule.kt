@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import nlab.practice.jetpack.util.ResourceProvider
+import javax.inject.Singleton
 
 /**
  * @author Doohyun
@@ -15,4 +16,12 @@ class RepositoryModule {
     @Reusable
     @Provides
     fun provideTestMenuRepository(resourceProvider: ResourceProvider): TestMenuRepository = TestMenuRepository(resourceProvider)
+
+    @Reusable
+    @Provides
+    fun provideImagePoolRepository(): ImagePoolRepository = ImagePoolRepository()
+
+    @Singleton
+    @Provides
+    fun providePagingDataSourceRepository(imagePoolRepository: ImagePoolRepository) : PagingItemRepository = PagingItemRepository(imagePoolRepository)
 }

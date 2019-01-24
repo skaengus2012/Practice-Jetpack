@@ -12,6 +12,7 @@ import org.mockito.Mockito.mock
 import androidx.databinding.Observable.OnPropertyChangedCallback
 import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.Schedulers
+import nlab.practice.jetpack.util.SchedulerFactory
 
 private const val HOME_TIME_FORMAT_STRING = "현재 시간 MM월 dd일 hh시 mm분"
 
@@ -24,10 +25,16 @@ class HomeTest {
 
     private lateinit var resourceProvider: ResourceProvider
 
+    private lateinit var schedulerFactory: SchedulerFactory
+
     @Before
     fun setup() {
         resourceProvider = mock(ResourceProvider::class.java).apply {
             `when`( this.getString(R.string.home_time_format)).thenReturn(HOME_TIME_FORMAT_STRING)
+        }
+
+        schedulerFactory = mock(SchedulerFactory::class.java).apply {
+            `when`( this.ui() ).thenReturn(Schedulers.single())
         }
     }
 
@@ -36,7 +43,7 @@ class HomeTest {
      */
     @Test
     fun testHomeHeaderTimer() {
-        val homeHeaderViewModel = HomeHeaderViewModel(resourceProvider, Schedulers.single())
+        val homeHeaderViewModel = HomeHeaderViewModel(resourceProvider, schedulerFactory)
 
         val startTimeString = homeHeaderViewModel.currentTimeString
         homeHeaderViewModel.startTimer()

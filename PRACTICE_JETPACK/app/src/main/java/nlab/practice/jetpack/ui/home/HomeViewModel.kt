@@ -6,7 +6,7 @@ import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.nav.FragmentNavUsecase
-import nlab.practice.jetpack.util.recyclerview.databinding.RecyclerViewConfig
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import javax.inject.Inject
 
 /**
@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createPagingTestMenuViewModel(): HomeItemViewModel = _testMenuRepository.getPagingTestMenu().let {
-        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navPaging() }
+        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navCountablePaging() }
     }
 
     private fun refreshItems() {

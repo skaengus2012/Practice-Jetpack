@@ -1,11 +1,14 @@
-package nlab.practice.jetpack.util.recyclerview.databinding
+package nlab.practice.jetpack.util.bindingadapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
+import nlab.practice.jetpack.util.recyclerview.binding.BindingItemAdapter
+import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
+import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 
-private typealias ViewModelList = List<DataBindingItemViewModel>
-private typealias ViewModelMutableList = MutableList<DataBindingItemViewModel>
+private typealias ViewModelList = List<BindingItemViewModel>
 
 /**
  * RecyclerView DataBindingAdapter 정의
@@ -20,6 +23,11 @@ fun bindRecyclerView(
         headers: ViewModelList? = null,
         footers: ViewModelList?  = null,
         config: RecyclerViewConfig? = null) {
+    // 어댑터 세팅
+    if (recyclerView.adapter == null) {
+        recyclerView.adapter = BindingItemAdapter()
+    }
+
     bindConfig(recyclerView, config)
 
     headers?.run { bindHeaders(recyclerView, this) }
@@ -29,17 +37,21 @@ fun bindRecyclerView(
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
+@BindingAdapter(value = ["list_pageadapter", "list_config"], requireAll = false)
+fun bindRecyclerViewAdapter(
+        recyclerView: RecyclerView,
+        adapter: BindingPagedListAdapter<out BindingItemViewModel>,
+        config: RecyclerViewConfig? = null) {
+    recyclerView.adapter = adapter
+    bindConfig(recyclerView, config)
+}
+
 /**
  * RecyclerView Config 세팅
  *
  * 추가해야하는 세팅이 존재할 때, 해당 메소드에 기능을 추가할 것
  */
 private fun bindConfig(recyclerView: RecyclerView, config: RecyclerViewConfig?) {
-    // 어댑터 세팅
-    if (recyclerView.adapter == null) {
-        recyclerView.adapter = DataBindingItemAdapter()
-    }
-
     config?.run {
         // 레이아웃 매니저 설정
         recyclerView.layoutManager = layoutManager ?: LinearLayoutManager(recyclerView.context)
@@ -68,7 +80,7 @@ private fun bindFooters(recyclerView: RecyclerView, items: ViewModelList) {
     getAdapter(recyclerView)?.footers = items.toMutableList()
 }
 
-private fun getAdapter(recyclerView: RecyclerView): DataBindingItemAdapter? = recyclerView.adapter?.let {
-    it as? DataBindingItemAdapter
+private fun getAdapter(recyclerView: RecyclerView): BindingItemAdapter? = recyclerView.adapter?.let {
+    it as? BindingItemAdapter
 }
 

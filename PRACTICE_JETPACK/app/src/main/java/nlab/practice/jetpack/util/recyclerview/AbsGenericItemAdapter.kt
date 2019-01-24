@@ -4,9 +4,11 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
+ * Header, Footer, Content 를 지원하는 어댑터
+ *
  * @author Doohyun
  */
-abstract class GenericItemAdapter<T, VIEW_HOLDER: GenericItemAdapter.GenericItemViewHolder<T>> :
+abstract class AbsGenericItemAdapter<T, VIEW_HOLDER: AbsGenericItemAdapter.GenericItemViewHolder<T>> :
         RecyclerView.Adapter<VIEW_HOLDER>() {
 
     var items: MutableList<T>? = null

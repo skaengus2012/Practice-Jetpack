@@ -4,9 +4,13 @@ import android.app.Activity
 import android.app.Application
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
+import io.reactivex.plugins.RxJavaPlugins
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.di.DaggerAppComponent
 import nlab.practice.jetpack.util.di.activity.ActivityInjector
+import timber.log.Timber
+
+private const val TAG = "JetPackApplication"
 
 /**
  * @author Doohyun
@@ -19,6 +23,7 @@ class JetPackApplication : Application(), AppComponent.Supplier, HasActivityInje
         super.onCreate()
 
         initializeDI()
+        initializeRxErrorHandler()
         LeakCanaryWatcher.initialize(this)
     }
 
@@ -26,6 +31,12 @@ class JetPackApplication : Application(), AppComponent.Supplier, HasActivityInje
         _appComponent = DaggerAppComponent.builder()
                 .setApplication(this)
                 .build()
+    }
+
+    private fun initializeRxErrorHandler() {
+        RxJavaPlugins.setErrorHandler {
+            Timber.tag(TAG).e(it, "initRxJavaErrorHandler ${it.localizedMessage}")
+        }
     }
 
     override fun getAppComponent(): AppComponent = _appComponent
