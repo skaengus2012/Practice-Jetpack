@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.util.recyclerview.paging
 
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.paging.PagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewHolder
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
@@ -10,8 +11,9 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  *
  * @author Doohyun
  */
-class BindingPagedListAdapter<T: BindingItemViewModel> private constructor(callback: PageableCallback<T>) :
-        PagedListAdapter<T, BindingItemViewHolder>(callback) {
+class BindingPagedListAdapter<T: BindingItemViewModel> private constructor(
+        callback: PageableCallback<T>,
+        @LayoutRes val placeholderResId: Int = 0) : PagedListAdapter<T, BindingItemViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingItemViewHolder =
             BindingItemViewHolder.create(parent, viewType)
@@ -20,15 +22,22 @@ class BindingPagedListAdapter<T: BindingItemViewModel> private constructor(callb
         getItem(position)?.run { holder.onBind(this) }
     }
 
-    override fun getItemViewType(position: Int): Int = getItem(position)?.getLayoutRes() ?: 0
-
-    companion object {
-        fun <T: BindingItemViewModel> create(): BindingPagedListAdapter<T> {
-            return BindingPagedListAdapter(PageableCallbackEx())
+    override fun getItemViewType(position: Int): Int {
+        var item: Int? = getItem(position)?.getLayoutRes()
+        if (item == null) {
+           item = placeholderResId
         }
 
-        fun <T: BindingItemViewModel> create(callback: PageableCallback<T>): BindingPagedListAdapter<T> {
-            return BindingPagedListAdapter(callback)
+        return item
+    }
+
+    companion object {
+        fun <T: BindingItemViewModel> create(
+                callback: PageableCallback<T>? = null,
+                @LayoutRes placeholderResId: Int = 0): BindingPagedListAdapter<T> {
+            return BindingPagedListAdapter(
+                    callback = callback?: PageableCallbackEx(),
+                    placeholderResId = placeholderResId)
         }
     }
 }

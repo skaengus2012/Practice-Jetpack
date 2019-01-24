@@ -27,7 +27,8 @@ class CountablePagingViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
         pagingManagerFactory: CountablePositionalPagingManager.Factory) {
 
-    val listAdapter: BindingPagedListAdapter<PagingItemViewModel> = BindingPagedListAdapter.create()
+    val listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
+            BindingPagedListAdapter.create(placeholderResId = R.layout.view_paging_item_placeholder)
     val recyclerViewConfig = RecyclerViewConfig()
     val subTitle = ObservableField<String>()
     private val _subTitleFormat = resourceProvider.getString(R.string.paging_countable_sub_title_format)
@@ -47,7 +48,7 @@ class CountablePagingViewModel @Inject constructor(
                 .setInitialLoadSizeHint(100)
                 .setPageSize(100)
                 .setPrefetchDistance(5)
-                .setEnablePlaceholders(false)
+                .setEnablePlaceholders(true)
                 .build()
 
         RxPagedListBuilder<Int, PagingItemViewModel>(createDataSourceFactory(), config)

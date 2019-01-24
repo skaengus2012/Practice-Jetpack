@@ -22,7 +22,7 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
         PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize()))
     }
 
-    private fun sleepRequestDuration() = Random.nextInt(100, 1000).run {
+    private fun sleepRequestDuration() = Random.nextInt(200, 1000).run {
         Thread.sleep(toLong())
     }
 
