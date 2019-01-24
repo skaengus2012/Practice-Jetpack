@@ -18,8 +18,12 @@ import kotlin.random.Random
  */
 class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository) : CountablePositionalPagingManager.DataRepository<PagingItem> {
 
-    private val _items: List<PagingItem> = (0..1000).map {
-        PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize()))
+    private val _items = ArrayList<PagingItem>()
+
+    init {
+        (0..1000).map { PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize())) }.run {
+            _items.addAll(this)
+        }
     }
 
     private fun sleepRequestDuration() = Random.nextInt(200, 1000).run {
@@ -42,6 +46,8 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
 
         PagingItemRs(_totalCount = _items.size, _items = resultSubList)
     }
+
+    fun addItems(items: List<PagingItem>) = _items.addAll(items)
 }
 
 class PagingItemRs(

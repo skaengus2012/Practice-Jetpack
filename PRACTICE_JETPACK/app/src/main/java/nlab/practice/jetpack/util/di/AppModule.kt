@@ -8,6 +8,7 @@ import nlab.practice.jetpack.repository.RepositoryModule
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.SchedulerFactoryImpl
+import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
 import javax.inject.Singleton
@@ -35,4 +36,8 @@ class AppModule {
     @Reusable
     @Provides
     fun provideSchedulerFactory(): SchedulerFactory = SchedulerFactoryImpl()
+
+    @Reusable
+    @Provides
+    fun provideToastHelper(application: Application): ToastHelper = ToastHelper(application)
 }
