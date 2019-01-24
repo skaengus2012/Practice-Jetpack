@@ -1,5 +1,6 @@
 package nlab.practice.jetpack.ui.paging
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.paging.DataSource
 import androidx.paging.PagedList
@@ -16,6 +17,7 @@ import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager.*
@@ -33,22 +35,28 @@ class CountablePagingViewModel @Inject constructor(
         private val _schedulerFactory: SchedulerFactory,
         private val _toastHelper: ToastHelper,
         private val _resourceProvider: ResourceProvider,
+        private val _recyclerViewUsecase: RecyclerViewUsecase,
         pagingManagerFactory: CountablePositionalPagingManager.Factory) {
 
     val listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
             BindingPagedListAdapter.create(placeholderResId = R.layout.view_paging_item_placeholder)
+
     val recyclerViewConfig = RecyclerViewConfig()
+
+    val isRefreshing = ObservableBoolean(false)
+    private var _isRefreshLock = false
+
     val subTitle = ObservableField<String>()
     private val _subTitleFormat = _resourceProvider.getString(R.string.paging_countable_sub_title_format)
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
-
     private val _singleScheduler = _schedulerFactory.single()
 
     init {
         loadTitle()
         subscribePagedList()
         subscribeTotalCountChanged()
+        subscribeLoadFinish()
     }
 
     fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
@@ -80,6 +88,19 @@ class CountablePagingViewModel @Inject constructor(
                 .addTo(_disposables)
     }
 
+    private fun subscribeLoadFinish() {
+        _pagingManager.stateSubject
+                .observeOn(_schedulerFactory.ui())
+                .filter { it == DataLoadState.LOAD_FINISH }
+                .filter { _isRefreshLock }
+                .doOnNext {
+                    _recyclerViewUsecase.scrollToPositionWithOffset(0,0)
+                    _isRefreshLock = false
+                }
+                .subscribe()
+                .addTo(_disposables)
+    }
+
     private fun loadTitle() {
         _pagingItemRepository.getTotalCount()
                 .subscribeOn(_schedulerFactory.io())
@@ -99,6 +120,13 @@ class CountablePagingViewModel @Inject constructor(
                 .doOnSuccess { loadTitle() }
                 .subscribe()
                 .addTo(_disposables)
+    }
+
+    fun refresh() {
+        _isRefreshLock = true
+        isRefreshing.set(true)
+        _toastHelper.showToast(R.string.paging_notify_refresh)
+        _pagingManager.invalidate()
     }
 
     private fun getItemsAddingItemCountSingle(totalSize: Int): Single<Int> = Single.fromCallable {
@@ -121,6 +149,7 @@ class CountablePagingViewModel @Inject constructor(
     private fun createDataSourceFactory(): DataSource.Factory<Int, PagingItemViewModel> {
         return object: DataSource.Factory<Int, PagingItemViewModel>() {
             override fun create(): DataSource<Int, PagingItemViewModel> {
+                isRefreshing.set(false)
                 return _pagingManager.newDataSource().map { PagingItemViewModel(it) }
             }
         }

@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import dagger.Provides
+import kotlinx.android.synthetic.main.fragment_paging_countable.*
 import nlab.practice.jetpack.databinding.FragmentPagingCountableBinding
 import nlab.practice.jetpack.ui.main.ChildFragmentModule
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalPagingModule
 import javax.inject.Inject
 
@@ -32,5 +36,10 @@ class CountablePagingFragment : InjectableFragment() {
         ChildFragmentModule::class,
         PositionalPagingModule::class
     ])
-    class Module
+    class Module {
+        @Provides
+        fun provideRecyclerViewUsecase(fragment: Fragment): RecyclerViewUsecase  = RecyclerViewUsecase {
+            fragment.lvContents
+        }
+    }
 }

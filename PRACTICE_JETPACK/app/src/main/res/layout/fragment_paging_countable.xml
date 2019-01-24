@@ -20,13 +20,15 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:minHeight="0dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="6dp"
-                    android:paddingBottom="6dp">
+                    android:paddingBottom="6dp"
+                    app:layout_collapseMode="pin">
 
                     <ImageButton
                         android:layout_width="45dp"
@@ -78,12 +80,21 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:list_config="@{viewModel.recyclerViewConfig}"
-            app:list_pageadapter="@{viewModel.listAdapter}"/>
+            app:onRefreshListener="@{() -> viewModel.refresh()}"
+            app:refreshing="@{viewModel.refreshing}">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lvContents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                app:list_config="@{viewModel.recyclerViewConfig}"
+                app:list_pageadapter="@{viewModel.listAdapter}"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
