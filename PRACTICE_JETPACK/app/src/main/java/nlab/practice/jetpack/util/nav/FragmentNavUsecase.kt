@@ -15,6 +15,8 @@ class FragmentNavUsecase(private val _navControllerGetter: () -> ChildNavControl
 
     fun clearFragments(): Boolean = getNavController()?.clearFragments() ?: true
 
+    fun hasChild(): Boolean = getNavController()?.hasChild()?:false
+
     fun navCountablePaging() {
         getNavController()?.addFragment(CountablePagingFragment::class.fragmentTag()) { CountablePagingFragment() }
     }

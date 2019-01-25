@@ -25,6 +25,8 @@ class ChildNavController(val fragmentManager: FragmentManager, @IdRes val contai
                 .commit()
     }
 
+    fun hasChild(): Boolean = fragmentManager.backStackEntryCount != 0
+
     fun popBackStack() {
         fragmentManager.popBackStack()
     }

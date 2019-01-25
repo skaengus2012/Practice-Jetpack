@@ -7,7 +7,7 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
-import nlab.practice.jetpack.util.component.callback.ActivityCallbackDelegate
+import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentInjector
@@ -32,7 +32,7 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     lateinit var compositeDisposable: CompositeDisposable
 
     @Inject
-    lateinit var activityCallbackBinder: ActivityCallbackDelegate
+    lateinit var activityCallbackBinder: ActivityCallback
 
     private lateinit var _activityBindComponent: ActivityBindComponent
 
@@ -103,7 +103,7 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     }
 
     final override fun onBackPressed() {
-        val isSuperMethodCall = !(activityCallbackBinder.onBackPressedCommand?.execute()?: false)
+        val isSuperMethodCall = !(activityCallbackBinder.onBackPressedCommand?.invoke()?: false)
         if (isSuperMethodCall) {
             super.onBackPressed()
         }

@@ -7,20 +7,19 @@ import android.view.ViewGroup
 import nlab.practice.jetpack.databinding.FragmentHomeBinding
 import nlab.practice.jetpack.ui.main.ContainerFragment
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
-import nlab.practice.jetpack.util.nav.ChildNavController
 import javax.inject.Inject
 
 /**
  * @author Doohyun
  * @since 2018. 12. 10
  */
-class HomeFragment : InjectableFragment(), ContainerFragment {
+class HomeFragment : InjectableFragment(), ContainerFragment.Owner {
 
     @Inject
     lateinit var viewModel: HomeViewModel
 
     @Inject
-    lateinit var navController: ChildNavController
+    lateinit var containerFragment: ContainerFragment
 
     lateinit var binding: FragmentHomeBinding
 
@@ -35,5 +34,5 @@ class HomeFragment : InjectableFragment(), ContainerFragment {
         binding.viewModel = viewModel
     }
 
-    override fun getChildNavController(): ChildNavController = navController
+    override fun getDelegate(): ContainerFragment = containerFragment
 }
