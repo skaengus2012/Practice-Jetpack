@@ -21,7 +21,8 @@ class ChildFragmentModule {
                 ?.let { it as? MainHolderActivity }
                 ?.supportFragmentManager
                 ?.primaryNavigationFragment
-                ?.let { it as? ContainerFragment }
+                ?.let { it as? ContainerFragment.Owner }
+                ?.getDelegate()
                 ?.getChildNavController()
     }
 }

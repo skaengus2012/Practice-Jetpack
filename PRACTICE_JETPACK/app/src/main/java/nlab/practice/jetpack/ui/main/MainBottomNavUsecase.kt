@@ -6,7 +6,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.introduce.IntroduceFragment
-import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 import nlab.practice.jetpack.util.nav.fragmentTag
 
 /**
@@ -16,7 +15,6 @@ import nlab.practice.jetpack.util.nav.fragmentTag
  */
 class MainBottomNavUsecase(
         private val _navController: MainNavController,
-        private val _fragmentNavUsecase: FragmentNavUsecase,
         bottomNavViewProvider: () -> BottomNavigationView)
     : BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
 
@@ -50,6 +48,11 @@ class MainBottomNavUsecase(
     }
 
     override fun onNavigationItemReselected(updateMenu: MenuItem) {
-        _fragmentNavUsecase.clearFragments()
+        _navController.getCurrentContainerFragment()?.run {
+            val result = onBottomNavReselected()
+            if (!result) {
+                getChildNavController().clearFragments()
+            }
+        }
     }
 }

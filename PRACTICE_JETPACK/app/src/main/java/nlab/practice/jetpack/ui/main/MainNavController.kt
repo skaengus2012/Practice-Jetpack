@@ -42,4 +42,8 @@ class MainNavController(val fragmentManager: FragmentManager, @IdRes val contain
     fun FragmentManager.isNeedChangePrimaryNavigationFragment(targetFragment: Fragment): Boolean {
         return primaryNavigationFragment?.let { it != targetFragment } ?: true
     }
+
+    fun getCurrentContainerFragment(): ContainerFragment? = fragmentManager.primaryNavigationFragment
+            ?.let { it as? ContainerFragment.Owner }
+            ?.getDelegate()
 }

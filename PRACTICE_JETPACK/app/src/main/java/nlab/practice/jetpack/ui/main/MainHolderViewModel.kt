@@ -2,7 +2,7 @@ package nlab.practice.jetpack.ui.main
 
 import androidx.databinding.BaseObservable
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.util.component.callback.ActivityCallbackDelegate
+import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
  */
 class MainHolderViewModel @Inject constructor(
         activityLifeCycleBinder: ActivityLifeCycleBinder,
-        activityCallbackDelegate: ActivityCallbackDelegate,
+        activityCallback: ActivityCallback,
         private val _mainNavUsecase: MainBottomNavUsecase): BaseObservable() {
 
     init {
@@ -22,7 +22,7 @@ class MainHolderViewModel @Inject constructor(
             _mainNavUsecase.initialize()
         }
 
-        activityCallbackDelegate.onBackPressed(this::executeOnBackPressed)
+        activityCallback.onBackPressed(this::executeOnBackPressed)
     }
 
     private fun executeOnBackPressed(): Boolean = when {

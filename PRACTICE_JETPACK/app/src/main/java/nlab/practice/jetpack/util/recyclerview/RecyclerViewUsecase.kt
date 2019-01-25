@@ -14,4 +14,8 @@ class RecyclerViewUsecase(private val _recyclerView: () -> RecyclerView) {
     fun scrollToPositionWithOffset(position: Int, offset: Int) {
         getRecyclerView().layoutManager?.let { it as? LinearLayoutManager }?.scrollToPositionWithOffset(position, offset)
     }
+
+    fun smoothScrollToPosition(position: Int) {
+        getRecyclerView().smoothScrollToPosition(position)
+    }
 }

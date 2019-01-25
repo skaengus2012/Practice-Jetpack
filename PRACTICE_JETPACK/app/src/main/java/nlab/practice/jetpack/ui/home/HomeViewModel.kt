@@ -2,11 +2,13 @@ package nlab.practice.jetpack.ui.home
 
 import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.repository.TestMenuRepository
+import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import javax.inject.Inject
 
 /**
@@ -16,12 +18,14 @@ import javax.inject.Inject
  */
 class HomeViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+        containerFragmentCallback: ContainerFragmentCallback,
         homeItemDecoration: HomeItemDecoration,
         private val _activityNavUsecase: ActivityNavUsecase,
         private val _fragmentNavUsecase: FragmentNavUsecase,
         private val _homeHeaderViewModel: HomeHeaderViewModel,
         private val _homeItemViewModelFactory: HomeItemViewModelFactory,
-        private val _testMenuRepository: TestMenuRepository) {
+        private val _testMenuRepository: TestMenuRepository,
+        private val _recyclerViewUsecase: RecyclerViewUsecase) {
 
     val headers = ObservableArrayList<HomeHeaderViewModel>()
 
@@ -36,7 +40,17 @@ class HomeViewModel @Inject constructor(
         headers.add(_homeHeaderViewModel)
         refreshItems()
 
+        containerFragmentCallback.onBottomNavReselected(this::scrollToZeroIfEmptyChild)
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY) { _homeHeaderViewModel.stopTimer() }
+    }
+
+    private fun scrollToZeroIfEmptyChild(): Boolean {
+        val isNeedScrollToZero = !_fragmentNavUsecase.hasChild()
+        if (isNeedScrollToZero) {
+            _recyclerViewUsecase.smoothScrollToPosition(0)
+        }
+
+        return isNeedScrollToZero
     }
 
     private fun createItems(): List<HomeItemViewModel> = listOf(
@@ -56,6 +70,4 @@ class HomeViewModel @Inject constructor(
         items.clear()
         items.addAll(createItems())
     }
-
-
 }

@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.component.callback.ActivityCallbackDelegate
+import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
@@ -37,5 +37,5 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideActivityCallbackBinder(): ActivityCallbackDelegate = ActivityCallbackDelegate()
+    fun provideActivityCallbackBinder(): ActivityCallback = ActivityCallback()
 }
