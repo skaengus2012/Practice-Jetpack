@@ -1,6 +1,5 @@
 package nlab.practice.jetpack.util.recyclerview.paging.positional
 
-import androidx.annotation.StringDef
 import androidx.paging.PositionalDataSource
 import androidx.paging.PositionalDataSource.*
 
@@ -34,15 +33,10 @@ private constructor(
         return super.newDataSource()
     }
 
-    /**
-     * Paging 상태에 대해 구독정보를 보내는 Subject
-     *
-     * 페이징 상태는 CountablePositionalPagingManager.DataLoadState 를 참고할 것!
-     */
-    val stateSubject: PublishSubject<String> = PublishSubject.create()
+    val stateSubject: PublishSubject<PositionalEvent> = PublishSubject.create()
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-        stateSubject.onNext(DataLoadState.LOAD_START)
+        stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
 
         _dataRepository.getItems(params.startPosition, params.loadSize)
                 .doOnSuccess {
@@ -50,18 +44,20 @@ private constructor(
 
                     val isEqualsTotalCount = _totalCount?: -1 == it.getTotalCount()
                     if (isEqualsTotalCount) {
-                        stateSubject.onNext(DataLoadState.LOAD_FINISH)
+                        PositionalEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params)
                     } else {
-                        stateSubject.onNext(DataLoadState.LOAD_DATA_SIZE_CHANGED)
-                    }
+                        PositionalEvent(PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED, rangeParams = params)
+                    }.run { stateSubject.onNext(this) }
                 }
-                .doOnError { stateSubject.onNext(DataLoadState.LOAD_ERROR) }
+                .doOnError {
+                    stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
+                }
                 .subscribe()
                 .addTo(_disposables)
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-        stateSubject.onNext(DataLoadState.INIT_LOAD_START)
+        stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_START, initParams = params))
         _dataRepository.getTotalCount()
                 .doOnSuccess {
                     totalCount
@@ -90,12 +86,14 @@ private constructor(
                     callback.onResult(it.getItems(), firstLoadPosition, it.getTotalCount())
 
                     if (it.getTotalCount() == totalCount) {
-                        DataLoadState.INIT_LOAD_FINISH
+                        PositionalEvent(PositionalDataLoadState.INIT_LOAD_FINISH, initParams = params)
                     } else {
-                        DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED
+                        PositionalEvent(PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED, initParams = params)
                     }.run { stateSubject.onNext(this) }
                 }
-                .doOnError { stateSubject.onNext(DataLoadState.INIT_LOAD_ERROR) }
+                .doOnError {
+                    stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
+                }
                 .subscribe()
                 .addTo(_disposables)
     }
@@ -103,33 +101,6 @@ private constructor(
     class Factory(private val _disposables: CompositeDisposable) {
         fun <T> create(dataRepository: DataRepository<T>): CountablePositionalPagingManager<T> {
             return CountablePositionalPagingManager(_disposables, dataRepository)
-        }
-    }
-
-    /**
-     * 데이터의 조회 상태 열람
-     */
-    @StringDef(value = [
-        DataLoadState.INIT_LOAD_START,
-        DataLoadState.INIT_LOAD_FINISH,
-        DataLoadState.INIT_LOAD_ERROR,
-        DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED,
-        DataLoadState.LOAD_START,
-        DataLoadState.LOAD_FINISH,
-        DataLoadState.LOAD_ERROR,
-        DataLoadState.LOAD_DATA_SIZE_CHANGED
-    ])
-    annotation class DataLoadState {
-        companion object {
-            private const val TAG = "CountablePositionalDataLoadState"
-            const val INIT_LOAD_START = "${TAG}_init_start"
-            const val INIT_LOAD_FINISH = "${TAG}_init_load_finish"
-            const val INIT_LOAD_ERROR = "${TAG}_init_load_error"
-            const val INIT_LOAD_DATA_SIZE_CHANGED = "${TAG}_init_load_size_changed"
-            const val LOAD_START = "${TAG}_start"
-            const val LOAD_FINISH = "${TAG}_finish"
-            const val LOAD_ERROR = "${TAG}_error"
-            const val LOAD_DATA_SIZE_CHANGED = "${TAG}_load_size_changed"
         }
     }
 }

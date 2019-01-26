@@ -21,7 +21,7 @@ import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
-import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager.*
+import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -83,7 +83,10 @@ class CountablePagingViewModel @Inject constructor(
 
     private fun subscribeTotalCountChanged() {
         _pagingManager.stateSubject
-                .filter { (it == DataLoadState.LOAD_DATA_SIZE_CHANGED) || (it == DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED)}
+                .filter {
+                    it.state in listOf(
+                        PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED,
+                        PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED) }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext {
                     _toastHelper.showToast(R.string.paging_notify_data_size_changed)
@@ -96,7 +99,9 @@ class CountablePagingViewModel @Inject constructor(
     private fun subscribeLoadError() {
         _pagingManager.stateSubject
                 .observeOn(_schedulerFactory.ui())
-                .filter { it == DataLoadState.LOAD_ERROR || it == DataLoadState.INIT_LOAD_ERROR }
+                .filter { it.state in listOf(
+                        PositionalDataLoadState.LOAD_ERROR,
+                        PositionalDataLoadState.INIT_LOAD_ERROR) }
                 .filter { _isRefreshLock }
                 .doOnNext {
                     _pagingManager.invalidate()
@@ -109,7 +114,7 @@ class CountablePagingViewModel @Inject constructor(
     private fun subscribeLoadFinish() {
         _pagingManager.stateSubject
                 .observeOn(_schedulerFactory.ui())
-                .filter { it == DataLoadState.LOAD_FINISH }
+                .filter { it.state == PositionalDataLoadState.LOAD_FINISH }
                 .filter { _isRefreshLock }
                 .doOnNext {
                     _recyclerViewUsecase.scrollToPositionWithOffset(0,0)

@@ -5,13 +5,12 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.Schedulers
 import nlab.practice.jetpack.model.NonePageableItem
 import nlab.practice.jetpack.model.NonePageableItemRs
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
-import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager.*
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
+import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -60,11 +59,16 @@ class CountablePositionalPagingTest {
     @Test
     fun testInitLoadCallbackSuccess() {
         val dataSource = _pagingManager.newDataSource()
+        val observeCodes = ArrayList<String>()
 
-        val observer = TestObserver<String>().apply { _pagingManager.stateSubject.subscribe(this) }
+        _pagingManager.stateSubject.subscribe { observeCodes += it.state }
 
         dataSource.loadInitial(_initParam, _initCallback)
-        observer.assertValues(DataLoadState.INIT_LOAD_START, DataLoadState.INIT_LOAD_FINISH)
+
+        Assert.assertEquals(
+                listOf(PositionalDataLoadState.INIT_LOAD_START, PositionalDataLoadState.INIT_LOAD_FINISH),
+                observeCodes)
+
     }
 
     @Test
@@ -73,7 +77,7 @@ class CountablePositionalPagingTest {
         val observeCodes = ArrayList<String>()
 
         _pagingManager.stateSubject
-                .doOnNext { observeCodes += it }
+                .doOnNext { observeCodes += it.state }
                 .subscribe()
 
         Completable.fromAction { dataSource.loadInitial(_initParam, _initCallback) }
@@ -83,23 +87,27 @@ class CountablePositionalPagingTest {
         addItemToRepository()
 
         delayLoadTime()
-        Assert.assertEquals(listOf(DataLoadState.INIT_LOAD_START, DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED), observeCodes)
+
+        Assert.assertEquals(listOf(
+                PositionalDataLoadState.INIT_LOAD_START,
+                PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED), observeCodes)
     }
 
     @Test
     fun testLoadRangeCallbackSuccess() {
         val dataSource = _pagingManager.newDataSource()
+        val observeCodes = ArrayList<String>()
 
-        val observer = TestObserver<String>().apply { _pagingManager.stateSubject.subscribe(this) }
+        _pagingManager.stateSubject.subscribe{ observeCodes += it.state }
 
         dataSource.loadInitial(_initParam, _initCallback)
         dataSource.loadRange(_rangeParam, _rangeCallback)
 
-        observer.assertValues(
-                DataLoadState.INIT_LOAD_START,
-                DataLoadState.INIT_LOAD_FINISH,
-                DataLoadState.LOAD_START,
-                DataLoadState.LOAD_FINISH)
+        Assert.assertEquals(listOf(
+                PositionalDataLoadState.INIT_LOAD_START,
+                PositionalDataLoadState.INIT_LOAD_FINISH,
+                PositionalDataLoadState.LOAD_START,
+                PositionalDataLoadState.LOAD_FINISH), observeCodes)
     }
 
     @Test
@@ -108,7 +116,7 @@ class CountablePositionalPagingTest {
         val observeCodes = ArrayList<String>()
 
         _pagingManager.stateSubject
-                .doOnNext { observeCodes += it }
+                .doOnNext { observeCodes += it.state }
                 .subscribe()
 
         dataSource.loadInitial(_initParam, _initCallback)
@@ -121,10 +129,10 @@ class CountablePositionalPagingTest {
 
         delayLoadTime()
         Assert.assertEquals(listOf(
-                DataLoadState.INIT_LOAD_START,
-                DataLoadState.INIT_LOAD_FINISH,
-                DataLoadState.LOAD_START,
-                DataLoadState.LOAD_DATA_SIZE_CHANGED), observeCodes)
+                PositionalDataLoadState.INIT_LOAD_START,
+                PositionalDataLoadState.INIT_LOAD_FINISH,
+                PositionalDataLoadState.LOAD_START,
+                PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED), observeCodes)
     }
 
 }
