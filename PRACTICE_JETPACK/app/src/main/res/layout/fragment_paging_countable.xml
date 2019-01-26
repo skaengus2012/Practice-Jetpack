@@ -87,7 +87,7 @@
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:onRefreshListener="@{() -> viewModel.refresh()}"
-            app:refreshing="@{viewModel.refreshing}">
+            app:refreshing="@{viewModel.showRefreshProgressBar}">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lvContents"
                 android:layout_width="match_parent"
