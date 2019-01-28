@@ -4,7 +4,6 @@ import androidx.paging.PositionalDataSource.*
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import java.util.*
 
 /**
  *  전체 사이즈를 알 수 없는 경우, Position 만으로 데이터를 처리하는 Manager
@@ -18,7 +17,18 @@ private constructor(
         private val _dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
+
+        _dataRepository.getItems(params.startPosition, params.loadSize)
+                .doOnSuccess {
+                    stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params))
+                    callback.onResult(it)
+                }
+                .doOnError {
+                    stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
+                }
+                .subscribe()
+                .addTo(_disposables)
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
@@ -31,7 +41,6 @@ private constructor(
                 }
                 .doOnError {
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, params))
-                    callback.onResult(Collections.emptyList(), params.requestedStartPosition)
                 }
                 .subscribe()
                 .addTo(_disposables)
