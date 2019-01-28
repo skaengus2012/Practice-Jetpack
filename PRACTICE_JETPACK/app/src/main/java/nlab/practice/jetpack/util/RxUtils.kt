@@ -5,9 +5,12 @@ import io.reactivex.disposables.CompositeDisposable
 /**
  * @author Doohyun
  */
+object RxUtils {
 
-fun createLazyCompositeDisposable(): CompositeDisposable {
-    val result : CompositeDisposable by lazy { CompositeDisposable() }
+    fun createLazyDisposables(): CompositeDisposable {
+        val result : CompositeDisposable by lazy { CompositeDisposable() }
 
-    return result
+        return result
+    }
+
 }

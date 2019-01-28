@@ -4,10 +4,10 @@ import android.app.Activity
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.RxUtils
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
-import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.di.fragment.FragmentScope
@@ -21,7 +21,7 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideDisposables(): CompositeDisposable = createLazyCompositeDisposable()
+    fun provideDisposables(): CompositeDisposable = RxUtils.createLazyDisposables()
 
     @ActivityScope
     @Provides
