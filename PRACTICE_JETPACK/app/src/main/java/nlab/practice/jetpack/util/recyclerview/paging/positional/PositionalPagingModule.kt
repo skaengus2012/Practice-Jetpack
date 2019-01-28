@@ -14,7 +14,12 @@ import io.reactivex.disposables.CompositeDisposable
 class PositionalPagingModule {
 
     @Provides
-    fun provideCountablePositionalPagingManagerFactory(disposables: CompositeDisposable) : CountablePositionalPagingManager.Factory {
+    fun provideCountablePositionalPagingManagerFactory(disposables: CompositeDisposable): CountablePositionalPagingManager.Factory {
         return CountablePositionalPagingManager.Factory(disposables)
+    }
+
+    @Provides
+    fun provideUnboundedPositionalPagingManagerFactory(disposables: CompositeDisposable): UnboundedPositionalPagingManager.Factory {
+        return UnboundedPositionalPagingManager.Factory(disposables)
     }
 }

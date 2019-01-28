@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.util.recyclerview.paging.positional
 
 import androidx.paging.PositionalDataSource
+import io.reactivex.subjects.PublishSubject
 
 /**
  * @author Doohyun
@@ -8,6 +9,7 @@ import androidx.paging.PositionalDataSource
  */
 abstract class PositionalPagingManager<T> {
     var dataSource: PositionalDataSource<T>? = null
+    val stateSubject: PublishSubject<PositionalEvent> = PublishSubject.create()
 
     abstract fun loadRange(params: PositionalDataSource.LoadRangeParams, callback: PositionalDataSource.LoadRangeCallback<T>)
     abstract fun loadInitial(params: PositionalDataSource.LoadInitialParams, callback: PositionalDataSource.LoadInitialCallback<T>)
