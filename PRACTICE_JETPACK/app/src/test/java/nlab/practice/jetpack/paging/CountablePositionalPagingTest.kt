@@ -1,22 +1,16 @@
-package nlab.practice.jetpack
+package nlab.practice.jetpack.paging
 
 import androidx.paging.PositionalDataSource.*
 import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import nlab.practice.jetpack.model.NonePageableItem
-import nlab.practice.jetpack.model.NonePageableItemRs
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
-import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
-
-const val DATA_LOAD_DELAY_SECOND = 2000L
 
 /**
  * Countable Positional 페이징을 동작하는 모듈에 대한 테스트
@@ -135,23 +129,4 @@ class CountablePositionalPagingTest {
                 PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED), observeCodes)
     }
 
-}
-
-private class TestRepository : CountablePositionalPagingManager.DataRepository<NonePageableItem> {
-    val items = ArrayList<NonePageableItem>()
-
-    init {
-        (0 until 1000).map { NonePageableItem() }.let { items.addAll(it) }
-    }
-
-    override fun getTotalCount(): Single<Int> = Single.just(items.size)
-    override fun getItems(offset: Int, limit: Int): Single<CountablePositionalRs<NonePageableItem>> {
-        Thread.sleep(DATA_LOAD_DELAY_SECOND)
-
-        return Observable.fromIterable(items)
-                .take(limit.toLong())
-                .skip(offset.toLong())
-                .toList()
-                .map { NonePageableItemRs(items.size, it) }
-    }
 }

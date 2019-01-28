@@ -35,7 +35,7 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
         _items.size
     }
 
-    override fun getItems(offset: Int, limit: Int): Single<PagingItemRs> = Single.fromCallable {
+    override fun getCountablePositionalRs(offset: Int, limit: Int): Single<PagingItemRs> = Single.fromCallable {
         sleepRequestDuration()
 
         val resultSubList: List<PagingItem> = Observable.fromIterable(_items)

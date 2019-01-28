@@ -20,11 +20,6 @@ private constructor(
         private val _disposables: CompositeDisposable,
         private val _dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
 
-    interface DataRepository<T> {
-        fun getTotalCount(): Single<Int>
-        fun getItems(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
-    }
-
     private var _totalCount: Int? = null
 
     override fun newDataSource(): PositionalDataSource<T> {
@@ -38,7 +33,7 @@ private constructor(
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
         stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
 
-        _dataRepository.getItems(params.startPosition, params.loadSize)
+        _dataRepository.getCountablePositionalRs(params.startPosition, params.loadSize)
                 .doOnSuccess {
                     callback.onResult(it.getItems())
 
@@ -81,7 +76,7 @@ private constructor(
     private fun loadInitialInternal(totalCount: Int, params: LoadInitialParams, callback: LoadInitialCallback<T>) {
         val firstLoadPosition = PositionalDataSource.computeInitialLoadPosition(params, totalCount)
         val firstLoadSize = PositionalDataSource.computeInitialLoadSize(params, firstLoadPosition, totalCount)
-        _dataRepository.getItems(firstLoadPosition, firstLoadSize)
+        _dataRepository.getCountablePositionalRs(firstLoadPosition, firstLoadSize)
                 .doOnSuccess {
                     callback.onResult(it.getItems(), firstLoadPosition, it.getTotalCount())
 
@@ -96,6 +91,11 @@ private constructor(
                 }
                 .subscribe()
                 .addTo(_disposables)
+    }
+
+    interface DataRepository<T> {
+        fun getTotalCount(): Single<Int>
+        fun getCountablePositionalRs(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
     }
 
     class Factory(private val _disposables: CompositeDisposable) {
