@@ -17,7 +17,6 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
@@ -37,17 +36,15 @@ class CountablePagingViewModel @Inject constructor(
         private val _toastHelper: ToastHelper,
         private val _resourceProvider: ResourceProvider,
         private val _recyclerViewUsecase: RecyclerViewUsecase,
-        pagingManagerFactory: CountablePositionalPagingManager.Factory) {
+        pagingManagerFactory: CountablePositionalPagingManager.Factory) : PagingViewModel {
 
-    val listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
+    private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
             BindingPagedListAdapter.create(placeholderResId = R.layout.view_paging_item_placeholder)
 
-    val recyclerViewConfig = RecyclerViewConfig()
-
-    val isShowRefreshProgressBar = ObservableBoolean(false)
+    private val _isShowRefreshProgressBar = ObservableBoolean(false)
     private var _isRefreshing = false
 
-    val subTitle = ObservableField<String>()
+    private val _subTitle = ObservableField<String>()
     private val _subTitleFormat = _resourceProvider.getString(R.string.paging_countable_sub_title_format)
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
@@ -61,7 +58,13 @@ class CountablePagingViewModel @Inject constructor(
         subscribeLoadError()
     }
 
-    fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
+    override fun isShowRefreshProgressBar(): ObservableBoolean = _isShowRefreshProgressBar
+
+    override fun getListAdapter(): BindingPagedListAdapter<PagingItemViewModel> = _listAdapter
+
+    override fun getSubTitle(): ObservableField<String> = _subTitle
+
+    override fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
 
     private fun subscribePagedList() {
         // NOTE : placeHolder 는 아이템의 전체 개수를 알고 있을 때만 사용 가능
@@ -76,7 +79,7 @@ class CountablePagingViewModel @Inject constructor(
 
         RxPagedListBuilder<Int, PagingItemViewModel>(createDataSourceFactory(), config)
                 .buildFlowable(BackpressureStrategy.BUFFER)
-                .doOnNext { listAdapter.submitList(it) }
+                .doOnNext { _listAdapter.submitList(it) }
                 .subscribe()
                 .addTo(_disposables)
     }
@@ -129,12 +132,12 @@ class CountablePagingViewModel @Inject constructor(
         _pagingItemRepository.getTotalCount()
                 .subscribeOn(_schedulerFactory.io())
                 .observeOn(_schedulerFactory.ui())
-                .doOnSuccess { String.format(_subTitleFormat.toString(), it).run { subTitle.set(this) } }
+                .doOnSuccess { String.format(_subTitleFormat.toString(), it).run { _subTitle.set(this) } }
                 .subscribe()
                 .addTo(_disposables)
     }
 
-    fun addItems() {
+    override fun addItems() {
         _pagingItemRepository.getTotalCount()
                 .flatMap{ getItemsAddingItemCountSingle(it) }
                 .subscribeOn(_singleScheduler)
@@ -146,8 +149,8 @@ class CountablePagingViewModel @Inject constructor(
                 .addTo(_disposables)
     }
 
-    fun refresh() {
-        isShowRefreshProgressBar.set(true)
+    override fun refresh() {
+        _isShowRefreshProgressBar.set(true)
 
         _isRefreshing = true
         _toastHelper.showToast(R.string.paging_notify_refresh)
@@ -173,7 +176,7 @@ class CountablePagingViewModel @Inject constructor(
     private fun createDataSourceFactory(): DataSource.Factory<Int, PagingItemViewModel> {
         return object: DataSource.Factory<Int, PagingItemViewModel>() {
             override fun create(): DataSource<Int, PagingItemViewModel> {
-                isShowRefreshProgressBar.set(false)
+                _isShowRefreshProgressBar.set(false)
                 return _pagingManager.newDataSource().map { PagingItemViewModel(it) }
             }
         }

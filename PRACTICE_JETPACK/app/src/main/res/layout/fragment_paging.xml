@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="nlab.practice.jetpack.ui.paging.CountablePagingViewModel"/>
+            type="nlab.practice.jetpack.ui.paging.PagingViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -93,7 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                app:list_config="@{viewModel.recyclerViewConfig}"
                 app:list_pageadapter="@{viewModel.listAdapter}"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
