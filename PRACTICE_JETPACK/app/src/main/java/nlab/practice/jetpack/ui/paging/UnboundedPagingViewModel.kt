@@ -6,19 +6,21 @@ import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
+import nlab.practice.jetpack.repository.ImagePoolRepository
 import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.repository.model.PagingItem
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
 import javax.inject.Inject
+import kotlin.random.Random
 
 /**
  * @author Doohyun
@@ -32,7 +34,7 @@ class UnboundedPagingViewModel @Inject constructor(
         private val _resourceProvider: ResourceProvider,
         private val _toastHelper: ToastHelper,
         private val _schedulerFactory: SchedulerFactory,
-        private val _recyclerViewUsecase: RecyclerViewUsecase,
+        private val _imagePoolRepository: ImagePoolRepository,
         pagingManagerFactory: UnboundedPositionalPagingManager.Factory) : PagingViewModel {
 
     private val _subTitle = ObservableField<String>(_resourceProvider.getString(R.string.paging_unbounded_sub_title).toString())
@@ -40,9 +42,10 @@ class UnboundedPagingViewModel @Inject constructor(
     private val _isShowRefreshProgressBar = ObservableBoolean()
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
-    private var _currentPagedList: PagedList<PagingItemViewModel>? = null
 
     private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> = BindingPagedListAdapter.create()
+
+    private val _singleScheduler = _schedulerFactory.single()
 
     init {
         subscribePagedList()
@@ -59,7 +62,6 @@ class UnboundedPagingViewModel @Inject constructor(
                 .buildFlowable(BackpressureStrategy.BUFFER)
                 .doOnNext { _listAdapter.submitList(it) }
                 .observeOn(_schedulerFactory.ui())
-                .doOnNext { _currentPagedList = it}
                 .subscribe()
                 .addTo(_disposables)
     }
@@ -77,14 +79,45 @@ class UnboundedPagingViewModel @Inject constructor(
         // NOTE
         // invalidate 호출 시, 잘못된 위치로 requestPosition 이 세팅되는 이슈 존재
         // 리프레쉬로 업데이트 시, 현재 pagedList 에 0을 지정해주도록 하자.
-        _currentPagedList?.loadAround(0)
+        _listAdapter.currentList?.loadAround(0)
         _toastHelper.showToast(R.string.paging_notify_refresh)
 
         _pagingManager.invalidate()
     }
 
     override fun addItems() {
+        Single.fromCallable { addItemsInternal() }
+                .subscribeOn(_singleScheduler)
+                .observeOn(_schedulerFactory.ui())
+                .doOnSuccess {
+                    _resourceProvider.getString(R.string.paging_add_item_unbounded_format, it.first, it.second).run {
+                        _toastHelper.showToast(this)
+                    }
+                }
+                .subscribe()
+                .addTo(_disposables)
+    }
 
+    /**
+     * Total 을 알 수 없다는 가정하에, 랜덤으로 데이터를 추가하는 로직 정의
+     *
+     * @return [시작하는 index, 추가된 아이템 개수] 가 출력
+     */
+    private fun addItemsInternal(): Pair<Int, Int> {
+        val newItemCount = Random.nextInt(2, 50)
+        val randomStartIndex = Random.nextInt(1500)
+
+        val imageTotalSize = _imagePoolRepository.getSize()
+        var startChoiceImage = Random.nextInt(imageTotalSize)
+        var startIndex = randomStartIndex
+
+        (0..newItemCount).map {
+            val index = startIndex++
+            val imageIndex = startChoiceImage++
+            PagingItem(index, "New Instant Item - index : $index", _imagePoolRepository.get(imageIndex % imageTotalSize))
+        }.run { _pagingItemRepository.addItems(this) }
+
+        return Pair(randomStartIndex, newItemCount)
     }
 
     override fun onClickBackButton() {
