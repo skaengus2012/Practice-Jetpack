@@ -93,6 +93,7 @@ class CountablePagingViewModel @Inject constructor(
                         PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED) }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext {
+                    loadTitle()
                     _toastHelper.showToast(R.string.paging_notify_data_size_changed)
                     _pagingManager.invalidate()
                 }
