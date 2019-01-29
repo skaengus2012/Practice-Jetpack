@@ -174,12 +174,16 @@ class CountablePagingViewModel @Inject constructor(
         newItemCount
     }
 
-    private fun createDataSourceFactory(): DataSource.Factory<Int, PagingItemViewModel> {
-        return object: DataSource.Factory<Int, PagingItemViewModel>() {
-            override fun create(): DataSource<Int, PagingItemViewModel> {
-                _isShowRefreshProgressBar.set(false)
-                return _pagingManager.newDataSource().map { _pagingItemViewModelFactory.create(it) }
-            }
+    private fun createDataSourceFactory(): DFactory = object: DFactory() {
+
+        override fun create(): DataSource<Int, PagingItemViewModel> {
+            _isShowRefreshProgressBar.set(false)
+            return _pagingManager.newDataSource().map { createPagingItemViewModel(it) }
+        }
+
+        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemViewModel = _pagingItemViewModelFactory.create(pagingItem) {
+            it.navUnboundedPaging()
         }
     }
+
 }

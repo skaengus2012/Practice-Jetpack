@@ -14,7 +14,8 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 @AutoFactory
 class PagingItemViewModel(
         @Provided private val _fragmentNavUsecase: FragmentNavUsecase,
-        private val _pagingItem: PagingItem) : BindingItemViewModel() {
+        private val _pagingItem: PagingItem,
+        private val _onClickListener: (FragmentNavUsecase) -> Unit) : BindingItemViewModel() {
 
     @Bindable
     fun getTitle(): String = _pagingItem.title
@@ -23,4 +24,8 @@ class PagingItemViewModel(
     fun getImageUrl(): String? = _pagingItem.imageUrl
 
     override fun getLayoutRes(): Int = R.layout.view_paging_item
+
+    fun onClick() {
+        _onClickListener(_fragmentNavUsecase)
+    }
 }

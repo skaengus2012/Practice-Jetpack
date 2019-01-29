@@ -5,6 +5,7 @@ import io.reactivex.Single
 import nlab.practice.jetpack.repository.model.PagingItem
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
+import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
 import kotlin.random.Random
 
 /**
@@ -16,7 +17,9 @@ import kotlin.random.Random
  *
  * @author Doohyun
  */
-class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository) : CountablePositionalPagingManager.DataRepository<PagingItem> {
+class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository) :
+        CountablePositionalPagingManager.DataRepository<PagingItem>,
+        UnboundedPositionalPagingManager.DataRepository<PagingItem> {
 
     private val _items = ArrayList<PagingItem>()
 
@@ -45,6 +48,15 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
                 .blockingGet()
 
         PagingItemRs(_totalCount = _items.size, _items = resultSubList)
+    }
+
+    override fun getItems(offset: Int, limit: Int): Single<List<PagingItem>> {
+        sleepRequestDuration()
+
+        return Observable.fromIterable(_items)
+                .skip(offset.toLong())
+                .take(limit.toLong())
+                .toList()
     }
 
     fun addItems(items: List<PagingItem>) = _items.addAll(items)

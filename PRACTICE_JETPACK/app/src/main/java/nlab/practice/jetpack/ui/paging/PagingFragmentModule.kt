@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.ui.paging
 
 import androidx.fragment.app.Fragment
+import androidx.paging.DataSource
 import dagger.Module
 import dagger.Provides
 import kotlinx.android.synthetic.main.fragment_paging.*
@@ -8,6 +9,8 @@ import nlab.practice.jetpack.ui.main.ChildFragmentModule
 import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalPagingModule
+
+internal typealias DFactory = DataSource.Factory<Int, PagingItemViewModel>
 
 /**
  * @author Doohyun
