@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import nlab.practice.jetpack.databinding.FragmentPagingBinding
 import nlab.practice.jetpack.ui.main.ChildFragmentModule
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalPagingModule
+import javax.inject.Inject
 
 /**
  * @author Doohyun
@@ -14,8 +16,20 @@ import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalPagin
  */
 class UnboundedPagingFragment : InjectableFragment() {
 
+    @Inject
+    lateinit var viewModel: UnboundedPagingViewModel
+
+    lateinit var binding: FragmentPagingBinding
+
     override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return FragmentPagingBinding.inflate(inflater, container, false)
+                .apply { binding = this }
+                .root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.viewModel = viewModel
     }
 
     @dagger.Module(includes = [

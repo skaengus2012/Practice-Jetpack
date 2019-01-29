@@ -26,10 +26,15 @@ class CountablePagingFragment : InjectableFragment() {
     lateinit var binding: FragmentPagingBinding
 
     override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentPagingBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
+        return FragmentPagingBinding.inflate(inflater, container, false)
+                .apply { binding = this }
+                .root
+    }
 
-        return binding.root
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        binding.viewModel = viewModel
     }
 
     @dagger.Module(includes = [
