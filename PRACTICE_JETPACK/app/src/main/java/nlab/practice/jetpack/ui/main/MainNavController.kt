@@ -4,6 +4,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import nlab.practice.jetpack.util.nav.findFragmentByTag
+import nlab.practice.jetpack.util.nav.isNeedChangePrimaryNavigationFragment
 
 /**
  * Main 에서 사용하는 NavController 정의
@@ -34,13 +35,6 @@ class MainNavController(val fragmentManager: FragmentManager, @IdRes val contain
                     .setReorderingAllowed(true)
                     .commitNowAllowingStateLoss()
         }
-    }
-
-    /**
-     * primaryNavigationFragment 를 변경해야하는가?
-     */
-    fun FragmentManager.isNeedChangePrimaryNavigationFragment(targetFragment: Fragment): Boolean {
-        return primaryNavigationFragment?.let { it != targetFragment } ?: true
     }
 
     fun getCurrentContainerFragment(): ContainerFragment? = fragmentManager.primaryNavigationFragment

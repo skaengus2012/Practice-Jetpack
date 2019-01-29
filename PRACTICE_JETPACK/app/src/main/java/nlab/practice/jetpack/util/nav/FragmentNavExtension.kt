@@ -34,3 +34,10 @@ inline fun FragmentManager.findFragmentByTag(
     }
 }
 
+/**
+ * primaryNavigationFragment 를 변경해야하는가?
+ */
+fun FragmentManager.isNeedChangePrimaryNavigationFragment(targetFragment: Fragment): Boolean {
+    return primaryNavigationFragment?.let { it != targetFragment } ?: true
+}
+

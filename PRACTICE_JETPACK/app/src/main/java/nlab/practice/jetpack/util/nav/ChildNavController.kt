@@ -17,12 +17,18 @@ class ChildNavController(val fragmentManager: FragmentManager, @IdRes val contai
         val targetFragment: Fragment =
                 fragmentManager.findFragmentByTag(containerResId, tag, fragmentTransaction, fragmentProvider)
 
-        // addToBackStack 에 Tag 를 넣는 이유 : PopBackStack 등에 활용할 수 있음
-        fragmentTransaction
-                .setPrimaryNavigationFragment(targetFragment)
-                .addToBackStack(tag)
-                .setReorderingAllowed(true)
-                .commit()
+        if (fragmentManager.isNeedChangePrimaryNavigationFragment(targetFragment)) {
+            fragmentManager.primaryNavigationFragment?.run { fragmentTransaction.hide(this) }
+
+
+            // addToBackStack 에 Tag 를 넣는 이유 : PopBackStack 등에 활용할 수 있음
+            fragmentTransaction
+                    .show(targetFragment)
+                    .setPrimaryNavigationFragment(targetFragment)
+                    .addToBackStack(tag)
+                    .setReorderingAllowed(true)
+                    .commit()
+        }
     }
 
     fun hasChild(): Boolean = fragmentManager.backStackEntryCount != 0
