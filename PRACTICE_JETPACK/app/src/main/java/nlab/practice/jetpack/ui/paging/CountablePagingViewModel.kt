@@ -36,6 +36,7 @@ class CountablePagingViewModel @Inject constructor(
         private val _toastHelper: ToastHelper,
         private val _resourceProvider: ResourceProvider,
         private val _recyclerViewUsecase: RecyclerViewUsecase,
+        private val _pagingItemViewModelFactory: PagingItemViewModelFactory,
         pagingManagerFactory: CountablePositionalPagingManager.Factory) : PagingViewModel {
 
     private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
@@ -177,7 +178,7 @@ class CountablePagingViewModel @Inject constructor(
         return object: DataSource.Factory<Int, PagingItemViewModel>() {
             override fun create(): DataSource<Int, PagingItemViewModel> {
                 _isShowRefreshProgressBar.set(false)
-                return _pagingManager.newDataSource().map { PagingItemViewModel(it) }
+                return _pagingManager.newDataSource().map { _pagingItemViewModelFactory.create(it) }
             }
         }
     }

@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.home.HomeModule
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
+import nlab.practice.jetpack.ui.paging.PagingFragmentModule
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
 
 /**
@@ -25,14 +26,14 @@ abstract class FragmentBindModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [
         FragmentCommonModule::class,
-        CountablePagingFragment.Module::class
+        PagingFragmentModule::class
     ])
     abstract fun countablePagingFragment(): CountablePagingFragment
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [
         FragmentCommonModule::class,
-        UnboundedPagingFragment.Module::class
+        PagingFragmentModule::class
     ])
     abstract fun unboundedPagingFragment(): UnboundedPagingFragment
 }
