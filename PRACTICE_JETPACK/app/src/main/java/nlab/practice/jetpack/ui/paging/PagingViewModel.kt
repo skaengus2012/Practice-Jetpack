@@ -16,6 +16,8 @@ interface PagingViewModel {
 
     fun getSubTitle(): ObservableField<String>
 
+    fun getBannerText(): String
+
     fun isShowRefreshProgressBar(): ObservableBoolean
 
     fun refresh()

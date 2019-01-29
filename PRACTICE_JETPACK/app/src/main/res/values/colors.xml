@@ -1,46 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- common -->
-    <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#ff0050</color>
-    <color name="rippleMaterialDark">#44ffffff</color>
+	<!-- common -->
+	<color name="colorPrimary">#000000</color>
+	<color name="colorPrimaryDark">#000000</color>
+	<color name="colorAccent">#ff0050</color>
+	<color name="rippleMaterialDark">#44ffffff</color>
 
-    <color name="white">#ffffff</color>
-    <color name="white_opa08">#14ffffff</color>
-    <color name="white_opa10">#1affffff</color>
-    <color name="white_opa12">#1effffff</color>
-    <color name="white_opa20">#33ffffff</color>
-    <color name="white_opa30">#4cffffff</color>
-    <color name="white_opa40">#66ffffff</color>
-    <color name="white_opa50">#80ffffff</color>
-    <color name="white_opa60">#99ffffff</color>
-    <color name="white_opa70">#b2ffffff</color>
-    <color name="white_opa80">#ccffffff</color>
-    <color name="white_opa90">#e6ffffff</color>
-    <color name="black_opa10">#1a000000</color>
-    <color name="black_opa20">#33000000</color>
-    <color name="black_opa30">#4c000000</color>
-    <color name="black_opa40">#66000000</color>
-    <color name="black_opa50">#7f000000</color>
-    <color name="black_opa60">#99000000</color>
-    <color name="black_opa70">#b2000000</color>
-    <color name="black_opa80">#cc000000</color>
-    <color name="black_opa84">#d6000000</color>
-    <color name="black_opa85">#d9000000</color>
-    <color name="black_opa88">#e0000000</color>
-    <color name="black_opa90">#e6000000</color>
-    <color name="black_opa94">#f0000000</color>
+	<color name="white">#ffffff</color>
+	<color name="white_opa08">#14ffffff</color>
+	<color name="white_opa10">#1affffff</color>
+	<color name="white_opa12">#1effffff</color>
+	<color name="white_opa20">#33ffffff</color>
+	<color name="white_opa30">#4cffffff</color>
+	<color name="white_opa40">#66ffffff</color>
+	<color name="white_opa50">#80ffffff</color>
+	<color name="white_opa60">#99ffffff</color>
+	<color name="white_opa70">#b2ffffff</color>
+	<color name="white_opa80">#ccffffff</color>
+	<color name="white_opa90">#e6ffffff</color>
+	<color name="black_opa10">#1a000000</color>
+	<color name="black_opa20">#33000000</color>
+	<color name="black_opa30">#4c000000</color>
+	<color name="black_opa40">#66000000</color>
+	<color name="black_opa50">#7f000000</color>
+	<color name="black_opa60">#99000000</color>
+	<color name="black_opa70">#b2000000</color>
+	<color name="black_opa80">#cc000000</color>
+	<color name="black_opa84">#d6000000</color>
+	<color name="black_opa85">#d9000000</color>
+	<color name="black_opa88">#e0000000</color>
+	<color name="black_opa90">#e6000000</color>
+	<color name="black_opa94">#f0000000</color>
 
-    <color name="HomeBackGround">#ffffff</color>
-    <color name="TwoBackGround">#ff0000</color>
-    <color name="ThreeBackGround">#00ff00</color>
+	<color name="HomeBackGround">#ffffff</color>
+	<color name="TwoBackGround">#ff0000</color>
+	<color name="ThreeBackGround">#00ff00</color>
 
-    <!-- HOME -->
-    <color name="home_item_color_1">#e91e63</color>
-    <color name="home_item_color_2">#2196f3</color>
+	<!-- HOME -->
+	<color name="home_item_color_1">#e91e63</color>
+	<color name="home_item_color_2">#2196f3</color>
 
-    <!-- bottom menu -->
-    <color name="bottom_navigation_item_color">#6b6b6b</color>
-    <color name="bottom_navigation_item_activated_color">@color/colorAccent</color>
+	<!-- bottom menu -->
+	<color name="bottom_navigation_item_color">#6b6b6b</color>
+	<color name="bottom_navigation_item_activated_color">@color/colorAccent</color>
+
+	<!-- paging banner -->
+	<color name="paging_banner_gradation_color_1">#d9F50057</color>
+	<color name="paging_banner_gradation_color_2">#d9c51162</color>
+	<color name="paging_banner_gradation_color_3">#d9aa00ff</color>
 </resources>

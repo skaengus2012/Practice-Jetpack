@@ -73,6 +73,8 @@ class UnboundedPagingViewModel @Inject constructor(
 
     override fun isShowRefreshProgressBar(): ObservableBoolean = _isShowRefreshProgressBar
 
+    override fun getBannerText(): String = _resourceProvider.getString(R.string.paging_banner_to_countable).toString()
+
     override fun refresh() {
         _isShowRefreshProgressBar.set(true)
 

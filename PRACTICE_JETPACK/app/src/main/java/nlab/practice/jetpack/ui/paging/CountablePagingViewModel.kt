@@ -65,6 +65,8 @@ class CountablePagingViewModel @Inject constructor(
 
     override fun getSubTitle(): ObservableField<String> = _subTitle
 
+    override fun getBannerText(): String = _resourceProvider.getString(R.string.paging_banner_to_unbounded).toString()
+
     override fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
 
     private fun subscribePagedList() {
