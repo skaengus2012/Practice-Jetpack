@@ -7,8 +7,8 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.RxUtils
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class HomeHeaderViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
         private val _schedulerFactory: SchedulerFactory): BindingItemViewModel() {
 
-    private val _timerDisposables = createLazyCompositeDisposable()
+    private val _timerDisposables = RxUtils.createLazyDisposables()
 
     private val _dateFormat: CharSequence = resourceProvider.getString(R.string.home_time_format)
 

@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.RxUtils
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
-import nlab.practice.jetpack.util.createLazyCompositeDisposable
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.nav.FragmentScopeNavModule
@@ -24,7 +24,7 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideDisposables(): CompositeDisposable = createLazyCompositeDisposable()
+    fun provideDisposables(): CompositeDisposable = RxUtils.createLazyDisposables()
 
     @FragmentScope
     @Provides
