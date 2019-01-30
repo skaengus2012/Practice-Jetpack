@@ -10,12 +10,12 @@ import javax.inject.Inject
 
 /**
  * @author Doohyun
- * @since 2018. 12. 10
+ * @since 2019. 01. 29
  */
-class CountablePagingFragment : InjectableFragment() {
+class UnboundedPagingFragment : InjectableFragment() {
 
     @Inject
-    lateinit var viewModel: CountablePagingViewModel
+    lateinit var viewModel: UnboundedPagingViewModel
 
     lateinit var binding: FragmentPagingBinding
 
@@ -27,7 +27,6 @@ class CountablePagingFragment : InjectableFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         binding.viewModel = viewModel
     }
 }

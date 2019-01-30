@@ -1,13 +1,11 @@
 package nlab.practice.jetpack.util.recyclerview.paging.positional
 
-import androidx.annotation.StringDef
 import androidx.paging.PositionalDataSource
 import androidx.paging.PositionalDataSource.*
 
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.subjects.PublishSubject
 import java.util.*
 
 /**
@@ -21,11 +19,6 @@ private constructor(
         private val _disposables: CompositeDisposable,
         private val _dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
 
-    interface DataRepository<T> {
-        fun getTotalCount(): Single<Int>
-        fun getItems(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
-    }
-
     private var _totalCount: Int? = null
 
     override fun newDataSource(): PositionalDataSource<T> {
@@ -35,33 +28,39 @@ private constructor(
     }
 
     /**
-     * Paging 상태에 대해 구독정보를 보내는 Subject
+     * NOTE : [callback] 의 경우, 페이징 조건에 맞을 경우 호출해야함 그렇지 않을 경우 예외를 발생시킴
+     *        LOAD_FINISH 가 등장할 타이밍에 적절한 개수의 아이템이 등장하지 못할 경우에도 예외가 발생
      *
-     * 페이징 상태는 CountablePositionalPagingManager.DataLoadState 를 참고할 것!
+     * 그 이외 상황에 대해서는 subject 를 통해 적절히 처리가 필요함
      */
-    val stateSubject: PublishSubject<String> = PublishSubject.create()
-
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-        stateSubject.onNext(DataLoadState.LOAD_START)
+        stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
 
-        _dataRepository.getItems(params.startPosition, params.loadSize)
+        _dataRepository.getCountablePositionalRs(params.startPosition, params.loadSize)
                 .doOnSuccess {
-                    callback.onResult(it.getItems())
-
                     val isEqualsTotalCount = _totalCount?: -1 == it.getTotalCount()
                     if (isEqualsTotalCount) {
-                        stateSubject.onNext(DataLoadState.LOAD_FINISH)
+                        callback.onResult(it.getItems())
+                        PositionalEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params)
                     } else {
-                        stateSubject.onNext(DataLoadState.LOAD_DATA_SIZE_CHANGED)
-                    }
+                        PositionalEvent(PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED, rangeParams = params)
+                    }.run { stateSubject.onNext(this) }
                 }
-                .doOnError { stateSubject.onNext(DataLoadState.LOAD_ERROR) }
+                .doOnError {
+                    stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
+                }
                 .subscribe()
                 .addTo(_disposables)
     }
 
+    /**
+     * NOTE : [callback] 의 경우, 페이징 조건에 맞을 경우 호출해야함 그렇지 않을 경우 화면에 그리지 않음
+     *        LOAD_FINISH 가 등장할 타이밍에 적절한 개수의 아이템이 등장하지 못할 경우에도 화면에 그리지 않음
+     *
+     * 그 이외 상황에 대해서는 subject 를 통해 적절히 처리가 필요함
+     */
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-        stateSubject.onNext(DataLoadState.INIT_LOAD_START)
+        stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_START, initParams = params))
         _dataRepository.getTotalCount()
                 .doOnSuccess {
                     totalCount
@@ -69,67 +68,52 @@ private constructor(
                     _totalCount = totalCount
 
                     if (totalCount == 0) {
-                        loadInitialEmpty(callback)
+                        loadInitialEmpty(params, callback)
                     } else {
                         loadInitialInternal(totalCount, params, callback)
                     }
+                }
+                .doOnError {
+                    stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
                 }
                 .subscribe()
                 .addTo(_disposables)
     }
 
-    private fun loadInitialEmpty(callback: LoadInitialCallback<T>) {
-        callback.onResult(Collections.emptyList(), 0,0)
+    private fun loadInitialEmpty(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
+        PositionalEvent(PositionalDataLoadState.INIT_LOAD_FINISH, initParams = params)
+        callback.onResult(Collections.emptyList(), params.requestedStartPosition,0)
     }
 
     private fun loadInitialInternal(totalCount: Int, params: LoadInitialParams, callback: LoadInitialCallback<T>) {
         val firstLoadPosition = PositionalDataSource.computeInitialLoadPosition(params, totalCount)
         val firstLoadSize = PositionalDataSource.computeInitialLoadSize(params, firstLoadPosition, totalCount)
-        _dataRepository.getItems(firstLoadPosition, firstLoadSize)
-                .doOnSuccess {
-                    callback.onResult(it.getItems(), firstLoadPosition, it.getTotalCount())
 
-                    if (it.getTotalCount() == totalCount) {
-                        DataLoadState.INIT_LOAD_FINISH
+        _dataRepository.getCountablePositionalRs(firstLoadPosition, firstLoadSize)
+                .doOnSuccess {
+                    val isEqualsTotalCount = (it.getTotalCount() == totalCount)
+                    if (isEqualsTotalCount) {
+                        callback.onResult(it.getItems(), firstLoadPosition, it.getTotalCount())
+                        PositionalEvent(PositionalDataLoadState.INIT_LOAD_FINISH, initParams = params)
                     } else {
-                        DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED
+                        PositionalEvent(PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED, initParams = params)
                     }.run { stateSubject.onNext(this) }
                 }
-                .doOnError { stateSubject.onNext(DataLoadState.INIT_LOAD_ERROR) }
+                .doOnError {
+                    stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
+                }
                 .subscribe()
                 .addTo(_disposables)
+    }
+
+    interface DataRepository<T> {
+        fun getTotalCount(): Single<Int>
+        fun getCountablePositionalRs(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
     }
 
     class Factory(private val _disposables: CompositeDisposable) {
         fun <T> create(dataRepository: DataRepository<T>): CountablePositionalPagingManager<T> {
             return CountablePositionalPagingManager(_disposables, dataRepository)
-        }
-    }
-
-    /**
-     * 데이터의 조회 상태 열람
-     */
-    @StringDef(value = [
-        DataLoadState.INIT_LOAD_START,
-        DataLoadState.INIT_LOAD_FINISH,
-        DataLoadState.INIT_LOAD_ERROR,
-        DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED,
-        DataLoadState.LOAD_START,
-        DataLoadState.LOAD_FINISH,
-        DataLoadState.LOAD_ERROR,
-        DataLoadState.LOAD_DATA_SIZE_CHANGED
-    ])
-    annotation class DataLoadState {
-        companion object {
-            private const val TAG = "CountablePositionalDataLoadState"
-            const val INIT_LOAD_START = "${TAG}_init_start"
-            const val INIT_LOAD_FINISH = "${TAG}_init_load_finish"
-            const val INIT_LOAD_ERROR = "${TAG}_init_load_error"
-            const val INIT_LOAD_DATA_SIZE_CHANGED = "${TAG}_init_load_size_changed"
-            const val LOAD_START = "${TAG}_start"
-            const val LOAD_FINISH = "${TAG}_finish"
-            const val LOAD_ERROR = "${TAG}_error"
-            const val LOAD_DATA_SIZE_CHANGED = "${TAG}_load_size_changed"
         }
     }
 }

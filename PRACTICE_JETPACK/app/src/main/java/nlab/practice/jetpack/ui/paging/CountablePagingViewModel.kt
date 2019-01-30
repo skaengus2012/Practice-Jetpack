@@ -17,11 +17,10 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
-import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager.*
+import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -37,17 +36,16 @@ class CountablePagingViewModel @Inject constructor(
         private val _toastHelper: ToastHelper,
         private val _resourceProvider: ResourceProvider,
         private val _recyclerViewUsecase: RecyclerViewUsecase,
-        pagingManagerFactory: CountablePositionalPagingManager.Factory) {
+        private val _pagingItemViewModelFactory: PagingItemViewModelFactory,
+        pagingManagerFactory: CountablePositionalPagingManager.Factory) : PagingViewModel {
 
-    val listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
-            BindingPagedListAdapter.create(placeholderResId = R.layout.view_paging_item_placeholder)
+    private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
+            BindingPagedListAdapter(placeholderResId = R.layout.view_paging_item_placeholder)
 
-    val recyclerViewConfig = RecyclerViewConfig()
+    private val _isShowRefreshProgressBar = ObservableBoolean(false)
+    private var _isRefreshing = false
 
-    val isRefreshing = ObservableBoolean(false)
-    private var _isRefreshLock = false
-
-    val subTitle = ObservableField<String>()
+    private val _subTitle = ObservableField<String>()
     private val _subTitleFormat = _resourceProvider.getString(R.string.paging_countable_sub_title_format)
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
@@ -61,7 +59,15 @@ class CountablePagingViewModel @Inject constructor(
         subscribeLoadError()
     }
 
-    fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
+    override fun isShowRefreshProgressBar(): ObservableBoolean = _isShowRefreshProgressBar
+
+    override fun getListAdapter(): BindingPagedListAdapter<PagingItemViewModel> = _listAdapter
+
+    override fun getSubTitle(): ObservableField<String> = _subTitle
+
+    override fun getBannerText(): String = _resourceProvider.getString(R.string.paging_banner_to_unbounded).toString()
+
+    override fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
 
     private fun subscribePagedList() {
         // NOTE : placeHolder 는 아이템의 전체 개수를 알고 있을 때만 사용 가능
@@ -76,16 +82,20 @@ class CountablePagingViewModel @Inject constructor(
 
         RxPagedListBuilder<Int, PagingItemViewModel>(createDataSourceFactory(), config)
                 .buildFlowable(BackpressureStrategy.BUFFER)
-                .doOnNext { listAdapter.submitList(it) }
+                .doOnNext { _listAdapter.submitList(it) }
                 .subscribe()
                 .addTo(_disposables)
     }
 
     private fun subscribeTotalCountChanged() {
         _pagingManager.stateSubject
-                .filter { (it == DataLoadState.LOAD_DATA_SIZE_CHANGED) || (it == DataLoadState.INIT_LOAD_DATA_SIZE_CHANGED)}
+                .filter {
+                    it.state in listOf(
+                        PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED,
+                        PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED) }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext {
+                    loadTitle()
                     _toastHelper.showToast(R.string.paging_notify_data_size_changed)
                     _pagingManager.invalidate()
                 }
@@ -96,11 +106,12 @@ class CountablePagingViewModel @Inject constructor(
     private fun subscribeLoadError() {
         _pagingManager.stateSubject
                 .observeOn(_schedulerFactory.ui())
-                .filter { it == DataLoadState.LOAD_ERROR || it == DataLoadState.INIT_LOAD_ERROR }
-                .filter { _isRefreshLock }
+                .filter { it.state in listOf(
+                        PositionalDataLoadState.LOAD_ERROR,
+                        PositionalDataLoadState.INIT_LOAD_ERROR) }
                 .doOnNext {
+                    _isRefreshing = false
                     _pagingManager.invalidate()
-                    _isRefreshLock = false
                 }
                 .subscribe()
                 .addTo(_disposables)
@@ -109,11 +120,13 @@ class CountablePagingViewModel @Inject constructor(
     private fun subscribeLoadFinish() {
         _pagingManager.stateSubject
                 .observeOn(_schedulerFactory.ui())
-                .filter { it == DataLoadState.LOAD_FINISH }
-                .filter { _isRefreshLock }
+                .filter { it.state == PositionalDataLoadState.LOAD_FINISH }
+                .filter { _isRefreshing }
                 .doOnNext {
+                    // invalidate 호출 시, init, range 두번 호출 해서, 리프레쉬로 업데이트 시 강제로 200번째 칸으로 스크롤 되는 이슈가 존재
+                    // 리프레쉬로 업데이트 시, 포지션을 0으로 지정해 주도록 하자.
+                    _isRefreshing = false
                     _recyclerViewUsecase.scrollToPositionWithOffset(0,0)
-                    _isRefreshLock = false
                 }
                 .subscribe()
                 .addTo(_disposables)
@@ -123,12 +136,12 @@ class CountablePagingViewModel @Inject constructor(
         _pagingItemRepository.getTotalCount()
                 .subscribeOn(_schedulerFactory.io())
                 .observeOn(_schedulerFactory.ui())
-                .doOnSuccess { String.format(_subTitleFormat.toString(), it).run { subTitle.set(this) } }
+                .doOnSuccess { String.format(_subTitleFormat.toString(), it).run { _subTitle.set(this) } }
                 .subscribe()
                 .addTo(_disposables)
     }
 
-    fun addItems() {
+    override fun addItems() {
         _pagingItemRepository.getTotalCount()
                 .flatMap{ getItemsAddingItemCountSingle(it) }
                 .subscribeOn(_singleScheduler)
@@ -140,9 +153,10 @@ class CountablePagingViewModel @Inject constructor(
                 .addTo(_disposables)
     }
 
-    fun refresh() {
-        _isRefreshLock = true
-        isRefreshing.set(true)
+    override fun refresh() {
+        _isShowRefreshProgressBar.set(true)
+
+        _isRefreshing = true
         _toastHelper.showToast(R.string.paging_notify_refresh)
         _pagingManager.invalidate()
     }
@@ -152,7 +166,6 @@ class CountablePagingViewModel @Inject constructor(
 
         val imageTotalSize = _imagePoolRepository.getSize()
         var startChoiceImage = Random.nextInt(imageTotalSize)
-
         var startIndex = totalSize
 
         (0..newItemCount).map {
@@ -164,12 +177,16 @@ class CountablePagingViewModel @Inject constructor(
         newItemCount
     }
 
-    private fun createDataSourceFactory(): DataSource.Factory<Int, PagingItemViewModel> {
-        return object: DataSource.Factory<Int, PagingItemViewModel>() {
-            override fun create(): DataSource<Int, PagingItemViewModel> {
-                isRefreshing.set(false)
-                return _pagingManager.newDataSource().map { PagingItemViewModel(it) }
-            }
+    private fun createDataSourceFactory(): DFactory = object: DFactory() {
+
+        override fun create(): DataSource<Int, PagingItemViewModel> {
+            _isShowRefreshProgressBar.set(false)
+            return _pagingManager.newDataSource().map { createPagingItemViewModel(it) }
+        }
+
+        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemViewModel = _pagingItemViewModelFactory.create(pagingItem) {
+            it.navUnboundedPaging()
         }
     }
+
 }
