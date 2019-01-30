@@ -11,9 +11,10 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  *
  * @author Doohyun
  */
-class BindingPagedListAdapter<T: BindingItemViewModel> private constructor(
-        callback: PageableCallback<T>,
-        @LayoutRes val placeholderResId: Int = 0) : PagedListAdapter<T, BindingItemViewHolder>(callback) {
+class BindingPagedListAdapter<T: BindingItemViewModel> (
+        callback: PageableCallback<T>? = null,
+        val bottomMoreItem: BindingItemViewModel? = null,
+        @LayoutRes val placeholderResId: Int = 0) : PagedListAdapter<T, BindingItemViewHolder>(callback?: PageableCallbackEx()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingItemViewHolder =
             BindingItemViewHolder.create(parent, viewType)
@@ -29,16 +30,6 @@ class BindingPagedListAdapter<T: BindingItemViewModel> private constructor(
         }
 
         return item
-    }
-
-    companion object {
-        fun <T: BindingItemViewModel> create(
-                callback: PageableCallback<T>? = null,
-                @LayoutRes placeholderResId: Int = 0): BindingPagedListAdapter<T> {
-            return BindingPagedListAdapter(
-                    callback = callback?: PageableCallbackEx(),
-                    placeholderResId = placeholderResId)
-        }
     }
 }
 

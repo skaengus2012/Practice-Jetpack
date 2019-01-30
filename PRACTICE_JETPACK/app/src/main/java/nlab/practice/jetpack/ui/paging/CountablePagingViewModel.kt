@@ -40,7 +40,7 @@ class CountablePagingViewModel @Inject constructor(
         pagingManagerFactory: CountablePositionalPagingManager.Factory) : PagingViewModel {
 
     private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
-            BindingPagedListAdapter.create(placeholderResId = R.layout.view_paging_item_placeholder)
+            BindingPagedListAdapter(placeholderResId = R.layout.view_paging_item_placeholder)
 
     private val _isShowRefreshProgressBar = ObservableBoolean(false)
     private var _isRefreshing = false
