@@ -56,6 +56,8 @@ class UnboundedPagingViewModel @Inject constructor(
     init {
         _bottomMoreViewModel = BottomMoreViewModel {
             _listAdapter.isShowBottomProgress = false
+
+            // TODO 에러 버튼 눌렀을 때 어떻게 해야할지, 페이징 끊기는거 처리를 어떻게 해야할지 고민해봐야함
             _pagingManager.invalidate()
         }
 
