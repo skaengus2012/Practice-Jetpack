@@ -44,7 +44,7 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
 
-    private val _bottomMoreViewModel = BottomMoreViewModel()
+    private val _bottomMoreViewModel = BottomMoreViewModel { _pagingManager.invalidate() }
 
     private val _listAdapter = BindingPagedListAdapter<PagingItemViewModel>(bottomMoreItem = _bottomMoreViewModel)
 
@@ -54,6 +54,7 @@ class UnboundedPagingViewModel @Inject constructor(
         subscribePagedList()
         subscribeLoadStart()
         subscribeLoadComplete()
+        subscribeLoadError()
     }
 
     private fun subscribePagedList() {
@@ -85,6 +86,15 @@ class UnboundedPagingViewModel @Inject constructor(
                 .filter { it.state == PositionalDataLoadState.LOAD_FINISH }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext { _listAdapter.isShowBottomProgress = false }
+                .subscribe()
+                .addTo(_disposables)
+    }
+
+    private fun subscribeLoadError() {
+        _pagingManager.stateSubject
+                .filter { it.state == PositionalDataLoadState.LOAD_ERROR }
+                .observeOn(_schedulerFactory.ui())
+                .doOnNext { _bottomMoreViewModel.isShowProgress = false }
                 .subscribe()
                 .addTo(_disposables)
     }

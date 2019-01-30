@@ -1,13 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data>
 
-    </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="60dp"
-                  android:background="@color/white"
-                  android:orientation="vertical">
+	<data>
+		<import type="android.view.View"/>
 
-    </LinearLayout>
+		<variable
+			name="viewModel"
+			type="nlab.practice.jetpack.ui.paging.BottomMoreViewModel"/>
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="61dp"
+		android:orientation="vertical">
+
+		<ProgressBar
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:visibility="@{viewModel.showProgress ? View.VISIBLE : View.GONE}"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:visibility="visible"/>
+
+		<FrameLayout
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:background="@drawable/paging_bottom_more_button_bg"
+			android:clickable="true"
+			android:focusable="true"
+			android:foreground="?attr/selectableItemBackgroundBorderless"
+			android:onClick="@{() -> viewModel.onClickErrorButton()}"
+			android:visibility="@{viewModel.showProgress ? View.GONE : View.VISIBLE}"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:visibility="gone">
+
+			<ImageView
+				android:layout_width="25dp"
+				android:layout_height="25dp"
+				android:layout_gravity="center"
+				android:clickable="false"
+				app:srcCompat="@drawable/ic_add_white_24dp"/>
+		</FrameLayout>
+
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
