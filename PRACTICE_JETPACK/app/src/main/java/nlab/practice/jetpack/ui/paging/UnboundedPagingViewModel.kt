@@ -1,6 +1,5 @@
 package nlab.practice.jetpack.ui.paging
 
-import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.paging.DataSource
@@ -45,12 +44,15 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
 
-    private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> = BindingPagedListAdapter()
+    private val _bottomMoreViewModel = BottomMoreViewModel()
+
+    private val _listAdapter = BindingPagedListAdapter<PagingItemViewModel>(bottomMoreItem = _bottomMoreViewModel)
 
     private val _singleScheduler = _schedulerFactory.single()
 
     init {
         subscribePagedList()
+        subscribeLoadStart()
         subscribeLoadComplete()
     }
 
@@ -69,19 +71,22 @@ class UnboundedPagingViewModel @Inject constructor(
                 .addTo(_disposables)
     }
 
-    private fun subscribeLoadComplete() {
+    private fun subscribeLoadStart() {
         _pagingManager.stateSubject
-                .filter { it.state in listOf(
-                        PositionalDataLoadState.INIT_LOAD_FINISH,
-                        PositionalDataLoadState.LOAD_FINISH)
-                }
+                .filter { it.state == PositionalDataLoadState.LOAD_START }
                 .observeOn(_schedulerFactory.ui())
-                .doOnNext {
-                    Log.d("dsa", "asdsad ${_listAdapter.itemCount}")
-                }
+                .doOnNext { _listAdapter.isShowBottomProgress = true }
                 .subscribe()
                 .addTo(_disposables)
+    }
 
+    private fun subscribeLoadComplete() {
+        _pagingManager.stateSubject
+                .filter { it.state == PositionalDataLoadState.LOAD_FINISH }
+                .observeOn(_schedulerFactory.ui())
+                .doOnNext { _listAdapter.isShowBottomProgress = false }
+                .subscribe()
+                .addTo(_disposables)
     }
 
     override fun getListAdapter(): BindingPagedListAdapter<PagingItemViewModel> = _listAdapter

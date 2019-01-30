@@ -24,7 +24,7 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
     private val _items = ArrayList<PagingItem>()
 
     init {
-        (0..1000).map { PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize())) }.run {
+        (0 until 1000).map { PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize())) }.run {
             _items.addAll(this)
         }
     }
