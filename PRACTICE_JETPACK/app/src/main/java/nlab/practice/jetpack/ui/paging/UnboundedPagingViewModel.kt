@@ -44,13 +44,23 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
 
-    private val _bottomMoreViewModel = BottomMoreViewModel { _pagingManager.invalidate() }
+    private lateinit var _listAdapter: BindingPagedListAdapter<PagingItemViewModel>
 
-    private val _listAdapter = BindingPagedListAdapter<PagingItemViewModel>(bottomMoreItem = _bottomMoreViewModel)
+    private var _bottomMoreViewModel = BottomMoreViewModel {
+        _listAdapter.isShowBottomProgress = false
+        _pagingManager.invalidate()
+    }
 
     private val _singleScheduler = _schedulerFactory.single()
 
     init {
+        _bottomMoreViewModel = BottomMoreViewModel {
+            _listAdapter.isShowBottomProgress = false
+            _pagingManager.invalidate()
+        }
+
+        _listAdapter = BindingPagedListAdapter(bottomMoreItem = _bottomMoreViewModel)
+
         subscribePagedList()
         subscribeLoadStart()
         subscribeLoadComplete()
@@ -76,7 +86,10 @@ class UnboundedPagingViewModel @Inject constructor(
         _pagingManager.stateSubject
                 .filter { it.state == PositionalDataLoadState.LOAD_START }
                 .observeOn(_schedulerFactory.ui())
-                .doOnNext { _listAdapter.isShowBottomProgress = true }
+                .doOnNext {
+                    _bottomMoreViewModel.isShowProgress = true
+                    _listAdapter.isShowBottomProgress = true
+                }
                 .subscribe()
                 .addTo(_disposables)
     }
@@ -92,7 +105,7 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private fun subscribeLoadError() {
         _pagingManager.stateSubject
-                .filter { it.state == PositionalDataLoadState.LOAD_ERROR }
+                .filter { it.state ==  PositionalDataLoadState.LOAD_ERROR }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext { _bottomMoreViewModel.isShowProgress = false }
                 .subscribe()
@@ -113,9 +126,11 @@ class UnboundedPagingViewModel @Inject constructor(
         // NOTE
         // invalidate 호출 시, 잘못된 위치로 requestPosition 이 세팅되는 이슈 존재
         // 리프레쉬로 업데이트 시, 현재 pagedList 에 0을 지정해주도록 하자.
-        _listAdapter.currentList?.loadAround(0)
-        _toastHelper.showToast(R.string.paging_notify_refresh)
+        _listAdapter.currentList
+                ?.takeIf { !it.isEmpty() }
+                ?.run { loadAround(0) }
 
+        _toastHelper.showToast(R.string.paging_notify_refresh)
         _pagingManager.invalidate()
     }
 

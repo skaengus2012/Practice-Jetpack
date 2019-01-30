@@ -34,10 +34,12 @@ private constructor(
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
         stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_START, params))
 
-        _dataRepository.getItems(params.requestedStartPosition, params.requestedLoadSize)
+        val startPosition = params.requestedStartPosition.takeIf { it >= 0 }?.run { this } ?: 0
+
+        _dataRepository.getItems(startPosition, params.requestedLoadSize)
                 .doOnSuccess {
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_FINISH, params))
-                    callback.onResult(it, params.requestedStartPosition)
+                    callback.onResult(it, startPosition)
                 }
                 .doOnError {
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, params))
