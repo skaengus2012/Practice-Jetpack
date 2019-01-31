@@ -89,7 +89,7 @@ class UnboundedPagingViewModel @Inject constructor(
                 .filter { it.state == PositionalDataLoadState.LOAD_START }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext {
-                    _bottomMoreViewModel.isShowProgress = true
+                    _bottomMoreViewModel.showProgress = true
                     _listAdapter.isShowBottomProgress = true
                 }
                 .subscribe()
@@ -109,7 +109,7 @@ class UnboundedPagingViewModel @Inject constructor(
         _pagingManager.stateSubject
                 .filter { it.state ==  PositionalDataLoadState.LOAD_ERROR }
                 .observeOn(_schedulerFactory.ui())
-                .doOnNext { _bottomMoreViewModel.isShowProgress = false }
+                .doOnNext { _bottomMoreViewModel.showProgress = false }
                 .subscribe()
                 .addTo(_disposables)
     }
