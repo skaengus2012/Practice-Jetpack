@@ -111,7 +111,7 @@ class CountablePagingViewModel @Inject constructor(
                         PositionalDataLoadState.INIT_LOAD_ERROR) }
                 .doOnNext {
                     _isRefreshing = false
-                    _pagingManager.invalidate()
+                    _pagingManager.retry()
                 }
                 .subscribe()
                 .addTo(_disposables)

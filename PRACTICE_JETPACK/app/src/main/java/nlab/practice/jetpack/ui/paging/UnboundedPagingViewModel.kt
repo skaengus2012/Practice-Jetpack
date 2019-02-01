@@ -44,12 +44,8 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
 
+    private val _bottomMoreViewModel: BottomMoreViewModel
     private lateinit var _listAdapter: BindingPagedListAdapter<PagingItemViewModel>
-
-    private var _bottomMoreViewModel = BottomMoreViewModel {
-        _listAdapter.isShowBottomProgress = false
-        _pagingManager.invalidate()
-    }
 
     private val _singleScheduler = _schedulerFactory.single()
 
@@ -58,7 +54,7 @@ class UnboundedPagingViewModel @Inject constructor(
             _listAdapter.isShowBottomProgress = false
 
             // TODO 에러 버튼 눌렀을 때 어떻게 해야할지, 페이징 끊기는거 처리를 어떻게 해야할지 고민해봐야함
-            _pagingManager.invalidate()
+            _pagingManager.retry()
         }
 
         _listAdapter = BindingPagedListAdapter(bottomMoreItem = _bottomMoreViewModel)
