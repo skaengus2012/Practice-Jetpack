@@ -40,7 +40,9 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private val _subTitle = ObservableField<String>(_resourceProvider.getString(R.string.paging_unbounded_sub_title).toString())
 
-    private val _isShowRefreshProgressBar = ObservableBoolean()
+    private val _isShowRefreshProgressBar = ObservableBoolean(false)
+
+    private val _isShowErrorView = ObservableBoolean(false)
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
 
@@ -99,6 +101,13 @@ class UnboundedPagingViewModel @Inject constructor(
                 .doOnNext { _listAdapter.isShowBottomProgress = false }
                 .subscribe()
                 .addTo(_disposables)
+
+        _pagingManager.stateSubject
+                .filter { it.state == PositionalDataLoadState.INIT_LOAD_FINISH }
+                .observeOn(_schedulerFactory.ui())
+                .doOnNext { _isShowErrorView.set(false) }
+                .subscribe()
+                .addTo(_disposables)
     }
 
     private fun subscribeLoadError() {
@@ -106,6 +115,13 @@ class UnboundedPagingViewModel @Inject constructor(
                 .filter { it.state ==  PositionalDataLoadState.LOAD_ERROR }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext { _bottomMoreViewModel.showProgress = false }
+                .subscribe()
+                .addTo(_disposables)
+
+        _pagingManager.stateSubject
+                .filter { it.state == PositionalDataLoadState.INIT_LOAD_ERROR }
+                .observeOn(_schedulerFactory.ui())
+                .doOnNext { _isShowErrorView.set(true) }
                 .subscribe()
                 .addTo(_disposables)
     }
@@ -117,6 +133,8 @@ class UnboundedPagingViewModel @Inject constructor(
     override fun isShowRefreshProgressBar(): ObservableBoolean = _isShowRefreshProgressBar
 
     override fun getBannerText(): String = _resourceProvider.getString(R.string.paging_banner_to_countable).toString()
+
+    override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
 
     override fun refresh() {
         _isShowRefreshProgressBar.set(true)
