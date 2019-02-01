@@ -3,6 +3,7 @@ package nlab.practice.jetpack.repository
 import io.reactivex.Observable
 import io.reactivex.Single
 import nlab.practice.jetpack.repository.model.PagingItem
+import nlab.practice.jetpack.util.RandomErrorExecutor
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
 import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
@@ -47,6 +48,9 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
                 .toList()
                 .blockingGet()
 
+        // 가상의 에러 방출
+        RandomErrorExecutor.execute(20)
+
         PagingItemRs(_totalCount = _items.size, _items = resultSubList)
     }
 
@@ -57,6 +61,11 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
                 .skip(offset.toLong())
                 .take(limit.toLong())
                 .toList()
+                .map {
+                    // 가상의 에러 방출
+                    RandomErrorExecutor.execute(20)
+                    it
+                }
     }
 
     fun addItems(items: List<PagingItem>) = _items.addAll(items)
