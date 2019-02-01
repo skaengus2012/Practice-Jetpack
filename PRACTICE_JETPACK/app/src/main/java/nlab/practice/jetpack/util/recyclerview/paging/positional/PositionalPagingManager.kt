@@ -9,7 +9,7 @@ import io.reactivex.subjects.PublishSubject
  * @since 2019. 01. 15
  */
 abstract class PositionalPagingManager<T> {
-    var dataSource: PositionalDataSource<T>? = null
+    private var _dataSource: PositionalDataSource<T>? = null
     val stateSubject: PublishSubject<PositionalEvent> = PublishSubject.create()
 
     private var _retryLoadRangeCallback: (() -> Unit)? = null
@@ -18,7 +18,7 @@ abstract class PositionalPagingManager<T> {
     abstract fun loadInitial(params: PositionalDataSource.LoadInitialParams, callback: PositionalDataSource.LoadInitialCallback<T>)
 
     fun invalidate() {
-        dataSource?.invalidate()
+        _dataSource?.invalidate()
     }
 
     @MainThread
@@ -38,7 +38,7 @@ abstract class PositionalPagingManager<T> {
 
     open fun newDataSource(): PositionalDataSource<T> {
         val newDataSource = PositionalDataSourceEx(this)
-        dataSource = newDataSource
+        _dataSource = newDataSource
         return newDataSource
     }
 
