@@ -3,6 +3,7 @@ package nlab.practice.jetpack.util.recyclerview.paging.positional
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.SchedulerFactory
 
 /**
  * Paging 관련 컴포넌트 제공자
@@ -14,12 +15,14 @@ import io.reactivex.disposables.CompositeDisposable
 class PositionalPagingModule {
 
     @Provides
-    fun provideCountablePositionalPagingManagerFactory(disposables: CompositeDisposable): CountablePositionalPagingManager.Factory {
-        return CountablePositionalPagingManager.Factory(disposables)
+    fun provideCountablePositionalPagingManagerFactory(
+            disposables: CompositeDisposable, schedulerFactory: SchedulerFactory): CountablePositionalPagingManager.Factory {
+        return CountablePositionalPagingManager.Factory(disposables, schedulerFactory)
     }
 
     @Provides
-    fun provideUnboundedPositionalPagingManagerFactory(disposables: CompositeDisposable): UnboundedPositionalPagingManager.Factory {
-        return UnboundedPositionalPagingManager.Factory(disposables)
+    fun provideUnboundedPositionalPagingManagerFactory(
+            disposables: CompositeDisposable, schedulerFactory: SchedulerFactory): UnboundedPositionalPagingManager.Factory {
+        return UnboundedPositionalPagingManager.Factory(disposables, schedulerFactory)
     }
 }

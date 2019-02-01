@@ -3,10 +3,10 @@ package nlab.practice.jetpack.repository
 import io.reactivex.Observable
 import io.reactivex.Single
 import nlab.practice.jetpack.repository.model.PagingItem
+import nlab.practice.jetpack.util.RandomTestExecutor
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
 import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
-import kotlin.random.Random
 
 /**
  * Paging 에서 데이터 소스 타입에 따라 MOCK 데이터 출력
@@ -24,22 +24,20 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
     private val _items = ArrayList<PagingItem>()
 
     init {
-        (0 until 1000).map { PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize())) }.run {
+        (0 until 1000).map {
+            PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize()))
+        }.run {
             _items.addAll(this)
         }
     }
 
-    private fun sleepRequestDuration() = Random.nextInt(200, 1000).run {
-        Thread.sleep(toLong())
-    }
-
     override fun getTotalCount(): Single<Int> = Single.fromCallable {
-        sleepRequestDuration()
+        RandomTestExecutor.delay(maxTime = 500)
         _items.size
     }
 
     override fun getCountablePositionalRs(offset: Int, limit: Int): Single<PagingItemRs> = Single.fromCallable {
-        sleepRequestDuration()
+        RandomTestExecutor.delay(maxTime = 1500)
 
         val resultSubList: List<PagingItem> = Observable.fromIterable(_items)
                 .skip(offset.toLong())
@@ -47,16 +45,24 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
                 .toList()
                 .blockingGet()
 
+        // 가상의 에러 방출
+        RandomTestExecutor.error(20)
+
         PagingItemRs(_totalCount = _items.size, _items = resultSubList)
     }
 
     override fun getItems(offset: Int, limit: Int): Single<List<PagingItem>> {
-        sleepRequestDuration()
+        RandomTestExecutor.delay(maxTime = 1500)
 
         return Observable.fromIterable(_items)
                 .skip(offset.toLong())
                 .take(limit.toLong())
                 .toList()
+                .map {
+                    // 가상의 에러 방출
+                    RandomTestExecutor.error(20)
+                    it
+                }
     }
 
     fun addItems(items: List<PagingItem>) = _items.addAll(items)

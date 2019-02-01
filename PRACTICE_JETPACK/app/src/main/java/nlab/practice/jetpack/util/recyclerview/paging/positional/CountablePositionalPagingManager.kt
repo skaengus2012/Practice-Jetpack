@@ -6,6 +6,7 @@ import androidx.paging.PositionalDataSource.*
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import nlab.practice.jetpack.util.SchedulerFactory
 import java.util.*
 
 /**
@@ -17,6 +18,7 @@ import java.util.*
 class CountablePositionalPagingManager<T>
 private constructor(
         private val _disposables: CompositeDisposable,
+        private val _schedulerFactory: SchedulerFactory,
         private val _dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
 
     private var _totalCount: Int? = null
@@ -46,7 +48,11 @@ private constructor(
                         PositionalEvent(PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED, rangeParams = params)
                     }.run { stateSubject.onNext(this) }
                 }
+                .observeOn(_schedulerFactory.ui())
+                .doOnSuccess { clearRetry() }
                 .doOnError {
+                    // FIXME retry 세팅 시, 외부 ui 스케줄러와 동기화를 맞춰야 하기 때문에 동시에 처리
+                    setRetry(params, callback)
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
                 }
                 .subscribe()
@@ -111,9 +117,9 @@ private constructor(
         fun getCountablePositionalRs(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
     }
 
-    class Factory(private val _disposables: CompositeDisposable) {
+    class Factory(private val _disposables: CompositeDisposable, private val _schedulerFactory: SchedulerFactory) {
         fun <T> create(dataRepository: DataRepository<T>): CountablePositionalPagingManager<T> {
-            return CountablePositionalPagingManager(_disposables, dataRepository)
+            return CountablePositionalPagingManager(_disposables, _schedulerFactory, dataRepository)
         }
     }
 }

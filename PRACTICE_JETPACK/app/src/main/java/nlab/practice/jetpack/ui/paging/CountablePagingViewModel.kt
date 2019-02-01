@@ -42,6 +42,7 @@ class CountablePagingViewModel @Inject constructor(
     private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
             BindingPagedListAdapter(placeholderResId = R.layout.view_paging_item_placeholder)
 
+    private val _isShowErrorView = ObservableBoolean(false)
     private val _isShowRefreshProgressBar = ObservableBoolean(false)
     private var _isRefreshing = false
 
@@ -69,10 +70,10 @@ class CountablePagingViewModel @Inject constructor(
 
     override fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
 
+    override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
+
     private fun subscribePagedList() {
         // NOTE : placeHolder 는 아이템의 전체 개수를 알고 있을 때만 사용 가능
-        //        이 곳에서는 사용하고 있으며 이는 에러가 발생했을 때, 오직 invalidate 를 통해서만 처리 가능
-        //        invalidate 를 하지 않으면, placeHolder 가 사라지지 않음 -> 이 때는 여러 조건이 필요할 순 있음
         val config = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(100)
                 .setPageSize(100)
@@ -106,12 +107,20 @@ class CountablePagingViewModel @Inject constructor(
     private fun subscribeLoadError() {
         _pagingManager.stateSubject
                 .observeOn(_schedulerFactory.ui())
-                .filter { it.state in listOf(
-                        PositionalDataLoadState.LOAD_ERROR,
-                        PositionalDataLoadState.INIT_LOAD_ERROR) }
+                .filter { it.state == PositionalDataLoadState.LOAD_ERROR }
                 .doOnNext {
                     _isRefreshing = false
-                    _pagingManager.invalidate()
+                    _pagingManager.retry()
+                }
+                .subscribe()
+                .addTo(_disposables)
+
+        _pagingManager.stateSubject
+                .observeOn(_schedulerFactory.ui())
+                .filter { it.state == PositionalDataLoadState.INIT_LOAD_ERROR }
+                .doOnNext {
+                    _isRefreshing = false
+                    _isShowErrorView.set(true)
                 }
                 .subscribe()
                 .addTo(_disposables)
@@ -128,6 +137,13 @@ class CountablePagingViewModel @Inject constructor(
                     _isRefreshing = false
                     _recyclerViewUsecase.scrollToPositionWithOffset(0,0)
                 }
+                .subscribe()
+                .addTo(_disposables)
+
+        _pagingManager.stateSubject
+                .observeOn(_schedulerFactory.ui())
+                .filter { it.state == PositionalDataLoadState.INIT_LOAD_FINISH }
+                .doOnNext { _isShowErrorView.set(false) }
                 .subscribe()
                 .addTo(_disposables)
     }

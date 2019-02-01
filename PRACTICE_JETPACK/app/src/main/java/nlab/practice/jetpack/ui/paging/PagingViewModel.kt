@@ -20,6 +20,8 @@ interface PagingViewModel {
 
     fun isShowRefreshProgressBar(): ObservableBoolean
 
+    fun isShowErrorView(): ObservableBoolean
+
     fun refresh()
 
     fun addItems()

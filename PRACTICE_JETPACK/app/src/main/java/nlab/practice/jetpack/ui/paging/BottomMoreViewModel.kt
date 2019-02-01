@@ -12,16 +12,16 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 class BottomMoreViewModel(private val _onClick: () -> Unit) : BindingItemViewModel() {
 
     @Bindable
-    var isShowProgress = true
+    var showProgress = true
     set(value) {
         field = value
-        notifyPropertyChanged(BR.isShowProgress)
+        notifyPropertyChanged(BR.showProgress)
     }
 
     override fun getLayoutRes(): Int = R.layout.view_paging_bottom_more
 
     fun onClickErrorButton() {
-        isShowProgress = true
+        showProgress = true
         _onClick()
     }
 }

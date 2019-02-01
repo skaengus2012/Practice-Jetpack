@@ -40,16 +40,14 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private val _subTitle = ObservableField<String>(_resourceProvider.getString(R.string.paging_unbounded_sub_title).toString())
 
-    private val _isShowRefreshProgressBar = ObservableBoolean()
+    private val _isShowRefreshProgressBar = ObservableBoolean(false)
+
+    private val _isShowErrorView = ObservableBoolean(false)
 
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
 
+    private val _bottomMoreViewModel: BottomMoreViewModel
     private lateinit var _listAdapter: BindingPagedListAdapter<PagingItemViewModel>
-
-    private var _bottomMoreViewModel = BottomMoreViewModel {
-        _listAdapter.isShowBottomProgress = false
-        _pagingManager.invalidate()
-    }
 
     private val _singleScheduler = _schedulerFactory.single()
 
@@ -58,7 +56,7 @@ class UnboundedPagingViewModel @Inject constructor(
             _listAdapter.isShowBottomProgress = false
 
             // TODO 에러 버튼 눌렀을 때 어떻게 해야할지, 페이징 끊기는거 처리를 어떻게 해야할지 고민해봐야함
-            _pagingManager.invalidate()
+            _pagingManager.retry()
         }
 
         _listAdapter = BindingPagedListAdapter(bottomMoreItem = _bottomMoreViewModel)
@@ -89,7 +87,7 @@ class UnboundedPagingViewModel @Inject constructor(
                 .filter { it.state == PositionalDataLoadState.LOAD_START }
                 .observeOn(_schedulerFactory.ui())
                 .doOnNext {
-                    _bottomMoreViewModel.isShowProgress = true
+                    _bottomMoreViewModel.showProgress = true
                     _listAdapter.isShowBottomProgress = true
                 }
                 .subscribe()
@@ -103,13 +101,27 @@ class UnboundedPagingViewModel @Inject constructor(
                 .doOnNext { _listAdapter.isShowBottomProgress = false }
                 .subscribe()
                 .addTo(_disposables)
+
+        _pagingManager.stateSubject
+                .filter { it.state == PositionalDataLoadState.INIT_LOAD_FINISH }
+                .observeOn(_schedulerFactory.ui())
+                .doOnNext { _isShowErrorView.set(false) }
+                .subscribe()
+                .addTo(_disposables)
     }
 
     private fun subscribeLoadError() {
         _pagingManager.stateSubject
                 .filter { it.state ==  PositionalDataLoadState.LOAD_ERROR }
                 .observeOn(_schedulerFactory.ui())
-                .doOnNext { _bottomMoreViewModel.isShowProgress = false }
+                .doOnNext { _bottomMoreViewModel.showProgress = false }
+                .subscribe()
+                .addTo(_disposables)
+
+        _pagingManager.stateSubject
+                .filter { it.state == PositionalDataLoadState.INIT_LOAD_ERROR }
+                .observeOn(_schedulerFactory.ui())
+                .doOnNext { _isShowErrorView.set(true) }
                 .subscribe()
                 .addTo(_disposables)
     }
@@ -121,6 +133,8 @@ class UnboundedPagingViewModel @Inject constructor(
     override fun isShowRefreshProgressBar(): ObservableBoolean = _isShowRefreshProgressBar
 
     override fun getBannerText(): String = _resourceProvider.getString(R.string.paging_banner_to_countable).toString()
+
+    override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
 
     override fun refresh() {
         _isShowRefreshProgressBar.set(true)
