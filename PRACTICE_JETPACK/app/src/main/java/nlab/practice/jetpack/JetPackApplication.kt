@@ -1,7 +1,7 @@
 package nlab.practice.jetpack
 
 import android.app.Activity
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
 import io.reactivex.plugins.RxJavaPlugins
@@ -15,7 +15,7 @@ private const val TAG = "JetPackApplication"
 /**
  * @author Doohyun
  */
-class JetPackApplication : Application(), AppComponent.Supplier, HasActivityInjector {
+class JetPackApplication : MultiDexApplication(), AppComponent.Supplier, HasActivityInjector {
 
     private lateinit var _appComponent: AppComponent
 

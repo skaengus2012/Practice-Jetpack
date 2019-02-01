@@ -15,7 +15,7 @@
 
     <!-- bottom menu -->
     <string name="bottom_nav_home">Home</string>
-    <string name="bottom_nav_introduce">Setting</string>
+    <string name="bottom_nav_introduce">History</string>
 
     <!-- Home -->
     <string name="home_title">테스트</string>

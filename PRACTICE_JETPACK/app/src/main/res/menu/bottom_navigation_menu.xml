@@ -7,7 +7,7 @@
         android:title="@string/bottom_nav_home"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/menu_setting"
+        android:id="@+id/menu_history"
         android:enabled="true"
         android:icon="@drawable/tab_setting"
         android:title="@string/bottom_nav_introduce"

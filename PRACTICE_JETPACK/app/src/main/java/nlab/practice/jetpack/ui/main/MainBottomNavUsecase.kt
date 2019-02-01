@@ -39,7 +39,7 @@ class MainBottomNavUsecase(
             _navController.replacePrimaryFragment(HomeFragment::class.fragmentTag()) { HomeFragment() }
             true
         }
-        R.id.menu_setting ->  {
+        R.id.menu_history ->  {
             _navController.replacePrimaryFragment(IntroduceFragment::class.fragmentTag()) { IntroduceFragment() }
             true
         }
