@@ -21,6 +21,11 @@
     <string name="home_title">테스트</string>
     <string name="home_time_format">현재 시간 MM월 dd일 hh시 mm분</string>
 
+    <!-- history -->
+    <string name="history_title">사용 기술 및 상태</string>
+    <string name="history_success">[연구성공]</string>
+    <string name="history_failed">[연구실패]</string>
+
     <!-- Paging -->
     <string name="paging_title">페이징 예제</string>
     <string name="paging_countable_sub_title_format">개수가 정해진 페이징 모듈 사용, 총 개수: [%1$s]</string>
