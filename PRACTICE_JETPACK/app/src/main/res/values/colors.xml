@@ -33,8 +33,9 @@
 	<color name="black_opa94">#f0000000</color>
 
 	<!-- HOME -->
-	<color name="home_item_color_1">#e91e63</color>
-	<color name="home_item_color_2">#2196f3</color>
+	<color name="home_item_color_1">#f50057</color>
+	<color name="home_item_color_2">#aa00ff</color>
+	<color name="home_item_color_3">#304ffe</color>
 
 	<!-- bottom menu -->
 	<color name="bottom_navigation_item_color">#6b6b6b</color>

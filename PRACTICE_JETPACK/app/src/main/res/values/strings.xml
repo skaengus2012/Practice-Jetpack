@@ -10,8 +10,10 @@
 
     <!-- Test menu-->
     <string name="test_menu_anko_first">Android DSL Anko Tutorial</string>
-    <string name="test_menu_paging">Jetpack Paging component</string>
-    <string name="test_menu_paging_description">Jetpack Paging 에 대한 연습</string>
+    <string name="test_menu_paging">Paging component in Jetpack</string>
+    <string name="test_menu_paging_description">Positional Paging 연습</string>
+    <string name="test_menu_listadater">ListAdapter\n더 효과적인 RecyclerView Adapter</string>
+    <string name="test_menu_listadater_description">New ListAdapter</string>
 
     <!-- bottom menu -->
     <string name="bottom_nav_home">Home</string>

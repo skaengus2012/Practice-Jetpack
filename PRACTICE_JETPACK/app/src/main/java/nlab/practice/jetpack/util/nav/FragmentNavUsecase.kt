@@ -1,5 +1,6 @@
 package nlab.practice.jetpack.util.nav
 
+import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
 
@@ -24,5 +25,9 @@ class FragmentNavUsecase(private val _navControllerGetter: () -> ChildNavControl
 
     fun navUnboundedPaging() {
         getNavController()?.addFragment(UnboundedPagingFragment::class.fragmentTag()) { UnboundedPagingFragment() }
+    }
+
+    fun navListAdapterExample() {
+        getNavController()?.addFragment(ListAdapterExampleFragment::class.fragmentTag()) { ListAdapterExampleFragment() }
     }
 }
