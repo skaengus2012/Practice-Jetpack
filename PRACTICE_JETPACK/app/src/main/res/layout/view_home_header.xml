@@ -7,7 +7,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/container_page_header_height">
+		android:layout_height="@dimen/home_page_header_height">
 
 		<TextView
 			android:id="@+id/tvHomeTitle"

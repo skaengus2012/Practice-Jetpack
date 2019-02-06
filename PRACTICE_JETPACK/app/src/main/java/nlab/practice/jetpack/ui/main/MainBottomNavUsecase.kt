@@ -5,7 +5,7 @@ import androidx.annotation.IdRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.ui.home.HomeFragment
-import nlab.practice.jetpack.ui.introduce.IntroduceFragment
+import nlab.practice.jetpack.ui.history.HistoryFragment
 import nlab.practice.jetpack.util.nav.fragmentTag
 
 /**
@@ -40,7 +40,7 @@ class MainBottomNavUsecase(
             true
         }
         R.id.menu_history ->  {
-            _navController.replacePrimaryFragment(IntroduceFragment::class.fragmentTag()) { IntroduceFragment() }
+            _navController.replacePrimaryFragment(HistoryFragment::class.fragmentTag()) { HistoryFragment() }
             true
         }
 

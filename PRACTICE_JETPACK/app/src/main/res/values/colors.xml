@@ -32,10 +32,6 @@
 	<color name="black_opa90">#e6000000</color>
 	<color name="black_opa94">#f0000000</color>
 
-	<color name="HomeBackGround">#ffffff</color>
-	<color name="TwoBackGround">#ff0000</color>
-	<color name="ThreeBackGround">#00ff00</color>
-
 	<!-- HOME -->
 	<color name="home_item_color_1">#e91e63</color>
 	<color name="home_item_color_2">#2196f3</color>

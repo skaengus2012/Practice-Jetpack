@@ -24,4 +24,8 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun providePagingDataSourceRepository(imagePoolRepository: ImagePoolRepository) : PagingItemRepository = PagingItemRepository(imagePoolRepository)
+
+    @Reusable
+    @Provides
+    fun provideHistoryRepository(): HistoryRepository = HistoryRepository()
 }

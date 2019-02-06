@@ -2,6 +2,7 @@ package nlab.practice.jetpack.util.di.fragment
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import nlab.practice.jetpack.ui.history.HistoryFragment
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.home.HomeModule
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
@@ -22,6 +23,13 @@ abstract class FragmentBindModule {
         HomeModule::class
     ])
     abstract fun homeFragment(): HomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class,
+        HistoryFragment.Module::class
+    ])
+    abstract fun historyFragment(): HistoryFragment
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [

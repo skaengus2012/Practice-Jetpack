@@ -3,11 +3,13 @@
     <!-- main -->
     <dimen name="main_bottom_navigation_height">60dp</dimen>
 
-    <!-- main container -->
-    <dimen name="container_page_header_height">84dp</dimen>
-    <dimen name="container_page_padding_bottom">75dp</dimen>
-
     <!-- home -->
+    <dimen name="home_page_header_height">84dp</dimen>
+    <dimen name="home_page_padding_bottom">75dp</dimen>
     <dimen name="home_page_item_margin_bottom">48dp</dimen>
     <dimen name="home_page_item_margin_horizontal">20dp</dimen>
+
+    <!-- history -->
+    <dimen name="history_page_header_height">74dp</dimen>
+    <dimen name="history_page_item_margin_start_end">20dp</dimen>
 </resources>
