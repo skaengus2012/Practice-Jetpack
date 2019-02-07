@@ -11,6 +11,7 @@ import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.di.fragment.FragmentScope
+import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 
 /**
  * @author Doohyun
@@ -38,4 +39,8 @@ class ActivityCommonModule {
     @ActivityScope
     @Provides
     fun provideActivityCallbackBinder(): ActivityCallback = ActivityCallback()
+
+    @ActivityScope
+    @Provides
+    fun provideLayoutManager(activity: Activity): LayoutManagerFactory = LayoutManagerFactory(activity)
 }

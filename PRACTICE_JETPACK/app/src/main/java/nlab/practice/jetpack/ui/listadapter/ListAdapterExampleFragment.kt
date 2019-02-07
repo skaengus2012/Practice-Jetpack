@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import nlab.practice.jetpack.databinding.FragmentListAdapterExampleBinding
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
+import javax.inject.Inject
 
 /**
  * ListAdapter 예제 구현을 위한 Fragment
@@ -16,6 +17,7 @@ import nlab.practice.jetpack.util.di.fragment.InjectableFragment
  */
 class ListAdapterExampleFragment: InjectableFragment() {
 
+    @Inject
     lateinit var viewModel: ListAdapterExampleViewModel
 
     lateinit var binding: FragmentListAdapterExampleBinding
