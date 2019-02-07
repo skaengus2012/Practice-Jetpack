@@ -48,7 +48,8 @@ abstract class FragmentBindModule {
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [
-        FragmentCommonModule::class
+        FragmentCommonModule::class,
+        ListAdapterExampleFragment.Module::class
     ])
     abstract fun listAdapterExampleFragment(): ListAdapterExampleFragment
 }
