@@ -12,4 +12,10 @@
     <!-- history -->
     <dimen name="history_page_header_height">74dp</dimen>
     <dimen name="history_page_item_margin_start_end">20dp</dimen>
+
+    <!-- listAdapter -->
+    <dimen name="list_adapter_margin_horizontal">20dp</dimen>
+    <dimen name="list_adapter_margin_horizontal_inner">5dp</dimen>
+    <dimen name="list_adapter_margin_bottom">20dp</dimen>
+
 </resources>

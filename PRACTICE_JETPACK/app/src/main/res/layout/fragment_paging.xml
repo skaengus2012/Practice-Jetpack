@@ -88,7 +88,6 @@
 			android:id="@+id/swipeContainer"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:clipToPadding="false"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior"
 			app:onRefreshListener="@{() -> viewModel.refresh()}"
 			app:refreshing="@{viewModel.showRefreshProgressBar}">
@@ -96,7 +95,6 @@
 				android:id="@+id/lvContents"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:clipToPadding="false"
 				android:visibility="@{viewModel.showErrorView ? View.GONE : View.VISIBLE}"
 				app:list_adapter="@{viewModel.listAdapter}"/>
 		</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

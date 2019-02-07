@@ -40,4 +40,7 @@
     <string name="paging_add_item_unbounded_format">사이즈를 알 수 없어, [%1$d]부터 [%2$d]개 추가합니다.</string>
     <string name="paging_banner_to_countable">아이템을 누르면,\nCountable 페이징 화면으로 이동합니다.</string>
     <string name="paging_banner_to_unbounded">아이템을 누르면,\nUnbounded 페이징 화면으로 이동합니다.</string>
+
+    <!-- listAdapter -->
+    <string name="listadapter_title">ListAdapter 예제</string>
 </resources>
