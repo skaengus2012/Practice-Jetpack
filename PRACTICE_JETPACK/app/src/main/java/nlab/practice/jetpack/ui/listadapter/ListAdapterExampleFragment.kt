@@ -14,6 +14,8 @@ import nlab.practice.jetpack.util.di.fragment.InjectableFragment
  */
 class ListAdapterExampleFragment: InjectableFragment() {
 
+    lateinit var viewModel: ListAdapterExampleViewModel
+
     lateinit var binding: FragmentListAdapterExampleBinding
 
     override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -22,4 +24,9 @@ class ListAdapterExampleFragment: InjectableFragment() {
                 .root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        binding.viewModel = viewModel
+    }
 }

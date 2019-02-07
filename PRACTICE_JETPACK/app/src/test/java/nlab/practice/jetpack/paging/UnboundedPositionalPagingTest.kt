@@ -3,6 +3,7 @@ package nlab.practice.jetpack.paging
 import androidx.paging.PositionalDataSource.*
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.model.NonePageableItem
+import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
 import org.junit.Assert
@@ -33,7 +34,7 @@ class UnboundedPositionalPagingTest {
         _rangeCallback = mock(LoadRangeCallback::class.java) as LoadRangeCallback<NonePageableItem>
 
         _pagingManager = UnboundedPositionalPagingManager
-                .Factory(_disposables)
+                .Factory(_disposables, mock(SchedulerFactory::class.java))
                 .create(_repository)
     }
 

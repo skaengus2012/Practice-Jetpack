@@ -5,6 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import nlab.practice.jetpack.model.NonePageableItem
+import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import org.junit.Assert
@@ -37,7 +38,7 @@ class CountablePositionalPagingTest {
         _rangeCallback = mock(LoadRangeCallback::class.java) as LoadRangeCallback<NonePageableItem>
 
         _pagingManager = CountablePositionalPagingManager
-                .Factory(_disposables)
+                .Factory(_disposables, mock(SchedulerFactory::class.java))
                 .create(_repository)
     }
 

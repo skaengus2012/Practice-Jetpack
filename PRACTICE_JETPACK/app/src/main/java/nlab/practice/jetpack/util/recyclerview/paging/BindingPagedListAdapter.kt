@@ -3,6 +3,8 @@ package nlab.practice.jetpack.util.recyclerview.paging
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.paging.PagedListAdapter
+import nlab.practice.jetpack.util.recyclerview.DiffCallback
+import nlab.practice.jetpack.util.recyclerview.DiffCallbackEx
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewHolder
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 
@@ -12,9 +14,9 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  * @author Doohyun
  */
 class BindingPagedListAdapter<T: BindingItemViewModel> (
-        callback: PageableCallback<T>? = null,
+        callback: DiffCallback<T>? = null,
         val bottomMoreItem: BindingItemViewModel? = null,
-        @LayoutRes val placeholderResId: Int = 0) : PagedListAdapter<T, BindingItemViewHolder>(callback?: PageableCallbackEx()) {
+        @LayoutRes val placeholderResId: Int = 0) : PagedListAdapter<T, BindingItemViewHolder>(callback?: DiffCallbackEx()) {
 
     var isShowBottomProgress = false
     set(value) {
