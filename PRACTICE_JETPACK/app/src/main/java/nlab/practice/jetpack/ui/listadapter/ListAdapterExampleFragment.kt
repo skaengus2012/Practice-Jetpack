@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dagger.Module
+import androidx.fragment.app.Fragment
 import dagger.Provides
+import kotlinx.android.synthetic.main.fragment_list_adapter_example.*
 import nlab.practice.jetpack.databinding.FragmentListAdapterExampleBinding
+import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
 import javax.inject.Inject
 
@@ -37,9 +39,16 @@ class ListAdapterExampleFragment: InjectableFragment() {
     @dagger.Module
     class Module {
 
+        @FragmentScope
         @Provides
         fun provideItemViewModelFactory(): ListAdapterExampleItemViewModelFactory {
             return ListAdapterExampleItemViewModelFactory()
+        }
+
+        @FragmentScope
+        @Provides
+        fun provideSelectionTrackerUsecase(fragment: Fragment) : SelectionTrackerUsecase = SelectionTrackerUsecase {
+            fragment.lvContents
         }
     }
 }

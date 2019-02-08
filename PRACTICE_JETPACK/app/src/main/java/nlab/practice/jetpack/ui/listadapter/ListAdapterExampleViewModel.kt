@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.ui.listadapter
 
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
@@ -10,6 +11,7 @@ import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
+import nlab.practice.jetpack.util.recyclerview.selection.SelectionEvent
 import javax.inject.Inject
 
 /**
@@ -19,6 +21,7 @@ import javax.inject.Inject
 class ListAdapterExampleViewModel @Inject constructor(
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
+        private val _selectionTrackerUsecase: SelectionTrackerUsecase,
         private val _disposables: CompositeDisposable,
         private val _schedulerFactory: SchedulerFactory,
         private val _pagingItemRepository: PagingItemRepository,
@@ -32,19 +35,22 @@ class ListAdapterExampleViewModel @Inject constructor(
 
     private val _isShowErrorView = ObservableBoolean(false)
 
+    val isSelectMode = ObservableBoolean(false)
+
     val listAdapter = BindingItemListAdapter<ListAdapterExampleItemViewModel>()
 
     val isShowRefreshProgressBar = ObservableBoolean(false)
 
-    val recyclerViewConfig: RecyclerViewConfig
+    val selectCountText = ObservableField<String>()
+
+    val recyclerViewConfig: RecyclerViewConfig = RecyclerViewConfig().apply {
+        layoutManager = layoutManagerFactory.createGridLayoutManager(SPAN_COUNT)
+        itemDecorations.add(itemDecoration)
+    }
 
     init {
         initializeList()
-
-        recyclerViewConfig = RecyclerViewConfig().apply {
-            layoutManager = layoutManagerFactory.createGridLayoutManager(SPAN_COUNT)
-            itemDecorations.add(itemDecoration)
-        }
+        subscribeSelection()
     }
 
     override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
@@ -53,9 +59,7 @@ class ListAdapterExampleViewModel @Inject constructor(
         _pagingItemRepository.getItems(0, 200)
                 .subscribeOn(_schedulerFactory.io())
                 .doOnSuccess {
-                    list
-                    ->
-                    list.map { _listAdapterItemFactory.create(it) }.run { _listUpdateSubject.onNext(this) }
+                    it.map { item -> _listAdapterItemFactory.create(item) }.run { _listUpdateSubject.onNext(this) }
                 }
                 .observeOn(_schedulerFactory.ui())
                 .doOnSuccess { _isShowErrorView.set(false) }
@@ -77,9 +81,43 @@ class ListAdapterExampleViewModel @Inject constructor(
     private fun initializeList() {
         _listUpdateSubject
                 .observeOn(_schedulerFactory.ui())
-                .subscribe { listAdapter.submitList(it) }
+                .subscribe {
+                    listAdapter.submitList(it)
+                    _selectionTrackerUsecase.replaceList(it)
+                }
                 .addTo(_disposables)
 
         refresh()
+    }
+
+    private fun subscribeSelection() {
+        _selectionTrackerUsecase.getSelectionEventSubject()
+                .filter { it.eventCode == SelectionEvent.Code.SELECTION_CHANGED }
+                .doOnNext {
+                    if (!isSelectMode.get()) {
+                        isSelectMode.set(true)
+                        updateSelectCountText()
+                    }
+                }
+                .subscribe()
+                .addTo(_disposables)
+
+        _selectionTrackerUsecase.getSelectionEventSubject()
+                .filter { it.eventCode == SelectionEvent.Code.STATE_CHANGED }
+                .doOnNext { updateSelectCountText() }
+                .subscribe()
+                .addTo(_disposables)
+    }
+
+    fun clearSelectState() {
+        _selectionTrackerUsecase.getSelectionTracker()?.clearSelection()
+        isSelectMode.set(false)
+    }
+
+    private fun updateSelectCountText() {
+        val selectionSize = _selectionTrackerUsecase.getSelectionTracker()?.selection?.size() ?: 0
+        val totalSize = _listUpdateSubject.value?.size ?: 0
+
+        selectCountText.set("$selectionSize / $totalSize")
     }
 }
