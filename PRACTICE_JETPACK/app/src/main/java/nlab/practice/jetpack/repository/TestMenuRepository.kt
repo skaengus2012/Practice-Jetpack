@@ -21,4 +21,10 @@ class TestMenuRepository(private val _resourceProvider: ResourceProvider) {
             cardTitle = _resourceProvider.getString(R.string.test_menu_paging_description).toString()
     )
 
+    fun getListAdapterMenu(): TestMenu = TestMenu(
+            title = _resourceProvider.getString(R.string.test_menu_listadater).toString(),
+            cardColorRes = R.color.home_item_color_3,
+            cardTitle = _resourceProvider.getString(R.string.test_menu_listadater_description).toString()
+    )
+
 }

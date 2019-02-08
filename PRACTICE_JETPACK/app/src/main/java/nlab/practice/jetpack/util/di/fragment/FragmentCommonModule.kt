@@ -10,6 +10,7 @@ import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.nav.FragmentScopeNavModule
+import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 
 
 /**
@@ -37,4 +38,8 @@ class FragmentCommonModule {
     @FragmentScope
     @Provides
     fun provideLifeCycleBinder(disposables: CompositeDisposable): FragmentLifeCycleBinder = LifeCycleBinder(disposables)
+
+    @FragmentScope
+    @Provides
+    fun provideLayoutManagerFactory(fragment: Fragment): LayoutManagerFactory = LayoutManagerFactory(fragment.activity!!)
 }

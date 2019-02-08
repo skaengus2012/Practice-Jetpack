@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+<layout>
     <data>
-        <import type="android.view.View"/>
-
-        <variable
-            name="viewModel"
-            type="nlab.practice.jetpack.ui.paging.PagingViewModel"/>
+        <variable name="viewModel" type="nlab.practice.jetpack.ui.listadapter.ListAdapterExampleViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         style="@style/HolderFragmentStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +23,6 @@
                 android:layout_height="match_parent"
                 android:minHeight="0dp"
                 app:layout_scrollFlags="scroll|enterAlways">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -38,7 +34,6 @@
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        android:onClick="@{() -> viewModel.onClickBackButton()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -48,39 +43,24 @@
                         android:id="@+id/tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/paging_title"
+                        android:text="@string/listadapter_title"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@id/tvSubTitle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/tvSubTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="@{viewModel.subTitle}"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        tools:text="부제목"/>
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <ImageButton
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        android:onClick="@{() -> viewModel.addItems()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_add_white_24dp"/>
+                        app:srcCompat="@drawable/ic_delete_white_24dp"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -89,44 +69,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:onRefreshListener="@{() -> viewModel.refresh()}"
-            app:refreshing="@{viewModel.showRefreshProgressBar}">
+            app:onRefreshListener="@{() -> viewModel.refreshBySwipeLayout()}"
+            app:refreshing="@{viewModel.isShowRefreshProgressBar}">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lvContents"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="@{viewModel.showErrorView ? View.GONE : View.VISIBLE}"
-                app:list_adapter="@{viewModel.listAdapter}"/>
+                android:clipToPadding="false"
+                android:paddingTop="15dp"
+                app:list_adapter="@{viewModel.listAdapter}"
+                app:list_config="@{viewModel.recyclerViewConfig}"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include
             layout="@layout/view_list_error_page"
             app:viewModel="@{viewModel}"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/paging_banner_bg"
-            android:minHeight="80dp"
-            android:visibility="@{viewModel.showErrorView ? View.GONE : View.VISIBLE}"
-            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:lineSpacingExtra="1dp"
-                android:text="@{viewModel.bannerText}"
-                android:textColor="@color/white"
-                android:textSize="15.5sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.4"
-                tools:text="배너의 제목을 입력하세요"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

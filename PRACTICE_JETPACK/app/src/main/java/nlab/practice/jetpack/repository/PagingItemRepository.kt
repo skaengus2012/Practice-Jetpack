@@ -51,18 +51,19 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
         PagingItemRs(_totalCount = _items.size, _items = resultSubList)
     }
 
-    override fun getItems(offset: Int, limit: Int): Single<List<PagingItem>> {
+    override fun getItems(offset: Int, limit: Int): Single<List<PagingItem>> = Single.fromCallable {
         RandomTestExecutor.delay(maxTime = 1500)
 
-        return Observable.fromIterable(_items)
+        val resultSubList = Observable.fromIterable(_items)
                 .skip(offset.toLong())
                 .take(limit.toLong())
                 .toList()
-                .map {
-                    // 가상의 에러 방출
-                    RandomTestExecutor.error(20)
-                    it
-                }
+                .blockingGet()
+
+        // 가상의 에러 방출
+        RandomTestExecutor.error(20)
+
+        resultSubList
     }
 
     fun addItems(items: List<PagingItem>) = _items.addAll(items)

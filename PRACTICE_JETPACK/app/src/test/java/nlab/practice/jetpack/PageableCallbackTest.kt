@@ -1,13 +1,13 @@
 package nlab.practice.jetpack
 
-import nlab.practice.jetpack.util.recyclerview.paging.PageableCallbackEx
+import nlab.practice.jetpack.util.recyclerview.DiffCallbackEx
 import nlab.practice.jetpack.model.NonePageableItem
 import nlab.practice.jetpack.model.PagingItem
 import org.junit.Assert
 import org.junit.Test
 
 /**
- * DiffUtil 의 다른 명칭인 PageableCallback 에 대한 유닛 테스트
+ * DiffUtil 의 다른 명칭인 DiffCallback 에 대한 유닛 테스트
  *
  * @author Doohyun
  * @since 2019. 01. 11
@@ -15,11 +15,11 @@ import org.junit.Test
 class PageableCallbackTest {
 
     /**
-     * Pageable 을 구현하지 않은 객체에 대해 비교가 잘 이루어 지는가?
+     * Different 을 구현하지 않은 객체에 대해 비교가 잘 이루어 지는가?
      */
     @Test
     fun testCompareNonePagingItem() {
-        val callback = PageableCallbackEx<NonePageableItem>()
+        val callback = DiffCallbackEx<NonePageableItem>()
 
         val item1 = NonePageableItem()
         val item2 = NonePageableItem()
@@ -33,11 +33,11 @@ class PageableCallbackTest {
     }
 
     /**
-     * Pageable 를 구현한 객체의 비교가 잘 이루어지는 가?
+     * Different 를 구현한 객체의 비교가 잘 이루어지는 가?
      */
     @Test
     fun testComparePagingItem() {
-        val callback = PageableCallbackEx<PagingItem>()
+        val callback = DiffCallbackEx<PagingItem>()
 
         val item1 = PagingItem(1, "One")
         val newItem1 = PagingItem(1, "new One")

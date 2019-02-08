@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemAdapter
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
-import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 
 private typealias ViewModelList = List<BindingItemViewModel>
 
@@ -37,10 +36,10 @@ fun bindRecyclerView(
     recyclerView.adapter?.notifyDataSetChanged()
 }
 
-@BindingAdapter(value = ["list_pageadapter", "list_config"], requireAll = false)
+@BindingAdapter(value = ["list_adapter", "list_config"], requireAll = false)
 fun bindRecyclerViewAdapter(
         recyclerView: RecyclerView,
-        adapter: BindingPagedListAdapter<out BindingItemViewModel>,
+        adapter: RecyclerView.Adapter<*>,
         config: RecyclerViewConfig? = null) {
     recyclerView.adapter = adapter
     bindConfig(recyclerView, config)
