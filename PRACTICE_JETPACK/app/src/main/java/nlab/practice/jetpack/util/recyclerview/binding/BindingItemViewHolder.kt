@@ -17,6 +17,9 @@ import nlab.practice.jetpack.util.recyclerview.AbsGenericItemAdapter
 class BindingItemViewHolder(private val _viewDataBinding: ViewDataBinding) :
         AbsGenericItemAdapter.GenericItemViewHolder<BindingItemViewModel>(_viewDataBinding.root) {
 
+    var adapterPosition: Int? = null
+    var itemViewModel: BindingItemViewModel? = null
+
     // ItemViewModel 에서 View 관련 레퍼런스 사용 시, 필요한 Usecase 를 정의한 컴포넌트
     private val _itemViewUsecaseFactory: ItemViewUsecaseFactory by lazy {
         DaggerItemViewUsecaseFactory
@@ -25,14 +28,14 @@ class BindingItemViewHolder(private val _viewDataBinding: ViewDataBinding) :
                 .build()
     }
 
-    override fun onBind(item: BindingItemViewModel) {
-        item.itemViewUsecaseFactory = _itemViewUsecaseFactory
+    override fun onBind(adapterPosition: Int, item: BindingItemViewModel) {
+        this.adapterPosition = adapterPosition
 
-        // FIXME 적절한 아이디로 수정 필요
-        // -> 수정되었음 모든 ID 를 viewModel
-        _viewDataBinding.run {
-            setVariable(BR.viewModel, item)
-            executePendingBindings()
+        this.itemViewModel = item.apply {
+            itemViewUsecaseFactory = _itemViewUsecaseFactory
+
+            _viewDataBinding.setVariable(BR.viewModel, this)
+            _viewDataBinding.executePendingBindings()
         }
     }
 

@@ -26,7 +26,7 @@ abstract class AbsGenericItemAdapter<T, VIEW_HOLDER: AbsGenericItemAdapter.Gener
     }
 
     override fun onBindViewHolder(holder: VIEW_HOLDER, position: Int) {
-        getItemWithCategory(position)?.run { holder.onBind(this) }
+        getItemWithCategory(position)?.run { holder.onBind(position,this) }
     }
 
     protected fun getItemWithCategory(position: Int): T? {
@@ -60,6 +60,6 @@ abstract class AbsGenericItemAdapter<T, VIEW_HOLDER: AbsGenericItemAdapter.Gener
     }
 
     abstract class GenericItemViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun onBind(item: T)
+        abstract fun onBind(adapterPosition: Int, item: T)
     }
 }
