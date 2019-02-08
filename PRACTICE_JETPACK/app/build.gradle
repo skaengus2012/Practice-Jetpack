@@ -61,6 +61,7 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation "androidx.recyclerview:recyclerview-selection:1.0.0"
     implementation "androidx.paging:paging-common:$androidx_paging_version"
     implementation "androidx.paging:paging-runtime:$androidx_paging_version"
     implementation "androidx.paging:paging-rxjava2:$androidx_paging_version"
@@ -110,8 +111,8 @@ dependencies {
     kapt 'com.google.auto.factory:auto-factory:1.0-beta6'
 
     // debug
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // for Unit Test
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:2.23.4"

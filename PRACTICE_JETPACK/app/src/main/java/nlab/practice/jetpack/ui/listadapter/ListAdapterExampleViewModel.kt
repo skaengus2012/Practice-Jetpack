@@ -52,7 +52,8 @@ class ListAdapterExampleViewModel @Inject constructor(
     override fun refresh() {
         _pagingItemRepository.getItems(0, 200)
                 .subscribeOn(_schedulerFactory.io())
-                .doOnSuccess { list
+                .doOnSuccess {
+                    list
                     ->
                     list.map { _listAdapterItemFactory.create(it) }.run { _listUpdateSubject.onNext(this) }
                 }
