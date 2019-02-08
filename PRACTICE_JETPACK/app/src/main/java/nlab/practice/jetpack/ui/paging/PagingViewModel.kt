@@ -2,6 +2,7 @@ package nlab.practice.jetpack.ui.paging
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 
 /**
@@ -10,7 +11,7 @@ import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
  * @author Doohyun
  * @since 2019. 01. 29
  */
-interface PagingViewModel {
+interface PagingViewModel : ListErrorPageViewModel {
 
     fun getListAdapter(): BindingPagedListAdapter<PagingItemViewModel>
 
@@ -19,10 +20,6 @@ interface PagingViewModel {
     fun getBannerText(): String
 
     fun isShowRefreshProgressBar(): ObservableBoolean
-
-    fun isShowErrorView(): ObservableBoolean
-
-    fun refresh()
 
     fun addItems()
 

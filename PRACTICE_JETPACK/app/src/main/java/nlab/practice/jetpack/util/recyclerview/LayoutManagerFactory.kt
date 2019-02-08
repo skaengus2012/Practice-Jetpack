@@ -15,7 +15,7 @@ class LayoutManagerFactory(private val _context: Context) {
     fun createGridLayoutManager(
             spanCount: Int,
             @RecyclerView.Orientation orientation: Int,
-            reverseLayout: Boolean) : GridLayoutManager {
+            reverseLayout: Boolean): GridLayoutManager {
         return GridLayoutManager(_context, spanCount, orientation, reverseLayout)
     }
 }
