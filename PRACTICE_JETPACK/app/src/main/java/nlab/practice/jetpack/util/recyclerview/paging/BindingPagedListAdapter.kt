@@ -31,14 +31,14 @@ class BindingPagedListAdapter<T: BindingItemViewModel> (
 
     override fun onBindViewHolder(holder: BindingItemViewHolder, position: Int) {
         if (isNeedOnlyCommonCase()) {
-            getItem(position)?.run { holder.onBind(position, this) }
+            getItem(position)?.run { holder.onBind(this) }
         } else {
             val itemCount = super.getItemCount()
             if (position < itemCount) {
                 getItem(position)
             } else {
                 bottomMoreItem
-            }?.run { holder.onBind(position, this) }
+            }?.run { holder.onBind(this) }
         }
     }
 

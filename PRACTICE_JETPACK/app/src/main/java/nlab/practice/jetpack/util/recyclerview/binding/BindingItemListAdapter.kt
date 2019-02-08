@@ -17,7 +17,7 @@ class BindingItemListAdapter<T: BindingItemViewModel>(
     }
 
     override fun onBindViewHolder(holder: BindingItemViewHolder, position: Int) {
-        getItem(position)?.run { holder.onBind(position, this) }
+        getItem(position)?.run { holder.onBind(this) }
     }
 
     override fun getItemViewType(position: Int): Int = getItem(position).getLayoutRes()
