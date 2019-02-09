@@ -6,6 +6,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.history.HistoryFragment
+import nlab.practice.jetpack.util.BaseFragment
 import nlab.practice.jetpack.util.nav.fragmentTag
 
 /**
@@ -55,4 +56,6 @@ class MainBottomNavUsecase(
             }
         }
     }
+
+    fun onBackPressedInPrimaryNav(): Boolean = _navController.getCurrentContainerFragment()?.onBackPressed()?:false
 }

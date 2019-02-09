@@ -30,21 +30,20 @@
 
 				<FrameLayout
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+					android:layout_height="57dp"
+					app:layout_collapseMode="pin"
+					app:toolbarStateOfListAdapterExample="@{viewModel.isSelectMode}">
 
 					<androidx.constraintlayout.widget.ConstraintLayout
 						android:id="@+id/toolbarStandard"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:paddingTop="6dp"
-						android:paddingBottom="6dp"
-						app:layout_collapseMode="pin"
-						app:normalToolbarStateOfListAdapterExample="@{viewModel.isSelectMode}">
+						android:layout_height="match_parent">
 
 						<ImageButton
 							android:layout_width="45dp"
 							android:layout_height="45dp"
 							android:background="?selectableItemBackgroundBorderless"
+							android:onClick="@{()->viewModel.onBackPressed()}"
 							app:layout_constraintBottom_toBottomOf="parent"
 							app:layout_constraintStart_toStartOf="parent"
 							app:layout_constraintTop_toTopOf="parent"
@@ -67,11 +66,8 @@
 					<androidx.constraintlayout.widget.ConstraintLayout
 						android:id="@+id/toolbarSelect"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:paddingTop="6dp"
-						android:paddingBottom="6dp"
-						android:visibility="gone"
-						app:selectToolbarStateOfListAdapterExample="@{viewModel.isSelectMode}">
+						android:layout_height="match_parent"
+						android:visibility="gone">
 
 						<ImageButton
 							android:id="@+id/btnClear"

@@ -38,4 +38,6 @@ class ChildNavController(val fragmentManager: FragmentManager, @IdRes val contai
     }
 
     fun clearFragments(): Boolean = fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+    fun getPrimaryNavFragment(): Fragment? = fragmentManager.primaryNavigationFragment
 }

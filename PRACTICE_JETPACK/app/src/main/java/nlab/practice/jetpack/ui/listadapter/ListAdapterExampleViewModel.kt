@@ -8,6 +8,9 @@ import io.reactivex.subjects.BehaviorSubject
 import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
+import nlab.practice.jetpack.util.component.ActivityCommonUsecase
+import nlab.practice.jetpack.util.component.callback.ActivityCallback
+import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
@@ -21,11 +24,13 @@ import javax.inject.Inject
 class ListAdapterExampleViewModel @Inject constructor(
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
+        fragmentCallback: FragmentCallback,
         private val _selectionTrackerUsecase: SelectionTrackerUsecase,
         private val _disposables: CompositeDisposable,
         private val _schedulerFactory: SchedulerFactory,
         private val _pagingItemRepository: PagingItemRepository,
-        private val _listAdapterItemFactory: ListAdapterExampleItemViewModelFactory) : ListErrorPageViewModel {
+        private val _listAdapterItemFactory: ListAdapterExampleItemViewModelFactory,
+        private val _activityCommonUsecase: ActivityCommonUsecase) : ListErrorPageViewModel {
 
     companion object {
         const val SPAN_COUNT = 2
@@ -51,6 +56,16 @@ class ListAdapterExampleViewModel @Inject constructor(
     init {
         initializeList()
         subscribeSelection()
+
+        fragmentCallback.onBackPressed {
+            // 현재 선택모드일 경우, 백키를 누른다면 이전상태로 돌린다.
+            if (isSelectMode.get()) {
+                clearSelectState()
+                true
+            } else {
+                false
+            }
+        }
     }
 
     override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
@@ -119,5 +134,9 @@ class ListAdapterExampleViewModel @Inject constructor(
         val totalSize = _listUpdateSubject.value?.size ?: 0
 
         selectCountText.set("$selectionSize / $totalSize")
+    }
+
+    fun onBackPressed() {
+        _activityCommonUsecase.onBackPressed()
     }
 }
