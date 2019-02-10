@@ -98,10 +98,11 @@ class ListAdapterExampleViewModel @Inject constructor(
     private fun initializeList() {
         _listUpdateSubject
                 .observeOn(_schedulerFactory.ui())
-                .subscribe {
+                .doOnNext {
                     listAdapter.submitList(it)
                     _selectionTrackerUsecase.replaceList(it)
                 }
+                .subscribe()
                 .addTo(_disposables)
 
         refresh()
@@ -156,6 +157,9 @@ class ListAdapterExampleViewModel @Inject constructor(
                     !isRemoveItem
                 }
                 ?.run { _listUpdateSubject.onNext(this) }
+
+        clearSelectState()
+        updateSelectCountText()
     }
 
     private fun updateSelectCountText() {
