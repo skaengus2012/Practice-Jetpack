@@ -146,6 +146,18 @@ class ListAdapterExampleViewModel @Inject constructor(
         isSelectMode.set(false)
     }
 
+    fun removeSelectedItem() {
+        val currentSelection =  _selectionTrackerUsecase.getSelectionTracker()?.selection
+
+        _listUpdateSubject.value
+                ?.filter {
+                    // 포함되지 않은 목록만 살린다.
+                    val isRemoveItem = currentSelection?.contains(it.getSelectionKey()) ?: false
+                    !isRemoveItem
+                }
+                ?.run { _listUpdateSubject.onNext(this) }
+    }
+
     private fun updateSelectCountText() {
         val selectionSize = _selectionTrackerUsecase.getSelectionTracker()?.selection?.size() ?: 0
         val totalSize = _listUpdateSubject.value?.size ?: 0
