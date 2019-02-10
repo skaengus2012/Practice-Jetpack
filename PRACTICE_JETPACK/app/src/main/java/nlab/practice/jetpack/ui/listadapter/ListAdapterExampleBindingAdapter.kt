@@ -107,7 +107,7 @@ private fun convertSelectToolbarTransition(toolbarStandard: View, toolbarSelect:
                 toolbarStandard.visibility =  View.GONE
 
                 AlphaAnimation(0f, 1f).apply {
-                    duration = 300
+                    duration = 500
 
                     setAnimationListener(object: SimpleAnimationListener() {
                         override fun onAnimationStart(animation: Animation?) {

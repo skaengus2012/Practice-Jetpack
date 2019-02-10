@@ -2,6 +2,7 @@ package nlab.practice.jetpack.ui.listadapter
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
@@ -168,7 +169,7 @@ class ListAdapterExampleViewModel @Inject constructor(
         clearSelectState()
         updateSelectCountText()
 
-        _snackBarHelper.showSnackBar(R.string.listadapter_remove_message)
+        _snackBarHelper.showSnackBar(R.string.listadapter_remove_message, Snackbar.LENGTH_LONG)
     }
 
     private fun updateSelectCountText() {
