@@ -9,6 +9,7 @@ import androidx.annotation.CallSuper
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.BaseFragment
+import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
@@ -29,6 +30,9 @@ abstract class InjectableFragment : BaseFragment() {
 
     @Inject
     lateinit var compositeDisposable: CompositeDisposable
+
+    @Inject
+    lateinit var fragmentCallbackBinder: FragmentCallback
 
     private lateinit var _fragmentBindComponent: FragmentBindComponent
 
@@ -138,5 +142,10 @@ abstract class InjectableFragment : BaseFragment() {
         super.onDetach()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DETACH)
+    }
+
+    @CallSuper
+    override fun onBackPressed(): Boolean {
+        return fragmentCallbackBinder.onBackPressedCommand?.invoke()?:false
     }
 }

@@ -26,6 +26,9 @@ class MainHolderViewModel @Inject constructor(
     }
 
     private fun executeOnBackPressed(): Boolean = when {
+        // 현재 Primary 화면의 OnBackPressed 의 처리 결과에 따라 이 후 작업 결정
+        _mainNavUsecase.onBackPressedInPrimaryNav() -> true
+
         // 현재 메뉴가 Home 이 아닐 경우 홈으로 이동
         _mainNavUsecase.getSelectedItemId() != R.id.menu_home -> {
             _mainNavUsecase.navFirstPage()

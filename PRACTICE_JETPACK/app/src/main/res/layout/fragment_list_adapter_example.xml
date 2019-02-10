@@ -1,89 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data>
-        <variable name="viewModel" type="nlab.practice.jetpack.ui.listadapter.ListAdapterExampleViewModel"/>
-    </data>
+	<data>
+		<import type="android.view.View"/>
+		<variable
+			name="viewModel"
+			type="nlab.practice.jetpack.ui.listadapter.ListAdapterExampleViewModel"/>
+	</data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        style="@style/HolderFragmentStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="vertical">
+	<androidx.coordinatorlayout.widget.CoordinatorLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		style="@style/HolderFragmentStyle"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:clickable="true"
+		android:focusable="true"
+		android:orientation="vertical"
+		app:selectModeOfListAdapterExample="@{viewModel.isSelectMode}">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+		<com.google.android.material.appbar.AppBarLayout
+			android:id="@+id/appbarLayout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="0dp"
-                app:layout_scrollFlags="scroll|enterAlways">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    app:layout_collapseMode="pin">
+			<com.google.android.material.appbar.CollapsingToolbarLayout
+				android:id="@+id/collapsingToolbar"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				app:layout_scrollFlags="scroll|enterAlways">
 
-                    <ImageButton
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_arrow_white_24dp"/>
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:id="@+id/toolbarStandard"
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/list_adapter_toolbar_height"
+					app:layout_collapseMode="pin">
 
-                    <TextView
-                        android:id="@+id/tvTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/listadapter_title"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+					<ImageButton
+						android:layout_width="45dp"
+						android:layout_height="45dp"
+						android:background="?selectableItemBackgroundBorderless"
+						android:onClick="@{()->viewModel.onBackPressed()}"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						app:srcCompat="@drawable/ic_arrow_white_24dp"/>
 
-                    <ImageButton
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_delete_white_24dp"/>
+					<TextView
+						android:id="@+id/tvTitle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/listadapter_title"
+						android:textColor="@color/white"
+						android:textSize="16sp"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+				</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:onRefreshListener="@{() -> viewModel.refreshBySwipeLayout()}"
-            app:refreshing="@{viewModel.isShowRefreshProgressBar}">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lvContents"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingTop="15dp"
-                app:list_adapter="@{viewModel.listAdapter}"
-                app:list_config="@{viewModel.recyclerViewConfig}"/>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:id="@+id/toolbarSelect"
+					android:layout_width="match_parent"
+					android:layout_height="@dimen/list_adapter_toolbar_height"
+					android:visibility="gone"
+					app:layout_constraintBottom_toTopOf="@id/lvContents"
+					app:layout_constraintTop_toTopOf="parent">
 
-        <include
-            layout="@layout/view_list_error_page"
-            app:viewModel="@{viewModel}"/>
+					<ImageButton
+						android:id="@+id/btnClear"
+						android:layout_width="45dp"
+						android:layout_height="45dp"
+						android:background="?selectableItemBackgroundBorderless"
+						android:onClick="@{() -> viewModel.clearSelectState()}"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						app:srcCompat="@drawable/ic_clear_white_24dp"/>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="10dp"
+						android:text="@{viewModel.selectCountText}"
+						android:textColor="@color/white"
+						android:textSize="16sp"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintStart_toEndOf="@id/btnClear"
+						app:layout_constraintTop_toTopOf="parent"
+						tools:text="0 / 20"/>
+
+					<ImageButton
+						android:layout_width="45dp"
+						android:layout_height="45dp"
+						android:background="?selectableItemBackgroundBorderless"
+						android:onClick="@{()->viewModel.removeSelectedItem()}"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						app:srcCompat="@drawable/ic_delete_white_24dp"/>
+
+				</androidx.constraintlayout.widget.ConstraintLayout>
+
+			</com.google.android.material.appbar.CollapsingToolbarLayout>
+		</com.google.android.material.appbar.AppBarLayout>
+
+		<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+			android:id="@+id/swipeContainer"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			app:onRefreshListener="@{() -> viewModel.refreshBySwipeLayout()}"
+			app:refreshing="@{viewModel.isShowRefreshProgressBar}">
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/lvContents"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:clipToPadding="false"
+				android:paddingTop="15dp"
+				android:visibility="@{viewModel.showErrorView ? View.GONE : View.VISIBLE}"
+				app:list_adapter="@{viewModel.listAdapter}"
+				app:list_config="@{viewModel.recyclerViewConfig}"/>
+		</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+		<include
+			layout="@layout/view_list_error_page"
+			app:viewModel="@{viewModel}"/>
+
+	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
