@@ -5,9 +5,11 @@ import androidx.databinding.ObservableField
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
+import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
+import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
@@ -29,7 +31,8 @@ class ListAdapterExampleViewModel @Inject constructor(
         private val _schedulerFactory: SchedulerFactory,
         private val _pagingItemRepository: PagingItemRepository,
         private val _listAdapterItemFactory: ListAdapterExampleItemViewModelFactory,
-        private val _activityCommonUsecase: ActivityCommonUsecase) : ListErrorPageViewModel {
+        private val _activityCommonUsecase: ActivityCommonUsecase,
+        private val _snackBarHelper: SnackBarHelper) : ListErrorPageViewModel {
 
     companion object {
         const val SPAN_COUNT = 2
@@ -114,7 +117,11 @@ class ListAdapterExampleViewModel @Inject constructor(
                 .doOnNext {
                     when {
                         // 현재 Selection 이 없다면 선택모드를 종료한다. 구글가이드임..
-                        !(_selectionTrackerUsecase.getSelectionTracker()?.hasSelection()?: false) -> clearSelectState()
+                        !(_selectionTrackerUsecase.getSelectionTracker()?.hasSelection()?: false) -> {
+                            if (isSelectMode.get()) {
+                                clearSelectState()
+                            }
+                        }
 
                         !isSelectMode.get() -> isSelectMode.set(true)
                     }
@@ -143,8 +150,8 @@ class ListAdapterExampleViewModel @Inject constructor(
     }
 
     fun clearSelectState() {
-        _selectionTrackerUsecase.getSelectionTracker()?.clearSelection()
         isSelectMode.set(false)
+        _selectionTrackerUsecase.getSelectionTracker()?.clearSelection()
     }
 
     fun removeSelectedItem() {
@@ -160,6 +167,8 @@ class ListAdapterExampleViewModel @Inject constructor(
 
         clearSelectState()
         updateSelectCountText()
+
+        _snackBarHelper.showSnackBar(R.string.listadapter_remove_message)
     }
 
     private fun updateSelectCountText() {

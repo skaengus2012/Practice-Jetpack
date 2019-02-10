@@ -43,4 +43,5 @@
 
     <!-- listAdapter -->
     <string name="listadapter_title">ListAdapter 예제</string>
+    <string name="listadapter_remove_message">선택된 아이템들이 삭제되었습니다.</string>
 </resources>
