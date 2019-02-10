@@ -45,7 +45,7 @@ fun bindListAdapterExampleToolbarState(view: View, isSelectMode: Boolean) {
                         toolbarStandard.visibility =  View.GONE
 
                         AlphaAnimation(0f, 1f).apply {
-                            duration = 200
+                            duration = 300
 
                             setAnimationListener(object: SimpleAnimationListener() {
                                 override fun onAnimationStart(animation: Animation?) {

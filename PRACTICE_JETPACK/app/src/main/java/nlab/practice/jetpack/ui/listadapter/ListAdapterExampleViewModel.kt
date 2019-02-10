@@ -9,7 +9,6 @@ import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
@@ -78,7 +77,10 @@ class ListAdapterExampleViewModel @Inject constructor(
                 }
                 .observeOn(_schedulerFactory.ui())
                 .doOnSuccess { _isShowErrorView.set(false) }
-                .doOnError { _isShowErrorView.set(true) }
+                .doOnError {
+                    _isShowErrorView.set(true)
+                    clearSelectState()
+                }
                 .doFinally {
                     if (isShowRefreshProgressBar.get()) {
                         isShowRefreshProgressBar.set(false)
@@ -109,9 +111,11 @@ class ListAdapterExampleViewModel @Inject constructor(
         _selectionTrackerUsecase.getSelectionEventSubject()
                 .filter { it.eventCode == SelectionEvent.Code.SELECTION_CHANGED }
                 .doOnNext {
-                    if (!isSelectMode.get()) {
-                        isSelectMode.set(true)
-                        updateSelectCountText()
+                    when {
+                        // 현재 Selection 이 없다면 선택모드를 종료한다. 구글가이드임..
+                        !(_selectionTrackerUsecase.getSelectionTracker()?.hasSelection()?: false) -> clearSelectState()
+
+                        !isSelectMode.get() -> isSelectMode.set(true)
                     }
                 }
                 .subscribe()
@@ -119,7 +123,20 @@ class ListAdapterExampleViewModel @Inject constructor(
 
         _selectionTrackerUsecase.getSelectionEventSubject()
                 .filter { it.eventCode == SelectionEvent.Code.STATE_CHANGED }
-                .doOnNext { updateSelectCountText() }
+                .doOnNext {
+                    updateSelectCountText()
+
+                    _listUpdateSubject.value
+                            ?.filter {
+                                viewModel
+                                ->
+                                viewModel.getSelectionKey() == it.key
+                            }?.forEach {
+                                viewModel
+                                ->
+                                it.selected?.run { viewModel.selectState = this }
+                            }
+                }
                 .subscribe()
                 .addTo(_disposables)
     }
