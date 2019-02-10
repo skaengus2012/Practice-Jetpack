@@ -17,5 +17,6 @@
     <dimen name="list_adapter_margin_horizontal">20dp</dimen>
     <dimen name="list_adapter_margin_horizontal_inner">5dp</dimen>
     <dimen name="list_adapter_margin_bottom">20dp</dimen>
+    <dimen name="list_adapter_toolbar_height">57dp</dimen>
 
 </resources>
