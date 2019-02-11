@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import dagger.Provides
 import kotlinx.android.synthetic.main.fragment_list_adapter_example.*
 import nlab.practice.jetpack.databinding.FragmentListAdapterExampleBinding
+import nlab.practice.jetpack.ui.main.ChildFragmentModule
 import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class ListAdapterExampleFragment: InjectableFragment() {
         binding.viewModel = viewModel
     }
 
-    @dagger.Module
+    @dagger.Module(includes = [ChildFragmentModule::class])
     class Module {
 
         @FragmentScope

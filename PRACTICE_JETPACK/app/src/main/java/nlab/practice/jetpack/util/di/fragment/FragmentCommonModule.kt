@@ -1,13 +1,10 @@
 package nlab.practice.jetpack.util.di.fragment
 
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
-import nlab.practice.jetpack.ui.main.MainHolderActivity
 import nlab.practice.jetpack.util.RxUtils
-import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
@@ -15,7 +12,6 @@ import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.nav.FragmentScopeNavModule
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
-import org.jetbrains.anko.contentView
 
 
 /**
@@ -51,10 +47,4 @@ class FragmentCommonModule {
     @FragmentScope
     @Provides
     fun provideLayoutManagerFactory(fragment: Fragment): LayoutManagerFactory = LayoutManagerFactory(fragment.activity!!)
-
-    @FragmentScope
-    @Provides
-    fun provideSnackBarHelper(fragment: Fragment) : SnackBarHelper = SnackBarHelper {
-        fragment.activity?.contentView
-    }
 }
