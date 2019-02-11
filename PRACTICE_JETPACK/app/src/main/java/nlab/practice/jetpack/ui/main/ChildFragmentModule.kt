@@ -11,9 +11,7 @@ import nlab.practice.jetpack.util.nav.FragmentNavUsecase
  *
  * @author Doohyun
  */
-@Module(includes = [
-    HolderFragmentModule::class
-])
+@Module
 class ChildFragmentModule {
 
     @FragmentScope

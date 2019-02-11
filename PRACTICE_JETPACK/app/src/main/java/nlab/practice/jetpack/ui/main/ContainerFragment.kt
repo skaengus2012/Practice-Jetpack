@@ -54,9 +54,7 @@ class ContainerFragmentCallback {
     }
 }
 
-@Module(includes = [
-    HolderFragmentModule::class
-])
+@Module
 class ContainerFragmentModule {
 
     @FragmentScope

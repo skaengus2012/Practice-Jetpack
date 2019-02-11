@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.RxUtils
+import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
@@ -47,4 +48,16 @@ class FragmentCommonModule {
     @FragmentScope
     @Provides
     fun provideLayoutManagerFactory(fragment: Fragment): LayoutManagerFactory = LayoutManagerFactory(fragment.activity!!)
+
+    @FragmentScope
+    @Provides
+    fun provideSnackBarHelper(fragment: Fragment) : SnackBarHelper = SnackBarHelper {
+        val activity = fragment.activity
+
+        if (activity != null && !activity.isFinishing) {
+            fragment.view
+        } else {
+            null
+        }
+    }
 }
