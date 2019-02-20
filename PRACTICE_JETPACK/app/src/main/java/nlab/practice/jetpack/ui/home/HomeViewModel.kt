@@ -56,7 +56,8 @@ class HomeViewModel @Inject constructor(
     private fun createItems(): List<HomeItemViewModel> = listOf(
             createHomeAnkoFirstViewMenuViewModel(),
             createPagingTestMenuViewModel(),
-            createListAdapterMenuViewModel()
+            createListAdapterMenuViewModel(),
+            createDragDropMenuViewModel()
     )
 
     private fun createHomeAnkoFirstViewMenuViewModel(): HomeItemViewModel = _testMenuRepository.getAnkoFirstViewMenu().let {
@@ -69,6 +70,10 @@ class HomeViewModel @Inject constructor(
 
     private fun createListAdapterMenuViewModel(): HomeItemViewModel = _testMenuRepository.getListAdapterMenu().let {
         _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navListAdapterExample() }
+    }
+
+    private fun createDragDropMenuViewModel(): HomeItemViewModel = _testMenuRepository.getDragDropMenu().let {
+        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navDragDrop() }
     }
 
     private fun refreshItems() {
