@@ -1,6 +1,6 @@
 package nlab.practice.jetpack.util.nav
 
-import nlab.practice.jetpack.ui.dragdrop.DragDropFragment
+import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
@@ -33,6 +33,6 @@ class FragmentNavUsecase(private val _navControllerGetter: () -> ChildNavControl
     }
 
     fun navDragDrop() {
-        getNavController()?.addFragment(DragDropFragment::class.fragmentTag()) { DragDropFragment()}
+        getNavController()?.addFragment(ItemTouchHelperFragment::class.fragmentTag()) { ItemTouchHelperFragment()}
     }
 }

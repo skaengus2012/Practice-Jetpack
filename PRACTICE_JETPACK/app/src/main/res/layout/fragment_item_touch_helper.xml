@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+	<data>
+		<variable
+			name="viewModel"
+			type="nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperViewModel"/>
+	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,7 +29,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="45dp"
 			android:gravity="center"
-			android:text="@string/drag_drop_title"
+			android:text="@string/item_touch_helper_title"
 			android:textColor="@color/white"
 			android:textSize="16sp"
 			app:layout_constraintEnd_toEndOf="parent"

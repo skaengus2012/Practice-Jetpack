@@ -2,7 +2,7 @@ package nlab.practice.jetpack.util.di.fragment
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import nlab.practice.jetpack.ui.dragdrop.DragDropFragment
+import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.history.HistoryFragment
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.home.HomeModule
@@ -58,5 +58,5 @@ abstract class FragmentBindModule {
     @ContributesAndroidInjector(modules = [
         FragmentCommonModule::class
     ])
-    abstract fun dragDropFragment(): DragDropFragment
+    abstract fun dragDropFragment(): ItemTouchHelperFragment
 }

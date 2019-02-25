@@ -28,7 +28,7 @@ class TestMenuRepository(private val _resourceProvider: ResourceProvider) {
     )
 
     fun getDragDropMenu(): TestMenu = TestMenu(
-            title = _resourceProvider.getString(R.string.test_menu_drag_drop).toString(),
+            title = _resourceProvider.getString(R.string.test_menu_item_touch).toString(),
             cardTitle =  _resourceProvider.getString(R.string.test_menu_drag_drop_description).toString(),
             cardColorRes = R.color.home_item_color_4
     )
