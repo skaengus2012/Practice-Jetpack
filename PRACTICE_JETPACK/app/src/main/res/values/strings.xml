@@ -3,6 +3,7 @@
 
 	<!-- common -->
 	<string name="item_album_art">앨범 아트</string>
+	<string name="item_back">뒤로가기</string>
 
 	<!-- anko first -->
 	<string name="anko_first_message">Hello</string>

@@ -56,7 +56,8 @@ abstract class FragmentBindModule {
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [
-        FragmentCommonModule::class
+        FragmentCommonModule::class,
+        ItemTouchHelperFragment.Module::class
     ])
-    abstract fun dragDropFragment(): ItemTouchHelperFragment
+    abstract fun itemTouchHelperFragment(): ItemTouchHelperFragment
 }

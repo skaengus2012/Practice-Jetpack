@@ -1,5 +1,6 @@
 package nlab.practice.jetpack.util.recyclerview
 
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -9,5 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
  */
 data class RecyclerViewConfig(
         var layoutManager: RecyclerView.LayoutManager? = null,
-        val itemDecorations: MutableList<RecyclerView.ItemDecoration> = ArrayList()
+        val itemDecorations: MutableList<RecyclerView.ItemDecoration> = ArrayList(),
+        val itemTouchHelpers: MutableList<ItemTouchHelper.Callback> = ArrayList()
 )

@@ -2,34 +2,32 @@
 <layout>
     <data>
         <import type="nlab.practice.jetpack.R"/>
-        <import
-            alias="glideOptionProvider"
-            type="nlab.practice.jetpack.util.GlideOptionProvider"/>
+
+        <import type="nlab.practice.jetpack.util.GlideOptionProvider"/>
 
         <variable
             name="viewModel"
-            type="nlab.practice.jetpack.ui.paging.PagingItemViewModel"/>
+            type="nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperItemViewModel"/>
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:background="@color/black_opa60"
         android:layout_height="@dimen/common_horizontal_item_height"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal">
+        android:contentDescription="@{viewModel.title}"
+        android:paddingStart="20dp"
+        android:paddingEnd="5dp">
 
         <ImageView
             android:id="@+id/ivAlbum"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginStart="20dp"
             android:layout_marginEnd="16dp"
+            android:importantForAccessibility="no"
             app:errorDrawable="@{R.drawable.common_img_track_default}"
-            app:glideOptions="@{glideOptionProvider.forPagingItem()}"
+            app:glideOptions="@{GlideOptionProvider.forPagingItem()}"
             app:imageUrl="@{viewModel.imageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/tvTitle"
@@ -43,15 +41,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:importantForAccessibility="no"
+            android:singleLine="true"
             android:text="@{viewModel.title}"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivDragHandle"
             app:layout_constraintStart_toEndOf="@+id/ivAlbum"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="타이틀"/>
+
+        <ImageView
+            android:id="@+id/ivDragHandle"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:importantForAccessibility="no"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_drag_handle_white_24dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

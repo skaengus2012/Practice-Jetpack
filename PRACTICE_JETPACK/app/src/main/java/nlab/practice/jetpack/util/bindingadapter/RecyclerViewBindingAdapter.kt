@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.util.bindingadapter
 
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
@@ -56,9 +57,13 @@ private fun bindConfig(recyclerView: RecyclerView, config: RecyclerViewConfig?) 
         recyclerView.layoutManager = layoutManager ?: LinearLayoutManager(recyclerView.context)
 
         // 아이템 데코레이션 정의
-        for (index in 0 until itemDecorations.size) {
-            recyclerView.addItemDecoration(itemDecorations[index], index)
-        }
+        (0 until itemDecorations.size)
+                .forEach {  recyclerView.addItemDecoration(itemDecorations[it], it) }
+
+        // 아이템 터치 헬퍼 정의
+        (0 until itemTouchHelpers.size)
+                .map { ItemTouchHelper(itemTouchHelpers[it]) }
+                .forEach { it.attachToRecyclerView(recyclerView) }
     }
 
     // 레이아웃 매니저 정의
