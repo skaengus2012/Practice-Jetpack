@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.Provides
 import nlab.practice.jetpack.databinding.FragmentItemTouchHelperBinding
+import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
+import nlab.practice.jetpack.util.recyclerview.touch.VerticalDragItemTouchHelperCallback
 import javax.inject.Inject
 
 /**
@@ -36,9 +39,19 @@ class ItemTouchHelperFragment : InjectableFragment() {
 
     @dagger.Module
     class Module {
-
+        @FragmentScope
         @Provides
-        fun provideItemFactory(): ItemTouchHelperItemViewModelFactory = ItemTouchHelperItemViewModelFactory()
+        fun provideItemFactory(itemTouchHelper: ItemTouchHelper): ItemTouchHelperItemViewModelFactory
+                = ItemTouchHelperItemViewModelFactory { itemTouchHelper }
 
+        @FragmentScope
+        @Provides
+        fun provideDragTouchHelperCallback(): VerticalDragItemTouchHelperCallback
+                = VerticalDragItemTouchHelperCallback(true)
+
+        @FragmentScope
+        @Provides
+        fun provideItemTouchHelper(dragItemTouchHelper: VerticalDragItemTouchHelperCallback): ItemTouchHelper
+                = ItemTouchHelper(dragItemTouchHelper)
     }
 }

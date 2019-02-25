@@ -23,6 +23,7 @@ class BindingItemViewHolder(private val _viewDataBinding: ViewDataBinding) :
     private val _itemViewUsecaseFactory: ItemViewUsecaseFactory by lazy {
         DaggerItemViewUsecaseFactory
                 .builder()
+                .setViewHoler(this)
                 .setView(_viewDataBinding.root)
                 .build()
     }

@@ -1,6 +1,7 @@
 package nlab.practice.jetpack.ui.itemtouch
 
 import androidx.databinding.ObservableBoolean
+import androidx.recyclerview.widget.ItemTouchHelper
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -8,9 +9,11 @@ import io.reactivex.subjects.BehaviorSubject
 import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
+import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
-import nlab.practice.jetpack.util.recyclerview.touch.DragMovementItemTouchHelperCallback
+import nlab.practice.jetpack.util.recyclerview.touch.DragEvent
+import nlab.practice.jetpack.util.recyclerview.touch.VerticalDragItemTouchHelperCallback
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -20,12 +23,13 @@ import kotlin.collections.ArrayList
  * @since 2019. 02. 25
  */
 class ItemTouchHelperViewModel @Inject constructor(
+        private val _activityCommonUsecase: ActivityCommonUsecase,
         private val _disposables: CompositeDisposable,
         private val _pagingItemRepository: PagingItemRepository,
         private val _schedulerFactory: SchedulerFactory,
+        private val _dragCallback: VerticalDragItemTouchHelperCallback,
+        private val _dragTouchHelper: ItemTouchHelper,
         private val _itemModelFactory: ItemTouchHelperItemViewModelFactory) : ListErrorPageViewModel {
-
-    private val _dragCallback = DragMovementItemTouchHelperCallback()
 
     private val _itemUpdateSubject: BehaviorSubject<List<ItemTouchHelperItemViewModel>>
             = BehaviorSubject.createDefault(emptyList())
@@ -37,13 +41,14 @@ class ItemTouchHelperViewModel @Inject constructor(
     val recyclerViewConfig = createRecyclerViewConfig()
 
     init {
+
         subscribeItems()
         subscribeDragEvent()
         loadItems()
     }
 
     private fun createRecyclerViewConfig(): RecyclerViewConfig = RecyclerViewConfig().apply {
-        itemTouchHelpers.add(_dragCallback)
+        itemTouchHelperSuppliers.add(_dragTouchHelper)
     }
 
     private fun subscribeItems() {
@@ -79,7 +84,7 @@ class ItemTouchHelperViewModel @Inject constructor(
                 .addTo(_disposables)
     }
 
-    private fun swapItems(event: DragMovementItemTouchHelperCallback.DragEvent) = _itemUpdateSubject.value?.run {
+    private fun swapItems(event: DragEvent) = _itemUpdateSubject.value?.run {
         val currentSize = size
 
         val isValidSize = event.fromPosition < currentSize && event.toPosition < currentSize
@@ -96,4 +101,6 @@ class ItemTouchHelperViewModel @Inject constructor(
     override fun refresh() {
         loadItems()
     }
+
+    fun onBackPressed() = _activityCommonUsecase.onBackPressed()
 }
