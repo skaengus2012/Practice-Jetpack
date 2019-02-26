@@ -13,9 +13,11 @@ import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
 import nlab.practice.jetpack.util.recyclerview.touch.DragEvent
+import nlab.practice.jetpack.util.recyclerview.touch.SwipeDeleteTouchEventHelperCallback
 import nlab.practice.jetpack.util.recyclerview.touch.VerticalDragItemTouchHelperCallback
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 import kotlin.collections.ArrayList
 
 /**
@@ -28,7 +30,8 @@ class ItemTouchHelperViewModel @Inject constructor(
         private val _pagingItemRepository: PagingItemRepository,
         private val _schedulerFactory: SchedulerFactory,
         private val _dragCallback: VerticalDragItemTouchHelperCallback,
-        private val _dragTouchHelper: ItemTouchHelper,
+        private val _swipeCallback: SwipeDeleteTouchEventHelperCallback,
+        private val _touchHelpers: Set<@JvmSuppressWildcards ItemTouchHelper>,
         private val _itemModelFactory: ItemTouchHelperItemViewModelFactory) : ListErrorPageViewModel {
 
     private val _itemUpdateSubject: BehaviorSubject<List<ItemTouchHelperItemViewModel>>
@@ -41,14 +44,14 @@ class ItemTouchHelperViewModel @Inject constructor(
     val recyclerViewConfig = createRecyclerViewConfig()
 
     init {
-
         subscribeItems()
         subscribeDragEvent()
+        subscribeSwipeDeleteEvent()
         loadItems()
     }
 
     private fun createRecyclerViewConfig(): RecyclerViewConfig = RecyclerViewConfig().apply {
-        itemTouchHelperSuppliers.add(_dragTouchHelper)
+        itemTouchHelperSuppliers.addAll(_touchHelpers)
     }
 
     private fun subscribeItems() {
@@ -61,7 +64,15 @@ class ItemTouchHelperViewModel @Inject constructor(
     private fun subscribeDragEvent() {
         _dragCallback.eventSubject
                 .observeOn(_schedulerFactory.ui())
-                .doOnNext { swapItems(it) }
+                .doOnNext { swapItems(it.fromPosition, it.toPosition) }
+                .subscribe()
+                .addTo(_disposables)
+    }
+
+    private fun subscribeSwipeDeleteEvent() {
+        _swipeCallback.eventSubject
+                .observeOn(_schedulerFactory.ui())
+                .doOnNext { removeItems(it.position) }
                 .subscribe()
                 .addTo(_disposables)
     }
@@ -84,15 +95,23 @@ class ItemTouchHelperViewModel @Inject constructor(
                 .addTo(_disposables)
     }
 
-    private fun swapItems(event: DragEvent) = _itemUpdateSubject.value?.run {
+    private fun swapItems(fromPosition: Int, toPosition: Int) = _itemUpdateSubject.value?.run {
         val currentSize = size
 
-        val isValidSize = event.fromPosition < currentSize && event.toPosition < currentSize
+        val isValidSize = fromPosition < currentSize && toPosition < currentSize
         if (isValidSize) {
-            val newItems = ArrayList(this)
-            Collections.swap(newItems, event.fromPosition, event.toPosition)
+            ArrayList(this)
+                    .apply { Collections.swap(this, fromPosition, toPosition) }
+                    .run { _itemUpdateSubject.onNext(this) }
+        }
+    }
 
-            _itemUpdateSubject.onNext(newItems)
+    private fun removeItems(targetIndex: Int) = _itemUpdateSubject.value?.run {
+        val isValidSize = targetIndex < size
+        if (isValidSize) {
+            ArrayList(this)
+                    .apply { removeAt(targetIndex) }
+                    .run { _itemUpdateSubject.onNext(this) }
         }
     }
 

@@ -31,5 +31,4 @@ class ItemTouchHelperItemViewModel constructor(
 
         true
     } else { false }
-
 }
