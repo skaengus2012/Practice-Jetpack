@@ -2,6 +2,7 @@ package nlab.practice.jetpack.util.di.fragment
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.history.HistoryFragment
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.home.HomeModule
@@ -52,4 +53,11 @@ abstract class FragmentBindModule {
         ListAdapterExampleFragment.Module::class
     ])
     abstract fun listAdapterExampleFragment(): ListAdapterExampleFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class,
+        ItemTouchHelperFragment.Module::class
+    ])
+    abstract fun itemTouchHelperFragment(): ItemTouchHelperFragment
 }

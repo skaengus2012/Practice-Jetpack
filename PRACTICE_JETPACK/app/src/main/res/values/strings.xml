@@ -1,47 +1,56 @@
 <resources>
-    <string name="app_name">jet-pack</string>
+	<string name="app_name">jet-pack</string>
 
-    <!-- anko first -->
-    <string name="anko_first_message">Hello</string>
-    <string name="anko_first_message_change">Changed value</string>
-    <string name="anko_first_message_change_delay">Changed value delayed</string>
-    <string name="anko_first_btn_change_text">CHANGE TEXT</string>
-    <string name="anko_first_btn_change_text_delay">CHANGE TEXT - DELAYED</string>
+	<!-- common -->
+	<string name="item_album_art">앨범 아트</string>
+	<string name="item_back">뒤로가기</string>
 
-    <!-- Test menu-->
-    <string name="test_menu_anko_first">Android DSL Anko Tutorial</string>
-    <string name="test_menu_paging">Paging component in Jetpack</string>
-    <string name="test_menu_paging_description">Positional Paging 연습</string>
-    <string name="test_menu_listadater">ListAdapter\n더 효과적인 RecyclerView Adapter</string>
-    <string name="test_menu_listadater_description">New ListAdapter</string>
+	<!-- anko first -->
+	<string name="anko_first_message">Hello</string>
+	<string name="anko_first_message_change">Changed value</string>
+	<string name="anko_first_message_change_delay">Changed value delayed</string>
+	<string name="anko_first_btn_change_text">CHANGE TEXT</string>
+	<string name="anko_first_btn_change_text_delay">CHANGE TEXT - DELAYED</string>
 
-    <!-- bottom menu -->
-    <string name="bottom_nav_home">Home</string>
-    <string name="bottom_nav_introduce">History</string>
+	<!-- Test menu-->
+	<string name="test_menu_anko_first">Android DSL Anko Tutorial</string>
+	<string name="test_menu_paging">Paging component in Jetpack</string>
+	<string name="test_menu_paging_description">Positional Paging 연습</string>
+	<string name="test_menu_listadater">ListAdapter\n더 효과적인 RecyclerView Adapter</string>
+	<string name="test_menu_listadater_description">New ListAdapter</string>
+	<string name="test_menu_item_touch">Drag &amp; Drop 과 Swipe Delete</string>
+	<string name="test_menu_drag_drop_description">Item Touch Helper 연습</string>
 
-    <!-- Home -->
-    <string name="home_title">테스트</string>
-    <string name="home_time_format">현재 시간 MM월 dd일 hh시 mm분</string>
+	<!-- bottom menu -->
+	<string name="bottom_nav_home">Home</string>
+	<string name="bottom_nav_introduce">History</string>
 
-    <!-- history -->
-    <string name="history_title">사용 기술 및 상태</string>
-    <string name="history_success">[연구성공]</string>
-    <string name="history_failed">[연구실패]</string>
+	<!-- Home -->
+	<string name="home_title">테스트</string>
+	<string name="home_time_format">현재 시간 MM월 dd일 hh시 mm분</string>
 
-    <!-- Paging -->
-    <string name="paging_title">페이징 예제</string>
-    <string name="paging_countable_sub_title_format">개수가 정해진 페이징 모듈 사용, 총 개수: [%1$s]</string>
-    <string name="paging_unbounded_sub_title">개수가 정해지지 않은 페이징 모듈 사용</string>
-    <string name="paging_error_state">앗, 에러가 발생했습니다 !\n새로고침을 눌러주세요.</string>
-    <string name="paging_retry">새로고침</string>
-    <string name="paging_add_item">아이템을 추가했습니다. [%1$d]개</string>
-    <string name="paging_notify_data_size_changed">데이터의 총 사이즈가 변경되어, DataSource 를 다시 부릅니다.</string>
-    <string name="paging_notify_refresh">새로고침을 수행합니다.</string>
-    <string name="paging_add_item_unbounded_format">사이즈를 알 수 없어, [%1$d]부터 [%2$d]개 추가합니다.</string>
-    <string name="paging_banner_to_countable">아이템을 누르면,\nCountable 페이징 화면으로 이동합니다.</string>
-    <string name="paging_banner_to_unbounded">아이템을 누르면,\nUnbounded 페이징 화면으로 이동합니다.</string>
+	<!-- history -->
+	<string name="history_title">사용 기술 및 상태</string>
+	<string name="history_success">[연구성공]</string>
+	<string name="history_failed">[연구실패]</string>
 
-    <!-- listAdapter -->
-    <string name="listadapter_title">ListAdapter 예제</string>
-    <string name="listadapter_remove_message">선택된 아이템들이 삭제되었습니다.</string>
+	<!-- Paging -->
+	<string name="paging_title">페이징 예제</string>
+	<string name="paging_countable_sub_title_format">개수가 정해진 페이징 모듈 사용, 총 개수: [%1$s]</string>
+	<string name="paging_unbounded_sub_title">개수가 정해지지 않은 페이징 모듈 사용</string>
+	<string name="paging_error_state">앗, 에러가 발생했습니다 !\n새로고침을 눌러주세요.</string>
+	<string name="paging_retry">새로고침</string>
+	<string name="paging_add_item">아이템을 추가했습니다. [%1$d]개</string>
+	<string name="paging_notify_data_size_changed">데이터의 총 사이즈가 변경되어, DataSource 를 다시 부릅니다.</string>
+	<string name="paging_notify_refresh">새로고침을 수행합니다.</string>
+	<string name="paging_add_item_unbounded_format">사이즈를 알 수 없어, [%1$d]부터 [%2$d]개 추가합니다.</string>
+	<string name="paging_banner_to_countable">아이템을 누르면,\nCountable 페이징 화면으로 이동합니다.</string>
+	<string name="paging_banner_to_unbounded">아이템을 누르면,\nUnbounded 페이징 화면으로 이동합니다.</string>
+
+	<!-- listAdapter -->
+	<string name="listadapter_title">ListAdapter 예제</string>
+	<string name="listadapter_remove_message">선택된 아이템들이 삭제되었습니다.</string>
+
+	<!-- Drag and Drop -->
+	<string name="item_touch_helper_title">Item Touch Helper 연습</string>
 </resources>

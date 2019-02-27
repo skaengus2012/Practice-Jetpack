@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- common -->
+    <dimen name="common_horizontal_item_height">61dp</dimen>
+
     <!-- main -->
     <dimen name="main_bottom_navigation_height">60dp</dimen>
 
