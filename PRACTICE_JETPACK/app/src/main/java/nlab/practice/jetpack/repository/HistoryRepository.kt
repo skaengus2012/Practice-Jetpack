@@ -26,7 +26,10 @@ class HistoryRepository {
                     "submitList 만 적절하게 처리하면, 간단하고 쉽게 Adapter 의 트랜잭션을 처리할 수 있음.\n애니메이션도 좋아서 매우 쓸만함"),
 
             History("JetPack RecyclerView Selection", true,
-                    "기본적인 Selection 처리에 대해 다루어 봤음\n이를 적용하기에 몇가지 제약이 있을 수 있음.\n  * 같은 키 사용 못함\n  * Select 된 항목이 하나도 없을 경우 Selection 자동해지\n  * 너무 추가해야할 코드가 많을 수 있음\n    (Selection 항목에 대한 패턴화가 필요할 것 같음)")
+                    "기본적인 Selection 처리에 대해 다루어 봤음\n이를 적용하기에 몇가지 제약이 있을 수 있음.\n  * 같은 키 사용 못함\n  * Select 된 항목이 하나도 없을 경우 Selection 자동해지\n  * 너무 추가해야할 코드가 많을 수 있음\n    (Selection 항목에 대한 패턴화가 필요할 것 같음)"),
+
+            History("RecyclerView ItemTouchHelper", true,
+                    "Drag & Drop 과 Swipe 는 ItemTouchHelper 의 구현만으로 쉽게 할 수 있음.\n  * DI 로 연결해야하는 이슈가 있었음\n  *  Multi-binding <-> Named Tag 주목")
     )
 
 }
