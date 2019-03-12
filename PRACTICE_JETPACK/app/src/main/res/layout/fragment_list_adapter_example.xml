@@ -22,87 +22,84 @@
 			android:id="@+id/appbarLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
-
-			<com.google.android.material.appbar.CollapsingToolbarLayout
-				android:id="@+id/collapsingToolbar"
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/headerLayout"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="@dimen/list_adapter_toolbar_height"
 				app:layout_scrollFlags="scroll|enterAlways">
 
-				<androidx.constraintlayout.widget.ConstraintLayout
+				<ImageButton
+					android:id="@+id/btnBack"
+					android:layout_width="45dp"
+					android:layout_height="45dp"
+					android:background="?selectableItemBackgroundBorderless"
+					android:onClick="@{()->viewModel.onBackPressed()}"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/ic_arrow_white_24dp"/>
+
+				<TextView
+					android:id="@+id/tvTitle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/listadapter_title"
+					android:textColor="@color/white"
+					android:textSize="16sp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"/>
+
+				<ImageButton
+					android:id="@+id/btnClear"
+					android:layout_width="45dp"
+					android:layout_height="45dp"
+					android:background="?selectableItemBackgroundBorderless"
+					android:onClick="@{() -> viewModel.clearSelectState()}"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/ic_clear_white_24dp"/>
+
+				<TextView
+					android:id="@+id/tvSelectCount"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="10dp"
+					android:text="@{viewModel.selectCountText}"
+					android:textColor="@color/white"
+					android:textSize="16sp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@id/btnClear"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:text="0 / 20"/>
+
+				<ImageButton
+					android:id="@+id/btnRemoveSelected"
+					android:layout_width="45dp"
+					android:layout_height="45dp"
+					android:background="?selectableItemBackgroundBorderless"
+					android:onClick="@{()->viewModel.removeSelectedItem()}"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/ic_delete_white_24dp"/>
+
+				<androidx.constraintlayout.widget.Group
 					android:id="@+id/toolbarStandard"
-					android:layout_width="match_parent"
-					android:layout_height="@dimen/list_adapter_toolbar_height"
-					app:layout_collapseMode="pin">
+					android:layout_width="0dp"
+					android:layout_height="0dp"
+					app:constraint_referenced_ids="btnBack,tvTitle"/>
 
-					<ImageButton
-						android:layout_width="45dp"
-						android:layout_height="45dp"
-						android:background="?selectableItemBackgroundBorderless"
-						android:onClick="@{()->viewModel.onBackPressed()}"
-						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:srcCompat="@drawable/ic_arrow_white_24dp"/>
-
-					<TextView
-						android:id="@+id/tvTitle"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="@string/listadapter_title"
-						android:textColor="@color/white"
-						android:textSize="16sp"
-						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintTop_toTopOf="parent"/>
-
-				</androidx.constraintlayout.widget.ConstraintLayout>
-
-				<androidx.constraintlayout.widget.ConstraintLayout
+				<androidx.constraintlayout.widget.Group
 					android:id="@+id/toolbarSelect"
-					android:layout_width="match_parent"
-					android:layout_height="@dimen/list_adapter_toolbar_height"
+					android:layout_width="0dp"
+					android:layout_height="0dp"
 					android:visibility="gone"
-					app:layout_constraintBottom_toTopOf="@id/lvContents"
-					app:layout_constraintTop_toTopOf="parent">
+					app:constraint_referenced_ids="btnClear,tvSelectCount,btnRemoveSelected"/>
 
-					<ImageButton
-						android:id="@+id/btnClear"
-						android:layout_width="45dp"
-						android:layout_height="45dp"
-						android:background="?selectableItemBackgroundBorderless"
-						android:onClick="@{() -> viewModel.clearSelectState()}"
-						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintStart_toStartOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:srcCompat="@drawable/ic_clear_white_24dp"/>
-
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginStart="10dp"
-						android:text="@{viewModel.selectCountText}"
-						android:textColor="@color/white"
-						android:textSize="16sp"
-						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintStart_toEndOf="@id/btnClear"
-						app:layout_constraintTop_toTopOf="parent"
-						tools:text="0 / 20"/>
-
-					<ImageButton
-						android:layout_width="45dp"
-						android:layout_height="45dp"
-						android:background="?selectableItemBackgroundBorderless"
-						android:onClick="@{()->viewModel.removeSelectedItem()}"
-						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintEnd_toEndOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:srcCompat="@drawable/ic_delete_white_24dp"/>
-
-				</androidx.constraintlayout.widget.ConstraintLayout>
-
-			</com.google.android.material.appbar.CollapsingToolbarLayout>
+			</androidx.constraintlayout.widget.ConstraintLayout>
 		</com.google.android.material.appbar.AppBarLayout>
 
 		<androidx.swiperefreshlayout.widget.SwipeRefreshLayout

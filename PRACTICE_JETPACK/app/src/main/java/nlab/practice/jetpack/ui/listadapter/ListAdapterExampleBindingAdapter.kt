@@ -34,7 +34,7 @@ fun bindListAdapterExampleSelectMode(view: View, isSelectMode: Boolean) {
     if (isDifferState) {
         val toolbarSelect = view.toolbarSelect
         val swipeRefreshLayout = view.swipeContainer
-        val collapsingToolbar = view.collapsingToolbar
+        val collapsingToolbar = view.headerLayout
 
         val isNeedShowStandardView = targetStandardToolbarVisibility == View.VISIBLE
 
@@ -69,15 +69,15 @@ fun bindListAdapterExampleSelectMode(view: View, isSelectMode: Boolean) {
     }
 }
 
-private fun setCollapsingEnterAlwaysMode(collapsingLayout: CollapsingToolbarLayout) {
-    getAppBarLayoutParams(collapsingLayout)?.run {
+private fun setCollapsingEnterAlwaysMode(headerLayout: View) {
+    getAppBarLayoutParams(headerLayout)?.run {
         scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-        collapsingLayout.layoutParams = this
+        headerLayout.layoutParams = this
     }
 }
 
-private fun getAppBarLayoutParams(collapsingLayout: CollapsingToolbarLayout): AppBarLayout.LayoutParams? {
-    return collapsingLayout.layoutParams as? AppBarLayout.LayoutParams
+private fun getAppBarLayoutParams(headerLayout: View): AppBarLayout.LayoutParams? {
+    return headerLayout.layoutParams as? AppBarLayout.LayoutParams
 }
 
 private fun convertStandardToolbarTransition(toolbarStandard: View, toolbarSelect: View) {
@@ -89,13 +89,13 @@ private fun convertStandardToolbarTransition(toolbarStandard: View, toolbarSelec
             .withLayer()
 }
 
-private fun setCollapsingDisableMode(collapsingLayout: CollapsingToolbarLayout) {
-    collapsingLayout.minimumHeight =
-            ResourceProvider(collapsingLayout.context).getDimensionPixelSize(R.dimen.list_adapter_toolbar_height)
+private fun setCollapsingDisableMode(headerLayout: View) {
+    headerLayout.minimumHeight =
+            ResourceProvider(headerLayout.context).getDimensionPixelSize(R.dimen.list_adapter_toolbar_height)
 
-    getAppBarLayoutParams(collapsingLayout)?.run {
+    getAppBarLayoutParams(headerLayout)?.run {
         scrollFlags = 0
-        collapsingLayout.layoutParams = this
+        headerLayout.layoutParams = this
     }
 }
 
