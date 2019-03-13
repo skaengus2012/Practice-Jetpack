@@ -20,6 +20,8 @@
 	<string name="test_menu_listadater_description">New ListAdapter</string>
 	<string name="test_menu_item_touch">Drag &amp; Drop 과 Swipe Delete</string>
 	<string name="test_menu_drag_drop_description">Item Touch Helper 연습</string>
+	<string name="test_menu_collapsing_toolbar">CollapsingToolbarLayout 연습</string>
+	<string name="test_menu_collapsing_toolbar_description">기본 UI 연습 (1)</string>
 
 	<!-- bottom menu -->
 	<string name="bottom_nav_home">Home</string>
@@ -53,4 +55,7 @@
 
 	<!-- Drag and Drop -->
 	<string name="item_touch_helper_title">Item Touch Helper 연습</string>
+
+	<!-- CollapsingToolbarLayout 에 대한 연습 -->
+	<string name="collapsing_toolbar_ex_title">CollapsingToolbarLayout 연습</string>
 </resources>

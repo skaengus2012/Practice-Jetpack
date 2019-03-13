@@ -57,7 +57,8 @@ class HomeViewModel @Inject constructor(
             createHomeAnkoFirstViewMenuViewModel(),
             createPagingTestMenuViewModel(),
             createListAdapterMenuViewModel(),
-            createDragDropMenuViewModel()
+            createDragDropMenuViewModel(),
+            createCollapsingToolbarExMenuViewModel()
     )
 
     private fun createHomeAnkoFirstViewMenuViewModel(): HomeItemViewModel = _testMenuRepository.getAnkoFirstViewMenu().let {
@@ -74,6 +75,10 @@ class HomeViewModel @Inject constructor(
 
     private fun createDragDropMenuViewModel(): HomeItemViewModel = _testMenuRepository.getDragDropMenu().let {
         _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navDragDrop() }
+    }
+
+    private fun createCollapsingToolbarExMenuViewModel(): HomeItemViewModel = _testMenuRepository.getCollapsingToolbarExMenu().let {
+        _homeItemViewModelFactory.create(it) { _activityNavUsecase.startCollapsingToolbarActivity() }
     }
 
     private fun refreshItems() {

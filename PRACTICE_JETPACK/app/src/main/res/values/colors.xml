@@ -37,6 +37,7 @@
 	<color name="home_item_color_2">#d500f9</color>
 	<color name="home_item_color_3">#2979ff</color>
 	<color name="home_item_color_4">#009688</color>
+	<color name="home_item_color_5">#ffd600</color>
 
 	<!-- bottom menu -->
 	<color name="bottom_navigation_item_color">#6b6b6b</color>
