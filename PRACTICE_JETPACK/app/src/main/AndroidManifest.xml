@@ -1,39 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="nlab.practice.jetpack">
+		  package="nlab.practice.jetpack">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
 
-    <application
-        android:name=".JetPackApplication"
-        android:allowBackup="true"
-        android:fullBackupContent="false"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.MainHolderActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+	<application
+		android:name=".JetPackApplication"
+		android:allowBackup="true"
+		android:fullBackupContent="false"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:roundIcon="@mipmap/ic_launcher_round"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme"
+		android:usesCleartextTraffic="true">
+		<activity android:name=".ui.main.MainHolderActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
 
-        <activity android:name=".ui.tutorial.AnkoFirstActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
+		<activity android:name=".ui.tutorial.AnkoFirstActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+			</intent-filter>
+		</activity>
 
-        <activity android:name=".ui.collapsingtoolbar.CollapsingToolbarActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
+		<activity
+			android:name=".ui.collapsingtoolbar.CollapsingToolbarActivity"
+			android:theme="@style/WhiteAppTheme">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+			</intent-filter>
+		</activity>
 
-    </application>
+	</application>
 
 </manifest>
