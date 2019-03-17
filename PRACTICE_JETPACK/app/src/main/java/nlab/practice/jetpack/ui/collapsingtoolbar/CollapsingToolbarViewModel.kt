@@ -9,7 +9,8 @@ import javax.inject.Inject
  */
 class CollapsingToolbarViewModel @Inject constructor(
         val _coverRepositry: CoverRepository,
-        val _pagingItemRepositry: PagingItemRepository
+        val _pagingItemRepositry: PagingItemRepository,
+        val _itemViewModelFactory: CollapsingPagingItemViewModelFactory
 ) {
 
 }

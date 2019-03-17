@@ -17,8 +17,7 @@ class PagingItemPracticeViewModel(
         @Provided private val _fragmentNavUsecase: FragmentNavUsecase,
         private val _pagingItem: PagingItem,
         private val _onClickListener: (FragmentNavUsecase) -> Unit)
-    : BindingItemViewModel(),
-        PagingItemViewModel by PagingItemViewModelImpl(_pagingItem = _pagingItem, _pagingTheme = PagingTheme.BLACK) {
+    : BindingItemViewModel(), PagingItemViewModel by PagingItemViewModelImpl(PagingTheme.BLACK, _pagingItem) {
 
     override fun onClick() {
         _onClickListener(_fragmentNavUsecase)

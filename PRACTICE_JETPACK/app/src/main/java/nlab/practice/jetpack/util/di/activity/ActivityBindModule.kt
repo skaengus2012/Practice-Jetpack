@@ -31,7 +31,8 @@ abstract class ActivityBindModule {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [
-        ActivityCommonModule::class
+        ActivityCommonModule::class,
+        CollapsingToolbarActivity.Module::class
     ])
     abstract fun collapsingToolbarActivity(): CollapsingToolbarActivity
 }

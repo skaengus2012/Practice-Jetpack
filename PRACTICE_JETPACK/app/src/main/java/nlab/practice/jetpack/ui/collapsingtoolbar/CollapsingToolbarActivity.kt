@@ -2,8 +2,10 @@ package nlab.practice.jetpack.ui.collapsingtoolbar
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import dagger.Module
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.databinding.ActivityCollapsingToolbarBinding
+import nlab.practice.jetpack.util.di.activity.ActivityScope
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
 
 /**
@@ -18,5 +20,11 @@ class CollapsingToolbarActivity : InjectableActivity() {
     override fun onCreateBinding(savedInstanceState: Bundle?) {
         DataBindingUtil.setContentView<ActivityCollapsingToolbarBinding>(this, R.layout.activity_collapsing_toolbar)
                 .run { this.viewModel = viewModel }
+    }
+
+    @dagger.Module
+    class Module {
+        @ActivityScope
+        fun pagingItemViewModelFactory(): CollapsingPagingItemViewModelFactory = CollapsingPagingItemViewModelFactory()
     }
 }
