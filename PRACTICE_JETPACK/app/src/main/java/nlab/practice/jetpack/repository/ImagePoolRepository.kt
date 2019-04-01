@@ -1,5 +1,7 @@
 package nlab.practice.jetpack.repository
 
+import io.reactivex.Single
+
 /**
  * @author Doohyun
  * @since 2019. 01. 23
@@ -21,5 +23,4 @@ class ImagePoolRepository {
     fun getSize(): Int = _images.size
 
     fun get(index: Int): String? = _images[index]
-
 }
