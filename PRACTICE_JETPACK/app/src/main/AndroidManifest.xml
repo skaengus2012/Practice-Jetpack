@@ -30,7 +30,7 @@
 
 		<activity
 			android:name=".ui.collapsingtoolbar.CollapsingToolbarActivity"
-			android:theme="@style/WhiteAppTheme">
+			android:theme="@style/CollapsingToolbarTheme">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 			</intent-filter>

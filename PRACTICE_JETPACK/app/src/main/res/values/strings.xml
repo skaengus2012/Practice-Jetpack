@@ -58,4 +58,7 @@
 
 	<!-- CollapsingToolbarLayout 에 대한 연습 -->
 	<string name="collapsing_toolbar_ex_title">CollapsingToolbarLayout 연습</string>
+	<string name="collapsing_toolbar_ex_item_click">click Item [%1$d]</string>
+	<string name="collapsing_toolbar_ex_toolbar_title">CollapsingToolbar 연습</string>
+	<string name="collapsing_toolbar_fab_message">CollapsingToolbarLayout 를 한번 만들어봤지 :-)</string>
 </resources>

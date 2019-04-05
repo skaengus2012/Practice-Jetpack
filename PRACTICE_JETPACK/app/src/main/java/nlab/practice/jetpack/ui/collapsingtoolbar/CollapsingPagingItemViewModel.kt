@@ -11,5 +11,6 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  * @author Doohyun
  */
 @AutoFactory
-class CollapsingPagingItemViewModel(private val _pagingItem: PagingItem)
-    : BindingItemViewModel(), PagingItemViewModel by PagingItemViewModelImpl(PagingTheme.WHITE, _pagingItem)
+class CollapsingPagingItemViewModel(private val _pagingItem: PagingItem, private val _onClickAction: () -> Unit) :
+        BindingItemViewModel(),
+        PagingItemViewModel by PagingItemViewModelImpl(PagingTheme.WHITE, _pagingItem, _onClickAction)

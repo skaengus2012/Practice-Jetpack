@@ -1,10 +1,12 @@
 package nlab.practice.jetpack.util.bindingadapter
 
+import android.graphics.Color
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.request.RequestOptions
 import nlab.practice.jetpack.util.GlideApp
+import org.jetbrains.anko.imageResource
 
 /**
  * 이미지 관련 항목 바인딩 어댑터 정의
@@ -29,4 +31,13 @@ fun setImageUrl(
     placeholderRes.takeIf { it != 0 }?.run { glideRequest.placeholder(this) }
 
     glideRequest.into(view)
+}
+
+@BindingAdapter("imgRes")
+fun setImageResource(view: ImageView, @DrawableRes resource: Int) {
+    if (resource == 0) {
+        view.imageResource = android.R.color.transparent
+    } else {
+        view.imageResource = resource
+    }
 }
