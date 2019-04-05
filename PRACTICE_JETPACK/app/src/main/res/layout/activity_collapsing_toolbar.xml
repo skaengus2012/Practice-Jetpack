@@ -3,6 +3,7 @@
 	<data>
 		<import type="android.view.View"/>
 		<import type="nlab.practice.jetpack.R"/>
+		<import type="nlab.practice.jetpack.util.GlideOptionProvider"/>
 
 		<variable
 			name="viewModel"
@@ -54,6 +55,7 @@
 						android:layout_height="0dp"
 						android:fitsSystemWindows="true"
 						android:importantForAccessibility="no"
+						app:glideOptions="@{GlideOptionProvider.forBigSizeCenterCrop()}"
 						app:imageUrl="@{viewModel.coverImage}"
 						app:layout_constraintBottom_toBottomOf="parent"
 						app:layout_constraintDimensionRatio="w,1:1"

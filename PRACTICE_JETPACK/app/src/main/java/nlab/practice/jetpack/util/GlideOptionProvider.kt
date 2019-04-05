@@ -9,7 +9,11 @@ import com.bumptech.glide.request.RequestOptions
 object GlideOptionProvider {
 
     @JvmStatic
-    fun forPagingItem(): RequestOptions {
-        return RequestOptions().centerCrop()
-    }
+    fun forPagingItem() = RequestOptions()
+            .centerCrop()
+            .override(200)
+
+    @JvmStatic
+    fun forBigSizeCenterCrop() = RequestOptions()
+            .centerCrop()
 }

@@ -31,7 +31,7 @@
 			android:layout_height="0dp"
 			android:foreground="?attr/selectableItemBackground"
 			app:errorDrawable="@{R.drawable.common_img_track_default}"
-			app:glideOptions="@{glideOptionProvider.forPagingItem()}"
+			app:glideOptions="@{glideOptionProvider.forBigSizeCenterCrop()}"
 			app:imageUrl="@{viewModel.imageUrl}"
 			app:layout_constraintDimensionRatio="1:1"
 			app:layout_constraintEnd_toEndOf="parent"
