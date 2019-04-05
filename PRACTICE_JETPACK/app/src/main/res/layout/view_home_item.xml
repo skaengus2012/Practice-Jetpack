@@ -33,14 +33,14 @@
 			android:layout_height="154dp"
 			android:onClick="@{() -> viewModel.onClick()}"
 			app:cardCornerRadius="4dp"
+			app:home_card_color="@{viewModel.cardColor}"
 			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/tvTitle">
+			app:layout_constraintTop_toBottomOf="@id/tvTitle"
+			tools:cardBackgroundColor="@color/colorAccent">
 
 			<androidx.constraintlayout.widget.ConstraintLayout
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				app:home_card_color="@{viewModel.cardColor}"
-				tools:background="@color/colorAccent">
+				android:layout_height="match_parent">
 
 				<TextView
 					android:layout_width="wrap_content"

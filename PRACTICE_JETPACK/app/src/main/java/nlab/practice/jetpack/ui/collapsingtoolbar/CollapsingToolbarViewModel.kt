@@ -72,10 +72,10 @@ class CollapsingToolbarViewModel @Inject constructor(
     private fun loadCover() = _coverRepository.getCover()
             .subscribeOn(_schedulerFactory.io())
             .observeOn(_schedulerFactory.ui())
-            .doOnSuccess {
+            .map {{
                 coverImage.set(it.imageUrl)
                 coverText.set(it.title)
-            }
+            }}
 
     private fun loadItems() = _pagingItemRepository.getItems(0, 100)
             .subscribeOn(_schedulerFactory.io())
@@ -88,7 +88,7 @@ class CollapsingToolbarViewModel @Inject constructor(
                     _toastHelper.showToast(String.format(messageRes.toString(), index))
                 }
             } }
-            .doOnSuccess { _listUpdateSubject.onNext(it) }
+            .map {{_listUpdateSubject.onNext(it)}}
 
     override fun isShowErrorView(): ObservableBoolean = _showErrorState
 
@@ -98,6 +98,11 @@ class CollapsingToolbarViewModel @Inject constructor(
         Single.merge(loadCover(), loadItems())
                 .toList()
                 .observeOn(_schedulerFactory.ui())
+                .doOnSuccess {
+                    executors
+                    ->
+                    executors.forEach { it() }
+                }
                 .doOnSuccess {
                     _showErrorState.set(false)
                     loadFinished.set(true)

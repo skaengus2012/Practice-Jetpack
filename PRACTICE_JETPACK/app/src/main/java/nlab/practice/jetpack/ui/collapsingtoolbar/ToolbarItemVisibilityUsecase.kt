@@ -30,7 +30,6 @@ class ToolbarItemVisibilityUsecase(
         })
     }
 
-
     private fun onOffSetChanged(offset: Int) {
         val collapsingHeight = _collapsingLayout.height
         val collapsingTriggerHeight = _collapsingLayout.scrimVisibleHeightTrigger

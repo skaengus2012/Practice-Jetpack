@@ -1,7 +1,5 @@
 package nlab.practice.jetpack.repository
 
-import io.reactivex.Single
-
 /**
  * @author Doohyun
  * @since 2019. 01. 23
