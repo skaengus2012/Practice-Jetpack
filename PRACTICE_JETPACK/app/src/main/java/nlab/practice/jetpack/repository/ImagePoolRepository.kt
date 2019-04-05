@@ -21,5 +21,4 @@ class ImagePoolRepository {
     fun getSize(): Int = _images.size
 
     fun get(index: Int): String? = _images[index]
-
 }

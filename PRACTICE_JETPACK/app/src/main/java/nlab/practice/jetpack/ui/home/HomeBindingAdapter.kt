@@ -1,7 +1,7 @@
 package nlab.practice.jetpack.ui.home
 
-import android.view.View
 import androidx.annotation.ColorRes
+import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import nlab.practice.jetpack.util.ResourceProvider
 
@@ -10,6 +10,6 @@ import nlab.practice.jetpack.util.ResourceProvider
  */
 
 @BindingAdapter("home_card_color")
-fun setHomeCardColor(view: View, @ColorRes colorRes: Int) {
-    view.setBackgroundColor(ResourceProvider(view.context).getColor(colorRes))
+fun setHomeCardColor(cardView: CardView, @ColorRes colorRes: Int) {
+    cardView.setCardBackgroundColor(ResourceProvider(cardView.context).getColor(colorRes))
 }

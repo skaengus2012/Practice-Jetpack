@@ -2,13 +2,12 @@
 <layout>
 	<data>
 		<import type="nlab.practice.jetpack.R"/>
-		<import
-			alias="glideOptionProvider"
-			type="nlab.practice.jetpack.util.GlideOptionProvider"/>
+		<import type="nlab.practice.jetpack.util.GlideOptionProvider"/>
+		<import type="nlab.practice.jetpack.ui.common.viewmodel.PagingTheme"/>
 
 		<variable
 			name="viewModel"
-			type="nlab.practice.jetpack.ui.paging.PagingItemViewModel"/>
+			type="nlab.practice.jetpack.ui.common.viewmodel.PagingItemViewModel"/>
 	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +29,7 @@
 			android:layout_marginStart="20dp"
 			android:layout_marginEnd="16dp"
 			app:errorDrawable="@{R.drawable.common_img_track_default}"
-			app:glideOptions="@{glideOptionProvider.forPagingItem()}"
+			app:glideOptions="@{GlideOptionProvider.forPagingItem()}"
 			app:imageUrl="@{viewModel.imageUrl}"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintRight_toLeftOf="@+id/tvTitle"
@@ -46,13 +45,14 @@
 			android:layout_marginStart="15dp"
 			android:layout_marginEnd="20dp"
 			android:text="@{viewModel.title}"
-			android:textColor="@color/white"
+			android:textColor="@{viewModel.pagingTheme == PagingTheme.BLACK ? @color/white : @color/black}"
 			android:textSize="16sp"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toEndOf="@+id/ivAlbum"
 			app:layout_constraintTop_toTopOf="parent"
-			tools:text="타이틀"/>
+			tools:text="타이틀"
+			tools:textColor="@color/white"/>
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -30,7 +30,7 @@ import kotlin.random.Random
 class UnboundedPagingViewModel @Inject constructor(
         private val _disposables: CompositeDisposable,
         private val _pagingItemRepository: PagingItemRepository,
-        private val _pagingItemViewModelFactory: PagingItemViewModelFactory,
+        private val _pagingItemViewModelFactory: PagingItemPracticeViewModelFactory,
         private val _activityCommonUsecase: ActivityCommonUsecase,
         private val _resourceProvider: ResourceProvider,
         private val _toastHelper: ToastHelper,
@@ -47,7 +47,7 @@ class UnboundedPagingViewModel @Inject constructor(
     private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
 
     private val _bottomMoreViewModel: BottomMoreViewModel
-    private lateinit var _listAdapter: BindingPagedListAdapter<PagingItemViewModel>
+    private lateinit var _listAdapter: BindingPagedListAdapter<PagingItemPracticeViewModel>
 
     private val _singleScheduler = _schedulerFactory.single()
 
@@ -74,7 +74,7 @@ class UnboundedPagingViewModel @Inject constructor(
                 .setEnablePlaceholders(false)
                 .build()
 
-        RxPagedListBuilder<Int, PagingItemViewModel>(createDataSourceFactory(), config)
+        RxPagedListBuilder<Int, PagingItemPracticeViewModel>(createDataSourceFactory(), config)
                 .buildFlowable(BackpressureStrategy.BUFFER)
                 .doOnNext { _listAdapter.submitList(it) }
                 .observeOn(_schedulerFactory.ui())
@@ -126,7 +126,7 @@ class UnboundedPagingViewModel @Inject constructor(
                 .addTo(_disposables)
     }
 
-    override fun getListAdapter(): BindingPagedListAdapter<PagingItemViewModel> = _listAdapter
+    override fun getListAdapter(): BindingPagedListAdapter<PagingItemPracticeViewModel> = _listAdapter
 
     override fun getSubTitle(): ObservableField<String> = _subTitle
 
@@ -191,12 +191,12 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private fun createDataSourceFactory(): DFactory = object: DFactory() {
 
-        override fun create(): DataSource<Int, PagingItemViewModel> {
+        override fun create(): DataSource<Int, PagingItemPracticeViewModel> {
             _isShowRefreshProgressBar.set(false)
             return _pagingManager.newDataSource().map { createPagingItemViewModel(it) }
         }
 
-        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemViewModel = _pagingItemViewModelFactory.create(pagingItem) {
+        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemPracticeViewModel = _pagingItemViewModelFactory.create(pagingItem) {
             it.navCountablePaging()
         }
     }

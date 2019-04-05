@@ -5,13 +5,14 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.RxUtils
+import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
-import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
+import org.jetbrains.anko.contentView
 
 /**
  * @author Doohyun
@@ -32,7 +33,7 @@ class ActivityCommonModule {
     @Provides
     fun provideActivityNavUsecase(activity: Activity): ActivityNavUsecase = ActivityNavUsecase(activity)
 
-    @FragmentScope
+    @ActivityScope
     @Provides
     fun provideActivityCommonUsecase(activity: Activity): ActivityCommonUsecase = ActivityCommonUsecase(activity)
 
@@ -43,4 +44,14 @@ class ActivityCommonModule {
     @ActivityScope
     @Provides
     fun provideLayoutManager(activity: Activity): LayoutManagerFactory = LayoutManagerFactory(activity)
+
+    @ActivityScope
+    @Provides
+    fun provideSnackBarHelper(activity: Activity) = SnackBarHelper {
+        if (!activity.isFinishing) {
+            activity.contentView
+        } else {
+            null
+        }
+    }
 }

@@ -13,7 +13,7 @@ import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
  */
 interface PagingViewModel : ListErrorPageViewModel {
 
-    fun getListAdapter(): BindingPagedListAdapter<PagingItemViewModel>
+    fun getListAdapter(): BindingPagedListAdapter<PagingItemPracticeViewModel>
 
     fun getSubTitle(): ObservableField<String>
 

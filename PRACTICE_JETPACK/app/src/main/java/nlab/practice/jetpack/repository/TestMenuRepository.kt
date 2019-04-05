@@ -33,4 +33,10 @@ class TestMenuRepository(private val _resourceProvider: ResourceProvider) {
             cardColorRes = R.color.home_item_color_4
     )
 
+    fun getCollapsingToolbarExMenu(): TestMenu = TestMenu(
+            title = _resourceProvider.getString(R.string.test_menu_collapsing_toolbar).toString(),
+            cardTitle = _resourceProvider.getString(R.string.test_menu_collapsing_toolbar_description).toString(),
+            cardColorRes = R.color.home_item_color_5
+    )
+
 }

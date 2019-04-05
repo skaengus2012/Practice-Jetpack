@@ -28,4 +28,8 @@ class RepositoryModule {
     @Reusable
     @Provides
     fun provideHistoryRepository(): HistoryRepository = HistoryRepository()
+
+    @Reusable
+    @Provides
+    fun provideCoverRepository(): CoverRepository = CoverRepository()
 }

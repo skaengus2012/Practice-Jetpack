@@ -36,10 +36,10 @@ class CountablePagingViewModel @Inject constructor(
         private val _toastHelper: ToastHelper,
         private val _resourceProvider: ResourceProvider,
         private val _recyclerViewUsecase: RecyclerViewUsecase,
-        private val _pagingItemViewModelFactory: PagingItemViewModelFactory,
+        private val _pagingItemViewModelFactory: PagingItemPracticeViewModelFactory,
         pagingManagerFactory: CountablePositionalPagingManager.Factory) : PagingViewModel {
 
-    private val _listAdapter: BindingPagedListAdapter<PagingItemViewModel> =
+    private val _listAdapter: BindingPagedListAdapter<PagingItemPracticeViewModel> =
             BindingPagedListAdapter(placeholderResId = R.layout.view_paging_item_placeholder)
 
     private val _isShowErrorView = ObservableBoolean(false)
@@ -62,7 +62,7 @@ class CountablePagingViewModel @Inject constructor(
 
     override fun isShowRefreshProgressBar(): ObservableBoolean = _isShowRefreshProgressBar
 
-    override fun getListAdapter(): BindingPagedListAdapter<PagingItemViewModel> = _listAdapter
+    override fun getListAdapter(): BindingPagedListAdapter<PagingItemPracticeViewModel> = _listAdapter
 
     override fun getSubTitle(): ObservableField<String> = _subTitle
 
@@ -81,7 +81,7 @@ class CountablePagingViewModel @Inject constructor(
                 .setEnablePlaceholders(true)
                 .build()
 
-        RxPagedListBuilder<Int, PagingItemViewModel>(createDataSourceFactory(), config)
+        RxPagedListBuilder<Int, PagingItemPracticeViewModel>(createDataSourceFactory(), config)
                 .buildFlowable(BackpressureStrategy.BUFFER)
                 .doOnNext { _listAdapter.submitList(it) }
                 .subscribe()
@@ -195,12 +195,12 @@ class CountablePagingViewModel @Inject constructor(
 
     private fun createDataSourceFactory(): DFactory = object: DFactory() {
 
-        override fun create(): DataSource<Int, PagingItemViewModel> {
+        override fun create(): DataSource<Int, PagingItemPracticeViewModel> {
             _isShowRefreshProgressBar.set(false)
             return _pagingManager.newDataSource().map { createPagingItemViewModel(it) }
         }
 
-        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemViewModel = _pagingItemViewModelFactory.create(pagingItem) {
+        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemPracticeViewModel = _pagingItemViewModelFactory.create(pagingItem) {
             it.navUnboundedPaging()
         }
     }

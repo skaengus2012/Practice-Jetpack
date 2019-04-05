@@ -10,7 +10,7 @@ import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalPagingModule
 
-internal typealias DFactory = DataSource.Factory<Int, PagingItemViewModel>
+internal typealias DFactory = DataSource.Factory<Int, PagingItemPracticeViewModel>
 
 /**
  * @author Doohyun
@@ -23,8 +23,8 @@ internal typealias DFactory = DataSource.Factory<Int, PagingItemViewModel>
 class PagingFragmentModule {
 
     @Provides
-    fun providePagingItemViewModelFactory(fragmentNavUsecase: FragmentNavUsecase): PagingItemViewModelFactory {
-        return PagingItemViewModelFactory{fragmentNavUsecase}
+    fun providePagingItemViewModelFactory(fragmentNavUsecase: FragmentNavUsecase): PagingItemPracticeViewModelFactory {
+        return PagingItemPracticeViewModelFactory{fragmentNavUsecase}
     }
 
     @Provides
