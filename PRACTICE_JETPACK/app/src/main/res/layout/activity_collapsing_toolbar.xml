@@ -191,5 +191,14 @@
 				app:viewModel="@{viewModel}"/>
 		</FrameLayout>
 
+		<androidx.core.widget.ContentLoadingProgressBar
+			style="?android:attr/progressBarStyleLarge"
+			android:layout_width="45dp"
+			android:layout_height="45dp"
+			android:layout_gravity="center"
+			android:indeterminateTint="@color/colorAccent"
+			android:indeterminateTintMode="src_in"
+			android:visibility="@{(viewModel.loadFinished || viewModel.showErrorView) ? View.GONE : View.VISIBLE}"/>
+
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

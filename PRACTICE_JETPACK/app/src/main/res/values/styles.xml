@@ -9,6 +9,7 @@
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="colorControlHighlight">@color/rippleMaterialDark</item>
 		<item name="error_primaryColor">@color/white</item>
+		<item name="android:navigationBarColor">@android:color/black</item>
 		<item name="error_background">@color/black</item>
 	</style>
 
