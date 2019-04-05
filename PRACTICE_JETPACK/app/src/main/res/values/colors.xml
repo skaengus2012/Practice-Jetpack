@@ -5,6 +5,7 @@
 	<color name="colorPrimaryDark">#000000</color>
 	<color name="colorAccent">#ff0050</color>
 	<color name="rippleMaterialDark">#44ffffff</color>
+	<color name="rippleMaterialLight">#44000000</color>
 	<color name="rippleMaterialWhite">#44000000</color>
 
 	<color name="white">#ffffff</color>
