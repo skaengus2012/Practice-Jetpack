@@ -35,6 +35,8 @@ android {
             debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFile 'proguard-glide.pro'
+            proguardFile 'proguard-rxjava.pro'
             signingConfig signingConfigs.debug
         }
     }
