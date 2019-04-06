@@ -1,6 +1,5 @@
 package nlab.practice.jetpack.util.bindingadapter
 
-import android.graphics.Color
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
