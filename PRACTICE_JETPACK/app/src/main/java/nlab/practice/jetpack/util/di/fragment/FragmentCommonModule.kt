@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.RxUtils
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
@@ -13,6 +14,7 @@ import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.nav.FragmentScopeNavModule
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
+import org.jetbrains.anko.contentView
 
 
 /**
@@ -51,13 +53,9 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideSnackBarHelper(fragment: Fragment) : SnackBarHelper = SnackBarHelper {
-        val activity = fragment.activity
-
-        if (activity != null && !activity.isFinishing) {
-            fragment.view
-        } else {
-            null
-        }
+    fun provideSnackBarHelper(fragment: Fragment, resourceProvider: ResourceProvider) = SnackBarHelper(resourceProvider) {
+        fragment.activity
+                ?.takeUnless { it.isFinishing }
+                ?.run { contentView }
     }
 }

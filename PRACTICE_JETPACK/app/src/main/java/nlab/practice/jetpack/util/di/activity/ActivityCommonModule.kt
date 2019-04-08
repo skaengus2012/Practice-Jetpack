@@ -4,6 +4,7 @@ import android.app.Activity
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.RxUtils
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
@@ -47,7 +48,7 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideSnackBarHelper(activity: Activity) = SnackBarHelper {
+    fun provideSnackBarHelper(activity: Activity, resourceProvider: ResourceProvider) = SnackBarHelper(resourceProvider) {
         if (!activity.isFinishing) {
             activity.contentView
         } else {

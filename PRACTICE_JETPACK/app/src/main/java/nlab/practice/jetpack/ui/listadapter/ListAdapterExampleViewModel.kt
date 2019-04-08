@@ -11,6 +11,7 @@ import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.SnackBarHelper
+import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
@@ -33,6 +34,7 @@ class ListAdapterExampleViewModel @Inject constructor(
         private val _pagingItemRepository: PagingItemRepository,
         private val _listAdapterItemFactory: ListAdapterExampleItemViewModelFactory,
         private val _activityCommonUsecase: ActivityCommonUsecase,
+        private val _toastHelper: ToastHelper,
         private val _snackBarHelper: SnackBarHelper) : ListErrorPageViewModel {
 
     companion object {
@@ -169,7 +171,11 @@ class ListAdapterExampleViewModel @Inject constructor(
         clearSelectState()
         updateSelectCountText()
 
-        _snackBarHelper.showSnackBar(R.string.listadapter_remove_message, Snackbar.LENGTH_LONG)
+        _snackBarHelper.showSnackBar(
+                message = R.string.listadapter_remove_message,
+                duration = Snackbar.LENGTH_LONG,
+                actionMessage = R.string.listadapter_action_message,
+                actionBehavior = { _toastHelper.showToast(R.string.listadapter_goodbye_snack_bar) })
     }
 
     private fun updateSelectCountText() {

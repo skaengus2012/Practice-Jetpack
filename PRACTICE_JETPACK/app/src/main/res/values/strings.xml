@@ -52,6 +52,8 @@
 	<!-- listAdapter -->
 	<string name="listadapter_title">ListAdapter 예제</string>
 	<string name="listadapter_remove_message">선택된 아이템들이 삭제되었습니다.</string>
+	<string name="listadapter_action_message">확인</string>
+	<string name="listadapter_goodbye_snack_bar">스낵바가 종료되었습니다.</string>
 
 	<!-- Drag and Drop -->
 	<string name="item_touch_helper_title">Item Touch Helper 연습</string>
