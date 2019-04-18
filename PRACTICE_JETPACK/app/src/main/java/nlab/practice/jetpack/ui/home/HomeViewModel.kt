@@ -61,7 +61,8 @@ class HomeViewModel @Inject constructor(
             createPagingTestMenuViewModel(),
             createListAdapterMenuViewModel(),
             createDragDropMenuViewModel(),
-            createCollapsingToolbarExMenuViewModel()
+            createCollapsingToolbarExMenuViewModel(),
+            createSlideUpPanelExMenuViewModel()
     )
 
     private fun createHomeAnkoFirstViewMenuViewModel(): HomeItemViewModel = _testMenuRepository.getAnkoFirstViewMenu().let {
@@ -91,6 +92,10 @@ class HomeViewModel @Inject constructor(
     private fun startCollapsingToolbarActivity()
             = _intentProvider.createActivityIntent(CollapsingToolbarActivity::class.java).run {
         _activityNavUsecase.startActivity(this)
+    }
+
+    private fun createSlideUpPanelExMenuViewModel(): HomeItemViewModel = _testMenuRepository.getSlideUpPanelExMenus().let {
+        _homeItemViewModelFactory.create(it) {}
     }
 
     private fun refreshItems() {

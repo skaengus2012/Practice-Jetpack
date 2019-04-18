@@ -39,4 +39,10 @@ class TestMenuRepository(private val _resourceProvider: ResourceProvider) {
             cardColorRes = R.color.home_item_color_5
     )
 
+    fun getSlideUpPanelExMenus() = TestMenu(
+            title = _resourceProvider.getString(R.string.test_slide_up_panel_ex_title).toString(),
+            cardTitle = _resourceProvider.getString(R.string.test_slide_up_panel_ex_description).toString(),
+            cardColorRes = R.color.home_item_color_6
+    )
+
 }
