@@ -14,8 +14,6 @@
             android:id="@+id/lvContents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/slide_umano_panel_height"
             app:list_config="@{viewModel.recyclerViewConfig}"
             app:list_headers="@{viewModel.headers}"
             app:list_items="@{viewModel.items}"/>

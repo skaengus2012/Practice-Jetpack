@@ -11,6 +11,11 @@ import nlab.practice.jetpack.util.SchedulerFactoryImpl
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
+import nlab.practice.jetpack.util.nav.ActivityNavUsecase
+import nlab.practice.jetpack.util.nav.ContextInjectionType
+import nlab.practice.jetpack.util.nav.DefaultActivityNavUsecase
+import nlab.practice.jetpack.util.nav.IntentProvider
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -40,4 +45,16 @@ class AppModule {
     @Reusable
     @Provides
     fun provideToastHelper(application: Application): ToastHelper = ToastHelper(application)
+
+    @Named(ContextInjectionType.APPLICATION)
+    @Reusable
+    @Provides
+    fun provideApplicationIntent(application: Application) = IntentProvider(application.baseContext)
+
+    @Named(ContextInjectionType.APPLICATION)
+    @Reusable
+    @Provides
+    fun provideActivityNavUsecae(application: Application): ActivityNavUsecase {
+        return DefaultActivityNavUsecase (application.baseContext)
+    }
 }

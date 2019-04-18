@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.main.MainHolderActivity
 import nlab.practice.jetpack.ui.main.MainHolderModule
+import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 
 /**
@@ -35,4 +36,10 @@ abstract class ActivityBindModule {
         CollapsingToolbarActivity.Module::class
     ])
     abstract fun collapsingToolbarActivity(): CollapsingToolbarActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [
+        ActivityCommonModule::class
+    ])
+    abstract fun slideUpSampleActivity(): SlideUpSampleActivity
 }

@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-	<data>
-		<variable
-			name="viewModel"
-			type="nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperViewModel"/>
-	</data>
+    <data>
+        <variable
+            name="viewModel"
+            type="nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperViewModel"/>
+    </data>
 
-	<androidx.coordinatorlayout.widget.CoordinatorLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		style="@style/HolderFragmentStyle"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:clickable="true"
-		android:focusable="true">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/HolderFragmentStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
 
-		<com.google.android.material.appbar.AppBarLayout
-			android:id="@+id/appbarLayout"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:id="@+id/collapsingToolbar"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				app:layout_scrollFlags="scroll|enterAlways">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-				<ImageButton
-					android:layout_width="45dp"
-					android:layout_height="45dp"
-					android:layout_gravity="top|start"
-					android:background="?selectableItemBackgroundBorderless"
-					android:contentDescription="@string/item_back"
-					android:onClick="@{()->viewModel.onBackPressed()}"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-					app:srcCompat="@drawable/ic_arrow_white_24dp"/>
+                <ImageButton
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="top|start"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/item_back"
+                    android:onClick="@{()->viewModel.onBackPressed()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_white_24dp"/>
 
-				<TextView
-					android:id="@+id/tvTitle"
-					android:layout_width="wrap_content"
-					android:layout_height="45dp"
-					android:layout_gravity="center"
-					android:gravity="center"
-					android:text="@string/item_touch_helper_title"
-					android:textColor="@color/white"
-					android:textSize="16sp"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/item_touch_helper_title"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-			</androidx.constraintlayout.widget.ConstraintLayout>
-		</com.google.android.material.appbar.AppBarLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/lvContents"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			app:layout_behavior="@string/appbar_scrolling_view_behavior"
-			app:list_adapter="@{viewModel.listAdapter}"
-			app:list_config="@{viewModel.recyclerViewConfig}"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lvContents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:list_adapter="@{viewModel.listAdapter}"
+            app:list_config="@{viewModel.recyclerViewConfig}"/>
 
-		<include
-			layout="@layout/view_list_error_page"
-			app:viewModel="@{viewModel}"/>
+        <include
+            layout="@layout/view_list_error_page"
+            app:viewModel="@{viewModel}"/>
 
-	</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

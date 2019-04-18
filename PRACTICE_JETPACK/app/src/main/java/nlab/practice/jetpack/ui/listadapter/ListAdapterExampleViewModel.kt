@@ -53,7 +53,7 @@ class ListAdapterExampleViewModel @Inject constructor(
 
     val selectCountText = ObservableField<String>()
 
-    val recyclerViewConfig: RecyclerViewConfig = RecyclerViewConfig().apply {
+    val recyclerViewConfig = RecyclerViewConfig().apply {
         layoutManager = layoutManagerFactory.createGridLayoutManager(SPAN_COUNT)
         itemDecorations.add(itemDecoration)
     }
