@@ -10,6 +10,7 @@ import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.PagingFragmentModule
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
+import nlab.practice.jetpack.ui.slide.SlideSampleFragment
 
 /**
  * Fragment 를 Binding 하기 위한 모듈
@@ -60,4 +61,10 @@ abstract class FragmentBindModule {
         ItemTouchHelperFragment.Module::class
     ])
     abstract fun itemTouchHelperFragment(): ItemTouchHelperFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class
+    ])
+    abstract fun slideSampleFragment(): SlideSampleFragment
 }
