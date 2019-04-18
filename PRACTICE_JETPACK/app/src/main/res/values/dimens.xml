@@ -5,8 +5,6 @@
 
     <!-- main -->
     <dimen name="main_bottom_navigation_height">60dp</dimen>
-    <dimen name="slide_panel_height">56dp</dimen>
-    <dimen name="slide_umano_panel_height">116dp</dimen>
 
     <!-- home -->
     <dimen name="home_page_header_height">84dp</dimen>
@@ -23,5 +21,8 @@
     <dimen name="list_adapter_margin_horizontal_inner">5dp</dimen>
     <dimen name="list_adapter_margin_bottom">20dp</dimen>
     <dimen name="list_adapter_toolbar_height">57dp</dimen>
+
+    <!-- slide up panel -->
+    <dimen name="slide_panel_height">56dp</dimen>
 
 </resources>

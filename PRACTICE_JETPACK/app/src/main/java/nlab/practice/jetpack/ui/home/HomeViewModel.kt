@@ -4,6 +4,7 @@ import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
+import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
@@ -95,7 +96,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createSlideUpPanelExMenuViewModel(): HomeItemViewModel = _testMenuRepository.getSlideUpPanelExMenus().let {
-        _homeItemViewModelFactory.create(it) {}
+        _homeItemViewModelFactory.create(it) { startSlideUpSampleActivity() }
+    }
+
+    private fun startSlideUpSampleActivity() = _intentProvider.createActivityIntent(SlideUpSampleActivity::class.java).run {
+        _activityNavUsecase.startActivity(this)
     }
 
     private fun refreshItems() {

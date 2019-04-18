@@ -1,50 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data>
-        <import type="android.view.MenuItem"/>
-        <variable
-            name="viewModel"
-            type="nlab.practice.jetpack.ui.main.MainHolderViewModel"/>
-    </data>
+	<data>
+		<import type="android.view.MenuItem"/>
+		<variable
+			name="viewModel"
+			type="nlab.practice.jetpack.ui.main.MainHolderViewModel"/>
+	</data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+	<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-        <com.sothree.slidinguppanel.SlidingUpPanelLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
-            app:umanoDragView="@id/player_fragment_holder"
-            app:umanoOverlay="true"
-            app:umanoPanelHeight="@dimen/slide_umano_panel_height">
+		<FrameLayout
+			android:id="@+id/layout_container"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+			app:layout_constraintTop_toTopOf="parent"/>
 
-            <FrameLayout
-                android:id="@+id/layout_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1px"
+			android:background="@color/white_opa30"
+			app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>
 
-            <fragment
-                android:id="@+id/player_fragment_holder"
-                android:name="nlab.practice.jetpack.ui.slide.SlideHolderFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_slide_holder"/>
-
-        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_bottom_navigation_height"
-            android:background="@color/colorPrimary"
-            app:itemIconSize="22dp"
-            app:itemIconTint="@color/bottom_menu_color"
-            app:itemTextColor="@color/bottom_menu_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/bottom_navigation_menu"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+		<com.google.android.material.bottomnavigation.BottomNavigationView
+			android:id="@+id/bottom_navigation"
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/main_bottom_navigation_height"
+			android:background="@color/colorPrimary"
+			app:itemIconSize="22dp"
+			app:itemIconTint="@color/bottom_menu_color"
+			app:itemTextColor="@color/bottom_menu_color"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:menu="@menu/bottom_navigation_menu"/>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
