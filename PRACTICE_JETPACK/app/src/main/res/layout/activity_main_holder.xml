@@ -2,29 +2,40 @@
 <layout>
     <data>
         <import type="android.view.MenuItem"/>
-        <variable name="viewModel" type="nlab.practice.jetpack.ui.main.MainHolderViewModel"/>
+        <variable
+            name="viewModel"
+            type="nlab.practice.jetpack.ui.main.MainHolderViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/layout_container"
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="bottom"
+            app:umanoDragView="@id/player_fragment_holder"
+            app:umanoOverlay="true"
+            app:umanoPanelHeight="@dimen/slide_umano_panel_height">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginBottom="@dimen/main_bottom_navigation_height"
-            android:background="@color/white_opa20"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            <FrameLayout
+                android:id="@+id/layout_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <fragment
+                android:id="@+id/player_fragment_holder"
+                android:name="nlab.practice.jetpack.ui.slide.SlideHolderFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_slide_holder"/>
+
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

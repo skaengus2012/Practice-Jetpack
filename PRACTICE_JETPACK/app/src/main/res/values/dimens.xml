@@ -5,6 +5,8 @@
 
     <!-- main -->
     <dimen name="main_bottom_navigation_height">60dp</dimen>
+    <dimen name="slide_panel_height">56dp</dimen>
+    <dimen name="slide_umano_panel_height">116dp</dimen>
 
     <!-- home -->
     <dimen name="home_page_header_height">84dp</dimen>

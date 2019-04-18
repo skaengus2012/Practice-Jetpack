@@ -6,5 +6,6 @@ import javax.inject.Inject
  * @author Doohyun
  * @since 2019. 04. 18
  */
-class SlideSampleViewModel @Inject constructor() {
+class SlideControlViewModel @Inject constructor() {
+
 }

@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.ResourceProvider
-import nlab.practice.jetpack.util.RxUtils
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
@@ -29,7 +28,7 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideDisposables(): CompositeDisposable = RxUtils.createLazyDisposables()
+    fun provideDisposables() = CompositeDisposable()
 
     @FragmentScope
     @Provides

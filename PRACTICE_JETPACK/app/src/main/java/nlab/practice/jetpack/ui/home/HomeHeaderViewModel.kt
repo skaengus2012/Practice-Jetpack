@@ -4,10 +4,10 @@ import Njava.util.time.TimeBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
-import nlab.practice.jetpack.util.RxUtils
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import java.util.concurrent.TimeUnit
@@ -22,7 +22,7 @@ class HomeHeaderViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
         private val _schedulerFactory: SchedulerFactory): BindingItemViewModel() {
 
-    private val _timerDisposables = RxUtils.createLazyDisposables()
+    private val _timerDisposables = CompositeDisposable()
 
     private val _dateFormat: CharSequence = resourceProvider.getString(R.string.home_time_format)
 
