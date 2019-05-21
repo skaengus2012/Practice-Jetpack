@@ -28,7 +28,7 @@ const val DISK_CACHE_MAX_SIZE : Long = 1024 * 1024 * 100
 class AppGlideModuleEx : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        GlidePreLollipopTlsSetupDelegate.registerComponents(context, glide, registry)
+        GlidePreLollipopTlsSetupDelegate.registerComponents(registry)
     }
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
