@@ -8,9 +8,10 @@ package nlab.practice.jetpack.util.component.callback
 class ActivityCallback {
 
     var onBackPressedCommand: (()-> Boolean)? = null
+    private set
 
-    inline fun onBackPressed(crossinline action: () -> Boolean) {
-       onBackPressedCommand = { action() }
+    fun onBackPressed(action: () -> Boolean) {
+       onBackPressedCommand = action
     }
 }
 

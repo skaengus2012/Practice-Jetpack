@@ -31,7 +31,7 @@ internal class ContainerFragmentImpl internal constructor(
 
     override fun getChildNavController(): ChildNavController = _childNavController
 
-    override fun onBottomNavReselected(): Boolean = _callback.onBottomNavReselectedCommand?.invoke()?:false
+    override fun onBottomNavReselected(): Boolean = _callback.bottomNavReselectedCommand?.invoke()?:false
 
     override fun onBackPressed(): Boolean {
         val currentPrimaryOnBackPressedResult = _childNavController.getPrimaryNavFragment()
@@ -47,10 +47,11 @@ internal class ContainerFragmentImpl internal constructor(
 }
 
 class ContainerFragmentCallback {
-    var onBottomNavReselectedCommand: (() -> Boolean)? = null
+    var bottomNavReselectedCommand: (() -> Boolean)? = null
+    private set
 
-    inline fun onBottomNavReselected(crossinline callback: ()-> Boolean) {
-        onBottomNavReselectedCommand = {callback()}
+    fun onBottomNavReselected(callback: () -> Boolean) {
+        bottomNavReselectedCommand = callback
     }
 }
 

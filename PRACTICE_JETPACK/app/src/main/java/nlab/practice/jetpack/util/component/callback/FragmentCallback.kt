@@ -7,8 +7,9 @@ package nlab.practice.jetpack.util.component.callback
  */
 class FragmentCallback {
     var onBackPressedCommand: (()-> Boolean)? = null
+    private set
 
-    inline fun onBackPressed(crossinline action: () -> Boolean) {
-        onBackPressedCommand = { action() }
+    fun onBackPressed(action: () -> Boolean) {
+        onBackPressedCommand = action
     }
 }
