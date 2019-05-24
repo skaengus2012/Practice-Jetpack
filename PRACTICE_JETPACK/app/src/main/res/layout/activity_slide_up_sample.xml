@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-	<data>
-		<variable
-			name="viewModel"
-			type="nlab.practice.jetpack.ui.slide.SlideUpSampleViewModel"/>
-	</data>
+    <data>
+        <variable
+            name="viewModel"
+            type="nlab.practice.jetpack.ui.slide.SlideUpSampleViewModel"/>
+    </data>
 
-	<com.sothree.slidinguppanel.SlidingUpPanelLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:gravity="bottom"
-		app:umanoDragView="@id/fragmentSlideHolder"
-		app:umanoOverlay="true"
-		app:umanoPanelHeight="@dimen/slide_panel_height">
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/slidingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        app:umanoDragView="@id/fragmentSlideHolder"
+        app:umanoOverlay="true"
+        app:umanoPanelHeight="@dimen/slide_panel_height">
 
-		<androidx.recyclerview.widget.RecyclerView
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-		<fragment
-			android:id="@+id/fragmentSlideHolder"
-			android:name="nlab.practice.jetpack.ui.slide.SlideHolderFragment"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			tools:layout="@layout/fragment_slide_holder"/>
-	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+        <fragment
+            android:id="@+id/fragmentSlideHolder"
+            android:name="nlab.practice.jetpack.ui.slide.SlideHolderFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_slide_holder"/>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </layout>

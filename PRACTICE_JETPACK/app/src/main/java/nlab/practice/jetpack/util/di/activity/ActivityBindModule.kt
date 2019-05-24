@@ -39,7 +39,8 @@ abstract class ActivityBindModule {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [
-        ActivityCommonModule::class
+        ActivityCommonModule::class,
+        SlideUpSampleActivity.Module::class
     ])
     abstract fun slideUpSampleActivity(): SlideUpSampleActivity
 }
