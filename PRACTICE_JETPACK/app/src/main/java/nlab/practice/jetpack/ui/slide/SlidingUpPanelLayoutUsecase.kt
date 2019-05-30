@@ -1,8 +1,7 @@
 package nlab.practice.jetpack.ui.slide
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * @author Doohyun
@@ -10,6 +9,6 @@ import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
  */
 class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
 
-    private val _slidingUpPanelLayout: SlidingUpPanelLayout by lazy(viewSupplier)
+    private val _slidingUpPanelLayout: SlidingUpPanelLayout by lazyPublic(viewSupplier)
 
 }

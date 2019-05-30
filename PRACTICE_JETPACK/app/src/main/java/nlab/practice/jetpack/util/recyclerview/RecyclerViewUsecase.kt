@@ -2,20 +2,21 @@ package nlab.practice.jetpack.util.recyclerview
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * @author Doohyun
  * @since 2019. 01. 24
  */
-class RecyclerViewUsecase(private val _recyclerView: () -> RecyclerView) {
+class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
 
-    private fun getRecyclerView(): RecyclerView = _recyclerView()
+    private val _recyclerView: RecyclerView by lazyPublic(viewSupplier)
 
     fun scrollToPositionWithOffset(position: Int, offset: Int) {
-        getRecyclerView().layoutManager?.let { it as? LinearLayoutManager }?.scrollToPositionWithOffset(position, offset)
+        _recyclerView.layoutManager?.let { it as? LinearLayoutManager }?.scrollToPositionWithOffset(position, offset)
     }
 
     fun smoothScrollToPosition(position: Int) {
-        getRecyclerView().smoothScrollToPosition(position)
+        _recyclerView.smoothScrollToPosition(position)
     }
 }

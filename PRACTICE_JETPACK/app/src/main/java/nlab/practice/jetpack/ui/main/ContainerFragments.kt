@@ -20,7 +20,7 @@ interface ContainerFragment {
     fun onBackPressed(): Boolean
 
     interface Owner {
-        fun getDelegate(): ContainerFragment
+        fun getContainerDelegate(): ContainerFragment
     }
 }
 
