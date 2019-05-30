@@ -22,7 +22,7 @@ class ChildFragmentModule {
                 ?.supportFragmentManager
                 ?.primaryNavigationFragment
                 ?.let { it as? ContainerFragment.Owner }
-                ?.getDelegate()
+                ?.getContainerDelegate()
                 ?.getChildNavController()
     }
 }

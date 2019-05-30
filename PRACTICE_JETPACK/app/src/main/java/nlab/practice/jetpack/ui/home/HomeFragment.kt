@@ -35,5 +35,5 @@ class HomeFragment : InjectableFragment(), ContainerFragment.Owner {
         binding.viewModel = viewModel
     }
 
-    override fun getDelegate(): ContainerFragment = containerFragment
+    override fun getContainerDelegate(): ContainerFragment = containerFragment
 }

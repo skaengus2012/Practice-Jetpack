@@ -4,35 +4,36 @@ import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
+import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * @author Doohyun
  */
-class FragmentNavUsecase(private val _navControllerGetter: () -> ChildNavController?) {
+class FragmentNavUsecase(navSupplier: () -> ChildNavController?) {
 
-    private fun getNavController() : ChildNavController? = _navControllerGetter()
+    private val navController: ChildNavController? by lazyPublic(navSupplier)
 
     fun popBackStack() {
-        getNavController()?.popBackStack()
+        navController?.popBackStack()
     }
 
-    fun clearFragments(): Boolean = getNavController()?.clearFragments() ?: true
+    fun clearFragments(): Boolean = navController?.clearFragments() ?: true
 
-    fun hasChild(): Boolean = getNavController()?.hasChild()?:false
+    fun hasChild(): Boolean = navController?.hasChild() ?: false
 
     fun navCountablePaging() {
-        getNavController()?.addFragment(CountablePagingFragment::class.fragmentTag()) { CountablePagingFragment() }
+        navController?.addFragment(CountablePagingFragment::class.fragmentTag()) { CountablePagingFragment() }
     }
 
     fun navUnboundedPaging() {
-        getNavController()?.addFragment(UnboundedPagingFragment::class.fragmentTag()) { UnboundedPagingFragment() }
+        navController?.addFragment(UnboundedPagingFragment::class.fragmentTag()) { UnboundedPagingFragment() }
     }
 
     fun navListAdapterExample() {
-        getNavController()?.addFragment(ListAdapterExampleFragment::class.fragmentTag()) { ListAdapterExampleFragment() }
+        navController?.addFragment(ListAdapterExampleFragment::class.fragmentTag()) { ListAdapterExampleFragment() }
     }
 
     fun navDragDrop() {
-        getNavController()?.addFragment(ItemTouchHelperFragment::class.fragmentTag()) { ItemTouchHelperFragment()}
+        navController?.addFragment(ItemTouchHelperFragment::class.fragmentTag()) { ItemTouchHelperFragment()}
     }
 }

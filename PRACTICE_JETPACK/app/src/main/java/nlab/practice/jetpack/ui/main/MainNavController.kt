@@ -39,5 +39,5 @@ class MainNavController(val fragmentManager: FragmentManager, @IdRes val contain
 
     fun getCurrentContainerFragment(): ContainerFragment? = fragmentManager.primaryNavigationFragment
             ?.let { it as? ContainerFragment.Owner }
-            ?.getDelegate()
+            ?.getContainerDelegate()
 }
