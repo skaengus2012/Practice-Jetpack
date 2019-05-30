@@ -7,15 +7,15 @@ import com.google.android.material.snackbar.Snackbar
 /**
  * @author Doohyun
  */
-class SnackBarHelper(private val _viewSupplier: ()-> View?) {
+class SnackBarHelper(viewSupplier: ()-> View?) {
 
-    private fun getView(): View? = _viewSupplier()
+    private val _view: View? by lazyPublic(viewSupplier)
 
     fun showSnackBar(message: CharSequence, duration: Int = Snackbar.LENGTH_SHORT) {
-        getView()?.run { Snackbar.make(this, message, duration).show() }
+        _view?.run { Snackbar.make(this, message, duration).show() }
     }
 
     fun showSnackBar(@StringRes message: Int, duration: Int = Snackbar.LENGTH_SHORT) {
-        getView()?.run { Snackbar.make(this, message, duration).show() }
+        _view?.run { Snackbar.make(this, message, duration).show() }
     }
 }
