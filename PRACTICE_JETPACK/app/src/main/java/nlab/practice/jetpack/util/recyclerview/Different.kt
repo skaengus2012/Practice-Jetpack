@@ -10,18 +10,18 @@ interface Different<T> {
 }
 
 class DifferentDelegate<ViewModel, Item: Different<Item>>(
-        inline val myItemSupplier: ()-> Item,
-        inline val itemConvertFunction: (viewModel: ViewModel) -> Item) : Different<ViewModel> {
+        private val _myItemSupplier: ()-> Item,
+        private val _itemConvertFunction: (viewModel: ViewModel) -> Item) : Different<ViewModel> {
 
     override fun areItemsTheSame(newItem: ViewModel): Boolean {
-        return myItemSupplier().areItemsTheSame(itemConvertFunction(newItem))
+        return _myItemSupplier().areItemsTheSame(_itemConvertFunction(newItem))
     }
 
     override fun areContentsTheSame(newItem: ViewModel): Boolean {
-        return myItemSupplier().areContentsTheSame(itemConvertFunction(newItem))
+        return _myItemSupplier().areContentsTheSame(_itemConvertFunction(newItem))
     }
 
     override fun getChangePayload(newItem: ViewModel): Any? {
-        return myItemSupplier().getChangePayload(itemConvertFunction(newItem))
+        return _myItemSupplier().getChangePayload(_itemConvertFunction(newItem))
     }
 }

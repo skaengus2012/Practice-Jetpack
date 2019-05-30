@@ -3,6 +3,7 @@ package nlab.practice.jetpack.ui.collapsingtoolbar
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.reactivex.subjects.BehaviorSubject
+import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * AppBarLayout 내부 Collapsing 상태에 따라, contentScrim 이 표시되는지 여부를 알려주는 기능 담당.
@@ -14,9 +15,9 @@ class ToolbarItemVisibilityUsecase(
         appbarLayoutProvider: () -> AppBarLayout,
         collapsingToolbarLayoutProvider: () -> CollapsingToolbarLayout) {
 
-    private val _collapsingLayout: CollapsingToolbarLayout by lazy(collapsingToolbarLayoutProvider)
+    private val _collapsingLayout: CollapsingToolbarLayout by lazyPublic(collapsingToolbarLayoutProvider)
 
-    private val _appbarLayout: AppBarLayout by lazy(appbarLayoutProvider)
+    private val _appbarLayout: AppBarLayout by lazyPublic(appbarLayoutProvider)
 
     val scrimVisibilityChangeSubject = BehaviorSubject.create<Boolean>()
 
