@@ -12,10 +12,12 @@ import javax.inject.Inject
  */
 class SlideUpSampleViewModel @Inject constructor(
         lifeCycleBinder: ActivityLifeCycleBinder,
-        activityCommonUsecase: ActivityCommonUsecase) {
+        activityCommonUsecase: ActivityCommonUsecase,
+        slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase) {
 
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
+            slidingUpPanelLayoutUsecase.initialize()
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
 

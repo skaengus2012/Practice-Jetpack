@@ -1,10 +1,12 @@
 package nlab.practice.jetpack.ui.slide
 
+import androidx.fragment.app.Fragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Module
 import dagger.Provides
 import nlab.practice.jetpack.util.ViewSupplier
 import nlab.practice.jetpack.util.di.activity.ActivityScope
+import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import javax.inject.Inject
 
 private typealias SlidingUpPanelLayoutSupplier = ViewSupplier<SlidingUpPanelLayout>
@@ -27,4 +29,18 @@ class SlidingUpPanelActivityModule {
     fun provideSlidingUpPanelLayoutUsecase(viewSupplier: SlidingUpPanelLayoutSupplier): SlidingUpPanelLayoutUsecase {
         return SlidingUpPanelLayoutUsecase(viewSupplier::get)
     }
+}
+
+@Module
+class SlidingUpPanelFragmentModule {
+
+    @FragmentScope
+    @Provides
+    fun provideSlidingUpPanelLayoutUsecase(fragment: Fragment): SlidingUpPanelLayoutUsecase? {
+        return fragment.activity
+                ?.let { it as? SlidingUpPanelActivity.Owner }
+                ?.getSlidingUpPanelDelegate()
+                ?.slidingUpPanelLayoutUsecase
+    }
+
 }
