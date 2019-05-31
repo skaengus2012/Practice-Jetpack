@@ -20,6 +20,9 @@ class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
 
     val slidePanelStateSubject: Subject<SlidingUpPanelLayout.PanelState> = PublishSubject.create()
 
+    val currentPanelState: SlidingUpPanelLayout.PanelState
+        get() = _slidingUpPanelLayout.panelState
+
     fun initialize() {
         _slidingUpPanelLayout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
@@ -36,8 +39,6 @@ class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
             }
         })
     }
-
-    fun isExpanded() = _slidingUpPanelLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED
 
     fun expand() {
         _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import nlab.practice.jetpack.databinding.FragmentSlideControlBinding
+import nlab.practice.jetpack.databinding.FragmentSlidingControlBinding
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
 import javax.inject.Inject
 
@@ -12,15 +12,15 @@ import javax.inject.Inject
  * @author Doohyun
  * @since 2019. 04. 18
  */
-class SlideControlFragment : InjectableFragment() {
+class SlidingControlFragment : InjectableFragment() {
 
     @Inject
-    lateinit var viewModel: SlideControlViewModel
+    lateinit var viewModel: SlidingControlViewModel
 
-    lateinit var binding: FragmentSlideControlBinding
+    lateinit var binding: FragmentSlidingControlBinding
 
     override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return FragmentSlideControlBinding.inflate(inflater, container, false)
+        return FragmentSlidingControlBinding.inflate(inflater, container, false)
                 .apply { binding = this }
                 .root
     }

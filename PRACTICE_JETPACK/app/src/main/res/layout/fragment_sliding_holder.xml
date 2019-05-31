@@ -17,10 +17,10 @@
 
 		<fragment
 			android:id="@+id/fragmentSlideControl"
-			android:name="nlab.practice.jetpack.ui.slide.SlideControlFragment"
+			android:name="nlab.practice.jetpack.ui.slide.SlidingControlFragment"
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/slide_panel_height"
 			app:layout_constraintTop_toTopOf="parent"
-			tools:layout="@layout/fragment_slide_control"/>
+			tools:layout="@layout/fragment_sliding_control"/>
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

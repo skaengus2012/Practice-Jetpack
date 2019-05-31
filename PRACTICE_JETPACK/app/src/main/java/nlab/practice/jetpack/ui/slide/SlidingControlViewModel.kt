@@ -9,7 +9,7 @@ import javax.inject.Inject
  * @author Doohyun
  * @since 2019. 04. 18
  */
-class SlideControlViewModel @Inject constructor(
+class SlidingControlViewModel @Inject constructor(
         private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
         private val _toastHelper: ToastHelper) {
 
@@ -17,7 +17,7 @@ class SlideControlViewModel @Inject constructor(
         _toastHelper.showToast(R.string.slide_up_panel_play_message)
     }
 
-    fun onPanelLayoutClicek() {
+    fun onPanelLayoutClick() {
         _slidingUpPanelLayoutUsecase?.expand()
     }
 }

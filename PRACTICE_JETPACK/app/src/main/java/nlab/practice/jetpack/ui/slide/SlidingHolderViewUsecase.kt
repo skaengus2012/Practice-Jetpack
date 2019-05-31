@@ -6,7 +6,7 @@ import nlab.practice.jetpack.util.lazyPublic
 /**
  * @author Doohyun
  */
-class SlideHolderViewUsecase(containerViewSupplier: () -> View, private val _miniPlayerViewSupplier: () -> View?) {
+class SlidingHolderViewUsecase(containerViewSupplier: () -> View, private val _miniPlayerViewSupplier: () -> View?) {
 
     private val _containerView: View by lazyPublic(containerViewSupplier)
 

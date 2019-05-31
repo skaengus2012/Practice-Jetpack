@@ -4,7 +4,7 @@
 	<data>
 		<variable
 			name="viewModel"
-			type="nlab.practice.jetpack.ui.slide.SlideControlViewModel"/>
+			type="nlab.practice.jetpack.ui.slide.SlidingControlViewModel"/>
 	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +13,7 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/slide_panel_height"
-		android:onClick="@{() -> viewModel.onPanelLayoutClicek()}">
+		android:onClick="@{() -> viewModel.onPanelLayoutClick()}">
 
 		<ImageView
 			android:id="@+id/album"

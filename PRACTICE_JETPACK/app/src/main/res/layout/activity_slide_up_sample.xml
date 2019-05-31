@@ -24,9 +24,9 @@
 
         <fragment
             android:id="@+id/fragmentSlideHolder"
-            android:name="nlab.practice.jetpack.ui.slide.SlideHolderFragment"
+            android:name="nlab.practice.jetpack.ui.slide.SlidingHolderFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_slide_holder"/>
+            tools:layout="@layout/fragment_sliding_holder"/>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </layout>

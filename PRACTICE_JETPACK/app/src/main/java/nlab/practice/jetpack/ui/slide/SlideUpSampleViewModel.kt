@@ -6,6 +6,7 @@ import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
+import nlab.practice.jetpack.util.slidingpanel.isExpanded
 import javax.inject.Inject
 
 /**
@@ -29,7 +30,7 @@ class SlideUpSampleViewModel @Inject constructor(
         }
 
         activityCallback.onBackPressed { when {
-            slidingUpPanelLayoutUsecase.isExpanded() -> {
+            slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
                 slidingUpPanelLayoutUsecase.collapse()
                 true
             }

@@ -10,8 +10,8 @@ import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.PagingFragmentModule
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
-import nlab.practice.jetpack.ui.slide.SlideControlFragment
-import nlab.practice.jetpack.ui.slide.SlideHolderFragment
+import nlab.practice.jetpack.ui.slide.SlidingControlFragment
+import nlab.practice.jetpack.ui.slide.SlidingHolderFragment
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelFragmentModule
 
 /**
@@ -67,15 +67,15 @@ abstract class FragmentBindModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [
         FragmentCommonModule::class,
-        SlideHolderFragment.Module::class,
+        SlidingHolderFragment.Module::class,
         SlidingUpPanelFragmentModule::class
     ])
-    abstract fun slideHolderFragment(): SlideHolderFragment
+    abstract fun slidingHolderFragment(): SlidingHolderFragment
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [
         FragmentCommonModule::class,
         SlidingUpPanelFragmentModule::class
     ])
-    abstract fun slideControlFragment(): SlideControlFragment
+    abstract fun slidingControlFragment(): SlidingControlFragment
 }
