@@ -10,6 +10,8 @@ import nlab.practice.jetpack.databinding.ActivitySlideUpSampleBinding
 import nlab.practice.jetpack.util.ViewSupplier
 import nlab.practice.jetpack.util.di.activity.ActivityScope
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
+import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelActivity
+import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelActivityModule
 import javax.inject.Inject
 
 /**

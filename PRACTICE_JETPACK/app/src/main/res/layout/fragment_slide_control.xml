@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data>
-        <variable
-            name="viewModel"
-            type="nlab.practice.jetpack.ui.slide.SlideControlViewModel"/>
-    </data>
+	<data>
+		<variable
+			name="viewModel"
+			type="nlab.practice.jetpack.ui.slide.SlideControlViewModel"/>
+	</data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/slide_panel_height">
+	<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/slide_panel_height"
+		android:onClick="@{() -> viewModel.onPanelLayoutClicek()}">
 
-        <ImageView
-            android:id="@+id/album"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="10dp"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/common_img_track_default"/>
+		<ImageView
+			android:id="@+id/album"
+			android:layout_width="45dp"
+			android:layout_height="45dp"
+			android:layout_marginStart="10dp"
+			android:importantForAccessibility="no"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:src="@drawable/common_img_track_default"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnExpandSlide"
-            app:layout_constraintStart_toEndOf="@id/album"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="노래 제목"/>
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="10dp"
+			android:layout_marginEnd="10dp"
+			android:ellipsize="end"
+			android:singleLine="true"
+			android:textColor="@color/white"
+			android:textSize="12sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/btnPlay"
+			app:layout_constraintStart_toEndOf="@id/album"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:text="노래 제목"/>
 
-        <ImageButton
-            android:id="@+id/btnExpandSlide"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginEnd="3dp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:padding="7dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/format_indent_increase_white_24dp"/>
+		<ImageButton
+			android:id="@+id/btnPlay"
+			android:layout_width="45dp"
+			android:layout_height="45dp"
+			android:layout_marginEnd="3dp"
+			android:background="?selectableItemBackgroundBorderless"
+			android:contentDescription="@string/slide_up_panel_btn_description"
+			android:onClick="@{() -> viewModel.onClickPlayed()}"
+			android:padding="7dp"
+			android:scaleType="fitXY"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

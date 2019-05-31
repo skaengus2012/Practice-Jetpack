@@ -1,10 +1,12 @@
-package nlab.practice.jetpack.ui.slide
+package nlab.practice.jetpack.util.slidingpanel
 
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import nlab.practice.jetpack.util.lazyPublic
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * @author Doohyun
@@ -16,21 +18,32 @@ class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
 
     val slideOffsetSubject: Subject<Float> = PublishSubject.create()
 
-    val panelState: SlidingUpPanelLayout.PanelState?
-        get() = _slidingUpPanelLayout.panelState
+    val slidePanelStateSubject: Subject<SlidingUpPanelLayout.PanelState> = PublishSubject.create()
 
     fun initialize() {
         _slidingUpPanelLayout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
-                slideOffsetSubject.onNext(slideOffset)
+                val offset = min(max(0.0f, slideOffset), 1.0f)
+
+                slideOffsetSubject.onNext(offset)
             }
 
             override fun onPanelStateChanged(
                     panel: View?,
                     previousState: SlidingUpPanelLayout.PanelState?,
                     newState: SlidingUpPanelLayout.PanelState?) {
-                // TODO 필요에 따라 구현 필요.
+                newState?.run {  slidePanelStateSubject.onNext(this) }
             }
         })
+    }
+
+    fun isExpanded() = _slidingUpPanelLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED
+
+    fun expand() {
+        _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+    }
+
+    fun collapse() {
+        _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
 }

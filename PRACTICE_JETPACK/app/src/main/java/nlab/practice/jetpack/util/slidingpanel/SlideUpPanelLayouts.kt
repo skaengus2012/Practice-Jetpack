@@ -1,4 +1,4 @@
-package nlab.practice.jetpack.ui.slide
+package nlab.practice.jetpack.util.slidingpanel
 
 import androidx.fragment.app.Fragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout

@@ -4,7 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import dagger.Provides
+import kotlinx.android.synthetic.main.fragment_slide_holder.*
+import nlab.practice.jetpack.R
 import nlab.practice.jetpack.databinding.FragmentSlideHolderBinding
+import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
 import javax.inject.Inject
 
@@ -25,5 +30,16 @@ class SlideHolderFragment : InjectableFragment() {
         return FragmentSlideHolderBinding.inflate(inflater, container, false)
                 .apply { binding = this }
                 .root
+    }
+
+    @dagger.Module
+    class Module {
+
+        @FragmentScope
+        @Provides
+        fun provideSlideHolderViewUsecase(fragment: Fragment): SlideHolderViewUsecase {
+            return SlideHolderViewUsecase(containerViewSupplier = {fragment.fragmentContainer},
+                    _miniPlayerViewSupplier = { fragment.view?.findViewById(R.id.fragmentSlideControl) })
+        }
     }
 }
