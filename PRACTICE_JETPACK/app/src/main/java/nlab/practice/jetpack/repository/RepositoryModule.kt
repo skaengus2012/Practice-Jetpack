@@ -33,7 +33,7 @@ class RepositoryModule {
     @Provides
     fun provideCoverRepository(): CoverRepository = CoverRepository()
 
-    @Reusable
+    @Singleton
     @Provides
     fun providePlayerRepository(imagePoolRepository: ImagePoolRepository): PlayerRepository = PlayerRepository(imagePoolRepository)
 }

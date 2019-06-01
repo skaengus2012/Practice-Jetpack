@@ -7,6 +7,7 @@ import dagger.Provides
 import kotlinx.android.synthetic.main.activity_slide_up_sample.*
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.databinding.ActivitySlideUpSampleBinding
+import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleItemViewModelFactory
 import nlab.practice.jetpack.util.ViewSupplier
 import nlab.practice.jetpack.util.di.activity.ActivityScope
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
@@ -41,5 +42,11 @@ class SlideUpSampleActivity : InjectableActivity(), SlidingUpPanelActivity.Owner
         @ActivityScope
         @Provides
         fun provideSlidingUpPanelLayout(activity: Activity) = ViewSupplier { activity.slidingLayout }
+
+        @ActivityScope
+        @Provides
+        fun provideItemViewModelFactory(): ListAdapterExampleItemViewModelFactory {
+            return ListAdapterExampleItemViewModelFactory()
+        }
     }
 }
