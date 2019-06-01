@@ -38,6 +38,8 @@ class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
                 newState?.run {  slidePanelStateSubject.onNext(this) }
             }
         })
+
+        hidden()
     }
 
     fun expand() {
@@ -46,5 +48,9 @@ class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
 
     fun collapse() {
         _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+    }
+
+    fun hidden() {
+        _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

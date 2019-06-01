@@ -68,6 +68,10 @@
 
 	<!-- SlideUpPanel 예제 -->
 	<string name="slide_up_panel_ex_title">SlideUpPanel 연습</string>
-	<string name="slide_up_panel_btn_description">재생</string>
+	<string name="slide_up_panel_prev_btn_description">재생</string>
+	<string name="slide_up_panel_play_btn_description">재생</string>
+	<string name="slide_up_panel_next_btn_description">재생</string>
 	<string name="slide_up_panel_play_message">재생을 시도합니다.</string>
+	<string name="slide_up_panel_prev_message">이전 곡을 재생합니다.</string>
+	<string name="slide_up_panel_next_message">다음 곡을 재생합니다.</string>
 </resources>

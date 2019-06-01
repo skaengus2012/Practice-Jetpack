@@ -10,3 +10,7 @@ fun SlidingUpPanelLayout.PanelState.isExpanded(): Boolean {
 fun SlidingUpPanelLayout.PanelState.isCollapsed(): Boolean {
     return this == SlidingUpPanelLayout.PanelState.COLLAPSED
 }
+
+fun SlidingUpPanelLayout.PanelState.isHidden(): Boolean {
+    return this == SlidingUpPanelLayout.PanelState.HIDDEN
+}
