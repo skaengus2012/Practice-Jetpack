@@ -22,4 +22,7 @@
     <dimen name="list_adapter_margin_bottom">20dp</dimen>
     <dimen name="list_adapter_toolbar_height">57dp</dimen>
 
+    <!-- slide up panel -->
+    <dimen name="slide_panel_height">56dp</dimen>
+
 </resources>

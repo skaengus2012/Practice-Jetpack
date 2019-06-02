@@ -2,6 +2,7 @@ package nlab.practice.jetpack.ui.collapsingtoolbar
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -115,6 +116,6 @@ class CollapsingToolbarViewModel @Inject constructor(
     fun onBackPress() = _activityUsecase.onBackPressed()
 
     fun onFabClickEvent() {
-        _snackBarHelper.showSnackBar(R.string.collapsing_toolbar_fab_message, duration = 1500)
+        _snackBarHelper.showSnackBar(R.string.collapsing_toolbar_fab_message, duration = Snackbar.LENGTH_SHORT)
     }
 }

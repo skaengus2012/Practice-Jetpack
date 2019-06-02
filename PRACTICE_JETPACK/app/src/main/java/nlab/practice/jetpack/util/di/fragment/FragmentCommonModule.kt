@@ -4,15 +4,15 @@ import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
-import nlab.practice.jetpack.util.RxUtils
+import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
-import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
-import nlab.practice.jetpack.util.nav.FragmentScopeNavModule
+import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
+import javax.inject.Named
 
 
 /**
@@ -20,26 +20,39 @@ import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
  *
  * @author Doohyun
  */
-@Module(includes = [
-    FragmentScopeNavModule::class
-])
+@Module
 class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideDisposables(): CompositeDisposable = RxUtils.createLazyDisposables()
+    fun provideDisposables() = CompositeDisposable()
 
     @FragmentScope
     @Provides
-    fun provideFragmentCallback(): FragmentCallback = FragmentCallback()
+    fun provideFragmentCallback() = FragmentCallback()
+
+    @Named(ContextInjectionType.ACTIVITY)
+    @FragmentScope
+    @Provides
+    fun provideActivityNavUsecase(fragment: Fragment): ActivityNavUsecase {
+        return DefaultActivityNavUsecase(fragment.activity!!)
+    }
 
     @FragmentScope
     @Provides
-    fun provideActivityNavUsecase(fragment: Fragment): ActivityNavUsecase = ActivityNavUsecase(fragment.activity!!)
+    fun provideActivityCommonUsecase(fragment: Fragment) = ActivityCommonUsecase(fragment.activity!!)
 
+    @Named(ContextInjectionType.ACTIVITY)
     @FragmentScope
     @Provides
-    fun provideActivityCommonUsecase(fragment: Fragment): ActivityCommonUsecase = ActivityCommonUsecase(fragment.activity!!)
+    fun provideIntentProvider(fragment: Fragment) = IntentProvider(fragment.activity!!)
+
+    @Named(ContextInjectionType.FRAGMENT)
+    @FragmentScope
+    @Provides
+    fun provideFragmentOwnerActivityNavUsecase(fragment: Fragment): ActivityNavUsecase {
+        return FragmentOwnerActivityNavUsecase(fragment)
+    }
 
     @FragmentScope
     @Provides
@@ -47,17 +60,15 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideLayoutManagerFactory(fragment: Fragment): LayoutManagerFactory = LayoutManagerFactory(fragment.activity!!)
+    fun provideLayoutManagerFactory(fragment: Fragment) = LayoutManagerFactory(fragment.activity!!)
 
     @FragmentScope
     @Provides
-    fun provideSnackBarHelper(fragment: Fragment) : SnackBarHelper = SnackBarHelper {
-        val activity = fragment.activity
-
-        if (activity != null && !activity.isFinishing) {
-            fragment.view
-        } else {
-            null
-        }
+    fun provideSnackBarHelper(
+            fragment: Fragment,
+            resourceProvider: ResourceProvider) = SnackBarHelper(resourceProvider) {
+        fragment.activity
+                ?.takeUnless { it.isFinishing }
+                ?.run { findViewById(android.R.id.content) }
     }
 }

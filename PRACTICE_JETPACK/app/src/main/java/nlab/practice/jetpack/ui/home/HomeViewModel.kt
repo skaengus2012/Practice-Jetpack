@@ -2,14 +2,17 @@ package nlab.practice.jetpack.ui.home
 
 import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.repository.TestMenuRepository
+import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
-import nlab.practice.jetpack.util.nav.ActivityNavUsecase
+import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
+import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
-import nlab.practice.jetpack.util.nav.FragmentNavUsecase
+import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * HomeFragment 에 대한 ViewModel
@@ -20,7 +23,8 @@ class HomeViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         containerFragmentCallback: ContainerFragmentCallback,
         homeItemDecoration: HomeItemDecoration,
-        private val _activityNavUsecase: ActivityNavUsecase,
+        @Named(ContextInjectionType.ACTIVITY) private val _activityNavUsecase: ActivityNavUsecase,
+        @Named(ContextInjectionType.ACTIVITY) private val _intentProvider: IntentProvider,
         private val _fragmentNavUsecase: FragmentNavUsecase,
         private val _homeHeaderViewModel: HomeHeaderViewModel,
         private val _homeItemViewModelFactory: HomeItemViewModelFactory,
@@ -58,11 +62,16 @@ class HomeViewModel @Inject constructor(
             createPagingTestMenuViewModel(),
             createListAdapterMenuViewModel(),
             createDragDropMenuViewModel(),
-            createCollapsingToolbarExMenuViewModel()
+            createCollapsingToolbarExMenuViewModel(),
+            createSlideUpPanelExMenuViewModel()
     )
 
     private fun createHomeAnkoFirstViewMenuViewModel(): HomeItemViewModel = _testMenuRepository.getAnkoFirstViewMenu().let {
-        _homeItemViewModelFactory.create(it) { _activityNavUsecase.startAnkoFistActivity() }
+        _homeItemViewModelFactory.create(it) { startAnkoActivity() }
+    }
+
+    private fun startAnkoActivity() = _intentProvider.createActivityIntent(AnkoFirstActivity::class.java).run {
+        _activityNavUsecase.startActivity(this)
     }
 
     private fun createPagingTestMenuViewModel(): HomeItemViewModel = _testMenuRepository.getPagingTestMenu().let {
@@ -78,7 +87,20 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createCollapsingToolbarExMenuViewModel(): HomeItemViewModel = _testMenuRepository.getCollapsingToolbarExMenu().let {
-        _homeItemViewModelFactory.create(it) { _activityNavUsecase.startCollapsingToolbarActivity() }
+        _homeItemViewModelFactory.create(it) { startCollapsingToolbarActivity() }
+    }
+
+    private fun startCollapsingToolbarActivity()
+            = _intentProvider.createActivityIntent(CollapsingToolbarActivity::class.java).run {
+        _activityNavUsecase.startActivity(this)
+    }
+
+    private fun createSlideUpPanelExMenuViewModel(): HomeItemViewModel = _testMenuRepository.getSlideUpPanelExMenus().let {
+        _homeItemViewModelFactory.create(it) { startSlideUpSampleActivity() }
+    }
+
+    private fun startSlideUpSampleActivity() = _intentProvider.createActivityIntent(SlideUpSampleActivity::class.java).run {
+        _activityNavUsecase.startActivity(this)
     }
 
     private fun refreshItems() {

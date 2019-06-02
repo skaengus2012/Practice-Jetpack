@@ -10,6 +10,10 @@ import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.PagingFragmentModule
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
+import nlab.practice.jetpack.ui.slide.SlidingControlFragment
+import nlab.practice.jetpack.ui.slide.SlidingHolderFragment
+import nlab.practice.jetpack.ui.slide.SlidingMainFragment
+import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelFragmentModule
 
 /**
  * Fragment 를 Binding 하기 위한 모듈
@@ -60,4 +64,26 @@ abstract class FragmentBindModule {
         ItemTouchHelperFragment.Module::class
     ])
     abstract fun itemTouchHelperFragment(): ItemTouchHelperFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class,
+        SlidingHolderFragment.Module::class,
+        SlidingUpPanelFragmentModule::class
+    ])
+    abstract fun slidingHolderFragment(): SlidingHolderFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class,
+        SlidingUpPanelFragmentModule::class
+    ])
+    abstract fun slidingControlFragment(): SlidingControlFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class,
+        SlidingUpPanelFragmentModule::class
+    ])
+    abstract fun slidingMainFragment(): SlidingMainFragment
 }

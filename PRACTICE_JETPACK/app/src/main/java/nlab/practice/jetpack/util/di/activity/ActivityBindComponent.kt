@@ -23,7 +23,7 @@ interface ActivityBindComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun setActivity(activity: Activity): ActivityBindComponent.Builder
+        fun setActivity(activity: Activity): Builder
 
         fun build() : ActivityBindComponent
     }

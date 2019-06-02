@@ -22,6 +22,8 @@
 	<string name="test_menu_drag_drop_description">Item Touch Helper 연습</string>
 	<string name="test_menu_collapsing_toolbar">CollapsingToolbarLayout 연습</string>
 	<string name="test_menu_collapsing_toolbar_description">기본 UI 연습 (1)</string>
+	<string name="test_slide_up_panel_ex_title">Google Music,Youtube Style\nSlide Up Player Controller UI 연습</string>
+	<string name="test_slide_up_panel_ex_description">SlideUpPanel 연습</string>
 
 	<!-- bottom menu -->
 	<string name="bottom_nav_home">Home</string>
@@ -52,6 +54,8 @@
 	<!-- listAdapter -->
 	<string name="listadapter_title">ListAdapter 예제</string>
 	<string name="listadapter_remove_message">선택된 아이템들이 삭제되었습니다.</string>
+	<string name="listadapter_action_message">확인</string>
+	<string name="listadapter_goodbye_snack_bar">스낵바가 종료되었습니다.</string>
 
 	<!-- Drag and Drop -->
 	<string name="item_touch_helper_title">Item Touch Helper 연습</string>
@@ -61,4 +65,16 @@
 	<string name="collapsing_toolbar_ex_item_click">click Item [%1$d]</string>
 	<string name="collapsing_toolbar_ex_toolbar_title">CollapsingToolbar 연습</string>
 	<string name="collapsing_toolbar_fab_message">CollapsingToolbarLayout 를 한번 만들어봤지 :-)</string>
+
+	<!-- SlideUpPanel 예제 -->
+	<string name="slide_up_panel_ex_title">SlideUpPanel 연습</string>
+	<string name="slide_up_panel_prev_btn_description">이전 곡 재생</string>
+	<string name="slide_up_panel_play_btn_description">현재 곡 재생</string>
+	<string name="slide_up_panel_next_btn_description">다음 곡 재생</string>
+	<string name="slide_up_panel_play_message">재생을 시도합니다.</string>
+	<string name="slide_up_panel_prev_message">이전 곡을 재생합니다.</string>
+	<string name="slide_up_panel_next_message">다음 곡을 재생합니다.</string>
+	<string name="slide_up_panel_title">N\'s lab Music</string>
+	<string name="slide_cover">앨범 커버</string>
+	<string name="slide_up_cover_collapsed">패널 닫기</string>
 </resources>

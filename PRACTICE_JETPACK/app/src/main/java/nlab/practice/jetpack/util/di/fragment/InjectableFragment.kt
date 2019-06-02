@@ -134,7 +134,6 @@ abstract class InjectableFragment : BaseFragment() {
         super.onDestroy()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY)
-        compositeDisposable.clear()
     }
 
     @CallSuper
@@ -142,6 +141,7 @@ abstract class InjectableFragment : BaseFragment() {
         super.onDetach()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DETACH)
+        compositeDisposable.clear()
     }
 
     @CallSuper

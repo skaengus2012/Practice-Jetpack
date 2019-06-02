@@ -12,4 +12,8 @@ class ActivityCommonUsecase(private val _activity: Activity) {
     fun onBackPressed() {
         _activity.onBackPressed()
     }
+
+    fun overridePendingTransition(enterAnim: Int, exitAnim: Int) {
+        _activity.overridePendingTransition(enterAnim, exitAnim)
+    }
 }
