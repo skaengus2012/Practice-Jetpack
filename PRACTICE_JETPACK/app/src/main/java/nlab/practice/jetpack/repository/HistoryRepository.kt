@@ -30,7 +30,10 @@ class HistoryRepository {
                     "Drag & Drop 과 Swipe 는 ItemTouchHelper 의 구현만으로 쉽게 할 수 있음.\n  * DI 로 연결해야하는 이슈가 있었음\n  *  Multi-binding <-> Named Tag 주목"),
 
             History("CollapsingToolbar Layout 연습", true,
-                    "CoordinatorLayout, AppBarLayout 과 함께, Collapsing 기능을 좀 더 자세히 구현할 수 있음\n  * 기본적인 예제 구현사항임\n  *  CoordinatorLayout anchor 연구는 해봐야함")
+                    "CoordinatorLayout, AppBarLayout 과 함께, Collapsing 기능을 좀 더 자세히 구현할 수 있음\n  * 기본적인 예제 구현사항임\n  *  CoordinatorLayout anchor 연구는 해봐야함"),
+
+            History("SlidingUpPanelLayout 연습", true,
+                    "뮤직 플레이어에서 주로 사용하는, 오픈소스에 대한 연구\n  * 모든 부분을 MVVM 으로 구현해봄\n  *  interface - Delegate 를 시도한 두번째 예제\n  *  개인앱 제작 시, 조금더 연구는 필요")
     )
 
 }

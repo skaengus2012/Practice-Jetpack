@@ -5,11 +5,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.model.Track
 import nlab.practice.jetpack.util.PlayController
-import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
-import nlab.practice.jetpack.util.slidingpanel.isHidden
 import javax.inject.Inject
 
 /**
@@ -20,7 +18,6 @@ class SlidingControlViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
         private val _playController: PlayController,
-        private val _schedulerFactory: SchedulerFactory,
         private val _disposables: CompositeDisposable) {
 
     val currentTrack = ObservableField<Track>()
@@ -32,22 +29,10 @@ class SlidingControlViewModel @Inject constructor(
     }
 
     private fun loadCurrentTrack() {
-        _playController.getCurrentTrack()
-                .subscribeOn(_schedulerFactory.io())
-                .observeOn(_schedulerFactory.ui())
-                .doOnSuccess {
-                    showPanelIfHidden()
-                    currentTrack.set(it)
-                }
+        _playController.trackChangeSubject
+                .doOnNext { currentTrack.set(it) }
                 .subscribe()
                 .addTo(_disposables)
-    }
-
-    private fun showPanelIfHidden() = _slidingUpPanelLayoutUsecase?.let {
-        val isHidden = it.currentPanelState.isHidden()
-        if (isHidden) {
-            it.collapse()
-        }
     }
 
     fun onClickPlayed() {
