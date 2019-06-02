@@ -17,12 +17,15 @@ class SlidingHolderViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
         private val _slideHolderViewUsecase: SlidingHolderViewUsecase,
+        private val _slidingHolderTransitionUsecase: SlidingHolderTransitionUsecase,
         private val _disposables: CompositeDisposable) {
 
     init {
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
             subscribeSlideOffset()
             subscribeSlideState()
+
+            _slidingHolderTransitionUsecase.replaceMainFragment()
         }
     }
 

@@ -9,24 +9,24 @@ import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
-import nlab.practice.jetpack.util.slidingpanel.isHidden
 import javax.inject.Inject
 
 /**
  * @author Doohyun
- * @since 2019. 04. 18
  */
-class SlidingControlViewModel @Inject constructor(
-        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
-        private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
+class SlidingMainViewModel @Inject constructor(
         private val _playController: PlayController,
+        private val _disposables: CompositeDisposable,
         private val _schedulerFactory: SchedulerFactory,
-        private val _disposables: CompositeDisposable) {
+        private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
+        lifeCycleBinder: FragmentLifeCycleBinder) {
 
     val currentTrack = ObservableField<Track>()
 
+    val artist = ObservableField<String>()
+
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        lifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
             loadCurrentTrack()
         }
     }
@@ -36,33 +36,26 @@ class SlidingControlViewModel @Inject constructor(
                 .subscribeOn(_schedulerFactory.io())
                 .observeOn(_schedulerFactory.ui())
                 .doOnSuccess {
-                    showPanelIfHidden()
                     currentTrack.set(it)
+                    artist.set("Suzy")
                 }
                 .subscribe()
                 .addTo(_disposables)
     }
 
-    private fun showPanelIfHidden() = _slidingUpPanelLayoutUsecase?.let {
-        val isHidden = it.currentPanelState.isHidden()
-        if (isHidden) {
-            it.collapse()
-        }
+    fun onPanelCollapse() {
+        _slidingUpPanelLayoutUsecase?.collapse()
     }
 
-    fun onClickPlayed() {
+    fun onPlay() {
         _playController.play()
     }
 
-    fun onClickPrev() {
+    fun onPrev() {
         _playController.prev()
     }
 
-    fun onClickNext() {
+    fun onNext() {
         _playController.next()
-    }
-
-    fun onPanelLayoutClick() {
-        _slidingUpPanelLayoutUsecase?.expand()
     }
 }

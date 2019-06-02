@@ -12,6 +12,7 @@ import nlab.practice.jetpack.ui.paging.PagingFragmentModule
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
 import nlab.practice.jetpack.ui.slide.SlidingControlFragment
 import nlab.practice.jetpack.ui.slide.SlidingHolderFragment
+import nlab.practice.jetpack.ui.slide.SlidingMainFragment
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelFragmentModule
 
 /**
@@ -78,4 +79,11 @@ abstract class FragmentBindModule {
         SlidingUpPanelFragmentModule::class
     ])
     abstract fun slidingControlFragment(): SlidingControlFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class,
+        SlidingUpPanelFragmentModule::class
+    ])
+    abstract fun slidingMainFragment(): SlidingMainFragment
 }

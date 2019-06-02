@@ -41,5 +41,11 @@ class SlidingHolderFragment : InjectableFragment() {
             return SlidingHolderViewUsecase(containerViewSupplier = {fragment.fragmentContainer},
                     _miniPlayerViewSupplier = { fragment.view?.findViewById(R.id.fragmentSlideControl) })
         }
+
+        @FragmentScope
+        @Provides
+        fun provideSlidingHolderTransitionUsecase(fragment: Fragment): SlidingHolderTransitionUsecase {
+            return SlidingHolderTransitionUsecase(fragment.childFragmentManager) { fragment.fragmentContainer }
+        }
     }
 }
