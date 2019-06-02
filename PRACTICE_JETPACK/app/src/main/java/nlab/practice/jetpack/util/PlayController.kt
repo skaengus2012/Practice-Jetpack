@@ -1,14 +1,15 @@
 package nlab.practice.jetpack.util
 
-import io.reactivex.Single
+import io.reactivex.subjects.BehaviorSubject
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.repository.PlayerRepository
+import nlab.practice.jetpack.repository.model.Track
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class PlayController @Inject constructor(
-        private val _playerRepository: PlayerRepository, private val _toastHelper: ToastHelper) {
+@Singleton
+class PlayController @Inject constructor(private val _toastHelper: ToastHelper) {
 
-    fun getCurrentTrack() = Single.fromCallable { _playerRepository.getRandomTrack() }
+    val trackChangeSubject: BehaviorSubject<Track> = BehaviorSubject.create()
 
     fun play() {
         _toastHelper.showToast(R.string.slide_up_panel_play_message)

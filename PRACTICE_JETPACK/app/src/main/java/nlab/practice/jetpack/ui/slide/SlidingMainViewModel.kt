@@ -5,7 +5,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.model.Track
 import nlab.practice.jetpack.util.PlayController
-import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
@@ -17,7 +16,6 @@ import javax.inject.Inject
 class SlidingMainViewModel @Inject constructor(
         private val _playController: PlayController,
         private val _disposables: CompositeDisposable,
-        private val _schedulerFactory: SchedulerFactory,
         private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
         lifeCycleBinder: FragmentLifeCycleBinder) {
 
@@ -32,10 +30,8 @@ class SlidingMainViewModel @Inject constructor(
     }
 
     private fun loadCurrentTrack() {
-        _playController.getCurrentTrack()
-                .subscribeOn(_schedulerFactory.io())
-                .observeOn(_schedulerFactory.ui())
-                .doOnSuccess {
+        _playController.trackChangeSubject
+                .doOnNext {
                     currentTrack.set(it)
                     artist.set("Suzy")
                 }

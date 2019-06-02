@@ -1,15 +1,18 @@
 package nlab.practice.jetpack.ui.slide
 
 import androidx.databinding.ObservableBoolean
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.BehaviorSubject
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.PagingItemRepository
+import nlab.practice.jetpack.repository.PlayerRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleItemDecoration
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleItemViewModel
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleItemViewModelFactory
+import nlab.practice.jetpack.util.PlayController
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
@@ -20,6 +23,7 @@ import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import nlab.practice.jetpack.util.slidingpanel.isExpanded
+import nlab.practice.jetpack.util.slidingpanel.isHidden
 import javax.inject.Inject
 
 /**
@@ -31,12 +35,14 @@ class SlideUpSampleViewModel @Inject constructor(
         private val _listAdapterExampleFactory: ListAdapterExampleItemViewModelFactory,
         private val _pagingRepository: PagingItemRepository,
         private val _schedulerFactory: SchedulerFactory,
+        private val _playerRepository: PlayerRepository,
+        private val _playerController: PlayController,
+        private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
         lifeCycleBinder: ActivityLifeCycleBinder,
         activityCallback: ActivityCallback,
-        activityCommonUsecase: ActivityCommonUsecase,
-        slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase): ListErrorPageViewModel {
+        activityCommonUsecase: ActivityCommonUsecase): ListErrorPageViewModel {
 
     companion object {
         const val SPAN_COUNT = 2
@@ -55,8 +61,8 @@ class SlideUpSampleViewModel @Inject constructor(
 
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
-            slidingUpPanelLayoutUsecase.initialize()
             refresh()
+            initializePanel()
 
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
@@ -66,8 +72,8 @@ class SlideUpSampleViewModel @Inject constructor(
         }
 
         activityCallback.onBackPressed { when {
-            slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
-                slidingUpPanelLayoutUsecase.collapse()
+            _slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
+                _slidingUpPanelLayoutUsecase.collapse()
                 true
             }
 
@@ -75,6 +81,23 @@ class SlideUpSampleViewModel @Inject constructor(
         }}
 
         subscribeItemChanged()
+    }
+
+    private fun initializePanel() {
+        _slidingUpPanelLayoutUsecase.initialize()
+
+        Single.fromCallable { _playerRepository.getRandomTrack() }
+                .subscribeOn(_schedulerFactory.io())
+                .observeOn(_schedulerFactory.ui())
+                .doOnSuccess {
+                    _playerController.trackChangeSubject.onNext(it)
+
+                    if (_slidingUpPanelLayoutUsecase.currentPanelState.isHidden()) {
+                        _slidingUpPanelLayoutUsecase.collapse()
+                    }
+                }
+                .subscribe()
+                .addTo(_disposable)
     }
 
     private fun subscribeItemChanged() {
