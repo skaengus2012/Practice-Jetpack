@@ -2,6 +2,7 @@ package nlab.practice.jetpack.ui.home
 
 import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.repository.TestMenuRepository
+import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
@@ -58,49 +59,40 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createItems(): List<HomeItemViewModel> = listOf(
-            createHomeAnkoFirstViewMenuViewModel(),
-            createPagingTestMenuViewModel(),
-            createListAdapterMenuViewModel(),
-            createDragDropMenuViewModel(),
-            createCollapsingToolbarExMenuViewModel(),
-            createSlideUpPanelExMenuViewModel()
+            createAnkoFirstViewMenu(),
+            createPagingTestMenu(),
+            createListAdapterMenu(),
+            createDragDropMenu(),
+            createCollapsingToolbarExMenu(),
+            createSlideUpPanelExMenu()
     )
 
-    private fun createHomeAnkoFirstViewMenuViewModel(): HomeItemViewModel = _testMenuRepository.getAnkoFirstViewMenu().let {
-        _homeItemViewModelFactory.create(it) { startAnkoActivity() }
+    private fun createViewModel(testMenu: TestMenu, onClickAction: () -> Unit): HomeItemViewModel {
+        return _homeItemViewModelFactory.create(testMenu, onClickAction)
     }
 
-    private fun startAnkoActivity() = _intentProvider.createActivityIntent(AnkoFirstActivity::class.java).run {
-        _activityNavUsecase.startActivity(this)
+    private fun createAnkoFirstViewMenu() = createViewModel(_testMenuRepository.getAnkoFirstViewMenu()) {
+        _activityNavUsecase.startActivity<AnkoFirstActivity>(_intentProvider)
     }
 
-    private fun createPagingTestMenuViewModel(): HomeItemViewModel = _testMenuRepository.getPagingTestMenu().let {
-        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navCountablePaging() }
+    private fun createPagingTestMenu() = createViewModel(_testMenuRepository.getPagingTestMenu()) {
+        _fragmentNavUsecase.navCountablePaging()
     }
 
-    private fun createListAdapterMenuViewModel(): HomeItemViewModel = _testMenuRepository.getListAdapterMenu().let {
-        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navListAdapterExample() }
+    private fun createListAdapterMenu() = createViewModel(_testMenuRepository.getListAdapterMenu()) {
+        _fragmentNavUsecase.navListAdapterExample()
     }
 
-    private fun createDragDropMenuViewModel(): HomeItemViewModel = _testMenuRepository.getDragDropMenu().let {
-        _homeItemViewModelFactory.create(it) { _fragmentNavUsecase.navDragDrop() }
+    private fun createDragDropMenu() = createViewModel(_testMenuRepository.getDragDropMenu()) {
+        _fragmentNavUsecase.navDragDrop()
     }
 
-    private fun createCollapsingToolbarExMenuViewModel(): HomeItemViewModel = _testMenuRepository.getCollapsingToolbarExMenu().let {
-        _homeItemViewModelFactory.create(it) { startCollapsingToolbarActivity() }
+    private fun createCollapsingToolbarExMenu() = createViewModel(_testMenuRepository.getCollapsingToolbarExMenu()) {
+        _activityNavUsecase.startActivity<CollapsingToolbarActivity>(_intentProvider)
     }
 
-    private fun startCollapsingToolbarActivity()
-            = _intentProvider.createActivityIntent(CollapsingToolbarActivity::class.java).run {
-        _activityNavUsecase.startActivity(this)
-    }
-
-    private fun createSlideUpPanelExMenuViewModel(): HomeItemViewModel = _testMenuRepository.getSlideUpPanelExMenus().let {
-        _homeItemViewModelFactory.create(it) { startSlideUpSampleActivity() }
-    }
-
-    private fun startSlideUpSampleActivity() = _intentProvider.createActivityIntent(SlideUpSampleActivity::class.java).run {
-        _activityNavUsecase.startActivity(this)
+    private fun createSlideUpPanelExMenu() = createViewModel(_testMenuRepository.getSlideUpPanelExMenus()) {
+        _activityNavUsecase.startActivity<SlideUpSampleActivity>(_intentProvider)
     }
 
     private fun refreshItems() {

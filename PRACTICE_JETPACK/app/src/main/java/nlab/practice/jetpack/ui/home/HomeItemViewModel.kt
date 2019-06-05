@@ -1,6 +1,5 @@
 package nlab.practice.jetpack.ui.home
 
-import androidx.annotation.IdRes
 import androidx.databinding.Bindable
 import com.google.auto.factory.AutoFactory
 import nlab.practice.jetpack.R
@@ -15,7 +14,7 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 @AutoFactory
 class HomeItemViewModel(
         private val _testMenu: TestMenu,
-        @IdRes private val _navigateAction: () -> Unit) : BindingItemViewModel() {
+        private val _navigateAction: () -> Unit) : BindingItemViewModel() {
 
     override fun getLayoutRes(): Int = R.layout.view_home_item
 
