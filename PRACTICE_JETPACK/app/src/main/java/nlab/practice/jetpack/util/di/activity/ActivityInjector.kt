@@ -13,7 +13,7 @@ object ActivityInjector : AndroidInjector<Activity> {
 
     override fun inject(activity: Activity?) {
        activity?.let { it as InjectableActivity }
-               ?.getActivityBindComponent()
+               ?.activityBindComponent
                ?.activityInjector()
                ?.maybeInject(activity)
     }

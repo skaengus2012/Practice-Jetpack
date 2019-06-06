@@ -25,6 +25,9 @@ import javax.inject.Inject
  */
 abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
+    lateinit var activityBindComponent: ActivityBindComponent
+        private set
+
     @Inject
     lateinit var lifeCycleBinder: ActivityLifeCycleBinder
 
@@ -33,8 +36,6 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var activityCallbackBinder: ActivityCallback
-
-    private lateinit var _activityBindComponent: ActivityBindComponent
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,15 +50,13 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     abstract fun onCreateBinding(savedInstanceState: Bundle?)
 
     private fun initializeDI() {
-        _activityBindComponent = (application as AppComponent.Supplier).getAppComponent()
+        activityBindComponent = (application as AppComponent.Supplier).getAppComponent()
                 .activityBindComponent()
                 .setActivity(this)
                 .build()
 
         AndroidInjection.inject(this)
     }
-
-    fun getActivityBindComponent(): ActivityBindComponent = _activityBindComponent
 
     @CallSuper
     override fun onStart() {
@@ -100,6 +99,12 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
         lifeCycleBinder.apply(ActivityLifeCycle.FINISH)
         compositeDisposable.clear()
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        activityCallbackBinder.onRestoreInstanceStateCommand?.invoke(savedInstanceState)
     }
 
     final override fun onBackPressed() {

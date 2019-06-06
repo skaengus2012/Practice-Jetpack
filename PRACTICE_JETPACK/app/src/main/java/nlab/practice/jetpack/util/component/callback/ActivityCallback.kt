@@ -1,5 +1,7 @@
 package nlab.practice.jetpack.util.component.callback
 
+import android.os.Bundle
+
 /**
  * Activity 의 Callback 에 대한 연결자 정의
  *
@@ -8,10 +10,17 @@ package nlab.practice.jetpack.util.component.callback
 class ActivityCallback {
 
     var onBackPressedCommand: (()-> Boolean)? = null
-    private set
+        private set
+
+    var onRestoreInstanceStateCommand: ((savedInstanceState: Bundle?) -> Unit)? = null
+        private set
 
     fun onBackPressed(action: () -> Boolean) {
        onBackPressedCommand = action
+    }
+
+    fun onRestoreInstanceState(action: (savedInstanceState: Bundle?) -> Unit) {
+        onRestoreInstanceStateCommand = action
     }
 }
 

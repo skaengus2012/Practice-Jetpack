@@ -6,8 +6,6 @@ package nlab.practice.jetpack.util.component.lifecycle
  * @author Doohyun
  */
 enum class FragmentLifeCycle {
-    ON_ATTACH,
-    ON_CREATE,
     ON_CREATE_VIEW,
     ON_ACTIVITY_CREATED,
     ON_VIEW_CREATED,
@@ -15,9 +13,7 @@ enum class FragmentLifeCycle {
     ON_RESUME,
     ON_PAUSE,
     ON_STOP,
-    ON_DESTROY_VIEW,
-    ON_DESTROY,
-    ON_DETACH
+    ON_DESTROY_VIEW
 }
 
 typealias FragmentLifeCycleBinder = LifeCycleBinder<FragmentLifeCycle>
