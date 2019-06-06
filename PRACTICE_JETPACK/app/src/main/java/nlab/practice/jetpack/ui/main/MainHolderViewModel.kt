@@ -18,11 +18,14 @@ class MainHolderViewModel @Inject constructor(
         private val _mainNavUsecase: MainBottomNavUsecase): BaseObservable() {
 
     init {
-        activityLifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
-            _mainNavUsecase.initialize()
-        }
-
+        activityLifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) { executeOnCreate() }
         activityCallback.onBackPressed(this::executeOnBackPressed)
+        activityCallback.onRestoreInstanceState { executeOnRestoreInstanceState() }
+    }
+
+    private fun executeOnCreate() = with(_mainNavUsecase) {
+        initialize()
+        navFirstPage()
     }
 
     private fun executeOnBackPressed(): Boolean = when {
@@ -38,4 +41,7 @@ class MainHolderViewModel @Inject constructor(
         // 그 외 거짓
         else -> false
     }
+
+    private fun executeOnRestoreInstanceState() = with(_mainNavUsecase) { navPage(getSelectedItemId()) }
+
 }

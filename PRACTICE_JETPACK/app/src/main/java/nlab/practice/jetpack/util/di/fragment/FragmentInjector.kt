@@ -12,7 +12,7 @@ object FragmentInjector : AndroidInjector<Fragment> {
 
     override fun inject(fragment: Fragment?) {
         fragment?.let { it as InjectableFragment }
-                ?.getFragmentBindComponent()
+                ?.fragmentBindComponent
                 ?.activityInjector()
                 ?.maybeInject(fragment)
     }

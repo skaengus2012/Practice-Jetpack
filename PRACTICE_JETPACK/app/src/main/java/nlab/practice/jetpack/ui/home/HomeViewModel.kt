@@ -41,12 +41,19 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        _homeHeaderViewModel.startTimer()
         headers.add(_homeHeaderViewModel)
+        initializeTimer(fragmentLifeCycleBinder)
         refreshItems()
 
         containerFragmentCallback.onBottomNavReselected(this::scrollToZeroIfEmptyChild)
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY) { _homeHeaderViewModel.stopTimer() }
+    }
+
+    private fun initializeTimer(fragmentLifeCycleBinder: FragmentLifeCycleBinder) {
+        _homeHeaderViewModel.startTimer()
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            _homeHeaderViewModel.stopTimer()
+        }
     }
 
     private fun scrollToZeroIfEmptyChild(): Boolean {

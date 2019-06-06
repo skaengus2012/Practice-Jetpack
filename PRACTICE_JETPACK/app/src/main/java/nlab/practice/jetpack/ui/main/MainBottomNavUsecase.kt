@@ -22,25 +22,38 @@ class MainBottomNavUsecase(private val _navController: MainNavController, viewSu
 
     fun initialize() {
         _bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        navFirstPage()
-
         _bottomNavigationView.setOnNavigationItemReselectedListener(this)
     }
 
     fun navFirstPage() {
-        _bottomNavigationView.selectedItemId = R.id.menu_home
+        navPage(R.id.menu_home)
+    }
+
+    fun navPage(@IdRes menuRes: Int) {
+        _bottomNavigationView.selectedItemId = menuRes
+
+        onNavigationItemSelected(menuRes)
     }
 
     @IdRes
     fun getSelectedItemId(): Int =_bottomNavigationView.selectedItemId
 
-    override fun onNavigationItemSelected(updateMenu: MenuItem): Boolean = when (updateMenu.itemId) {
+    override fun onNavigationItemSelected(updateMenu: MenuItem) = onNavigationItemSelected(updateMenu.itemId)
+
+    private fun onNavigationItemSelected(@IdRes menuRes: Int): Boolean = when(menuRes) {
         R.id.menu_home -> {
-            _navController.replacePrimaryFragment(HomeFragment::class.fragmentTag()) { HomeFragment() }
+            _navController.replacePrimaryFragment(HomeFragment::class.fragmentTag()) {
+                HomeFragment()
+            }
+
             true
         }
-        R.id.menu_history ->  {
-            _navController.replacePrimaryFragment(HistoryFragment::class.fragmentTag()) { HistoryFragment() }
+
+        R.id.menu_history -> {
+            _navController.replacePrimaryFragment(HistoryFragment::class.fragmentTag()) {
+                HistoryFragment()
+            }
+
             true
         }
 
@@ -48,12 +61,14 @@ class MainBottomNavUsecase(private val _navController: MainNavController, viewSu
     }
 
     override fun onNavigationItemReselected(updateMenu: MenuItem) {
-        _navController.getCurrentContainerFragment()?.run {
-            val result = onBottomNavReselected()
-            if (!result) {
-                getChildNavController().clearFragments()
-            }
-        }
+        _navController.getCurrentContainerFragment()
+                ?.run {
+                    val result = onBottomNavReselected()
+                    if (!result) {
+                        getChildNavController().clearFragments()
+                    }
+                }
+                ?: run { onNavigationItemSelected(updateMenu.itemId) }
     }
 
     fun onBackPressedInPrimaryNav(): Boolean = _navController.getCurrentContainerFragment()?.onBackPressed()?:false
