@@ -96,7 +96,6 @@
                         app:layout_constraintRight_toRightOf="parent"
                         tools:text="커버\n조금 더 긴 커버를 테스트 해보자!!"/>
 
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
