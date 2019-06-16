@@ -112,6 +112,7 @@ dependencies {
     annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta6'
     kapt 'com.google.auto.factory:auto-factory:1.0-beta6'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'org.mightyfrog.centeringrecyclerview:centeringrecyclerview:1.1.8'
 
     // debug
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'

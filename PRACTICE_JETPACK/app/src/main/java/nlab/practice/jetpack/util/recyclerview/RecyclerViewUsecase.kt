@@ -8,7 +8,7 @@ import nlab.practice.jetpack.util.lazyPublic
  * @author Doohyun
  * @since 2019. 01. 24
  */
-class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
+open class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
 
     private val _recyclerView: RecyclerView by lazyPublic(viewSupplier)
 

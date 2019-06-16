@@ -24,6 +24,7 @@ class LyricsRepository {
             "So now you'd better stop and rebuild all your ruins, \n" +
             "For peace and trust can win the day despite of all your losing.\n")
             .split("\n")
+            .filter { it.isNotEmpty() }
 
 
 }

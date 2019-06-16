@@ -82,5 +82,7 @@
 
 	<!-- Center scroll 을 위한 RecyclerView -->
 	<string name="center_scroll_recycler_title">Center Scroll 연습</string>
+	<string name="center_scroll_to_prev">PREV</string>
+	<string name="center_scroll_to_next">NEXT</string>
 
 </resources>

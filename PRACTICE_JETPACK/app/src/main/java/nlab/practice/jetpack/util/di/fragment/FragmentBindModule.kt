@@ -90,7 +90,8 @@ abstract class FragmentBindModule {
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [
-        FragmentCommonModule::class
+        FragmentCommonModule::class,
+        CenterScrollerFragment.Module::class
     ])
     abstract fun centerScrollerFragment(): CenterScrollerFragment
 }

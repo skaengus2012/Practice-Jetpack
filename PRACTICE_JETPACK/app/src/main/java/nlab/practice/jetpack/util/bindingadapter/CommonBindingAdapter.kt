@@ -34,3 +34,8 @@ fun setAnimationVisibility(view: View, targetVisibility: Int) {
         }.setListener(animateListener).start()
     }
 }
+
+@BindingAdapter("selected")
+fun setSelected(view: View, selected: Boolean?) = selected?.run {
+    view.isSelected = this
+}

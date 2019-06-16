@@ -15,12 +15,13 @@
 		android:clickable="true"
 		android:focusable="true">
 
-		<androidx.recyclerview.widget.RecyclerView
+		<org.mightyfrog.widget.CenteringRecyclerView
 			android:id="@+id/lvContents"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:clipToPadding="false"
 			android:paddingTop="@dimen/list_adapter_toolbar_height"
+			android:paddingBottom="45dp"
 			app:list_config="@{viewModel.recyclerViewConfig}"
 			app:list_items="@{viewModel.items}"/>
 
@@ -33,6 +34,28 @@
 			android:textColor="@color/white"
 			android:textSize="16sp"
 			app:layout_constraintTop_toTopOf="parent"/>
+
+		<Button
+			android:id="@+id/btnPrev"
+			android:layout_width="0dp"
+			android:layout_height="45dp"
+			android:onClick="@{() -> viewModel.scrollToPrevIndex()}"
+			android:text="@string/center_scroll_to_prev"
+			android:textSize="16sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/btnNext"
+			app:layout_constraintStart_toStartOf="parent"/>
+
+		<Button
+			android:id="@+id/btnNext"
+			android:layout_width="0dp"
+			android:layout_height="45dp"
+			android:onClick="@{() -> viewModel.scrollToNextIndex()}"
+			android:text="@string/center_scroll_to_next"
+			android:textSize="16sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/btnPrev"/>
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
