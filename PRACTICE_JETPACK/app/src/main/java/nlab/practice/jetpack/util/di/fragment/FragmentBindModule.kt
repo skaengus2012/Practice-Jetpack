@@ -2,6 +2,7 @@ package nlab.practice.jetpack.util.di.fragment
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import nlab.practice.jetpack.ui.centerscroll.CenterScrollerFragment
 import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.history.HistoryFragment
 import nlab.practice.jetpack.ui.home.HomeFragment
@@ -86,4 +87,10 @@ abstract class FragmentBindModule {
         SlidingUpPanelFragmentModule::class
     ])
     abstract fun slidingMainFragment(): SlidingMainFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [
+        FragmentCommonModule::class
+    ])
+    abstract fun centerScrollerFragment(): CenterScrollerFragment
 }

@@ -45,4 +45,10 @@ class TestMenuRepository(private val _resourceProvider: ResourceProvider) {
             cardColorRes = R.color.home_item_color_6
     )
 
+    fun getCenterScrollRecyclerView() = TestMenu(
+            title = _resourceProvider.getString(R.string.test_center_scroll_recycler_title).toString(),
+            cardTitle = _resourceProvider.getString(R.string.test_center_scroll_recycler_description).toString(),
+            cardColorRes = R.color.home_item_color_7
+    )
+
 }

@@ -1,5 +1,6 @@
 package nlab.practice.jetpack.util.nav
 
+import nlab.practice.jetpack.ui.centerscroll.CenterScrollerFragment
 import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
@@ -35,5 +36,9 @@ class FragmentNavUsecase(navSupplier: () -> ChildNavController?) {
 
     fun navDragDrop() {
         navController?.addFragment(ItemTouchHelperFragment::class.fragmentTag()) { ItemTouchHelperFragment()}
+    }
+
+    fun navCenterScrolling() {
+        navController?.addFragment(CenterScrollerFragment::class.fragmentTag()) { CenterScrollerFragment() }
     }
 }
