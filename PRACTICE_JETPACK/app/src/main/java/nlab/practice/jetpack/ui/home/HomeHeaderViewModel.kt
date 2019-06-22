@@ -20,11 +20,11 @@ import javax.inject.Inject
  */
 class HomeHeaderViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
-        private val _schedulerFactory: SchedulerFactory): BindingItemViewModel() {
+        private val schedulerFactory: SchedulerFactory): BindingItemViewModel() {
 
-    private val _timerDisposables = CompositeDisposable()
+    private val timerDisposables = CompositeDisposable()
 
-    private val _dateFormat: CharSequence = resourceProvider.getString(R.string.home_time_format)
+    private val dateFormat: CharSequence = resourceProvider.getString(R.string.home_time_format)
 
     @Bindable
     var currentTimeString: String = getCurrentTimeDateFormat()
@@ -39,16 +39,16 @@ class HomeHeaderViewModel @Inject constructor(
         Observable.timer(100, TimeUnit.MILLISECONDS)
                 .repeat()
                 .map { getCurrentTimeDateFormat() }
-                .observeOn(_schedulerFactory.ui())
+                .observeOn(schedulerFactory.ui())
                 .filter { it != currentTimeString}
                 .doOnNext { currentTimeString = it }
                 .subscribe()
-                .addTo(_timerDisposables)
+                .addTo(timerDisposables)
     }
 
-    fun stopTimer() = _timerDisposables.clear()
+    fun stopTimer() = timerDisposables.clear()
 
     private fun getCurrentTimeDateFormat(): String = TimeBuilder.Create()
-            .getStringFormat(_dateFormat.toString())
+            .getStringFormat(dateFormat.toString())
             .blockingGet("")
 }

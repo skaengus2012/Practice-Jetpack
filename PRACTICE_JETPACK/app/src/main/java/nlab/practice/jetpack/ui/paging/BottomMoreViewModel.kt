@@ -9,7 +9,7 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  * @author Doohyun
  * @since 2019. 01. 30
  */
-class BottomMoreViewModel(private val _onClick: () -> Unit) : BindingItemViewModel() {
+class BottomMoreViewModel(private val onClick: () -> Unit) : BindingItemViewModel() {
 
     @Bindable
     var showProgress = true
@@ -22,6 +22,6 @@ class BottomMoreViewModel(private val _onClick: () -> Unit) : BindingItemViewMod
 
     fun onClickErrorButton() {
         showProgress = true
-        _onClick()
+        onClick()
     }
 }

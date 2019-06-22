@@ -13,20 +13,20 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class HomeItemDecoration @Inject constructor(
-        private val _resourceProvider: ResourceProvider): RecyclerView.ItemDecoration()  {
+        private val resourceProvider: ResourceProvider): RecyclerView.ItemDecoration()  {
 
-    private val _bottomMargin : Int by lazy { _resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_bottom) }
-    private val _sizeMargin : Int by lazy { _resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_horizontal) }
+    private val bottomMargin : Int by lazy { resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_bottom) }
+    private val sizeMargin : Int by lazy { resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_horizontal) }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
         val position = parent.getChildAdapterPosition(view)
         if (position != 0) {
-            outRect.bottom = _bottomMargin
+            outRect.bottom = bottomMargin
         }
 
-        outRect.left = _sizeMargin
-        outRect.right = _sizeMargin
+        outRect.left = sizeMargin
+        outRect.right = sizeMargin
     }
 }

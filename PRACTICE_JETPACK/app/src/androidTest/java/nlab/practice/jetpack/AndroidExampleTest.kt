@@ -20,14 +20,14 @@ import org.junit.runner.RunWith
 @LargeTest
 class AndroidExampleTest {
 
-    private lateinit var _application: Application
+    private lateinit var application: Application
 
     @get:Rule
     val activityTest: ActivityTestRule<AnkoFirstActivity> = ActivityTestRule(AnkoFirstActivity::class.java)
 
     @Before
     fun init() {
-        _application = activityTest.activity.application
+        application = activityTest.activity.application
     }
 
     @Test

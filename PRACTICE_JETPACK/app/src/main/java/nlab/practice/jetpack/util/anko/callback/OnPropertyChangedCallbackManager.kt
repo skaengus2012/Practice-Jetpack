@@ -13,23 +13,23 @@ class OnPropertyChangedCallbackManager<TARGET, VIEW_MODEL> (
         val propertyIds: IntArray,
         val biConsumer: (TARGET, VIEW_MODEL) -> Unit) {
 
-    private val _propertyChangedCallback = WeakPropertyChangedCallbackImpl()
+    private val propertyChangedCallback = WeakPropertyChangedCallbackImpl()
 
-    private var _viewModel: VIEW_MODEL? = null
+    private var viewModel: VIEW_MODEL? = null
 
     fun addCallback(viewModel: VIEW_MODEL, baseObservable: BaseObservable) {
-        _viewModel = viewModel
-        baseObservable.addOnPropertyChangedCallback(_propertyChangedCallback)
+        this.viewModel = viewModel
+        baseObservable.addOnPropertyChangedCallback(propertyChangedCallback)
     }
 
     fun removeCallback(baseObservable: BaseObservable) {
-        baseObservable.removeOnPropertyChangedCallback(_propertyChangedCallback)
+        baseObservable.removeOnPropertyChangedCallback(propertyChangedCallback)
     }
 
     inner class WeakPropertyChangedCallbackImpl : Observable.OnPropertyChangedCallback() {
 
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            _viewModel?.let {
+            viewModel?.let {
                 viewModel
                 ->
                 sender?.run { onTargetPropertyChanged(viewModel, propertyId) }

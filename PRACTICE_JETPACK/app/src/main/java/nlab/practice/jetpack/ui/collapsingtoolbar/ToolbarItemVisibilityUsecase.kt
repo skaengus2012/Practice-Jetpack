@@ -15,16 +15,16 @@ class ToolbarItemVisibilityUsecase(
         appbarLayoutProvider: () -> AppBarLayout,
         collapsingToolbarLayoutProvider: () -> CollapsingToolbarLayout) {
 
-    private val _collapsingLayout: CollapsingToolbarLayout by lazyPublic(collapsingToolbarLayoutProvider)
+    private val collapsingLayout: CollapsingToolbarLayout by lazyPublic(collapsingToolbarLayoutProvider)
 
-    private val _appbarLayout: AppBarLayout by lazyPublic(appbarLayoutProvider)
+    private val appbarLayout: AppBarLayout by lazyPublic(appbarLayoutProvider)
 
     val scrimVisibilityChangeSubject = BehaviorSubject.create<Boolean>()
 
     fun initialize(initVisibility: Boolean) {
         scrimVisibilityChangeSubject.onNext(initVisibility)
 
-        _appbarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener {
+        appbarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener {
             _, offset
             ->
             onOffSetChanged(offset)
@@ -32,8 +32,8 @@ class ToolbarItemVisibilityUsecase(
     }
 
     private fun onOffSetChanged(offset: Int) {
-        val collapsingHeight = _collapsingLayout.height
-        val collapsingTriggerHeight = _collapsingLayout.scrimVisibleHeightTrigger
+        val collapsingHeight = collapsingLayout.height
+        val collapsingTriggerHeight = collapsingLayout.scrimVisibleHeightTrigger
 
         val isValid = collapsingHeight != 0 && collapsingTriggerHeight != 0
         if (isValid) {

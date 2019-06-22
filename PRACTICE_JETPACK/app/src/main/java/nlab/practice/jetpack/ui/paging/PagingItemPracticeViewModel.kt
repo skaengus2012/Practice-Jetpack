@@ -14,8 +14,8 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  */
 @AutoFactory
 class PagingItemPracticeViewModel(
-        @Provided private val _fragmentNavUsecase: FragmentNavUsecase,
-        private val _pagingItem: PagingItem,
-        private val _onClickListener: (FragmentNavUsecase) -> Unit) :
+        @Provided private val fragmentNavUsecase: FragmentNavUsecase,
+        private val pagingItem: PagingItem,
+        private val onClickListener: (FragmentNavUsecase) -> Unit) :
         BindingItemViewModel(),
-        PagingItemViewModel by PagingItemViewModelImpl(PagingTheme.BLACK, _pagingItem, {_onClickListener(_fragmentNavUsecase)})
+        PagingItemViewModel by PagingItemViewModelImpl(PagingTheme.BLACK, pagingItem, {onClickListener(fragmentNavUsecase)})

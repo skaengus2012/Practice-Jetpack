@@ -8,8 +8,8 @@ import android.content.Intent
  * @author Doohyun
  * @since 2019. 04. 18
  */
-class IntentProvider(private val _context: Context) {
+class IntentProvider(private val context: Context) {
 
-    fun <T: Activity> createActivityIntent(clazz: Class<T>) = Intent(_context, clazz)
+    fun <T: Activity> createActivityIntent(clazz: Class<T>) = Intent(context, clazz)
 
 }

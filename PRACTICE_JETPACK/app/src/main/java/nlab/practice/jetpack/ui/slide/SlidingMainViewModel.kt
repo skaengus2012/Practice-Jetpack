@@ -14,9 +14,9 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class SlidingMainViewModel @Inject constructor(
-        private val _playController: PlayController,
-        private val _disposables: CompositeDisposable,
-        private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
+        private val playController: PlayController,
+        private val disposables: CompositeDisposable,
+        private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
         lifeCycleBinder: FragmentLifeCycleBinder) {
 
     val currentTrack = ObservableField<Track>()
@@ -30,28 +30,28 @@ class SlidingMainViewModel @Inject constructor(
     }
 
     private fun loadCurrentTrack() {
-        _playController.trackChangeSubject
+        playController.trackChangeSubject
                 .doOnNext {
                     currentTrack.set(it)
                     artist.set("Suzy")
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     fun onPanelCollapse() {
-        _slidingUpPanelLayoutUsecase?.collapse()
+        slidingUpPanelLayoutUsecase?.collapse()
     }
 
     fun onPlay() {
-        _playController.play()
+        playController.play()
     }
 
     fun onPrev() {
-        _playController.prev()
+        playController.prev()
     }
 
     fun onNext() {
-        _playController.next()
+        playController.next()
     }
 }

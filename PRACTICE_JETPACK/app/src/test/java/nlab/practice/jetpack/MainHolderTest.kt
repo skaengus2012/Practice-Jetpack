@@ -15,21 +15,21 @@ import org.mockito.Mockito.mock
  */
 class MainHolderTest {
 
-    private val _activityLifeCycleBinder = ActivityLifeCycleBinder(CompositeDisposable())
-    private val _activityCallbackDelegate = ActivityCallback()
+    private val activityLifeCycleBinder = ActivityLifeCycleBinder(CompositeDisposable())
+    private val activityCallbackDelegate = ActivityCallback()
 
-    private lateinit var _mainBottomNavUsecase: MainBottomNavUsecase
+    private lateinit var mainBottomNavUsecase: MainBottomNavUsecase
 
     @Before
     fun setup() {
-        _mainBottomNavUsecase = mock(MainBottomNavUsecase::class.java)
+        mainBottomNavUsecase = mock(MainBottomNavUsecase::class.java)
     }
 
     @Test
     fun testSimpleMainViewModel() {
         val mainViewModel =
-                MainHolderViewModel(_activityLifeCycleBinder, _activityCallbackDelegate, _mainBottomNavUsecase)
+                MainHolderViewModel(activityLifeCycleBinder, activityCallbackDelegate, mainBottomNavUsecase)
 
-        _activityLifeCycleBinder.apply(ActivityLifeCycle.ON_CREATE)
+        activityLifeCycleBinder.apply(ActivityLifeCycle.ON_CREATE)
     }
 }

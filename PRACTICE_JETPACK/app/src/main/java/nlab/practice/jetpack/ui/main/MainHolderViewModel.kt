@@ -15,7 +15,7 @@ import javax.inject.Inject
 class MainHolderViewModel @Inject constructor(
         activityLifeCycleBinder: ActivityLifeCycleBinder,
         activityCallback: ActivityCallback,
-        private val _mainNavUsecase: MainBottomNavUsecase): BaseObservable() {
+        private val mainNavUsecase: MainBottomNavUsecase): BaseObservable() {
 
     init {
         activityLifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) { executeOnCreate() }
@@ -23,18 +23,18 @@ class MainHolderViewModel @Inject constructor(
         activityCallback.onRestoreInstanceState { executeOnRestoreInstanceState() }
     }
 
-    private fun executeOnCreate() = with(_mainNavUsecase) {
+    private fun executeOnCreate() = with(mainNavUsecase) {
         initialize()
         navFirstPage()
     }
 
     private fun executeOnBackPressed(): Boolean = when {
         // 현재 Primary 화면의 OnBackPressed 의 처리 결과에 따라 이 후 작업 결정
-        _mainNavUsecase.onBackPressedInPrimaryNav() -> true
+        mainNavUsecase.onBackPressedInPrimaryNav() -> true
 
         // 현재 메뉴가 Home 이 아닐 경우 홈으로 이동
-        _mainNavUsecase.getSelectedItemId() != R.id.menu_home -> {
-            _mainNavUsecase.navFirstPage()
+        mainNavUsecase.getSelectedItemId() != R.id.menu_home -> {
+            mainNavUsecase.navFirstPage()
             true
         }
 
@@ -42,6 +42,6 @@ class MainHolderViewModel @Inject constructor(
         else -> false
     }
 
-    private fun executeOnRestoreInstanceState() = with(_mainNavUsecase) { navPage(getSelectedItemId()) }
+    private fun executeOnRestoreInstanceState() = with(mainNavUsecase) { navPage(getSelectedItemId()) }
 
 }

@@ -25,13 +25,13 @@ interface ContainerFragment {
 }
 
 internal class ContainerFragmentImpl internal constructor(
-        private val _fragment: Fragment,
+        private val fragment: Fragment,
         private val _childNavController: ChildNavController,
-        private val _callback: ContainerFragmentCallback) : ContainerFragment {
+        private val callback: ContainerFragmentCallback) : ContainerFragment {
 
     override fun getChildNavController(): ChildNavController = _childNavController
 
-    override fun onBottomNavReselected(): Boolean = _callback.bottomNavReselectedCommand?.invoke()?:false
+    override fun onBottomNavReselected(): Boolean = callback.bottomNavReselectedCommand?.invoke()?:false
 
     override fun onBackPressed(): Boolean {
         val currentPrimaryOnBackPressedResult = _childNavController.getPrimaryNavFragment()
@@ -41,7 +41,7 @@ internal class ContainerFragmentImpl internal constructor(
         return if (currentPrimaryOnBackPressedResult) {
             true
         } else {
-            (_fragment as? BaseFragment)?.onBackPressed() ?: false
+            (fragment as? BaseFragment)?.onBackPressed() ?: false
         }
     }
 }

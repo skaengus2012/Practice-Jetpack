@@ -11,10 +11,10 @@ import com.google.auto.factory.Provided
  */
 @AutoFactory
 class ItemViewTouchHelperUsecase(
-        @Provided private val _viewHolder: RecyclerView.ViewHolder,
-        private val _itemViewTouchHelper: ItemTouchHelper) {
+        @Provided private val viewHolder: RecyclerView.ViewHolder,
+        private val itemViewTouchHelper: ItemTouchHelper) {
 
     fun startDrag() {
-        _itemViewTouchHelper.startDrag(_viewHolder)
+        itemViewTouchHelper.startDrag(viewHolder)
     }
 }

@@ -27,16 +27,16 @@ import javax.inject.Inject
  */
 class CollapsingToolbarViewModel @Inject constructor(
         lifeCycleBinder : ActivityLifeCycleBinder,
-        private val _activityUsecase: ActivityCommonUsecase,
-        private val _toolbarUsecase: ToolbarItemVisibilityUsecase,
-        private val _disposables: CompositeDisposable,
-        private val _schedulerFactory: SchedulerFactory,
-        private val _coverRepository: CoverRepository,
-        private val _pagingItemRepository: PagingItemRepository,
-        private val _resourceProvider: ResourceProvider,
-        private val _toastHelper: ToastHelper,
-        private val _snackBarHelper: SnackBarHelper,
-        private val _itemViewModelFactory: CollapsingPagingItemViewModelFactory) : ListErrorPageViewModel  {
+        private val activityUsecase: ActivityCommonUsecase,
+        private val toolbarUsecase: ToolbarItemVisibilityUsecase,
+        private val disposables: CompositeDisposable,
+        private val schedulerFactory: SchedulerFactory,
+        private val coverRepository: CoverRepository,
+        private val pagingItemRepository: PagingItemRepository,
+        private val resourceProvider: ResourceProvider,
+        private val toastHelper: ToastHelper,
+        private val snackBarHelper: SnackBarHelper,
+        private val itemViewModelFactory: CollapsingPagingItemViewModelFactory) : ListErrorPageViewModel  {
 
     val coverImage: ObservableField<String> = ObservableField()
 
@@ -48,74 +48,74 @@ class CollapsingToolbarViewModel @Inject constructor(
 
     val listAdapter = BindingItemListAdapter<BindingItemViewModel>()
 
-    private val _listUpdateSubject = BehaviorSubject.create<List<BindingItemViewModel>>()
+    private val listUpdateSubject = BehaviorSubject.create<List<BindingItemViewModel>>()
 
-    private val _showErrorState = ObservableBoolean()
+    private val showErrorState = ObservableBoolean()
 
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
             refresh()
             observeEvent()
-            _toolbarUsecase.initialize(false)
+            toolbarUsecase.initialize(false)
         }
     }
 
     private fun observeEvent() {
-        _listUpdateSubject
+        listUpdateSubject
                 .subscribe { listAdapter.submitList(it) }
-                .addTo(_disposables)
+                .addTo(disposables)
 
-        _toolbarUsecase.scrimVisibilityChangeSubject
+        toolbarUsecase.scrimVisibilityChangeSubject
                 .subscribe { isShowCollapsingScrim.set(it) }
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
-    private fun loadCover() = _coverRepository.getCover()
-            .subscribeOn(_schedulerFactory.io())
-            .observeOn(_schedulerFactory.ui())
+    private fun loadCover() = coverRepository.getCover()
+            .subscribeOn(schedulerFactory.io())
+            .observeOn(schedulerFactory.ui())
             .map {{
                 coverImage.set(it.imageUrl)
                 coverText.set(it.title)
             }}
 
-    private fun loadItems() = _pagingItemRepository.getItems(0, 100)
-            .subscribeOn(_schedulerFactory.io())
-            .observeOn(_schedulerFactory.ui())
+    private fun loadItems() = pagingItemRepository.getItems(0, 100)
+            .subscribeOn(schedulerFactory.io())
+            .observeOn(schedulerFactory.ui())
             .map { it.withIndex().map {
                 (index, item)
                 ->
-                _itemViewModelFactory.create(item) {
-                    val messageRes = _resourceProvider.getString(R.string.collapsing_toolbar_ex_item_click)
-                    _toastHelper.showToast(String.format(messageRes.toString(), index))
+                itemViewModelFactory.create(item) {
+                    val messageRes = resourceProvider.getString(R.string.collapsing_toolbar_ex_item_click)
+                    toastHelper.showToast(String.format(messageRes.toString(), index))
                 }
             } }
-            .map {{_listUpdateSubject.onNext(it)}}
+            .map {{listUpdateSubject.onNext(it)}}
 
-    override fun isShowErrorView(): ObservableBoolean = _showErrorState
+    override fun isShowErrorView(): ObservableBoolean = showErrorState
 
     override fun refresh() {
         loadFinished.set(false)
 
         Single.merge(loadCover(), loadItems())
                 .toList()
-                .observeOn(_schedulerFactory.ui())
+                .observeOn(schedulerFactory.ui())
                 .doOnSuccess {
                     executors
                     ->
                     executors.forEach { it() }
                 }
                 .doOnSuccess {
-                    _showErrorState.set(false)
+                    showErrorState.set(false)
                     loadFinished.set(true)
                 }
-                .doOnError { _showErrorState.set(true) }
+                .doOnError { showErrorState.set(true) }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
-    fun onBackPress() = _activityUsecase.onBackPressed()
+    fun onBackPress() = activityUsecase.onBackPressed()
 
     fun onFabClickEvent() {
-        _snackBarHelper.showSnackBar(R.string.collapsing_toolbar_fab_message, duration = Snackbar.LENGTH_SHORT)
+        snackBarHelper.showSnackBar(R.string.collapsing_toolbar_fab_message, duration = Snackbar.LENGTH_SHORT)
     }
 }

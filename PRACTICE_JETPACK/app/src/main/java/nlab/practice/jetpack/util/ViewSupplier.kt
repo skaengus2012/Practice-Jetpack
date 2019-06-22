@@ -5,6 +5,6 @@ import android.view.View
 /**
  * @author Doohyun
  */
-class ViewSupplier<T: View>(private val _viewSupplier: () -> T) {
-    fun get(): T = _viewSupplier()
+class ViewSupplier<T: View>(private val viewSupplier: () -> T) {
+    fun get(): T = viewSupplier()
 }

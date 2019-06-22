@@ -12,10 +12,10 @@ import androidx.core.content.ContextCompat
  * @author Doohyun
  * @since 2018. 12. 18
  */
-class ResourceProvider(private val _context: Context) {
-    fun getColor(@ColorRes colorRes: Int) : Int = ContextCompat.getColor(_context, colorRes)
+class ResourceProvider(private val context: Context) {
+    fun getColor(@ColorRes colorRes: Int) : Int = ContextCompat.getColor(context, colorRes)
 
-    fun getString(@StringRes stringRes: Int): CharSequence = _context.getString(stringRes)
+    fun getString(@StringRes stringRes: Int): CharSequence = context.getString(stringRes)
 
     fun getString(@StringRes stringFormatRes: Int, vararg arguments: Any?): String{
         val format = getString(stringFormatRes)
@@ -23,5 +23,5 @@ class ResourceProvider(private val _context: Context) {
         return String.format(format.toString(), *arguments)
     }
 
-    fun getDimensionPixelSize(@DimenRes resource: Int): Int = _context.resources.getDimensionPixelSize(resource)
+    fun getDimensionPixelSize(@DimenRes resource: Int): Int = context.resources.getDimensionPixelSize(resource)
 }

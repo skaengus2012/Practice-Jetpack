@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
  * @author Doohyun
  * @since 2019. 02. 07
  */
-class LayoutManagerFactory(private val _context: Context) {
+class LayoutManagerFactory(private val context: Context) {
 
-    fun createGridLayoutManager(spanCount: Int) = GridLayoutManager(_context, spanCount)
+    fun createGridLayoutManager(spanCount: Int) = GridLayoutManager(context, spanCount)
 }

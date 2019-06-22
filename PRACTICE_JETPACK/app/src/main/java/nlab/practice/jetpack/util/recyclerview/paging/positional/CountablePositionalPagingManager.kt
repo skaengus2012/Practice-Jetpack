@@ -17,14 +17,14 @@ import java.util.*
  */
 class CountablePositionalPagingManager<T>
 private constructor(
-        private val _disposables: CompositeDisposable,
-        private val _schedulerFactory: SchedulerFactory,
-        private val _dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
+        private val disposables: CompositeDisposable,
+        private val schedulerFactory: SchedulerFactory,
+        private val dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
 
-    private var _totalCount: Int? = null
+    private var totalCount: Int? = null
 
     override fun newDataSource(): PositionalDataSource<T> {
-        _totalCount = null
+        totalCount = null
 
         return super.newDataSource()
     }
@@ -38,9 +38,9 @@ private constructor(
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
         stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
 
-        _dataRepository.getCountablePositionalRs(params.startPosition, params.loadSize)
+        dataRepository.getCountablePositionalRs(params.startPosition, params.loadSize)
                 .doOnSuccess {
-                    val isEqualsTotalCount = _totalCount?: -1 == it.getTotalCount()
+                    val isEqualsTotalCount = totalCount?: -1 == it.getTotalCount()
                     if (isEqualsTotalCount) {
                         callback.onResult(it.getItems())
                         PositionalEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params)
@@ -48,7 +48,7 @@ private constructor(
                         PositionalEvent(PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED, rangeParams = params)
                     }.run { stateSubject.onNext(this) }
                 }
-                .observeOn(_schedulerFactory.ui())
+                .observeOn(schedulerFactory.ui())
                 .doOnSuccess { clearRetry() }
                 .doOnError {
                     // FIXME retry 세팅 시, 외부 ui 스케줄러와 동기화를 맞춰야 하기 때문에 동시에 처리
@@ -56,7 +56,7 @@ private constructor(
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     /**
@@ -67,11 +67,11 @@ private constructor(
      */
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
         stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_START, initParams = params))
-        _dataRepository.getTotalCount()
+        dataRepository.getTotalCount()
                 .doOnSuccess {
                     totalCount
                     ->
-                    _totalCount = totalCount
+                    this.totalCount = totalCount
 
                     if (totalCount == 0) {
                         loadInitialEmpty(params, callback)
@@ -83,7 +83,7 @@ private constructor(
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     private fun loadInitialEmpty(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
@@ -92,10 +92,10 @@ private constructor(
     }
 
     private fun loadInitialInternal(totalCount: Int, params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-        val firstLoadPosition = PositionalDataSource.computeInitialLoadPosition(params, totalCount)
-        val firstLoadSize = PositionalDataSource.computeInitialLoadSize(params, firstLoadPosition, totalCount)
+        val firstLoadPosition = computeInitialLoadPosition(params, totalCount)
+        val firstLoadSize = computeInitialLoadSize(params, firstLoadPosition, totalCount)
 
-        _dataRepository.getCountablePositionalRs(firstLoadPosition, firstLoadSize)
+        dataRepository.getCountablePositionalRs(firstLoadPosition, firstLoadSize)
                 .doOnSuccess {
                     val isEqualsTotalCount = (it.getTotalCount() == totalCount)
                     if (isEqualsTotalCount) {
@@ -109,7 +109,7 @@ private constructor(
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     interface DataRepository<T> {
@@ -117,9 +117,9 @@ private constructor(
         fun getCountablePositionalRs(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
     }
 
-    class Factory(private val _disposables: CompositeDisposable, private val _schedulerFactory: SchedulerFactory) {
+    class Factory(private val disposables: CompositeDisposable, private val schedulerFactory: SchedulerFactory) {
         fun <T> create(dataRepository: DataRepository<T>): CountablePositionalPagingManager<T> {
-            return CountablePositionalPagingManager(_disposables, _schedulerFactory, dataRepository)
+            return CountablePositionalPagingManager(disposables, schedulerFactory, dataRepository)
         }
     }
 }

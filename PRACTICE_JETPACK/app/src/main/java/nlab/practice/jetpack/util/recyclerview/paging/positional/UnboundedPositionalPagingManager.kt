@@ -14,19 +14,19 @@ import nlab.practice.jetpack.util.SchedulerFactory
  */
 class UnboundedPositionalPagingManager<T>
 private constructor(
-        private val _disposables: CompositeDisposable,
-        private val _schedulerFactory: SchedulerFactory,
-        private val _dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
+        private val disposables: CompositeDisposable,
+        private val schedulerFactory: SchedulerFactory,
+        private val dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
         stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
 
-        _dataRepository.getItems(params.startPosition, params.loadSize)
+        dataRepository.getItems(params.startPosition, params.loadSize)
                 .doOnSuccess {
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params))
                     callback.onResult(it)
                 }
-                .observeOn(_schedulerFactory.ui())
+                .observeOn(schedulerFactory.ui())
                 .doOnSuccess { clearRetry() }
                 .doOnError {
                     // FIXME retry 세팅 시, 외부 ui 스케줄러와 동기화를 맞춰야 하기 때문에 동시에 처리
@@ -34,7 +34,7 @@ private constructor(
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
@@ -42,7 +42,7 @@ private constructor(
 
         val startPosition = params.requestedStartPosition.takeIf { it >= 0 }?.run { this } ?: 0
 
-        _dataRepository.getItems(startPosition, params.requestedLoadSize)
+        dataRepository.getItems(startPosition, params.requestedLoadSize)
                 .doOnSuccess {
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_FINISH, params))
                     callback.onResult(it, startPosition)
@@ -51,16 +51,16 @@ private constructor(
                     stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, params))
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     interface DataRepository<T> {
         fun getItems(offset: Int, limit: Int): Single<List<T>>
     }
 
-    class Factory(private val _disposables: CompositeDisposable, private val _schedulerFactory: SchedulerFactory) {
+    class Factory(private val disposables: CompositeDisposable, private val schedulerFactory: SchedulerFactory) {
         fun <T> create(dataRepository: DataRepository<T>): UnboundedPositionalPagingManager<T> {
-            return UnboundedPositionalPagingManager(_disposables, _schedulerFactory, dataRepository)
+            return UnboundedPositionalPagingManager(disposables, schedulerFactory, dataRepository)
         }
     }
 }

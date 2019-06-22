@@ -13,9 +13,9 @@ import javax.inject.Inject
 class ListAdapterExampleItemDecoration @Inject constructor(
         resourceProvider: ResourceProvider): RecyclerView.ItemDecoration() {
 
-    private val _horizontalInnerSize = resourceProvider.getDimensionPixelSize(R.dimen.list_adapter_margin_horizontal_inner)
-    private val _horizontalSize = resourceProvider.getDimensionPixelSize(R.dimen.list_adapter_margin_horizontal)
-    private val _bottomSize = resourceProvider.getDimensionPixelSize(R.dimen.list_adapter_margin_bottom)
+    private val horizontalInnerSize = resourceProvider.getDimensionPixelSize(R.dimen.list_adapter_margin_horizontal_inner)
+    private val horizontalSize = resourceProvider.getDimensionPixelSize(R.dimen.list_adapter_margin_horizontal)
+    private val bottomSize = resourceProvider.getDimensionPixelSize(R.dimen.list_adapter_margin_bottom)
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
@@ -24,13 +24,13 @@ class ListAdapterExampleItemDecoration @Inject constructor(
         val column = position % ListAdapterExampleViewModel.SPAN_COUNT
 
         if (column == 0) {
-            outRect.left = _horizontalSize
-            outRect.right = _horizontalInnerSize
+            outRect.left = horizontalSize
+            outRect.right = horizontalInnerSize
         } else {
-            outRect.left = _horizontalInnerSize
-            outRect.right = _horizontalSize
+            outRect.left = horizontalInnerSize
+            outRect.right = horizontalSize
         }
 
-        outRect.bottom = _bottomSize
+        outRect.bottom = bottomSize
     }
 }

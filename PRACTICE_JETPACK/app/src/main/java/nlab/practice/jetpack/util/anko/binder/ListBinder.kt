@@ -12,29 +12,29 @@ private typealias LCallback<ITEM> = ObservableList.OnListChangedCallback<Observa
  *
  * @author Doohyun
  */
-class ListBinder<T: RecyclerView, ITEM>(private val _target: T): Binder<List<ITEM>> {
+class ListBinder<T: RecyclerView, ITEM>(private val target: T): Binder<List<ITEM>> {
 
-    private var _observableList: List<ITEM>? = null
-    private var _onListChangedCallback = ArrayList<LCallback<ITEM>>()
+    private var observableList: List<ITEM>? = null
+    private var onListChangedCallback = ArrayList<LCallback<ITEM>>()
 
     override fun addCallback(any: List<ITEM>) {
-        _observableList = any
-        _onListChangedCallback.forEach { any.toObservableList()?.addOnListChangedCallback(it) }
+        observableList = any
+        onListChangedCallback.forEach { any.toObservableList()?.addOnListChangedCallback(it) }
     }
 
     override fun removeCallback() {
-        _onListChangedCallback.forEach { _observableList?.toObservableList()?.removeOnListChangedCallback(it) }
+        onListChangedCallback.forEach { observableList?.toObservableList()?.removeOnListChangedCallback(it) }
     }
 
     override fun notifyChanged() {
-        _onListChangedCallback.forEach { _observableList?.toObservableList()?.run { it.onChanged(this) } }
+        onListChangedCallback.forEach { observableList?.toObservableList()?.run { it.onChanged(this) } }
     }
 
     fun drive(callback: LCallback<ITEM>) : T {
-        _onListChangedCallback.add(callback)
-        _observableList?.toObservableList()?.addOnListChangedCallback(callback)
+        onListChangedCallback.add(callback)
+        observableList?.toObservableList()?.addOnListChangedCallback(callback)
 
-        return _target
+        return target
     }
 
     private fun List<ITEM>.toObservableList(): ObservableList<ITEM>? {

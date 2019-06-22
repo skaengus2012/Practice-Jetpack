@@ -28,22 +28,22 @@ class ListAdapterExampleViewModel @Inject constructor(
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
         fragmentCallback: FragmentCallback,
-        private val _selectionTrackerUsecase: SelectionTrackerUsecase,
-        private val _disposables: CompositeDisposable,
-        private val _schedulerFactory: SchedulerFactory,
-        private val _pagingItemRepository: PagingItemRepository,
-        private val _listAdapterItemFactory: ListAdapterExampleItemViewModelFactory,
-        private val _activityCommonUsecase: ActivityCommonUsecase,
-        private val _toastHelper: ToastHelper,
-        private val _snackBarHelper: SnackBarHelper) : ListErrorPageViewModel {
+        private val selectionTrackerUsecase: SelectionTrackerUsecase,
+        private val disposables: CompositeDisposable,
+        private val schedulerFactory: SchedulerFactory,
+        private val pagingItemRepository: PagingItemRepository,
+        private val listAdapterItemFactory: ListAdapterExampleItemViewModelFactory,
+        private val activityCommonUsecase: ActivityCommonUsecase,
+        private val toastHelper: ToastHelper,
+        private val snackBarHelper: SnackBarHelper) : ListErrorPageViewModel {
 
     companion object {
         const val SPAN_COUNT = 2
     }
 
-    private val _listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> = BehaviorSubject.create()
+    private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> = BehaviorSubject.create()
 
-    private val _isShowErrorView = ObservableBoolean(false)
+    private val isShowErrorView = ObservableBoolean(false)
 
     val isSelectMode = ObservableBoolean(false)
 
@@ -73,18 +73,18 @@ class ListAdapterExampleViewModel @Inject constructor(
         }
     }
 
-    override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
+    override fun isShowErrorView(): ObservableBoolean = isShowErrorView
 
     override fun refresh() {
-        _pagingItemRepository.getItems(0, 200)
-                .subscribeOn(_schedulerFactory.io())
+        pagingItemRepository.getItems(0, 200)
+                .subscribeOn(schedulerFactory.io())
                 .doOnSuccess {
-                    it.map { item -> _listAdapterItemFactory.create(item) }.run { _listUpdateSubject.onNext(this) }
+                    it.map { item -> listAdapterItemFactory.create(item) }.run { listUpdateSubject.onNext(this) }
                 }
-                .observeOn(_schedulerFactory.ui())
-                .doOnSuccess { _isShowErrorView.set(false) }
+                .observeOn(schedulerFactory.ui())
+                .doOnSuccess { isShowErrorView.set(false) }
                 .doOnError {
-                    _isShowErrorView.set(true)
+                    isShowErrorView.set(true)
                     clearSelectState()
                 }
                 .doFinally {
@@ -93,7 +93,7 @@ class ListAdapterExampleViewModel @Inject constructor(
                     }
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     fun refreshBySwipeLayout() {
@@ -102,25 +102,25 @@ class ListAdapterExampleViewModel @Inject constructor(
     }
 
     private fun initializeList() {
-        _listUpdateSubject
-                .observeOn(_schedulerFactory.ui())
+        listUpdateSubject
+                .observeOn(schedulerFactory.ui())
                 .doOnNext {
                     listAdapter.submitList(it)
-                    _selectionTrackerUsecase.replaceList(it)
+                    selectionTrackerUsecase.replaceList(it)
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
 
         refresh()
     }
 
     private fun subscribeSelection() {
-        _selectionTrackerUsecase.getSelectionEventSubject()
+        selectionTrackerUsecase.getSelectionEventSubject()
                 .filter { it.eventCode == SelectionEvent.Code.SELECTION_CHANGED }
                 .doOnNext {
                     when {
                         // 현재 Selection 이 없다면 선택모드를 종료한다. 구글가이드임..
-                        !(_selectionTrackerUsecase.getSelectionTracker()?.hasSelection()?: false) -> {
+                        !(selectionTrackerUsecase.getSelectionTracker()?.hasSelection()?: false) -> {
                             if (isSelectMode.get()) {
                                 clearSelectState()
                             }
@@ -130,14 +130,14 @@ class ListAdapterExampleViewModel @Inject constructor(
                     }
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
 
-        _selectionTrackerUsecase.getSelectionEventSubject()
+        selectionTrackerUsecase.getSelectionEventSubject()
                 .filter { it.eventCode == SelectionEvent.Code.STATE_CHANGED }
                 .doOnNext {
                     updateSelectCountText()
 
-                    _listUpdateSubject.value
+                    listUpdateSubject.value
                             ?.filter {
                                 viewModel
                                 ->
@@ -149,43 +149,43 @@ class ListAdapterExampleViewModel @Inject constructor(
                             }
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     fun clearSelectState() {
         isSelectMode.set(false)
-        _selectionTrackerUsecase.getSelectionTracker()?.clearSelection()
+        selectionTrackerUsecase.getSelectionTracker()?.clearSelection()
     }
 
     fun removeSelectedItem() {
-        val currentSelection =  _selectionTrackerUsecase.getSelectionTracker()?.selection
+        val currentSelection =  selectionTrackerUsecase.getSelectionTracker()?.selection
 
-        _listUpdateSubject.value
+        listUpdateSubject.value
                 ?.filter {
                     // 포함되지 않은 목록만 살린다.
                     val isRemoveItem = currentSelection?.contains(it.getSelectionKey()) ?: false
                     !isRemoveItem
                 }
-                ?.run { _listUpdateSubject.onNext(this) }
+                ?.run { listUpdateSubject.onNext(this) }
 
         clearSelectState()
         updateSelectCountText()
 
-        _snackBarHelper.showSnackBar(
+        snackBarHelper.showSnackBar(
                 message = R.string.listadapter_remove_message,
                 duration = Snackbar.LENGTH_LONG,
                 actionMessage = R.string.listadapter_action_message,
-                actionBehavior = { _toastHelper.showToast(R.string.listadapter_goodbye_snack_bar) })
+                actionBehavior = { toastHelper.showToast(R.string.listadapter_goodbye_snack_bar) })
     }
 
     private fun updateSelectCountText() {
-        val selectionSize = _selectionTrackerUsecase.getSelectionTracker()?.selection?.size() ?: 0
-        val totalSize = _listUpdateSubject.value?.size ?: 0
+        val selectionSize = selectionTrackerUsecase.getSelectionTracker()?.selection?.size() ?: 0
+        val totalSize = listUpdateSubject.value?.size ?: 0
 
         selectCountText.set("$selectionSize / $totalSize")
     }
 
     fun onBackPressed() {
-        _activityCommonUsecase.onBackPressed()
+        activityCommonUsecase.onBackPressed()
     }
 }

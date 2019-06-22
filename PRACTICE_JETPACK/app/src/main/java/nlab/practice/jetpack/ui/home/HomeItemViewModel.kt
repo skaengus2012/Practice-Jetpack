@@ -13,24 +13,24 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  */
 @AutoFactory
 class HomeItemViewModel(
-        private val _testMenu: TestMenu,
-        private val _navigateAction: () -> Unit) : BindingItemViewModel() {
+        private val testMenu: TestMenu,
+        private val navigateAction: () -> Unit) : BindingItemViewModel() {
 
     override fun getLayoutRes(): Int = R.layout.view_home_item
 
     @Bindable
-    fun getTitleVisibleYn(): Boolean = _testMenu.cardTitle != null
+    fun getTitleVisibleYn(): Boolean = testMenu.cardTitle != null
 
     @Bindable
-    fun getCardTitle(): String? = _testMenu.cardTitle
+    fun getCardTitle(): String? = testMenu.cardTitle
 
     @Bindable
-    fun getCardColor(): Int = _testMenu.cardColorRes
+    fun getCardColor(): Int = testMenu.cardColorRes
 
     @Bindable
-    fun getTitle(): String = _testMenu.title
+    fun getTitle(): String = testMenu.title
 
     fun onClick() {
-        _navigateAction()
+        navigateAction()
     }
 }

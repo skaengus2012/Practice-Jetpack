@@ -14,13 +14,13 @@ import org.jetbrains.anko.AnkoComponent
 abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoComponent<U> {
 
     private var _viewModel: ViewModel? = null
-    private val _binders = ObservableArrayList<Binder<ViewModel>>()
+    private val binders = ObservableArrayList<Binder<ViewModel>>()
 
     fun setViewModel(viewModel: ViewModel) : DataBindingAnkoComponent<ViewModel, U> {
-        _viewModel?.run { _binders.forEach { it.removeCallback() } }
+        _viewModel?.run { binders.forEach { it.removeCallback() } }
 
         _viewModel = viewModel
-        _binders.forEach { it.addCallback(viewModel) }
+        binders.forEach { it.addCallback(viewModel) }
 
         return this
     }
@@ -30,7 +30,7 @@ abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoCo
 
         PropertyMappingBindAdapter(mapper, binder).apply {
             _viewModel?.run { addCallback(this) }
-            _binders.add(this)
+            binders.add(this)
         }
 
         return binder
@@ -39,7 +39,7 @@ abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoCo
     fun <TARGET> TARGET.binder(): PropertyBinder<TARGET, ViewModel> {
         return PropertyBinder<TARGET, ViewModel>(this).apply {
             _viewModel?.run { addCallback(this) }
-            _binders.add(this)
+            binders.add(this)
         }
     }
 
@@ -48,7 +48,7 @@ abstract class DataBindingAnkoComponent<ViewModel, U> : BaseObservable(), AnkoCo
 
         ListMappingBindAdapter(mapper, binder).apply {
             _viewModel?.run { addCallback(this) }
-            _binders.add(this)
+            binders.add(this)
         }
 
         return binder

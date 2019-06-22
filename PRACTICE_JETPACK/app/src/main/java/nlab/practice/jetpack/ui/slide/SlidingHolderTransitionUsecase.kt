@@ -12,20 +12,20 @@ import java.lang.ref.WeakReference
  */
 class SlidingHolderTransitionUsecase(private val fragmentManager: FragmentManager, containerViewSupplier: () -> View) {
 
-    private val _fragmentMap: MutableMap<String, WeakReference<Fragment>> = HashMap()
+    private val fragmentMap: MutableMap<String, WeakReference<Fragment>> = HashMap()
 
-    private val _containerView: View by lazyPublic(containerViewSupplier)
+    private val containerView: View by lazyPublic(containerViewSupplier)
 
     fun replaceMainFragment() {
         fragmentManager.beginTransaction()
-                .replace(_containerView.id, resolveMainFragment(), PageType.MAIN)
+                .replace(containerView.id, resolveMainFragment(), PageType.MAIN)
                 .commitNow()
     }
 
-    private fun resolveMainFragment() = _fragmentMap[PageType.MAIN]?.get() ?: createMainFragment()
+    private fun resolveMainFragment() = fragmentMap[PageType.MAIN]?.get() ?: createMainFragment()
 
     private fun createMainFragment() = SlidingMainFragment().apply {
-        _fragmentMap[PageType.MAIN] = WeakReference<Fragment>(this)
+        fragmentMap[PageType.MAIN] = WeakReference<Fragment>(this)
     }
 
     @StringDef(value = [PageType.MAIN])

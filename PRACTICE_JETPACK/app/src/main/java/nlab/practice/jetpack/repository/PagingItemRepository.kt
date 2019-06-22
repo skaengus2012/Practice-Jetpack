@@ -17,29 +17,29 @@ import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositi
  *
  * @author Doohyun
  */
-class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository) :
+class PagingItemRepository(private val imagePoolRepository: ImagePoolRepository) :
         CountablePositionalPagingManager.DataRepository<PagingItem>,
         UnboundedPositionalPagingManager.DataRepository<PagingItem> {
 
-    private val _items = ArrayList<PagingItem>()
+    private val items = ArrayList<PagingItem>()
 
     init {
         (0 until 1000).map {
-            PagingItem(it, "Track Item (No.$it)", _imagePoolRepository.get(it % _imagePoolRepository.getSize()))
+            PagingItem(it, "Track Item (No.$it)", imagePoolRepository.get(it % imagePoolRepository.getSize()))
         }.run {
-            _items.addAll(this)
+            items.addAll(this)
         }
     }
 
     override fun getTotalCount(): Single<Int> = Single.fromCallable {
         RandomTestExecutor.delay(maxTime = 500)
-        _items.size
+        items.size
     }
 
     override fun getCountablePositionalRs(offset: Int, limit: Int): Single<PagingItemRs> = Single.fromCallable {
         RandomTestExecutor.delay(maxTime = 1500)
 
-        val resultSubList: List<PagingItem> = Observable.fromIterable(_items)
+        val resultSubList: List<PagingItem> = Observable.fromIterable(items)
                 .skip(offset.toLong())
                 .take(limit.toLong())
                 .toList()
@@ -48,13 +48,13 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
         // 가상의 에러 방출
         RandomTestExecutor.error(20)
 
-        PagingItemRs(_totalCount = _items.size, _items = resultSubList)
+        PagingItemRs(items.size, resultSubList)
     }
 
     override fun getItems(offset: Int, limit: Int): Single<List<PagingItem>> = Single.fromCallable {
         RandomTestExecutor.delay(maxTime = 1500)
 
-        val resultSubList = Observable.fromIterable(_items)
+        val resultSubList = Observable.fromIterable(items)
                 .skip(offset.toLong())
                 .take(limit.toLong())
                 .toList()
@@ -66,7 +66,7 @@ class PagingItemRepository(private val _imagePoolRepository: ImagePoolRepository
         resultSubList
     }
 
-    fun addItems(items: List<PagingItem>) = _items.addAll(items)
+    fun addItems(items: List<PagingItem>) = this.items.addAll(items)
 }
 
 class PagingItemRs(

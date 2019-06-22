@@ -28,29 +28,29 @@ import kotlin.random.Random
  * @author Doohyun
  */
 class CountablePagingViewModel @Inject constructor(
-        private val _disposables: CompositeDisposable,
-        private val _activityCommonUsecase: ActivityCommonUsecase,
-        private val _pagingItemRepository: PagingItemRepository,
-        private val _imagePoolRepository: ImagePoolRepository,
-        private val _schedulerFactory: SchedulerFactory,
-        private val _toastHelper: ToastHelper,
-        private val _resourceProvider: ResourceProvider,
-        private val _recyclerViewUsecase: RecyclerViewUsecase,
-        private val _pagingItemViewModelFactory: PagingItemPracticeViewModelFactory,
+        private val disposables: CompositeDisposable,
+        private val activityCommonUsecase: ActivityCommonUsecase,
+        private val pagingItemRepository: PagingItemRepository,
+        private val imagePoolRepository: ImagePoolRepository,
+        private val schedulerFactory: SchedulerFactory,
+        private val toastHelper: ToastHelper,
+        private val resourceProvider: ResourceProvider,
+        private val recyclerViewUsecase: RecyclerViewUsecase,
+        private val pagingItemViewModelFactory: PagingItemPracticeViewModelFactory,
         pagingManagerFactory: CountablePositionalPagingManager.Factory) : PagingViewModel {
 
-    private val _listAdapter: BindingPagedListAdapter<PagingItemPracticeViewModel> =
+    private val listAdapter: BindingPagedListAdapter<PagingItemPracticeViewModel> =
             BindingPagedListAdapter(placeholderResId = R.layout.view_paging_item_placeholder)
 
-    private val _isShowErrorView = ObservableBoolean(false)
-    private val _isShowRefreshProgressBar = ObservableBoolean(false)
-    private var _isRefreshing = false
+    private val isShowErrorView = ObservableBoolean(false)
+    private val isShowRefreshProgressBar = ObservableBoolean(false)
+    private var isRefreshing = false
 
-    private val _subTitle = ObservableField<String>()
-    private val _subTitleFormat = _resourceProvider.getString(R.string.paging_countable_sub_title_format)
+    private val subTitle = ObservableField<String>()
+    private val subTitleFormat = resourceProvider.getString(R.string.paging_countable_sub_title_format)
 
-    private val _pagingManager = pagingManagerFactory.create(_pagingItemRepository)
-    private val _singleScheduler = _schedulerFactory.single()
+    private val pagingManager = pagingManagerFactory.create(pagingItemRepository)
+    private val singleScheduler = schedulerFactory.single()
 
     init {
         loadTitle()
@@ -60,17 +60,17 @@ class CountablePagingViewModel @Inject constructor(
         subscribeLoadError()
     }
 
-    override fun isShowRefreshProgressBar(): ObservableBoolean = _isShowRefreshProgressBar
+    override fun isShowRefreshProgressBar(): ObservableBoolean = isShowRefreshProgressBar
 
-    override fun getListAdapter(): BindingPagedListAdapter<PagingItemPracticeViewModel> = _listAdapter
+    override fun getListAdapter(): BindingPagedListAdapter<PagingItemPracticeViewModel> = listAdapter
 
-    override fun getSubTitle(): ObservableField<String> = _subTitle
+    override fun getSubTitle(): ObservableField<String> = subTitle
 
-    override fun getBannerText(): String = _resourceProvider.getString(R.string.paging_banner_to_unbounded).toString()
+    override fun getBannerText(): String = resourceProvider.getString(R.string.paging_banner_to_unbounded).toString()
 
-    override fun onClickBackButton() = _activityCommonUsecase.onBackPressed()
+    override fun onClickBackButton() = activityCommonUsecase.onBackPressed()
 
-    override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
+    override fun isShowErrorView(): ObservableBoolean = isShowErrorView
 
     private fun subscribePagedList() {
         // NOTE : placeHolder 는 아이템의 전체 개수를 알고 있을 때만 사용 가능
@@ -83,112 +83,112 @@ class CountablePagingViewModel @Inject constructor(
 
         RxPagedListBuilder<Int, PagingItemPracticeViewModel>(createDataSourceFactory(), config)
                 .buildFlowable(BackpressureStrategy.BUFFER)
-                .doOnNext { _listAdapter.submitList(it) }
+                .doOnNext { listAdapter.submitList(it) }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     private fun subscribeTotalCountChanged() {
-        _pagingManager.stateSubject
+        pagingManager.stateSubject
                 .filter {
                     it.state in listOf(
                         PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED,
                         PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED) }
-                .observeOn(_schedulerFactory.ui())
+                .observeOn(schedulerFactory.ui())
                 .doOnNext {
                     loadTitle()
-                    _toastHelper.showToast(R.string.paging_notify_data_size_changed)
-                    _pagingManager.invalidate()
+                    toastHelper.showToast(R.string.paging_notify_data_size_changed)
+                    pagingManager.invalidate()
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     private fun subscribeLoadError() {
-        _pagingManager.stateSubject
-                .observeOn(_schedulerFactory.ui())
+        pagingManager.stateSubject
+                .observeOn(schedulerFactory.ui())
                 .filter { it.state == PositionalDataLoadState.LOAD_ERROR }
                 .doOnNext {
-                    _isRefreshing = false
-                    _pagingManager.retry()
+                    isRefreshing = false
+                    pagingManager.retry()
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
 
-        _pagingManager.stateSubject
-                .observeOn(_schedulerFactory.ui())
+        pagingManager.stateSubject
+                .observeOn(schedulerFactory.ui())
                 .filter { it.state == PositionalDataLoadState.INIT_LOAD_ERROR }
                 .doOnNext {
-                    _isRefreshing = false
-                    _isShowErrorView.set(true)
+                    isRefreshing = false
+                    isShowErrorView.set(true)
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     private fun subscribeLoadFinish() {
-        _pagingManager.stateSubject
-                .observeOn(_schedulerFactory.ui())
+        pagingManager.stateSubject
+                .observeOn(schedulerFactory.ui())
                 .filter { it.state == PositionalDataLoadState.LOAD_FINISH }
-                .filter { _isRefreshing }
+                .filter { isRefreshing }
                 .doOnNext {
                     // invalidate 호출 시, init, range 두번 호출 해서, 리프레쉬로 업데이트 시 강제로 200번째 칸으로 스크롤 되는 이슈가 존재
                     // 리프레쉬로 업데이트 시, 포지션을 0으로 지정해 주도록 하자.
-                    _isRefreshing = false
-                    _recyclerViewUsecase.scrollToPositionWithOffset(0,0)
+                    isRefreshing = false
+                    recyclerViewUsecase.scrollToPositionWithOffset(0,0)
                 }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
 
-        _pagingManager.stateSubject
-                .observeOn(_schedulerFactory.ui())
+        pagingManager.stateSubject
+                .observeOn(schedulerFactory.ui())
                 .filter { it.state == PositionalDataLoadState.INIT_LOAD_FINISH }
-                .doOnNext { _isShowErrorView.set(false) }
+                .doOnNext { isShowErrorView.set(false) }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     private fun loadTitle() {
-        _pagingItemRepository.getTotalCount()
-                .subscribeOn(_schedulerFactory.io())
-                .observeOn(_schedulerFactory.ui())
-                .doOnSuccess { String.format(_subTitleFormat.toString(), it).run { _subTitle.set(this) } }
+        pagingItemRepository.getTotalCount()
+                .subscribeOn(schedulerFactory.io())
+                .observeOn(schedulerFactory.ui())
+                .doOnSuccess { String.format(subTitleFormat.toString(), it).run { subTitle.set(this) } }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     override fun addItems() {
-        _pagingItemRepository.getTotalCount()
+        pagingItemRepository.getTotalCount()
                 .flatMap{ getItemsAddingItemCountSingle(it) }
-                .subscribeOn(_singleScheduler)
-                .observeOn(_schedulerFactory.ui())
-                .map { _resourceProvider.getString(R.string.paging_add_item, it) }
-                .doOnSuccess { _toastHelper.showToast(it) }
+                .subscribeOn(singleScheduler)
+                .observeOn(schedulerFactory.ui())
+                .map { resourceProvider.getString(R.string.paging_add_item, it) }
+                .doOnSuccess { toastHelper.showToast(it) }
                 .doOnSuccess { loadTitle() }
                 .subscribe()
-                .addTo(_disposables)
+                .addTo(disposables)
     }
 
     override fun refresh() {
-        _isShowRefreshProgressBar.set(true)
+        isShowRefreshProgressBar.set(true)
 
-        _isRefreshing = true
-        _toastHelper.showToast(R.string.paging_notify_refresh)
-        _pagingManager.invalidate()
+        isRefreshing = true
+        toastHelper.showToast(R.string.paging_notify_refresh)
+        pagingManager.invalidate()
     }
 
     private fun getItemsAddingItemCountSingle(totalSize: Int): Single<Int> = Single.fromCallable {
         val newItemCount = Random.nextInt(2, 30)
 
-        val imageTotalSize = _imagePoolRepository.getSize()
+        val imageTotalSize = imagePoolRepository.getSize()
         var startChoiceImage = Random.nextInt(imageTotalSize)
         var startIndex = totalSize
 
         (0..newItemCount).map {
             val index = startIndex++
             val imageIndex = startChoiceImage++
-            PagingItem(index, "New Instant Item - index : $index", _imagePoolRepository.get(imageIndex % imageTotalSize))
-        }.run { _pagingItemRepository.addItems(this) }
+            PagingItem(index, "New Instant Item - index : $index", imagePoolRepository.get(imageIndex % imageTotalSize))
+        }.run { pagingItemRepository.addItems(this) }
 
         newItemCount
     }
@@ -196,11 +196,11 @@ class CountablePagingViewModel @Inject constructor(
     private fun createDataSourceFactory(): DFactory = object: DFactory() {
 
         override fun create(): DataSource<Int, PagingItemPracticeViewModel> {
-            _isShowRefreshProgressBar.set(false)
-            return _pagingManager.newDataSource().map { createPagingItemViewModel(it) }
+            isShowRefreshProgressBar.set(false)
+            return pagingManager.newDataSource().map { createPagingItemViewModel(it) }
         }
 
-        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemPracticeViewModel = _pagingItemViewModelFactory.create(pagingItem) {
+        fun createPagingItemViewModel(pagingItem: PagingItem): PagingItemPracticeViewModel = pagingItemViewModelFactory.create(pagingItem) {
             it.navUnboundedPaging()
         }
     }
