@@ -6,19 +6,18 @@ import nlab.practice.jetpack.util.lazyPublic
 /**
  * @author Doohyun
  */
-class SlidingHolderViewUsecase(containerViewSupplier: () -> View, private val _miniPlayerViewSupplier: () -> View?) {
+class SlidingHolderViewUsecase(containerViewSupplier: () -> View, miniPlayerViewSupplier: () -> View?) {
 
-    private val _containerView: View by lazyPublic(containerViewSupplier)
+    private val containerView: View by lazyPublic(containerViewSupplier)
 
-    private val _miniPlayerView: View?
-        get() = _miniPlayerViewSupplier()
+    private val miniPlayerView: View? by lazyPublic(miniPlayerViewSupplier)
 
     fun setContainerAlphaValue(offset: Float) {
-        _containerView.alpha = offset
+        containerView.alpha = offset
     }
 
     fun setMiniPlayerAlphaValue(offset: Float) {
-        _miniPlayerView?.run {
+        miniPlayerView?.run {
             alpha = offset
         }
     }
@@ -27,10 +26,10 @@ class SlidingHolderViewUsecase(containerViewSupplier: () -> View, private val _m
         /**
          * NOTE : bringToFront z 축을 맨 위로 올리는 것을 의미
          */
-        _containerView.bringToFront()
+        containerView.bringToFront()
     }
 
     fun bringToFrontMiniPlayer() {
-        _miniPlayerView?.bringToFront()
+        miniPlayerView?.bringToFront()
     }
 }

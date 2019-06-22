@@ -5,6 +5,7 @@ import androidx.annotation.MainThread
 import androidx.recyclerview.selection.*
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.subjects.Subject
+import nlab.practice.jetpack.util.lazyPublic
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewHolder
 import nlab.practice.jetpack.util.recyclerview.selection.*
 
@@ -12,26 +13,27 @@ import nlab.practice.jetpack.util.recyclerview.selection.*
  * @author Doohyun
  * @since 2019. 02. 08
  */
-class SelectionTrackerUsecase(private val _viewSupplier: () -> RecyclerView) {
+class SelectionTrackerUsecase(viewSupplier: () -> RecyclerView) {
 
-    private val _itemKeyProvider = ListBaseItemKeyProvider<Long>()
-    private val _selectionObserver = RxSelectionObserverEx<Long>()
+    private val itemKeyProvider = ListBaseItemKeyProvider<Long>()
 
-    private var _selectionTracker: SelectionTracker<Long>? = null
+    private val selectionObserver = RxSelectionObserverEx<Long>()
+
+    private var selectionTracker: SelectionTracker<Long>? = null
+
+    private val recyclerView: RecyclerView by lazyPublic(viewSupplier)
 
     private fun initializeTrackerIfNeeded() {
-        if (_selectionTracker == null) {
-            val recyclerView = _viewSupplier()
-
-            _selectionTracker = SelectionTracker.Builder(
+        if (selectionTracker == null) {
+            selectionTracker = SelectionTracker.Builder(
                     ListAdapterExampleFragment::class.java.simpleName,
                     recyclerView,
-                    _itemKeyProvider,
+                    itemKeyProvider,
                     ItemDetailsLookupEx(recyclerView),
                     StorageStrategy.createLongStorage())
                     .withOnDragInitiatedListener { true }
                     .build()
-                    .apply { addObserver(_selectionObserver) }
+                    .apply { addObserver(selectionObserver) }
         }
     }
 
@@ -39,22 +41,22 @@ class SelectionTrackerUsecase(private val _viewSupplier: () -> RecyclerView) {
     fun replaceList(items: List<Selectable<Long>>) {
         initializeTrackerIfNeeded()
 
-        _itemKeyProvider.replaceList(items)
+        itemKeyProvider.replaceList(items)
     }
 
-    fun getSelectionTracker(): SelectionTracker<Long>? = _selectionTracker
+    fun getSelectionTracker(): SelectionTracker<Long>? = selectionTracker
 
-    fun getSelectionEventSubject(): Subject<SelectionEvent<Long>> = _selectionObserver.subject
+    fun getSelectionEventSubject(): Subject<SelectionEvent<Long>> = selectionObserver.subject
 }
 
-private class ItemDetailsLookupEx(private val _recyclerView: RecyclerView) : ItemDetailsLookup<Long>() {
+private class ItemDetailsLookupEx(private val recyclerView: RecyclerView) : ItemDetailsLookup<Long>() {
 
     override fun getItemDetails(e: MotionEvent): ItemDetails<Long>? {
         var result: ItemDetails<Long>? = null
 
-        val view = _recyclerView.findChildViewUnder(e.x, e.y)
+        val view = recyclerView.findChildViewUnder(e.x, e.y)
         if (view != null) {
-            (_recyclerView.getChildViewHolder(view) as? BindingItemViewHolder)?.run {
+            (recyclerView.getChildViewHolder(view) as? BindingItemViewHolder)?.run {
                 result = createItemDetails(this)
             }
         }

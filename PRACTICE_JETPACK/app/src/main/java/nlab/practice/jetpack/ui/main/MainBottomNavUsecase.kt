@@ -14,15 +14,15 @@ import nlab.practice.jetpack.util.nav.fragmentTag
  *
  * @author Doohyun
  */
-class MainBottomNavUsecase(private val _navController: MainNavController, viewSupplier: () -> BottomNavigationView) :
+class MainBottomNavUsecase(private val navController: MainNavController, viewSupplier: () -> BottomNavigationView) :
         BottomNavigationView.OnNavigationItemSelectedListener,
         BottomNavigationView.OnNavigationItemReselectedListener {
 
-    private val _bottomNavigationView: BottomNavigationView by lazyPublic(viewSupplier)
+    private val bottomNavigationView: BottomNavigationView by lazyPublic(viewSupplier)
 
     fun initialize() {
-        _bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        _bottomNavigationView.setOnNavigationItemReselectedListener(this)
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.setOnNavigationItemReselectedListener(this)
     }
 
     fun navFirstPage() {
@@ -30,19 +30,19 @@ class MainBottomNavUsecase(private val _navController: MainNavController, viewSu
     }
 
     fun navPage(@IdRes menuRes: Int) {
-        _bottomNavigationView.selectedItemId = menuRes
+        bottomNavigationView.selectedItemId = menuRes
 
         onNavigationItemSelected(menuRes)
     }
 
     @IdRes
-    fun getSelectedItemId(): Int =_bottomNavigationView.selectedItemId
+    fun getSelectedItemId(): Int =bottomNavigationView.selectedItemId
 
     override fun onNavigationItemSelected(updateMenu: MenuItem) = onNavigationItemSelected(updateMenu.itemId)
 
     private fun onNavigationItemSelected(@IdRes menuRes: Int): Boolean = when(menuRes) {
         R.id.menu_home -> {
-            _navController.replacePrimaryFragment(HomeFragment::class.fragmentTag()) {
+            navController.replacePrimaryFragment(HomeFragment::class.fragmentTag()) {
                 HomeFragment()
             }
 
@@ -50,7 +50,7 @@ class MainBottomNavUsecase(private val _navController: MainNavController, viewSu
         }
 
         R.id.menu_history -> {
-            _navController.replacePrimaryFragment(HistoryFragment::class.fragmentTag()) {
+            navController.replacePrimaryFragment(HistoryFragment::class.fragmentTag()) {
                 HistoryFragment()
             }
 
@@ -61,7 +61,7 @@ class MainBottomNavUsecase(private val _navController: MainNavController, viewSu
     }
 
     override fun onNavigationItemReselected(updateMenu: MenuItem) {
-        _navController.getCurrentContainerFragment()
+        navController.getCurrentContainerFragment()
                 ?.run {
                     val result = onBottomNavReselected()
                     if (!result) {
@@ -71,5 +71,5 @@ class MainBottomNavUsecase(private val _navController: MainNavController, viewSu
                 ?: run { onNavigationItemSelected(updateMenu.itemId) }
     }
 
-    fun onBackPressedInPrimaryNav(): Boolean = _navController.getCurrentContainerFragment()?.onBackPressed()?:false
+    fun onBackPressedInPrimaryNav(): Boolean = navController.getCurrentContainerFragment()?.onBackPressed()?:false
 }

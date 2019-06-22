@@ -6,7 +6,7 @@ package nlab.practice.jetpack.repository
  */
 class ImagePoolRepository {
 
-    private val _images = listOf("https://spark.adobe.com/images/landing/examples/blizzard-album-cover.jpg",
+    private val images = listOf("https://spark.adobe.com/images/landing/examples/blizzard-album-cover.jpg",
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjYcpib3ce6YBXVlVPkbOK7j7lK_Q7qUM8whmojc3GBbTCibvL",
             "https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/e2f9aa74-7587-4a30-b0c0-4df61d7ac308/43.jpg",
             null,
@@ -18,7 +18,7 @@ class ImagePoolRepository {
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0mdzx9JSHadO9Q8KIfVLpVUcj_bY0kQJJRgGtypDqB3BFd5_M"
     )
 
-    fun getSize(): Int = _images.size
+    fun getSize(): Int = images.size
 
-    fun get(index: Int): String? = _images[index]
+    fun get(index: Int): String? = images[index]
 }

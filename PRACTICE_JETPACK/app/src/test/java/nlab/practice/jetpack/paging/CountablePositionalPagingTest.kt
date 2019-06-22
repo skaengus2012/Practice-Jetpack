@@ -21,25 +21,25 @@ import org.mockito.Mockito.mock
  */
 class CountablePositionalPagingTest {
 
-    private val _disposables = CompositeDisposable()
-    private val _repository = TestRepository()
-    private val _initParam = LoadInitialParams(0, 20, 10, false)
-    private val _rangeParam = LoadRangeParams(2, 20)
+    private val disposables = CompositeDisposable()
+    private val repository = TestRepository()
+    private val initParam = LoadInitialParams(0, 20, 10, false)
+    private val rangeParam = LoadRangeParams(2, 20)
 
-    private lateinit var _initCallback: LoadInitialCallback<NonePageableItem>
-    private lateinit var _rangeCallback: LoadRangeCallback<NonePageableItem>
+    private lateinit var initCallback: LoadInitialCallback<NonePageableItem>
+    private lateinit var rangeCallback: LoadRangeCallback<NonePageableItem>
 
-    private lateinit var _pagingManager: CountablePositionalPagingManager<NonePageableItem>
+    private lateinit var pagingManager: CountablePositionalPagingManager<NonePageableItem>
 
     @Suppress("UNCHECKED_CAST")
     @Before
     fun setup() {
-        _initCallback = mock(LoadInitialCallback::class.java) as LoadInitialCallback<NonePageableItem>
-        _rangeCallback = mock(LoadRangeCallback::class.java) as LoadRangeCallback<NonePageableItem>
+        initCallback = mock(LoadInitialCallback::class.java) as LoadInitialCallback<NonePageableItem>
+        rangeCallback = mock(LoadRangeCallback::class.java) as LoadRangeCallback<NonePageableItem>
 
-        _pagingManager = CountablePositionalPagingManager
-                .Factory(_disposables, mock(SchedulerFactory::class.java))
-                .create(_repository)
+        pagingManager = CountablePositionalPagingManager
+                .Factory(disposables, mock(SchedulerFactory::class.java))
+                .create(repository)
     }
 
     private fun delayLoadTime() {
@@ -48,17 +48,17 @@ class CountablePositionalPagingTest {
 
     private fun addItemToRepository() {
         Thread.sleep(1000)
-        _repository.items.add(NonePageableItem())
+        repository.items.add(NonePageableItem())
     }
 
     @Test
     fun testInitLoadCallbackSuccess() {
-        val dataSource = _pagingManager.newDataSource()
+        val dataSource = pagingManager.newDataSource()
         val observeCodes = ArrayList<String>()
 
-        _pagingManager.stateSubject.subscribe { observeCodes += it.state }
+        pagingManager.stateSubject.subscribe { observeCodes += it.state }
 
-        dataSource.loadInitial(_initParam, _initCallback)
+        dataSource.loadInitial(initParam, initCallback)
 
         Assert.assertEquals(
                 listOf(PositionalDataLoadState.INIT_LOAD_START, PositionalDataLoadState.INIT_LOAD_FINISH),
@@ -68,14 +68,14 @@ class CountablePositionalPagingTest {
 
     @Test
     fun testInitLoadCallbackDataSizeChanged() {
-        val dataSource = _pagingManager.newDataSource()
+        val dataSource = pagingManager.newDataSource()
         val observeCodes = ArrayList<String>()
 
-        _pagingManager.stateSubject
+        pagingManager.stateSubject
                 .doOnNext { observeCodes += it.state }
                 .subscribe()
 
-        Completable.fromAction { dataSource.loadInitial(_initParam, _initCallback) }
+        Completable.fromAction { dataSource.loadInitial(initParam, initCallback) }
                 .subscribeOn(Schedulers.io())
                 .subscribe()
 
@@ -90,13 +90,13 @@ class CountablePositionalPagingTest {
 
     @Test
     fun testLoadRangeCallbackSuccess() {
-        val dataSource = _pagingManager.newDataSource()
+        val dataSource = pagingManager.newDataSource()
         val observeCodes = ArrayList<String>()
 
-        _pagingManager.stateSubject.subscribe{ observeCodes += it.state }
+        pagingManager.stateSubject.subscribe{ observeCodes += it.state }
 
-        dataSource.loadInitial(_initParam, _initCallback)
-        dataSource.loadRange(_rangeParam, _rangeCallback)
+        dataSource.loadInitial(initParam, initCallback)
+        dataSource.loadRange(rangeParam, rangeCallback)
 
         Assert.assertEquals(listOf(
                 PositionalDataLoadState.INIT_LOAD_START,
@@ -107,16 +107,16 @@ class CountablePositionalPagingTest {
 
     @Test
     fun testLoadRangeCallbackDataSizeChanged() {
-        val dataSource = _pagingManager.newDataSource()
+        val dataSource = pagingManager.newDataSource()
         val observeCodes = ArrayList<String>()
 
-        _pagingManager.stateSubject
+        pagingManager.stateSubject
                 .doOnNext { observeCodes += it.state }
                 .subscribe()
 
-        dataSource.loadInitial(_initParam, _initCallback)
+        dataSource.loadInitial(initParam, initCallback)
 
-        Completable.fromAction { dataSource.loadRange(_rangeParam, _rangeCallback) }
+        Completable.fromAction { dataSource.loadRange(rangeParam, rangeCallback) }
                 .subscribeOn(Schedulers.io())
                 .subscribe()
 

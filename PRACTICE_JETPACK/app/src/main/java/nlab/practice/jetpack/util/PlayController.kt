@@ -7,19 +7,19 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlayController @Inject constructor(private val _toastHelper: ToastHelper) {
+class PlayController @Inject constructor(private val toastHelper: ToastHelper) {
 
     val trackChangeSubject: BehaviorSubject<Track> = BehaviorSubject.create()
 
     fun play() {
-        _toastHelper.showToast(R.string.slide_up_panel_play_message)
+        toastHelper.showToast(R.string.slide_up_panel_play_message)
     }
 
     fun prev() {
-        _toastHelper.showToast(R.string.slide_up_panel_prev_message)
+        toastHelper.showToast(R.string.slide_up_panel_prev_message)
     }
 
     fun next() {
-        _toastHelper.showToast(R.string.slide_up_panel_next_message)
+        toastHelper.showToast(R.string.slide_up_panel_next_message)
     }
 }

@@ -10,13 +10,13 @@ import nlab.practice.jetpack.util.lazyPublic
  */
 open class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
 
-    private val _recyclerView: RecyclerView by lazyPublic(viewSupplier)
+    private val recyclerView: RecyclerView by lazyPublic(viewSupplier)
 
     fun scrollToPositionWithOffset(position: Int, offset: Int) {
-        _recyclerView.layoutManager?.let { it as? LinearLayoutManager }?.scrollToPositionWithOffset(position, offset)
+        recyclerView.layoutManager?.let { it as? LinearLayoutManager }?.scrollToPositionWithOffset(position, offset)
     }
 
     fun smoothScrollToPosition(position: Int) {
-        _recyclerView.smoothScrollToPosition(position)
+        recyclerView.smoothScrollToPosition(position)
     }
 }

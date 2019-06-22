@@ -12,10 +12,10 @@ private typealias PCallback<T, OBS> = PropertyBinder.DefaultActionOnPropertyChan
  *
  * @author Doohyun
  */
-class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS> {
+class PropertyBinder<T, OBS>(private val target: T) : Binder<OBS> {
 
-    private var _observable: OBS? = null
-    private val _onPropertyChangedCallbacks = ArrayList<PCallback<T, OBS>>()
+    private var observable: OBS? = null
+    private val onPropertyChangedCallbacks = ArrayList<PCallback<T, OBS>>()
 
     /**
      * [any] 에 내부 생성된 Callback 을 추가한다.
@@ -24,27 +24,27 @@ class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS> {
      * @param any 리스너를 추가할 대상
      */
     override fun addCallback(any: OBS) {
-        _observable = any
-        _onPropertyChangedCallbacks.forEach { addCallback(any, it) }
+        observable = any
+        onPropertyChangedCallbacks.forEach { addCallback(any, it) }
     }
 
     private fun addCallback(observable: OBS, callback: PCallback<T, OBS>) {
-        callback.changeCallback(_target, observable)
+        callback.changeCallback(target, observable)
         observable.toObservable()?.run { addOnPropertyChangedCallback(callback) }
     }
 
     /**
-     * [_observable] 에 추가된 모든 Callback 을 삭제한다.
+     * [observable] 에 추가된 모든 Callback 을 삭제한다.
      */
     override fun removeCallback() {
-        _onPropertyChangedCallbacks.forEach { _observable?.toObservable()?.removeOnPropertyChangedCallback(it) }
+        onPropertyChangedCallbacks.forEach { observable?.toObservable()?.removeOnPropertyChangedCallback(it) }
     }
 
     /**
-     * [_observable] 알림 처리
+     * [observable] 알림 처리
      */
     override fun notifyChanged() {
-        _observable?.toObservable()?.notifyChange()
+        observable?.toObservable()?.notifyChange()
     }
 
     /**
@@ -72,12 +72,12 @@ class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS> {
      * 상세 조건은 PropertyBinder::isValidPropertyId 에 따른다.
      */
     fun drive(vararg propertyIds: Int, changeCallback: T.(OBS) -> Unit): T {
-        val weakRef  = WeakReference(_target)
+        val weakRef  = WeakReference(target)
 
         object: PCallback<T, OBS>(changeCallback) {
 
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                _observable?.let {
+                observable?.let {
                     if (isValidPropertyId(propertyIds, propertyId)) {
                         weakRef.get()?.let { target -> changeCallback(target, it)}
                     }
@@ -87,11 +87,11 @@ class PropertyBinder<T, OBS>(private val _target: T) : Binder<OBS> {
         }.let {
             callback
             ->
-            _onPropertyChangedCallbacks.add(callback)
-            _observable?.run { addCallback(this, callback) }
+            onPropertyChangedCallbacks.add(callback)
+            observable?.run { addCallback(this, callback) }
         }
 
-        return _target
+        return target
     }
 
     abstract class DefaultActionOnPropertyChangedCallback<T, OBS>(val changeCallback: T.(OBS) -> Unit):

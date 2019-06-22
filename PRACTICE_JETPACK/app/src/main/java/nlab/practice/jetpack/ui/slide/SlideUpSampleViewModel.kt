@@ -31,13 +31,13 @@ import javax.inject.Inject
  * @since 2019. 04. 18
  */
 class SlideUpSampleViewModel @Inject constructor(
-        private val _disposable: CompositeDisposable,
-        private val _listAdapterExampleFactory: ListAdapterExampleItemViewModelFactory,
-        private val _pagingRepository: PagingItemRepository,
-        private val _schedulerFactory: SchedulerFactory,
-        private val _playerRepository: PlayerRepository,
-        private val _playerController: PlayController,
-        private val _slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
+        private val disposable: CompositeDisposable,
+        private val listAdapterExampleFactory: ListAdapterExampleItemViewModelFactory,
+        private val pagingRepository: PagingItemRepository,
+        private val schedulerFactory: SchedulerFactory,
+        private val playerRepository: PlayerRepository,
+        private val playerController: PlayController,
+        private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
         lifeCycleBinder: ActivityLifeCycleBinder,
@@ -55,9 +55,9 @@ class SlideUpSampleViewModel @Inject constructor(
         itemDecorations.add(itemDecoration)
     }
 
-    private val _isShowErrorView = ObservableBoolean(false)
+    private val isShowErrorView = ObservableBoolean(false)
 
-    private val _listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> = BehaviorSubject.createDefault(ArrayList())
+    private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> = BehaviorSubject.createDefault(ArrayList())
 
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
@@ -72,8 +72,8 @@ class SlideUpSampleViewModel @Inject constructor(
         }
 
         activityCallback.onBackPressed { when {
-            _slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
-                _slidingUpPanelLayoutUsecase.collapse()
+            slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
+                slidingUpPanelLayoutUsecase.collapse()
                 true
             }
 
@@ -84,44 +84,44 @@ class SlideUpSampleViewModel @Inject constructor(
     }
 
     private fun initializePanel() {
-        _slidingUpPanelLayoutUsecase.initialize()
+        slidingUpPanelLayoutUsecase.initialize()
 
-        Single.fromCallable { _playerRepository.getRandomTrack() }
-                .subscribeOn(_schedulerFactory.io())
-                .observeOn(_schedulerFactory.ui())
+        Single.fromCallable { playerRepository.getRandomTrack() }
+                .subscribeOn(schedulerFactory.io())
+                .observeOn(schedulerFactory.ui())
                 .doOnSuccess {
-                    _playerController.trackChangeSubject.onNext(it)
+                    playerController.trackChangeSubject.onNext(it)
 
-                    if (_slidingUpPanelLayoutUsecase.currentPanelState.isHidden()) {
-                        _slidingUpPanelLayoutUsecase.collapse()
+                    if (slidingUpPanelLayoutUsecase.currentPanelState.isHidden()) {
+                        slidingUpPanelLayoutUsecase.collapse()
                     }
                 }
                 .subscribe()
-                .addTo(_disposable)
+                .addTo(disposable)
     }
 
     private fun subscribeItemChanged() {
-        _listUpdateSubject
+        listUpdateSubject
                 .doOnNext { listAdapter.submitList(it) }
                 .subscribe()
-                .addTo(_disposable)
+                .addTo(disposable)
     }
 
-    override fun isShowErrorView(): ObservableBoolean = _isShowErrorView
+    override fun isShowErrorView(): ObservableBoolean = isShowErrorView
 
     override fun refresh() {
-        _pagingRepository.getItems(0, 100)
-                .subscribeOn(_schedulerFactory.io())
-                .observeOn(_schedulerFactory.ui())
+        pagingRepository.getItems(0, 100)
+                .subscribeOn(schedulerFactory.io())
+                .observeOn(schedulerFactory.ui())
                 .doOnSuccess {
-                    _isShowErrorView.set(false)
+                    isShowErrorView.set(false)
 
-                    it.map(_listAdapterExampleFactory::create).run { _listUpdateSubject.onNext(this) }
+                    it.map(listAdapterExampleFactory::create).run { listUpdateSubject.onNext(this) }
                 }
                 .doOnError {
-                    _isShowErrorView.set(true)
+                    isShowErrorView.set(true)
                 }
                 .subscribe()
-                .addTo(_disposable)
+                .addTo(disposable)
     }
 }

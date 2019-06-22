@@ -10,15 +10,15 @@ import nlab.practice.jetpack.R
 /**
  * @author Doohyun
  */
-class SnackBarHelper(private val _resourceProvider: ResourceProvider, viewSupplier: ()-> View?) {
+class SnackBarHelper(private val resourceProvider: ResourceProvider, viewSupplier: ()-> View?) {
 
-    private val _targetView: View? by lazyPublic(viewSupplier)
+    private val targetView: View? by lazyPublic(viewSupplier)
 
     fun showSnackBar(
             @StringRes message: Int,
             duration: Int = Snackbar.LENGTH_SHORT,
             @StringRes actionMessage: Int? = null,
-            actionBehavior: (() -> Unit)? = null) = _targetView?.run {
+            actionBehavior: (() -> Unit)? = null) = targetView?.run {
         Snackbar.make(this, message, duration)
                 .decorate()
                 .setActionInternal(actionMessage, actionBehavior)
@@ -40,7 +40,7 @@ class SnackBarHelper(private val _resourceProvider: ResourceProvider, viewSuppli
     }
 
     private fun decorateTextView(view: TextView?) = view?.run {
-        minHeight = _resourceProvider.getDimensionPixelSize(R.dimen.main_bottom_navigation_height)
+        minHeight = resourceProvider.getDimensionPixelSize(R.dimen.main_bottom_navigation_height)
         gravity = Gravity.CENTER_VERTICAL
         setPadding(0, 0, 0, 0)
     }

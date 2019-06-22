@@ -39,7 +39,7 @@ class SlidingHolderFragment : InjectableFragment() {
         @Provides
         fun provideSlideHolderViewUsecase(fragment: Fragment): SlidingHolderViewUsecase {
             return SlidingHolderViewUsecase(containerViewSupplier = {fragment.fragmentContainer},
-                    _miniPlayerViewSupplier = { fragment.view?.findViewById(R.id.fragmentSlideControl) })
+                    miniPlayerViewSupplier = { fragment.view?.findViewById(R.id.fragmentSlideControl) })
         }
 
         @FragmentScope

@@ -7,13 +7,13 @@ import android.app.Activity
  *
  * @author Doohyun
  */
-class ActivityCommonUsecase(private val _activity: Activity) {
+class ActivityCommonUsecase(private val activity: Activity) {
 
     fun onBackPressed() {
-        _activity.onBackPressed()
+        activity.onBackPressed()
     }
 
     fun overridePendingTransition(enterAnim: Int, exitAnim: Int) {
-        _activity.overridePendingTransition(enterAnim, exitAnim)
+        activity.overridePendingTransition(enterAnim, exitAnim)
     }
 }

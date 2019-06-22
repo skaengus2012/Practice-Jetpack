@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
  * @author Doohyun
  * @since 2019. 02. 07
  */
-class LayoutManagerFactory(private val _context: Context) {
-
-    fun createGridLayoutManager(spanCount: Int) = GridLayoutManager(_context, spanCount)
+class LayoutManagerFactory(private val context: Context) {
 
     fun createLinearLayoutManager(
-            @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL
-            , reverseLayout: Boolean = false) = LinearLayoutManager(_context, orientation, reverseLayout)
+            @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
+            reverseLayout: Boolean = false) = LinearLayoutManager(context, orientation, reverseLayout)
 }

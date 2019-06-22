@@ -16,9 +16,9 @@ import nlab.practice.jetpack.util.recyclerview.selection.Selectable
  */
 @AutoFactory
 class ListAdapterExampleItemViewModel(
-        private val _pagingItem: PagingItem) :
+        private val pagingItem: PagingItem) :
         BindingItemViewModel(),
-        Different<ListAdapterExampleItemViewModel> by DifferentDelegate({ _pagingItem }, { viewModel -> viewModel._pagingItem }),
+        Different<ListAdapterExampleItemViewModel> by DifferentDelegate({ pagingItem }, { viewModel -> viewModel.pagingItem }),
         Selectable<Long> {
 
     @Bindable
@@ -30,11 +30,11 @@ class ListAdapterExampleItemViewModel(
 
     override fun getLayoutRes(): Int = R.layout.view_list_adapter_grid_item
 
-    override fun getSelectionKey(): Long = _pagingItem.itemId.toLong()
+    override fun getSelectionKey(): Long = pagingItem.itemId.toLong()
 
     @Bindable
-    fun getImageUrl(): String? = _pagingItem.imageUrl
+    fun getImageUrl(): String? = pagingItem.imageUrl
 
     @Bindable
-    fun getTitle(): String? = _pagingItem.title
+    fun getTitle(): String? = pagingItem.title
 }

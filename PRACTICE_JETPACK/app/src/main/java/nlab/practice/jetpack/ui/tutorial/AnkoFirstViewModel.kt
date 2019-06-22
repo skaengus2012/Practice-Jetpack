@@ -18,8 +18,8 @@ import javax.inject.Inject
  * @since 2018. 11. 23
  */
 class AnkoFirstViewModel @Inject constructor(
-        private val _disposable: CompositeDisposable,
-        private val _schedulerFactory: SchedulerFactory,
+        private val disposable: CompositeDisposable,
+        private val schedulerFactory: SchedulerFactory,
         ankoFirstDataBundle: AnkoFirstDataBundle,
         lifeCycleBinder: ActivityLifeCycleBinder,
         resourceProvider: ResourceProvider) {
@@ -43,9 +43,9 @@ class AnkoFirstViewModel @Inject constructor(
 
     fun changeTextDelayTime(message: String, second: Long = 0L) {
         Observable.timer(second, TimeUnit.SECONDS)
-                .observeOn(_schedulerFactory.ui())
+                .observeOn(schedulerFactory.ui())
                 .doOnNext { this.message.set(message) }
                 .subscribe()
-                .addTo(_disposable)
+                .addTo(disposable)
     }
 }

@@ -8,7 +8,7 @@ import io.reactivex.subjects.PublishSubject
  * @author Doohyun
  * @since 2019. 02. 25
  */
-class VerticalDragItemTouchHelperCallback(private val _isLongPressDragEnabled: Boolean = true) : ItemTouchHelper.Callback() {
+class VerticalDragItemTouchHelperCallback(private val isLongPressDragEnabled: Boolean = true) : ItemTouchHelper.Callback() {
     val eventSubject: PublishSubject<DragEvent> = PublishSubject.create()
 
     override fun onMove(
@@ -28,5 +28,5 @@ class VerticalDragItemTouchHelperCallback(private val _isLongPressDragEnabled: B
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
-    override fun isLongPressDragEnabled(): Boolean = _isLongPressDragEnabled
+    override fun isLongPressDragEnabled(): Boolean = isLongPressDragEnabled
 }

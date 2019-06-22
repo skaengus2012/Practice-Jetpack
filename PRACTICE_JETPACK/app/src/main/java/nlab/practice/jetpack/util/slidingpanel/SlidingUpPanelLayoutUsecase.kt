@@ -14,17 +14,17 @@ import kotlin.math.min
  */
 class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
 
-    private val _slidingUpPanelLayout: SlidingUpPanelLayout by lazyPublic(viewSupplier)
+    private val slidingUpPanelLayout: SlidingUpPanelLayout by lazyPublic(viewSupplier)
 
     val slideOffsetSubject: Subject<Float> = PublishSubject.create()
 
     val slidePanelStateSubject: Subject<SlidingUpPanelLayout.PanelState> = PublishSubject.create()
 
     val currentPanelState: SlidingUpPanelLayout.PanelState
-        get() = _slidingUpPanelLayout.panelState
+        get() = slidingUpPanelLayout.panelState
 
     fun initialize() {
-        _slidingUpPanelLayout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
+        slidingUpPanelLayout.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
                 val offset = min(max(0.0f, slideOffset), 1.0f)
 
@@ -43,14 +43,14 @@ class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
     }
 
     fun expand() {
-        _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+        slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
     }
 
     fun collapse() {
-        _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
 
     fun hidden() {
-        _slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+        slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

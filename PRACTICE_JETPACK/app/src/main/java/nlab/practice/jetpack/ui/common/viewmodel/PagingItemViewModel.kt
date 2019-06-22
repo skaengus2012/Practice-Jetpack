@@ -27,19 +27,19 @@ annotation class PagingTheme {
 }
 
 class PagingItemViewModelImpl(
-        @PagingTheme private val _pagingTheme: Int,
-        private val _pagingItem: PagingItem,
-        private val _onClickAction: () -> Unit) : PagingItemViewModel {
+        @PagingTheme private val pagingTheme: Int,
+        private val pagingItem: PagingItem,
+        private val onClickAction: () -> Unit) : PagingItemViewModel {
 
-    override fun getTitle(): String = _pagingItem.title
+    override fun getTitle(): String = pagingItem.title
 
-    override fun getImageUrl(): String? = _pagingItem.imageUrl
+    override fun getImageUrl(): String? = pagingItem.imageUrl
 
     override fun onClick() {
-        _onClickAction()
+        onClickAction()
     }
 
-    @PagingTheme override fun getPagingTheme(): Int = _pagingTheme
+    @PagingTheme override fun getPagingTheme(): Int = pagingTheme
 
     @LayoutRes override fun getLayoutRes(): Int = R.layout.view_paging_item
 }

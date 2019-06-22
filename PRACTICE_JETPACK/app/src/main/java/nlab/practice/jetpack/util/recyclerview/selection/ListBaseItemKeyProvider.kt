@@ -9,25 +9,25 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @author Doohyun
  */
-class ListBaseItemKeyProvider<T>: ItemKeyProvider<T>(ItemKeyProvider.SCOPE_CACHED) {
+class ListBaseItemKeyProvider<T>: ItemKeyProvider<T>(SCOPE_CACHED) {
 
-    private val _positionToKeys = SparseArray<T>()
+    private val positionToKeys = SparseArray<T>()
 
-    private val _keyToPositionGroup = HashMap<T, Int>()
+    private val keyToPositionGroup = HashMap<T, Int>()
 
-    override fun getPosition(key: T): Int = _keyToPositionGroup[key]?: RecyclerView.NO_POSITION
+    override fun getPosition(key: T): Int = keyToPositionGroup[key]?: RecyclerView.NO_POSITION
 
-    override fun getKey(position: Int): T? = _positionToKeys[position]
+    override fun getKey(position: Int): T? = positionToKeys[position]
 
     fun replaceList(newItems: List<Selectable<T>>) {
-        _positionToKeys.clear()
-        _keyToPositionGroup.clear()
+        positionToKeys.clear()
+        keyToPositionGroup.clear()
 
         (0 until newItems.size).forEach {
             val key = newItems[it].getSelectionKey()
 
-            _positionToKeys.append(it, key)
-            _keyToPositionGroup[key] = it
+            positionToKeys.append(it, key)
+            keyToPositionGroup[key] = it
         }
     }
 }

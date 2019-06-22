@@ -7,12 +7,12 @@ import kotlin.random.Random
 /**
  * @author Doohyun
  */
-class PlayerRepository(private val _imageRepository: ImagePoolRepository) {
+class PlayerRepository(private val imageRepository: ImagePoolRepository) {
 
-    private val _randomIndex = Random.nextInt(_imageRepository.getSize())
+    private val randomIndex = Random.nextInt(imageRepository.getSize())
 
     fun getRandomTrack(): Track {
         RandomTestExecutor.delay(maxTime = 1500)
-        return Track(image = _imageRepository.get(_randomIndex), title = "The $_randomIndex`s Track Playing...")
+        return Track(image = imageRepository.get(randomIndex), title = "The $randomIndex`s Track Playing...")
     }
 }

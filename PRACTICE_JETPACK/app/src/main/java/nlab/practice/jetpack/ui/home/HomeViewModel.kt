@@ -24,13 +24,13 @@ class HomeViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         containerFragmentCallback: ContainerFragmentCallback,
         homeItemDecoration: HomeItemDecoration,
-        @Named(ContextInjectionType.ACTIVITY) private val _activityNavUsecase: ActivityNavUsecase,
-        @Named(ContextInjectionType.ACTIVITY) private val _intentProvider: IntentProvider,
-        private val _fragmentNavUsecase: FragmentNavUsecase,
-        private val _homeHeaderViewModel: HomeHeaderViewModel,
-        private val _homeItemViewModelFactory: HomeItemViewModelFactory,
-        private val _testMenuRepository: TestMenuRepository,
-        private val _recyclerViewUsecase: RecyclerViewUsecase) {
+        @Named(ContextInjectionType.ACTIVITY) private val activityNavUsecase: ActivityNavUsecase,
+        @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
+        private val fragmentNavUsecase: FragmentNavUsecase,
+        private val homeHeaderViewModel: HomeHeaderViewModel,
+        private val homeItemViewModelFactory: HomeItemViewModelFactory,
+        private val testMenuRepository: TestMenuRepository,
+        private val recyclerViewUsecase: RecyclerViewUsecase) {
 
     val headers = ObservableArrayList<HomeHeaderViewModel>()
 
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        headers.add(_homeHeaderViewModel)
+        headers.add(homeHeaderViewModel)
         initializeTimer(fragmentLifeCycleBinder)
         refreshItems()
 
@@ -49,17 +49,17 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun initializeTimer(fragmentLifeCycleBinder: FragmentLifeCycleBinder) {
-        _homeHeaderViewModel.startTimer()
+        homeHeaderViewModel.startTimer()
 
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
-            _homeHeaderViewModel.stopTimer()
+            homeHeaderViewModel.stopTimer()
         }
     }
 
     private fun scrollToZeroIfEmptyChild(): Boolean {
-        val isNeedScrollToZero = !_fragmentNavUsecase.hasChild()
+        val isNeedScrollToZero = !fragmentNavUsecase.hasChild()
         if (isNeedScrollToZero) {
-            _recyclerViewUsecase.smoothScrollToPosition(0)
+            recyclerViewUsecase.smoothScrollToPosition(0)
         }
 
         return isNeedScrollToZero
@@ -76,31 +76,31 @@ class HomeViewModel @Inject constructor(
     )
 
     private fun createViewModel(testMenu: TestMenu, onClickAction: () -> Unit): HomeItemViewModel {
-        return _homeItemViewModelFactory.create(testMenu, onClickAction)
+        return homeItemViewModelFactory.create(testMenu, onClickAction)
     }
 
-    private fun createAnkoFirstViewMenu() = createViewModel(_testMenuRepository.getAnkoFirstViewMenu()) {
-        _activityNavUsecase.startActivity<AnkoFirstActivity>(_intentProvider)
+    private fun createAnkoFirstViewMenu() = createViewModel(testMenuRepository.getAnkoFirstViewMenu()) {
+        activityNavUsecase.startActivity<AnkoFirstActivity>(intentProvider)
     }
 
-    private fun createPagingTestMenu() = createViewModel(_testMenuRepository.getPagingTestMenu()) {
-        _fragmentNavUsecase.navCountablePaging()
+    private fun createPagingTestMenu() = createViewModel(testMenuRepository.getPagingTestMenu()) {
+        fragmentNavUsecase.navCountablePaging()
     }
 
-    private fun createListAdapterMenu() = createViewModel(_testMenuRepository.getListAdapterMenu()) {
-        _fragmentNavUsecase.navListAdapterExample()
+    private fun createListAdapterMenu() = createViewModel(testMenuRepository.getListAdapterMenu()) {
+        fragmentNavUsecase.navListAdapterExample()
     }
 
-    private fun createDragDropMenu() = createViewModel(_testMenuRepository.getDragDropMenu()) {
-        _fragmentNavUsecase.navDragDrop()
+    private fun createDragDropMenu() = createViewModel(testMenuRepository.getDragDropMenu()) {
+        fragmentNavUsecase.navDragDrop()
     }
 
-    private fun createCollapsingToolbarExMenu() = createViewModel(_testMenuRepository.getCollapsingToolbarExMenu()) {
-        _activityNavUsecase.startActivity<CollapsingToolbarActivity>(_intentProvider)
+    private fun createCollapsingToolbarExMenu() = createViewModel(testMenuRepository.getCollapsingToolbarExMenu()) {
+        activityNavUsecase.startActivity<CollapsingToolbarActivity>(intentProvider)
     }
 
-    private fun createSlideUpPanelExMenu() = createViewModel(_testMenuRepository.getSlideUpPanelExMenus()) {
-        _activityNavUsecase.startActivity<SlideUpSampleActivity>(_intentProvider)
+    private fun createSlideUpPanelExMenu() = createViewModel(testMenuRepository.getSlideUpPanelExMenus()) {
+        activityNavUsecase.startActivity<SlideUpSampleActivity>(intentProvider)
     }
 
     private fun createCenterScrollExMenu() = createViewModel(_testMenuRepository.getCenterScrollRecyclerView()) {

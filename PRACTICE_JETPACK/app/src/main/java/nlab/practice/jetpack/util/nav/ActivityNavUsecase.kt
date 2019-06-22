@@ -12,12 +12,12 @@ interface ActivityNavUsecase {
     fun startActivity(intent: Intent)
 }
 
-class DefaultActivityNavUsecase(private val _context: Context) : ActivityNavUsecase {
-    override fun startActivity(intent: Intent) = _context.startActivity(intent)
+class DefaultActivityNavUsecase(private val context: Context) : ActivityNavUsecase {
+    override fun startActivity(intent: Intent) = context.startActivity(intent)
 }
 
-class FragmentOwnerActivityNavUsecase(private val _fragment: Fragment): ActivityNavUsecase {
-    override fun startActivity(intent: Intent) = _fragment.startActivity(intent)
+class FragmentOwnerActivityNavUsecase(private val fragment: Fragment): ActivityNavUsecase {
+    override fun startActivity(intent: Intent) = fragment.startActivity(intent)
 }
 
 inline fun <reified T: Activity> ActivityNavUsecase.startActivity(intentProvider: IntentProvider) {
