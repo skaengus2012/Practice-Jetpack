@@ -16,20 +16,11 @@
 
 package nlab.practice.jetpack.util.recyclerview.scroller
 
-import android.content.Context
-import android.util.DisplayMetrics
-import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * @author Doohyun
  */
-class CenterLinearSmoothScroller(context: Context, private val scrollSpeed: Float = 75f) : LinearSmoothScroller(context) {
-
-    override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics?): Float = displayMetrics
-            ?.run { scrollSpeed / displayMetrics.densityDpi }
-            ?: super.calculateSpeedPerPixel(displayMetrics)
-
-    override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int {
-        return super.calculateDtToFit(viewStart, viewEnd, boxStart, boxEnd, snapPreference)
-    }
+interface SmoothScrollerFactory {
+    fun create(): RecyclerView.SmoothScroller
 }

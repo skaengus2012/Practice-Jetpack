@@ -18,13 +18,15 @@ package nlab.practice.jetpack.util.recyclerview
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
+import io.reactivex.Observable
 import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * @author Doohyun
  * @since 2019. 01. 24
  */
-open class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
+class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
 
     private val recyclerView: RecyclerView by lazyPublic(viewSupplier)
 
@@ -35,4 +37,6 @@ open class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
     fun smoothScrollToPosition(position: Int) {
         recyclerView.smoothScrollToPosition(position)
     }
+
+    fun scrollStateChanges(): Observable<Int> = RxRecyclerView.scrollStateChanges(recyclerView)
 }

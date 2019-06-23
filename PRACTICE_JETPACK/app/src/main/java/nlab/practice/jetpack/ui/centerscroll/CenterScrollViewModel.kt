@@ -19,9 +19,9 @@ package nlab.practice.jetpack.ui.centerscroll
 import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.repository.LyricsRepository
 import nlab.practice.jetpack.ui.common.viewmodel.SimpleTextItemViewModel
-import nlab.practice.jetpack.util.recyclerview.CenteringRecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -32,14 +32,14 @@ import kotlin.math.min
 class CenterScrollViewModel @Inject constructor(
         lyricsRepository: LyricsRepository,
         layoutManagerFactory: LayoutManagerFactory,
-        private val recyclerViewUsecase: CenteringRecyclerViewUsecase) {
+        private val recyclerViewUsecase: RecyclerViewUsecase) {
 
     private var currentScrollIndex = 0
 
     val items = ObservableArrayList<SimpleTextItemViewModel>()
 
     val recyclerViewConfig = RecyclerViewConfig().apply {
-        layoutManager = layoutManagerFactory.createLinearLayoutManager()
+        layoutManager = layoutManagerFactory.createCenterScrollerLayoutManager(750f)
     }
 
     init {
@@ -48,25 +48,28 @@ class CenterScrollViewModel @Inject constructor(
                 .map { SimpleTextItemViewModel(it) }
                 .run { items.addAll(this) }
 
+        if (items.isNotEmpty()) {
+            items[0].selected = true
+        }
     }
 
     fun scrollToPrevIndex() {
         currentScrollIndex = max(0, currentScrollIndex - 1)
 
-        scrollToIndexInternal(currentScrollIndex)
+        scrollToIndexInternal()
     }
 
     fun scrollToNextIndex() {
         currentScrollIndex = min(items.size - 1, currentScrollIndex + 1)
 
-        scrollToIndexInternal(currentScrollIndex)
+        scrollToIndexInternal()
     }
 
-    private fun scrollToIndexInternal(currentIndex: Int) {
+    private fun scrollToIndexInternal() {
         for ((index, value) in items.withIndex()) {
-            value.selected = (index == currentIndex)
+            value.selected = (index == currentScrollIndex)
         }
 
-        recyclerViewUsecase.center(currentIndex)
+        recyclerViewUsecase.smoothScrollToPosition(currentScrollIndex)
     }
 }

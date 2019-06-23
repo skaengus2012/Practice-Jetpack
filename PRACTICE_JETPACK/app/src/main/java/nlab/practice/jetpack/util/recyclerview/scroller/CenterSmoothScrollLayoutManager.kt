@@ -25,19 +25,22 @@ import nlab.practice.jetpack.util.recyclerview.isVisiblePosition
  * @author Doohyun
  */
 class CenterSmoothScrollLayoutManager (
-        private val context: Context,
-        private val scrollerSpeed : Float,
+        context: Context,
+        scrollerSpeed : Float,
         @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
         reverseLayout: Boolean = false) : LinearLayoutManager(context, orientation, reverseLayout) {
+
+    private val visibleScrollerFactory = CenterLinearSmoothScrollerFactory(context, scrollerSpeed)
+    private val inVisibleScrollerFactory = CenterLinearSmoothScrollerFactory(context)
 
     override fun smoothScrollToPosition(recyclerView: RecyclerView?, state: RecyclerView.State?, position: Int) {
         recyclerView?.let {
             val isVisibleItem = it.isVisiblePosition(position)
 
             if (isVisibleItem) {
-                CenterLinearSmoothScroller(context, scrollerSpeed)
+                visibleScrollerFactory.create()
             } else {
-                CenterLinearSmoothScroller(context)
+                inVisibleScrollerFactory.create()
             }.run {
                 targetPosition = position
                 startSmoothScroll(this)

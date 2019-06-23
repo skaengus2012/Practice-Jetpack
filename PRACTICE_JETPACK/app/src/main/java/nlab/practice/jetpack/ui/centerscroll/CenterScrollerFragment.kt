@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_center_scroll.*
 import nlab.practice.jetpack.databinding.FragmentCenterScrollBinding
 import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
-import nlab.practice.jetpack.util.recyclerview.CenteringRecyclerViewUsecase
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import javax.inject.Inject
 
 /**
@@ -57,6 +57,6 @@ class CenterScrollerFragment : InjectableFragment() {
 
         @FragmentScope
         @Provides
-        fun provideRecyclerViewUsecase(fragment: Fragment) = CenteringRecyclerViewUsecase { fragment.lvContents }
+        fun provideRecyclerViewUsecase(fragment: Fragment) = RecyclerViewUsecase { fragment.lvContents }
     }
 }
