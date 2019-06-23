@@ -103,8 +103,8 @@ class HomeViewModel @Inject constructor(
         activityNavUsecase.startActivity<SlideUpSampleActivity>(intentProvider)
     }
 
-    private fun createCenterScrollExMenu() = createViewModel(_testMenuRepository.getCenterScrollRecyclerView()) {
-        _fragmentNavUsecase.navCenterScrolling()
+    private fun createCenterScrollExMenu() = createViewModel(testMenuRepository.getCenterScrollRecyclerView()) {
+        fragmentNavUsecase.navCenterScrolling()
     }
 
     private fun refreshItems() {

@@ -16,9 +16,9 @@ import kotlin.math.min
 class CenterScrollViewModel @Inject constructor(
         lyricsRepository: LyricsRepository,
         layoutManagerFactory: LayoutManagerFactory,
-        private val _recyclerViewUsecase: CenteringRecyclerViewUsecase) {
+        private val recyclerViewUsecase: CenteringRecyclerViewUsecase) {
 
-    private var _currentScrollIndex = 0
+    private var currentScrollIndex = 0
 
     val items = ObservableArrayList<SimpleTextItemViewModel>()
 
@@ -35,15 +35,15 @@ class CenterScrollViewModel @Inject constructor(
     }
 
     fun scrollToPrevIndex() {
-        _currentScrollIndex = max(0, _currentScrollIndex - 1)
+        currentScrollIndex = max(0, currentScrollIndex - 1)
 
-        scrollToIndexInternal(_currentScrollIndex)
+        scrollToIndexInternal(currentScrollIndex)
     }
 
     fun scrollToNextIndex() {
-        _currentScrollIndex = min(items.size - 1, _currentScrollIndex + 1)
+        currentScrollIndex = min(items.size - 1, currentScrollIndex + 1)
 
-        scrollToIndexInternal(_currentScrollIndex)
+        scrollToIndexInternal(currentScrollIndex)
     }
 
     private fun scrollToIndexInternal(currentIndex: Int) {
@@ -51,6 +51,6 @@ class CenterScrollViewModel @Inject constructor(
             value.selected = (index == currentIndex)
         }
 
-        _recyclerViewUsecase.center(currentIndex)
+        recyclerViewUsecase.center(currentIndex)
     }
 }
