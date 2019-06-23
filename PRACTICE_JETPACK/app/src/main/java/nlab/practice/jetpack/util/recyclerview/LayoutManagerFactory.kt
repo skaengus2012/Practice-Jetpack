@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import nlab.practice.jetpack.util.recyclerview.scroller.CenterSmoothScrollLayoutManager
 
 /**
  * @author Doohyun
@@ -32,4 +33,11 @@ class LayoutManagerFactory(private val context: Context) {
     fun createLinearLayoutManager(
             @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
             reverseLayout: Boolean = false) = LinearLayoutManager(context, orientation, reverseLayout)
+
+    fun createCenterScrollerLayoutManager(
+            scrollerSpeed : Float,
+            @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
+            reverseLayout: Boolean = false) = CenterSmoothScrollLayoutManager(context, scrollerSpeed, orientation, reverseLayout)
+
+
 }

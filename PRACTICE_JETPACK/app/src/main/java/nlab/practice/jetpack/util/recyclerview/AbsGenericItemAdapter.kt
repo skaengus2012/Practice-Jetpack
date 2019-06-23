@@ -35,8 +35,8 @@ abstract class AbsGenericItemAdapter<T, VIEW_HOLDER: AbsGenericItemAdapter.Gener
         var itemSize = items?.size ?: 0
 
         // header & footer 의 사이즈를 고려해서 처리
-        headers?.run { itemSize += size }
-        footers?.run { itemSize += size }
+        itemSize += headers?.size ?: 0
+        itemSize += footers?.size ?: 0
 
         return itemSize
     }
