@@ -16,62 +16,62 @@
   -->
 
 <layout>
-	<data>
-		<variable
-			name="viewModel"
-			type="nlab.practice.jetpack.ui.centerscroll.CenterScrollViewModel"/>
-	</data>
+    <data>
+        <variable
+            name="viewModel"
+            type="nlab.practice.jetpack.ui.centerscroll.CenterScrollViewModel"/>
+    </data>
 
-	<androidx.constraintlayout.widget.ConstraintLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@color/colorPrimary"
-		android:clickable="true"
-		android:focusable="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true">
 
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/lvContents"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:clipToPadding="false"
-			android:paddingTop="@dimen/list_adapter_toolbar_height"
-			android:paddingBottom="45dp"
-			app:list_config="@{viewModel.recyclerViewConfig}"
-			app:list_items="@{viewModel.items}"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lvContents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/list_adapter_toolbar_height"
+            android:paddingBottom="45dp"
+            app:list_config="@{viewModel.recyclerViewConfig}"
+            app:list_items="@{viewModel.items}"/>
 
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="@dimen/list_adapter_toolbar_height"
-			android:background="@color/colorPrimary"
-			android:gravity="center"
-			android:text="@string/center_scroll_recycler_title"
-			android:textColor="@color/white"
-			android:textSize="16sp"
-			app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_adapter_toolbar_height"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/center_scroll_recycler_title"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-		<Button
-			android:id="@+id/btnPrev"
-			android:layout_width="0dp"
-			android:layout_height="45dp"
-			android:onClick="@{() -> viewModel.scrollToPrevIndex()}"
-			android:text="@string/center_scroll_to_prev"
-			android:textSize="16sp"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toStartOf="@id/btnNext"
-			app:layout_constraintStart_toStartOf="parent"/>
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:onClick="@{() -> viewModel.scrollToFirst()}"
+            android:text="@string/center_scroll_to_first"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-		<Button
-			android:id="@+id/btnNext"
-			android:layout_width="0dp"
-			android:layout_height="45dp"
-			android:onClick="@{() -> viewModel.scrollToNextIndex()}"
-			android:text="@string/center_scroll_to_next"
-			android:textSize="16sp"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@id/btnPrev"/>
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:onClick="@{() -> viewModel.scrollToLast()}"
+            android:text="@string/center_scroll_to_last"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnPrev"/>
 
-	</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

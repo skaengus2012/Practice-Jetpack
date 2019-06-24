@@ -38,5 +38,13 @@ class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
         recyclerView.smoothScrollToPosition(position)
     }
 
+    fun scrollToPosition(position: Int) {
+        recyclerView.scrollToPosition(position)
+    }
+
     fun scrollStateChanges(): Observable<Int> = RxRecyclerView.scrollStateChanges(recyclerView)
+
+    fun findFirstVisiblePosition() = recyclerView.findFirstVisiblePosition()
+
+    fun findLastVisiblePosition() = recyclerView.findLastVisiblePosition()
 }

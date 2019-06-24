@@ -17,59 +17,119 @@
 package nlab.practice.jetpack.ui.centerscroll
 
 import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.LyricsRepository
-import nlab.practice.jetpack.ui.common.viewmodel.SimpleTextItemViewModel
+import nlab.practice.jetpack.util.SchedulerFactory
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * @author Doohyun
  */
 class CenterScrollViewModel @Inject constructor(
-        lyricsRepository: LyricsRepository,
+        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         layoutManagerFactory: LayoutManagerFactory,
+        lyricsSmoothScrollHelperFactory: LyricsSmoothScrollerHelper.Factory,
+        private val schedulerFactory: SchedulerFactory,
+        private val disposables: CompositeDisposable,
+        private val lyricsRepository: LyricsRepository,
         private val recyclerViewUsecase: RecyclerViewUsecase) {
 
-    private var currentScrollIndex = 0
-
-    val items = ObservableArrayList<SimpleTextItemViewModel>()
+    val items = ObservableArrayList<LyricsItemViewModel>()
 
     val recyclerViewConfig = RecyclerViewConfig().apply {
-        layoutManager = layoutManagerFactory.createCenterScrollerLayoutManager(750f)
+        layoutManager = layoutManagerFactory.createCenterScrollerLayoutManager(500f)
     }
+
+    private var isScrolling = false
+
+    private var isSkip = false
+
+    private val lyricsSmoothScrollerHelper = lyricsSmoothScrollHelperFactory.create(this)
 
     init {
-        lyricsRepository.getLyrics()
-                .asSequence()
-                .map { SimpleTextItemViewModel(it) }
-                .run { items.addAll(this) }
+        initializeLyrics()
 
-        if (items.isNotEmpty()) {
-            items[0].selected = true
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+            subscribeScrollEvent()
+            subscribeLyricsIndexChanged()
         }
     }
 
-    fun scrollToPrevIndex() {
-        currentScrollIndex = max(0, currentScrollIndex - 1)
+    private fun initializeLyrics() {
+        with(lyricsRepository.getLyrics()) {
+            val result = mutableListOf<LyricsItemViewModel>()
 
-        scrollToIndexInternal()
+            for (index in 0 until size) {
+                result += LyricsItemViewModel(index, get(index)) { updateSelectedWithScroll(it) }
+            }
+
+            if (result.isNotEmpty()) {
+                result[0].selected = true
+            }
+
+            result
+        }.run { items.addAll(this) }
     }
 
-    fun scrollToNextIndex() {
-        currentScrollIndex = min(items.size - 1, currentScrollIndex + 1)
-
-        scrollToIndexInternal()
+    private fun subscribeScrollEvent() {
+        recyclerViewUsecase.scrollStateChanges()
+                .subscribe { isScrolling = (it != RecyclerView.SCROLL_STATE_IDLE) }
+                .addTo(disposables)
     }
 
-    private fun scrollToIndexInternal() {
-        for ((index, value) in items.withIndex()) {
-            value.selected = (index == currentScrollIndex)
+    private fun subscribeLyricsIndexChanged() {
+        Observable.interval(3, TimeUnit.SECONDS)
+                .observeOn(schedulerFactory.ui())
+                .subscribe {
+                    if (isSkip) {
+                        isSkip = false
+                    } else {
+                        updateProgress()
+                    }
+                }
+                .addTo(disposables)
+    }
+
+    private fun updateProgress() {
+        val updateIndex = getCurrentSelectedIndex()
+                ?.let { it + 1 }
+                ?.takeIf { it < items.size }
+                ?: 0
+
+        updateSelectedWithScroll(updateIndex)
+    }
+
+    private fun updateSelectedWithScroll(position: Int) {
+        val isValid = (position in 0 until items.size)
+        if (isValid) {
+            for (index in 0 until items.size) {
+                items[index].selected = (index == position)
+            }
+
+            if (!isScrolling) {
+                lyricsSmoothScrollerHelper.scrolling(position)
+            }
         }
+    }
 
-        recyclerViewUsecase.smoothScrollToPosition(currentScrollIndex)
+    fun getCurrentSelectedIndex(): Int? = items.find { it.selected }?.index
+
+    fun scrollToFirst() {
+        isSkip = true
+        updateSelectedWithScroll(0)
+    }
+
+    fun scrollToLast() {
+        isSkip = true
+        updateSelectedWithScroll(items.size - 1)
     }
 }
