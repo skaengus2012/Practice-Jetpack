@@ -46,7 +46,7 @@ class CenterScrollViewModel @Inject constructor(
     val items = ObservableArrayList<LyricsItemViewModel>()
 
     val recyclerViewConfig = RecyclerViewConfig().apply {
-        layoutManager = layoutManagerFactory.createCenterScrollerLayoutManager(500f)
+        layoutManager = layoutManagerFactory.createCenterScrollerLayoutManager(300f)
     }
 
     private var isScrolling = false

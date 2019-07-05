@@ -25,7 +25,10 @@ import androidx.recyclerview.widget.RecyclerView
  * @author Doohyun
  */
 class CenterLinearSmoothScrollerFactory(
-        private val context: Context, private val scrollSpeed: Float = 75f) : SmoothScrollerFactory {
+        private val context: Context,
+        private val scrollSpeed: Float = DEFAULT_SCROLL_SPEEND,
+        private val factor: Float = DEFAULT_FACTOR
+) : SmoothScrollerFactory {
 
     override fun create(): RecyclerView.SmoothScroller = SmoothScrollerEx()
 
@@ -36,8 +39,19 @@ class CenterLinearSmoothScrollerFactory(
                     ?: super.calculateSpeedPerPixel(displayMetrics)
         }
 
-        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int {
-            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+        override fun calculateDtToFit(
+                viewStart: Int,
+                viewEnd: Int,
+                boxStart: Int,
+                boxEnd: Int,
+                snapPreference: Int
+        ): Int {
+            return ((boxStart + (boxEnd - boxStart) / factor) - (viewStart + (viewEnd - viewStart) / factor)).toInt()
         }
+    }
+
+    companion object {
+        const val DEFAULT_SCROLL_SPEEND = 75f
+        const val DEFAULT_FACTOR = 2f
     }
 }
