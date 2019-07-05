@@ -31,25 +31,29 @@ class RepositoryModule {
 
     @Reusable
     @Provides
-    fun provideTestMenuRepository(resourceProvider: ResourceProvider): TestMenuRepository = TestMenuRepository(resourceProvider)
+    fun provideTestMenuRepository(resourceProvider: ResourceProvider) = TestMenuRepository(resourceProvider)
 
     @Reusable
     @Provides
-    fun provideImagePoolRepository(): ImagePoolRepository = ImagePoolRepository()
+    fun provideImagePoolRepository() = ImagePoolRepository()
 
     @Singleton
     @Provides
-    fun providePagingDataSourceRepository(imagePoolRepository: ImagePoolRepository) : PagingItemRepository = PagingItemRepository(imagePoolRepository)
+    fun providePagingDataSourceRepository(imagePoolRepository: ImagePoolRepository) = PagingItemRepository(imagePoolRepository)
 
     @Reusable
     @Provides
-    fun provideHistoryRepository(): HistoryRepository = HistoryRepository()
+    fun provideHistoryRepository() = HistoryRepository()
 
     @Reusable
     @Provides
-    fun provideCoverRepository(): CoverRepository = CoverRepository()
+    fun provideCoverRepository() = CoverRepository()
 
     @Singleton
     @Provides
-    fun providePlayerRepository(imagePoolRepository: ImagePoolRepository): PlayerRepository = PlayerRepository(imagePoolRepository)
+    fun providePlayerRepository(imagePoolRepository: ImagePoolRepository) = PlayerRepository(imagePoolRepository)
+
+    @Reusable
+    @Provides
+    fun provideLyricsRepository() = LyricsRepository()
 }

@@ -68,7 +68,7 @@ class SlideUpSampleViewModel @Inject constructor(
 
     val recyclerViewConfig = RecyclerViewConfig().apply {
         layoutManager = layoutManagerFactory.createGridLayoutManager(SPAN_COUNT)
-        itemDecorations.add(itemDecoration)
+        itemDecorations += itemDecoration
     }
 
     private val isShowErrorView = ObservableBoolean(false)

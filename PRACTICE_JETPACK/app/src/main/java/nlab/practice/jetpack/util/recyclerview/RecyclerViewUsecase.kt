@@ -18,6 +18,8 @@ package nlab.practice.jetpack.util.recyclerview
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
+import io.reactivex.Observable
 import nlab.practice.jetpack.util.lazyPublic
 
 /**
@@ -35,4 +37,14 @@ class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
     fun smoothScrollToPosition(position: Int) {
         recyclerView.smoothScrollToPosition(position)
     }
+
+    fun scrollToPosition(position: Int) {
+        recyclerView.scrollToPosition(position)
+    }
+
+    fun scrollStateChanges(): Observable<Int> = RxRecyclerView.scrollStateChanges(recyclerView)
+
+    fun findFirstVisiblePosition() = recyclerView.findFirstVisiblePosition()
+
+    fun findLastVisiblePosition() = recyclerView.findLastVisiblePosition()
 }

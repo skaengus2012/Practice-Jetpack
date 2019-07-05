@@ -87,7 +87,8 @@ class HomeViewModel @Inject constructor(
             createListAdapterMenu(),
             createDragDropMenu(),
             createCollapsingToolbarExMenu(),
-            createSlideUpPanelExMenu()
+            createSlideUpPanelExMenu(),
+            createCenterScrollExMenu()
     )
 
     private fun createViewModel(testMenu: TestMenu, onClickAction: () -> Unit): HomeItemViewModel {
@@ -116,6 +117,10 @@ class HomeViewModel @Inject constructor(
 
     private fun createSlideUpPanelExMenu() = createViewModel(testMenuRepository.getSlideUpPanelExMenus()) {
         activityNavUsecase.startActivity<SlideUpSampleActivity>(intentProvider)
+    }
+
+    private fun createCenterScrollExMenu() = createViewModel(testMenuRepository.getCenterScrollRecyclerView()) {
+        fragmentNavUsecase.navCenterScrolling()
     }
 
     private fun refreshItems() {

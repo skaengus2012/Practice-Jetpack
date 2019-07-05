@@ -18,6 +18,10 @@ package nlab.practice.jetpack.util.recyclerview
 
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import nlab.practice.jetpack.util.recyclerview.scroller.CenterLinearSmoothScrollerFactory
+import nlab.practice.jetpack.util.recyclerview.scroller.CenterSmoothScrollLayoutManager
 
 /**
  * @author Doohyun
@@ -26,4 +30,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 class LayoutManagerFactory(private val context: Context) {
 
     fun createGridLayoutManager(spanCount: Int) = GridLayoutManager(context, spanCount)
+
+    fun createLinearLayoutManager(
+            @RecyclerView.Orientation
+            orientation: Int = RecyclerView.VERTICAL,
+            reverseLayout: Boolean = false
+    ) : LinearLayoutManager {
+        return LinearLayoutManager(context, orientation, reverseLayout)
+    }
+
+    fun createCenterScrollerLayoutManager(
+            scrollerSpeed : Float = CenterLinearSmoothScrollerFactory.DEFAULT_SCROLL_SPEEND,
+            factor: Float = CenterLinearSmoothScrollerFactory.DEFAULT_FACTOR,
+            @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
+            reverseLayout: Boolean = false
+    ) : CenterSmoothScrollLayoutManager {
+        return CenterSmoothScrollLayoutManager(context, scrollerSpeed, factor, orientation, reverseLayout)
+    }
+
 }

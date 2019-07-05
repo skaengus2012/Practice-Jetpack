@@ -40,6 +40,8 @@
 	<string name="test_menu_collapsing_toolbar_description">기본 UI 연습 (1)</string>
 	<string name="test_slide_up_panel_ex_title">Google Music,Youtube Style\nSlide Up Player Controller UI 연습</string>
 	<string name="test_slide_up_panel_ex_description">SlideUpPanel 연습</string>
+	<string name="test_center_scroll_recycler_title">Recycler View 가 Center scroll 이 가능하도록하는 프토토타입</string>
+	<string name="test_center_scroll_recycler_description">Center Scroll 연습</string>
 
 	<!-- bottom menu -->
 	<string name="bottom_nav_home">Home</string>
@@ -93,4 +95,10 @@
 	<string name="slide_up_panel_title">N\'s lab Music</string>
 	<string name="slide_cover">앨범 커버</string>
 	<string name="slide_up_cover_collapsed">패널 닫기</string>
+
+	<!-- Center scroll 을 위한 RecyclerView -->
+	<string name="center_scroll_recycler_title">Center Scroll 연습</string>
+	<string name="center_scroll_to_first">FIRST</string>
+	<string name="center_scroll_to_last">LAST</string>
+
 </resources>
