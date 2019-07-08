@@ -20,15 +20,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import io.reactivex.Observable
-import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * @author Doohyun
  * @since 2019. 01. 24
  */
-class RecyclerViewUsecase(viewSupplier: () -> RecyclerView) {
+class RecyclerViewUsecase(private val viewSupplier: () -> RecyclerView) {
 
-    private val recyclerView: RecyclerView by lazyPublic(viewSupplier)
+    private val recyclerView: RecyclerView
+        get() = viewSupplier()
 
     fun scrollToPositionWithOffset(position: Int, offset: Int) {
         recyclerView.layoutManager?.let { it as? LinearLayoutManager }?.scrollToPositionWithOffset(position, offset)

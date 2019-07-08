@@ -54,9 +54,9 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     lateinit var activityCallbackBinder: ActivityCallback
 
     final override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+        // 권고사항 : Dagger Reference 에서는 onCreate 시점 전, DI 를 하기를 권장
         initializeDI()
+        super.onCreate(savedInstanceState)
 
         onCreateBinding(savedInstanceState)
 

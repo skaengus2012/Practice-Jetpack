@@ -21,7 +21,6 @@ import androidx.annotation.MainThread
 import androidx.recyclerview.selection.*
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.subjects.Subject
-import nlab.practice.jetpack.util.lazyPublic
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewHolder
 import nlab.practice.jetpack.util.recyclerview.selection.*
 
@@ -29,7 +28,7 @@ import nlab.practice.jetpack.util.recyclerview.selection.*
  * @author Doohyun
  * @since 2019. 02. 08
  */
-class SelectionTrackerUsecase(viewSupplier: () -> RecyclerView) {
+class SelectionTrackerUsecase(private val viewSupplier: () -> RecyclerView) {
 
     private val itemKeyProvider = ListBaseItemKeyProvider<Long>()
 
@@ -37,7 +36,8 @@ class SelectionTrackerUsecase(viewSupplier: () -> RecyclerView) {
 
     private var selectionTracker: SelectionTracker<Long>? = null
 
-    private val recyclerView: RecyclerView by lazyPublic(viewSupplier)
+    private val recyclerView: RecyclerView
+        get() = viewSupplier()
 
     private fun initializeTrackerIfNeeded() {
         if (selectionTracker == null) {

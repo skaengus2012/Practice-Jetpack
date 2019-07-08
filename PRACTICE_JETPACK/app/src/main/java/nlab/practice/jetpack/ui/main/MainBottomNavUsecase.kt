@@ -22,7 +22,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.ui.history.HistoryFragment
-import nlab.practice.jetpack.util.lazyPublic
 import nlab.practice.jetpack.util.nav.fragmentTag
 
 /**
@@ -30,11 +29,13 @@ import nlab.practice.jetpack.util.nav.fragmentTag
  *
  * @author Doohyun
  */
-class MainBottomNavUsecase(private val navController: MainNavController, viewSupplier: () -> BottomNavigationView) :
-        BottomNavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemReselectedListener {
+class MainBottomNavUsecase(
+        private val navController: MainNavController,
+        private val viewSupplier: () -> BottomNavigationView
+) : BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
 
-    private val bottomNavigationView: BottomNavigationView by lazyPublic(viewSupplier)
+    private val bottomNavigationView: BottomNavigationView
+        get() = viewSupplier()
 
     fun initialize() {
         bottomNavigationView.setOnNavigationItemSelectedListener(this)

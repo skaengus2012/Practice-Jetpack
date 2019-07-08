@@ -20,7 +20,6 @@ import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import nlab.practice.jetpack.util.lazyPublic
 import kotlin.math.max
 import kotlin.math.min
 
@@ -28,9 +27,10 @@ import kotlin.math.min
  * @author Doohyun
  * @since 2019. 05. 24
  */
-class SlidingUpPanelLayoutUsecase(viewSupplier: () -> SlidingUpPanelLayout) {
+class SlidingUpPanelLayoutUsecase(private val viewSupplier: () -> SlidingUpPanelLayout) {
 
-    private val slidingUpPanelLayout: SlidingUpPanelLayout by lazyPublic(viewSupplier)
+    private val slidingUpPanelLayout: SlidingUpPanelLayout
+        get() = viewSupplier()
 
     val slideOffsetSubject: Subject<Float> = PublishSubject.create()
 

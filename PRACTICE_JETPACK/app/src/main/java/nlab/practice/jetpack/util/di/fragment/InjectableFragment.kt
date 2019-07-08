@@ -16,7 +16,9 @@
 
 package nlab.practice.jetpack.util.di.fragment
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,8 +66,24 @@ abstract class InjectableFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
     }
 
-    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    @CallSuper
+    override fun onAttach(context: Context?) {
+        // 권고사항 : Dagger Reference 에서는 onAttach 시점 전, DI 를 하기를 권장
         initializeDI()
+
+        super.onAttach(context)
+
+        lifeCycleBinder.apply(FragmentLifeCycle.ON_ATTACH)
+    }
+
+    @CallSuper
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE)
+    }
+
+    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE_VIEW)
 
         return onCreateBindingView(inflater, container, savedInstanceState)
@@ -131,5 +149,18 @@ abstract class InjectableFragment : BaseFragment() {
     @CallSuper
     override fun onBackPressed(): Boolean {
         return fragmentCallbackBinder.onBackPressedCommand?.invoke()?:false
+    }
+
+    @CallSuper
+    override fun onDestroy() {
+        super.onDestroy()
+
+        lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        lifeCycleBinder.apply(FragmentLifeCycle.ON_DETACH)
     }
 }

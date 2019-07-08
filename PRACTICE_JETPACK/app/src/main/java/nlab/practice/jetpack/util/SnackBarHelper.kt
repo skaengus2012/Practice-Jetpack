@@ -26,9 +26,13 @@ import nlab.practice.jetpack.R
 /**
  * @author Doohyun
  */
-class SnackBarHelper(private val resourceProvider: ResourceProvider, viewSupplier: ()-> View?) {
+class SnackBarHelper(
+        private val resourceProvider: ResourceProvider,
+        private val viewSupplier: ()-> View?
+) {
 
-    private val targetView: View? by lazyPublic(viewSupplier)
+    private val targetView: View?
+        get() = viewSupplier()
 
     fun showSnackBar(
             @StringRes message: Int,

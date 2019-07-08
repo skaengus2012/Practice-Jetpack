@@ -21,14 +21,14 @@ import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.UnboundedPagingFragment
-import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * @author Doohyun
  */
-class FragmentNavUsecase(navSupplier: () -> ChildNavController?) {
+class FragmentNavUsecase(private val navSupplier: () -> ChildNavController?) {
 
-    private val navController: ChildNavController? by lazyPublic(navSupplier)
+    private val navController: ChildNavController?
+        get() = navSupplier()
 
     fun popBackStack() {
         navController?.popBackStack()

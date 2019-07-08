@@ -17,16 +17,19 @@
 package nlab.practice.jetpack.ui.slide
 
 import android.view.View
-import nlab.practice.jetpack.util.lazyPublic
 
 /**
  * @author Doohyun
  */
-class SlidingHolderViewUsecase(containerViewSupplier: () -> View, miniPlayerViewSupplier: () -> View?) {
+class SlidingHolderViewUsecase(
+        private val containerViewSupplier: () -> View,
+        private val miniPlayerViewSupplier: () -> View?) {
 
-    private val containerView: View by lazyPublic(containerViewSupplier)
+    private val containerView: View
+        get() = containerViewSupplier()
 
-    private val miniPlayerView: View? by lazyPublic(miniPlayerViewSupplier)
+    private val miniPlayerView: View?
+        get() = miniPlayerViewSupplier()
 
     fun setContainerAlphaValue(offset: Float) {
         containerView.alpha = offset
