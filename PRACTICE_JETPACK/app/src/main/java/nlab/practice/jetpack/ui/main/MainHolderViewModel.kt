@@ -17,7 +17,6 @@
 package nlab.practice.jetpack.ui.main
 
 import androidx.databinding.BaseObservable
-import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
@@ -39,9 +38,8 @@ class MainHolderViewModel @Inject constructor(
         activityCallback.onRestoreInstanceState { executeOnRestoreInstanceState() }
     }
 
-    private fun executeOnCreate() = with(mainNavUsecase) {
-        initialize()
-        navFirstPage()
+    private fun executeOnCreate() {
+        mainNavUsecase.initialize()
     }
 
     private fun executeOnBackPressed(): Boolean = when {
@@ -49,8 +47,8 @@ class MainHolderViewModel @Inject constructor(
         mainNavUsecase.onBackPressedInPrimaryNav() -> true
 
         // 현재 메뉴가 Home 이 아닐 경우 홈으로 이동
-        mainNavUsecase.getSelectedItemId() != R.id.menu_home -> {
-            mainNavUsecase.navFirstPage()
+        !mainNavUsecase.isHome() -> {
+            mainNavUsecase.navHome()
             true
         }
 
@@ -58,6 +56,8 @@ class MainHolderViewModel @Inject constructor(
         else -> false
     }
 
-    private fun executeOnRestoreInstanceState() = with(mainNavUsecase) { navPage(getSelectedItemId()) }
+    private fun executeOnRestoreInstanceState() {
+        mainNavUsecase.refreshPage()
+    }
 
 }
