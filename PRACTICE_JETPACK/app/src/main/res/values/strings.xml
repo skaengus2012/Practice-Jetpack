@@ -97,6 +97,7 @@
 	<string name="slide_up_panel_title">N\'s lab Music</string>
 	<string name="slide_cover">앨범 커버</string>
 	<string name="slide_up_cover_collapsed">패널 닫기</string>
+	<string name="slide_land_title">%1$s - %2$s</string>
 
 	<!-- Center scroll 을 위한 RecyclerView -->
 	<string name="center_scroll_recycler_title">Center Scroll 연습</string>

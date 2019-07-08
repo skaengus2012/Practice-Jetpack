@@ -32,7 +32,8 @@ import javax.inject.Inject
 class SlidingMainViewModel @Inject constructor(
         private val playController: PlayController,
         private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
-        lifeCycleBinder: FragmentLifeCycleBinder) {
+        lifeCycleBinder: FragmentLifeCycleBinder
+) {
 
     private val disposables = CompositeDisposable()
 
