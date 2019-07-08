@@ -23,7 +23,7 @@ import androidx.annotation.ColorRes
  * @since 2018. 12. 13
  */
 data class TestMenu(
-        val title: String,
+        val title: CharSequence,
         @ColorRes val cardColorRes: Int,
-        val cardTitle: String? = null
+        val cardTitle: CharSequence? = null
 )

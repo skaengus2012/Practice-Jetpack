@@ -88,7 +88,8 @@ class HomeViewModel @Inject constructor(
             createDragDropMenu(),
             createCollapsingToolbarExMenu(),
             createSlideUpPanelExMenu(),
-            createCenterScrollExMenu()
+            createCenterScrollExMenu(),
+            createLandScapeModeMenu()
     )
 
     private fun createViewModel(testMenu: TestMenu, onClickAction: () -> Unit): HomeItemViewModel {
@@ -121,6 +122,10 @@ class HomeViewModel @Inject constructor(
 
     private fun createCenterScrollExMenu() = createViewModel(testMenuRepository.getCenterScrollRecyclerView()) {
         fragmentNavUsecase.navCenterScrolling()
+    }
+
+    private fun createLandScapeModeMenu() = createViewModel(testMenuRepository.getLandScapeModeMenu()) {
+
     }
 
     private fun refreshItems() {

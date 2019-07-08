@@ -38,13 +38,13 @@ class HomeItemViewModel(
     fun getTitleVisibleYn(): Boolean = testMenu.cardTitle != null
 
     @Bindable
-    fun getCardTitle(): String? = testMenu.cardTitle
+    fun getCardTitle(): CharSequence? = testMenu.cardTitle
 
     @Bindable
     fun getCardColor(): Int = testMenu.cardColorRes
 
     @Bindable
-    fun getTitle(): String = testMenu.title
+    fun getTitle(): CharSequence = testMenu.title
 
     fun onClick() {
         navigateAction()

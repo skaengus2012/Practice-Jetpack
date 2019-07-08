@@ -60,6 +60,7 @@
 	<color name="home_item_color_5">#ffc107</color>
 	<color name="home_item_color_6">#ef6c00</color>
 	<color name="home_item_color_7">#795548</color>
+	<color name="home_item_color_8">#607d8b</color>
 
 	<!-- bottom menu -->
 	<color name="bottom_navigation_item_color">#6b6b6b</color>
