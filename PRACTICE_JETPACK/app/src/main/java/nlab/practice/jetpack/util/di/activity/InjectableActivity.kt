@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
@@ -46,9 +45,6 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var lifeCycleBinder: ActivityLifeCycleBinder
-
-    @Inject
-    lateinit var compositeDisposable: CompositeDisposable
 
     @Inject
     lateinit var activityCallbackBinder: ActivityCallback
@@ -103,18 +99,20 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     }
 
     @CallSuper
-    override fun onDestroy() {
-        super.onDestroy()
-
-        lifeCycleBinder.apply(ActivityLifeCycle.ON_DESTROY)
-    }
-
-    @CallSuper
     override fun finish() {
         super.finish()
 
         lifeCycleBinder.apply(ActivityLifeCycle.FINISH)
-        compositeDisposable.clear()
+    }
+
+    @CallSuper
+    override fun onDestroy() {
+        super.onDestroy()
+
+        with(lifeCycleBinder) {
+            apply(ActivityLifeCycle.ON_DESTROY)
+            clear()
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {

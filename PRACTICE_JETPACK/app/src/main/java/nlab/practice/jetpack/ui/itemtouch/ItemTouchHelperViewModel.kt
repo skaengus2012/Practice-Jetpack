@@ -26,6 +26,8 @@ import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
 import nlab.practice.jetpack.util.recyclerview.touch.SwipeDeleteTouchEventHelperCallback
@@ -39,28 +41,38 @@ import kotlin.collections.ArrayList
  * @since 2019. 02. 25
  */
 class ItemTouchHelperViewModel @Inject constructor(
+        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         private val activityCommonUsecase: ActivityCommonUsecase,
-        private val disposables: CompositeDisposable,
         private val pagingItemRepository: PagingItemRepository,
         private val schedulerFactory: SchedulerFactory,
         private val dragCallback: VerticalDragItemTouchHelperCallback,
         private val swipeCallback: SwipeDeleteTouchEventHelperCallback,
         private val touchHelpers: Set<@JvmSuppressWildcards ItemTouchHelper>,
-        private val itemModelFactory: ItemTouchHelperItemViewModelFactory) : ListErrorPageViewModel {
+        private val itemModelFactory: ItemTouchHelperItemViewModelFactory
+) : ListErrorPageViewModel {
 
     private val itemUpdateSubject: BehaviorSubject<List<ItemTouchHelperItemViewModel>>
             = BehaviorSubject.createDefault(emptyList())
 
     private val isShowErrorView = ObservableBoolean(false)
 
+    private val disposables = CompositeDisposable()
+
     val listAdapter = BindingItemListAdapter<ItemTouchHelperItemViewModel>()
 
     val recyclerViewConfig = createRecyclerViewConfig()
 
     init {
-        subscribeItems()
-        subscribeDragEvent()
-        subscribeSwipeDeleteEvent()
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+            subscribeItems()
+            subscribeDragEvent()
+            subscribeSwipeDeleteEvent()
+        }
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            disposables.clear()
+        }
+
         loadItems()
     }
 

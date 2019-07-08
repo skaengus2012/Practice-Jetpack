@@ -45,14 +45,14 @@ class CollapsingToolbarViewModel @Inject constructor(
         lifeCycleBinder : ActivityLifeCycleBinder,
         private val activityUsecase: ActivityCommonUsecase,
         private val toolbarUsecase: ToolbarItemVisibilityUsecase,
-        private val disposables: CompositeDisposable,
         private val schedulerFactory: SchedulerFactory,
         private val coverRepository: CoverRepository,
         private val pagingItemRepository: PagingItemRepository,
         private val resourceProvider: ResourceProvider,
         private val toastHelper: ToastHelper,
         private val snackBarHelper: SnackBarHelper,
-        private val itemViewModelFactory: CollapsingPagingItemViewModelFactory) : ListErrorPageViewModel  {
+        private val itemViewModelFactory: CollapsingPagingItemViewModelFactory
+) : ListErrorPageViewModel  {
 
     val coverImage: ObservableField<String> = ObservableField()
 
@@ -64,15 +64,22 @@ class CollapsingToolbarViewModel @Inject constructor(
 
     val listAdapter = BindingItemListAdapter<BindingItemViewModel>()
 
+    private val disposables = CompositeDisposable()
+
     private val listUpdateSubject = BehaviorSubject.create<List<BindingItemViewModel>>()
 
     private val showErrorState = ObservableBoolean()
 
     init {
+        refresh()
+
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
-            refresh()
             observeEvent()
             toolbarUsecase.initialize(false)
+        }
+
+        lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
+            disposables.clear()
         }
     }
 

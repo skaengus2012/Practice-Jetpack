@@ -33,6 +33,8 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
@@ -44,7 +46,7 @@ import kotlin.random.Random
  * @since 2019. 01. 29
  */
 class UnboundedPagingViewModel @Inject constructor(
-        private val disposables: CompositeDisposable,
+        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         private val pagingItemRepository: PagingItemRepository,
         private val pagingItemViewModelFactory: PagingItemPracticeViewModelFactory,
         private val activityCommonUsecase: ActivityCommonUsecase,
@@ -52,7 +54,8 @@ class UnboundedPagingViewModel @Inject constructor(
         private val toastHelper: ToastHelper,
         private val schedulerFactory: SchedulerFactory,
         private val imagePoolRepository: ImagePoolRepository,
-        pagingManagerFactory: UnboundedPositionalPagingManager.Factory) : PagingViewModel {
+        pagingManagerFactory: UnboundedPositionalPagingManager.Factory
+) : PagingViewModel {
 
     private val subTitle = ObservableField(resourceProvider.getString(R.string.paging_unbounded_sub_title).toString())
 
@@ -60,9 +63,12 @@ class UnboundedPagingViewModel @Inject constructor(
 
     private val isShowErrorView = ObservableBoolean(false)
 
-    private val pagingManager = pagingManagerFactory.create(pagingItemRepository)
+    private val disposables = CompositeDisposable()
+
+    private val pagingManager = pagingManagerFactory.create(pagingItemRepository, disposables)
 
     private val bottomMoreViewModel: BottomMoreViewModel
+
     private lateinit var listAdapter: BindingPagedListAdapter<PagingItemPracticeViewModel>
 
     private val singleScheduler = schedulerFactory.single()
@@ -76,10 +82,16 @@ class UnboundedPagingViewModel @Inject constructor(
 
         listAdapter = BindingPagedListAdapter(bottomMoreItem = bottomMoreViewModel)
 
-        subscribePagedList()
-        subscribeLoadStart()
-        subscribeLoadComplete()
-        subscribeLoadError()
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+            subscribePagedList()
+            subscribeLoadStart()
+            subscribeLoadComplete()
+            subscribeLoadError()
+        }
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            disposables.clear()
+        }
     }
 
     private fun subscribePagedList() {

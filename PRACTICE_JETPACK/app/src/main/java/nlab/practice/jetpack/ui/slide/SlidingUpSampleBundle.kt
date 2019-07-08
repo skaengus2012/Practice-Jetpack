@@ -14,27 +14,22 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.di
+package nlab.practice.jetpack.ui.slide
 
-import dagger.Module
-import dagger.Provides
-import nlab.practice.jetpack.ui.slide.SlidingUpSampleBundle
-import nlab.practice.jetpack.ui.tutorial.AnkoFirstDataBundle
-import javax.inject.Singleton
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import nlab.practice.jetpack.repository.model.PagingItem
+
 
 /**
- * 데이터 저장을 메모리 위에서 처리하기 위해 사용하는 번들 모듈 정의
- *
  * @author Doohyun
  */
-@Module
-class BundleModule {
+class SlidingUpSampleBundle {
+    var pagingItems: List<PagingItem>? = null
 
-    @Singleton
-    @Provides
-    fun provideAnkoFistDataBundle(): AnkoFirstDataBundle = AnkoFirstDataBundle()
+    var panelState: SlidingUpPanelLayout.PanelState? = null
 
-    @Singleton
-    @Provides
-    fun provideSlidingDataBundle(): SlidingUpSampleBundle = SlidingUpSampleBundle()
+    fun clear() {
+        pagingItems = null
+        panelState = null
+    }
 }

@@ -18,13 +18,11 @@ package nlab.practice.jetpack.util.di.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.BaseFragment
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.di.AppComponent
@@ -47,9 +45,6 @@ abstract class InjectableFragment : BaseFragment() {
 
     @Inject
     lateinit var lifeCycleBinder: FragmentLifeCycleBinder
-
-    @Inject
-    lateinit var compositeDisposable: CompositeDisposable
 
     @Inject
     lateinit var fragmentCallbackBinder: FragmentCallback
@@ -143,7 +138,6 @@ abstract class InjectableFragment : BaseFragment() {
         super.onDestroyView()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY_VIEW)
-        compositeDisposable.clear()
     }
 
     @CallSuper
@@ -162,5 +156,6 @@ abstract class InjectableFragment : BaseFragment() {
         super.onDetach()
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DETACH)
+        lifeCycleBinder.clear()
     }
 }

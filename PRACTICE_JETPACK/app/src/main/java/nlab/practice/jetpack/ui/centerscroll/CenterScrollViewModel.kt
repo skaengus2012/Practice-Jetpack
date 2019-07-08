@@ -39,7 +39,6 @@ class CenterScrollViewModel @Inject constructor(
         layoutManagerFactory: LayoutManagerFactory,
         lyricsSmoothScrollHelperFactory: LyricsSmoothScrollerHelper.Factory,
         private val schedulerFactory: SchedulerFactory,
-        private val disposables: CompositeDisposable,
         private val lyricsRepository: LyricsRepository,
         private val recyclerViewUsecase: RecyclerViewUsecase) {
 
@@ -48,6 +47,8 @@ class CenterScrollViewModel @Inject constructor(
     val recyclerViewConfig = RecyclerViewConfig().apply {
         layoutManager = layoutManagerFactory.createCenterScrollerLayoutManager(300f)
     }
+
+    private val disposables = CompositeDisposable()
 
     private var isScrolling = false
 
@@ -61,6 +62,10 @@ class CenterScrollViewModel @Inject constructor(
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
             subscribeScrollEvent()
             subscribeLyricsIndexChanged()
+        }
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            disposables.clear()
         }
     }
 

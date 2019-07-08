@@ -30,6 +30,8 @@ import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
@@ -44,18 +46,21 @@ class ListAdapterExampleViewModel @Inject constructor(
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
         fragmentCallback: FragmentCallback,
+        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         private val selectionTrackerUsecase: SelectionTrackerUsecase,
-        private val disposables: CompositeDisposable,
         private val schedulerFactory: SchedulerFactory,
         private val pagingItemRepository: PagingItemRepository,
         private val listAdapterItemFactory: ListAdapterExampleItemViewModelFactory,
         private val activityCommonUsecase: ActivityCommonUsecase,
         private val toastHelper: ToastHelper,
-        private val snackBarHelper: SnackBarHelper) : ListErrorPageViewModel {
+        private val snackBarHelper: SnackBarHelper
+) : ListErrorPageViewModel {
 
     companion object {
         const val SPAN_COUNT = 2
     }
+
+    private val disposables = CompositeDisposable()
 
     private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> = BehaviorSubject.create()
 
@@ -75,8 +80,14 @@ class ListAdapterExampleViewModel @Inject constructor(
     }
 
     init {
-        initializeList()
-        subscribeSelection()
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+            initializeList()
+            subscribeSelection()
+        }
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            disposables.clear()
+        }
 
         fragmentCallback.onBackPressed {
             // 현재 선택모드일 경우, 백키를 누른다면 이전상태로 돌린다.

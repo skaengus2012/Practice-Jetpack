@@ -16,6 +16,7 @@
 
 package nlab.practice.jetpack.util
 
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.model.Track
@@ -25,7 +26,17 @@ import javax.inject.Singleton
 @Singleton
 class PlayController @Inject constructor(private val toastHelper: ToastHelper) {
 
-    val trackChangeSubject: BehaviorSubject<Track> = BehaviorSubject.create()
+    private val trackChangeSubject: BehaviorSubject<Track> = BehaviorSubject.create()
+
+    val trackChangedObservable: Observable<Track>
+        get() = trackChangeSubject
+
+    val latestTrack: Track?
+        get() = trackChangeSubject.value
+
+    fun post(track: Track) {
+        trackChangeSubject.onNext(track)
+    }
 
     fun play() {
         toastHelper.showToast(R.string.slide_up_panel_play_message)

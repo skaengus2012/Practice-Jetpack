@@ -32,13 +32,15 @@ class PositionalPagingModule {
 
     @Provides
     fun provideCountablePositionalPagingManagerFactory(
-            disposables: CompositeDisposable, schedulerFactory: SchedulerFactory): CountablePositionalPagingManager.Factory {
-        return CountablePositionalPagingManager.Factory(disposables, schedulerFactory)
+            schedulerFactory: SchedulerFactory
+    ): CountablePositionalPagingManager.Factory {
+        return CountablePositionalPagingManager.Factory(schedulerFactory)
     }
 
     @Provides
     fun provideUnboundedPositionalPagingManagerFactory(
-            disposables: CompositeDisposable, schedulerFactory: SchedulerFactory): UnboundedPositionalPagingManager.Factory {
-        return UnboundedPositionalPagingManager.Factory(disposables, schedulerFactory)
+            schedulerFactory: SchedulerFactory
+    ): UnboundedPositionalPagingManager.Factory {
+        return UnboundedPositionalPagingManager.Factory(schedulerFactory)
     }
 }

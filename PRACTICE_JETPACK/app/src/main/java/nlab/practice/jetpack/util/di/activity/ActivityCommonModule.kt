@@ -19,7 +19,6 @@ package nlab.practice.jetpack.util.di.activity
 import android.app.Activity
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
@@ -41,11 +40,7 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideDisposables() = CompositeDisposable()
-
-    @ActivityScope
-    @Provides
-    fun provideLifeCycleBinder(disposables: CompositeDisposable): ActivityLifeCycleBinder = LifeCycleBinder(disposables)
+    fun provideLifeCycleBinder(): ActivityLifeCycleBinder = LifeCycleBinder()
 
     @Named(ContextInjectionType.ACTIVITY)
     @ActivityScope

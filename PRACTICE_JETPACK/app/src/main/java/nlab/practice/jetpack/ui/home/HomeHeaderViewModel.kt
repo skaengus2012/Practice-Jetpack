@@ -20,8 +20,7 @@ import Njava.util.time.TimeBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import io.reactivex.disposables.Disposable
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
@@ -36,9 +35,10 @@ import javax.inject.Inject
  */
 class HomeHeaderViewModel @Inject constructor(
         resourceProvider: ResourceProvider,
-        private val schedulerFactory: SchedulerFactory): BindingItemViewModel() {
+        private val schedulerFactory: SchedulerFactory
+) : BindingItemViewModel() {
 
-    private val timerDisposables = CompositeDisposable()
+    private var timerDisposable: Disposable? = null
 
     private val dateFormat: CharSequence = resourceProvider.getString(R.string.home_time_format)
 
@@ -52,17 +52,18 @@ class HomeHeaderViewModel @Inject constructor(
     override fun getLayoutRes(): Int = R.layout.view_home_header
 
     fun startTimer() {
-        Observable.timer(100, TimeUnit.MILLISECONDS)
+        timerDisposable = Observable.timer(100, TimeUnit.MILLISECONDS)
                 .repeat()
                 .map { getCurrentTimeDateFormat() }
                 .observeOn(schedulerFactory.ui())
-                .filter { it != currentTimeString}
+                .filter { it != currentTimeString }
                 .doOnNext { currentTimeString = it }
                 .subscribe()
-                .addTo(timerDisposables)
     }
 
-    fun stopTimer() = timerDisposables.clear()
+    fun stopTimer() {
+        timerDisposable?.dispose()
+    }
 
     private fun getCurrentTimeDateFormat(): String = TimeBuilder.Create()
             .getStringFormat(dateFormat.toString())

@@ -74,8 +74,11 @@ private constructor(
         fun getItems(offset: Int, limit: Int): Single<List<T>>
     }
 
-    class Factory(private val disposables: CompositeDisposable, private val schedulerFactory: SchedulerFactory) {
-        fun <T> create(dataRepository: DataRepository<T>): UnboundedPositionalPagingManager<T> {
+    class Factory(private val schedulerFactory: SchedulerFactory) {
+        fun <T> create(
+                dataRepository: DataRepository<T>,
+                disposables: CompositeDisposable
+        ): UnboundedPositionalPagingManager<T> {
             return UnboundedPositionalPagingManager(disposables, schedulerFactory, dataRepository)
         }
     }

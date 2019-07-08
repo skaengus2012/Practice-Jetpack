@@ -33,8 +33,9 @@ import javax.inject.Inject
 class SlidingControlViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
-        private val playController: PlayController,
-        private val disposables: CompositeDisposable) {
+        private val playController: PlayController
+) {
+    private val disposables = CompositeDisposable()
 
     val currentTrack = ObservableField<Track>()
 
@@ -42,10 +43,14 @@ class SlidingControlViewModel @Inject constructor(
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
             loadCurrentTrack()
         }
+
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            disposables.clear()
+        }
     }
 
     private fun loadCurrentTrack() {
-        playController.trackChangeSubject
+        playController.trackChangedObservable
                 .doOnNext { currentTrack.set(it) }
                 .subscribe()
                 .addTo(disposables)

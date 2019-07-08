@@ -41,10 +41,6 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideDisposables() = CompositeDisposable()
-
-    @FragmentScope
-    @Provides
     fun provideFragmentCallback() = FragmentCallback()
 
     @Named(ContextInjectionType.ACTIVITY)
@@ -72,7 +68,7 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideLifeCycleBinder(disposables: CompositeDisposable): FragmentLifeCycleBinder = LifeCycleBinder(disposables)
+    fun provideLifeCycleBinder(): FragmentLifeCycleBinder = LifeCycleBinder()
 
     @FragmentScope
     @Provides

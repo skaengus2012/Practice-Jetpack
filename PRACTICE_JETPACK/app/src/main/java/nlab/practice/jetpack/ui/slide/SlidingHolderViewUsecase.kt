@@ -31,14 +31,22 @@ class SlidingHolderViewUsecase(
     private val miniPlayerView: View?
         get() = miniPlayerViewSupplier()
 
+    fun onCollapseState() {
+        setContainerAlphaValue(0.0f)
+        setMiniPlayerAlphaValue(1.0f)
+    }
+
+    fun onExpandState() {
+        setContainerAlphaValue(1.0f)
+        setMiniPlayerAlphaValue(0.0f)
+    }
+
     fun setContainerAlphaValue(offset: Float) {
         containerView.alpha = offset
     }
 
     fun setMiniPlayerAlphaValue(offset: Float) {
-        miniPlayerView?.run {
-            alpha = offset
-        }
+        miniPlayerView?.alpha = offset
     }
 
     fun bringToFrontContainer() {

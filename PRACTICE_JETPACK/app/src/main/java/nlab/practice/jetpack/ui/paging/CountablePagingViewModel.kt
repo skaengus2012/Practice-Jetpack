@@ -33,6 +33,8 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
@@ -44,7 +46,8 @@ import kotlin.random.Random
  * @author Doohyun
  */
 class CountablePagingViewModel @Inject constructor(
-        private val disposables: CompositeDisposable,
+        lifeCycleBinder: FragmentLifeCycleBinder,
+        pagingManagerFactory: CountablePositionalPagingManager.Factory,
         private val activityCommonUsecase: ActivityCommonUsecase,
         private val pagingItemRepository: PagingItemRepository,
         private val imagePoolRepository: ImagePoolRepository,
@@ -52,8 +55,10 @@ class CountablePagingViewModel @Inject constructor(
         private val toastHelper: ToastHelper,
         private val resourceProvider: ResourceProvider,
         private val recyclerViewUsecase: RecyclerViewUsecase,
-        private val pagingItemViewModelFactory: PagingItemPracticeViewModelFactory,
-        pagingManagerFactory: CountablePositionalPagingManager.Factory) : PagingViewModel {
+        private val pagingItemViewModelFactory: PagingItemPracticeViewModelFactory
+) : PagingViewModel {
+
+    private val disposables = CompositeDisposable()
 
     private val listAdapter: BindingPagedListAdapter<PagingItemPracticeViewModel> =
             BindingPagedListAdapter(placeholderResId = R.layout.view_paging_item_placeholder)
@@ -65,15 +70,22 @@ class CountablePagingViewModel @Inject constructor(
     private val subTitle = ObservableField<String>()
     private val subTitleFormat = resourceProvider.getString(R.string.paging_countable_sub_title_format)
 
-    private val pagingManager = pagingManagerFactory.create(pagingItemRepository)
+    private val pagingManager = pagingManagerFactory.create(pagingItemRepository, disposables)
     private val singleScheduler = schedulerFactory.single()
 
     init {
         loadTitle()
-        subscribePagedList()
-        subscribeTotalCountChanged()
-        subscribeLoadFinish()
-        subscribeLoadError()
+
+        lifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+            subscribePagedList()
+            subscribeTotalCountChanged()
+            subscribeLoadFinish()
+            subscribeLoadError()
+        }
+
+        lifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            disposables.clear()
+        }
     }
 
     override fun isShowRefreshProgressBar(): ObservableBoolean = isShowRefreshProgressBar

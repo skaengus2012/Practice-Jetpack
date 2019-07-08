@@ -34,11 +34,12 @@ import javax.inject.Inject
  * @since 2018. 11. 23
  */
 class AnkoFirstViewModel @Inject constructor(
-        private val disposable: CompositeDisposable,
         private val schedulerFactory: SchedulerFactory,
         ankoFirstDataBundle: AnkoFirstDataBundle,
         lifeCycleBinder: ActivityLifeCycleBinder,
         resourceProvider: ResourceProvider) {
+
+    private val disposables = CompositeDisposable()
 
     val message : ObservableField<String> = ObservableField()
 
@@ -53,6 +54,7 @@ class AnkoFirstViewModel @Inject constructor(
 
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
             message.get()?.run { ankoFirstDataBundle.message = this }
+            disposables.clear()
         }
     }
 
@@ -62,6 +64,6 @@ class AnkoFirstViewModel @Inject constructor(
                 .observeOn(schedulerFactory.ui())
                 .doOnNext { this.message.set(message) }
                 .subscribe()
-                .addTo(disposable)
+                .addTo(disposables)
     }
 }

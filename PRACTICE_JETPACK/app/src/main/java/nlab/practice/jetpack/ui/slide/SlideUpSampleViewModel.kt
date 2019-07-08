@@ -24,6 +24,7 @@ import io.reactivex.subjects.BehaviorSubject
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.repository.PlayerRepository
+import nlab.practice.jetpack.repository.model.PagingItem
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleItemDecoration
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleItemViewModel
@@ -47,18 +48,19 @@ import javax.inject.Inject
  * @since 2019. 04. 18
  */
 class SlideUpSampleViewModel @Inject constructor(
-        private val disposable: CompositeDisposable,
         private val listAdapterExampleFactory: ListAdapterExampleItemViewModelFactory,
         private val pagingRepository: PagingItemRepository,
         private val schedulerFactory: SchedulerFactory,
         private val playerRepository: PlayerRepository,
         private val playerController: PlayController,
         private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
+        private val slidingUpSampleBundle: SlidingUpSampleBundle,
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
         lifeCycleBinder: ActivityLifeCycleBinder,
         activityCallback: ActivityCallback,
-        activityCommonUsecase: ActivityCommonUsecase): ListErrorPageViewModel {
+        activityCommonUsecase: ActivityCommonUsecase
+) : ListErrorPageViewModel {
 
     companion object {
         const val SPAN_COUNT = 2
@@ -71,20 +73,33 @@ class SlideUpSampleViewModel @Inject constructor(
         itemDecorations += itemDecoration
     }
 
+    private val disposables = CompositeDisposable()
+
     private val isShowErrorView = ObservableBoolean(false)
 
     private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> = BehaviorSubject.createDefault(ArrayList())
 
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
-            refresh()
+            subscribeItemChanged()
+
             initializePanel()
+            initializeTrack()
+            initializePagingItem()
 
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
 
         lifeCycleBinder.bindUntil(ActivityLifeCycle.FINISH) {
+            slidingUpSampleBundle.clear()
+
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        }
+
+        lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
+            collapsingPanelIfHidden()
+
+            disposables.clear()
         }
 
         activityCallback.onBackPressed { when {
@@ -95,32 +110,52 @@ class SlideUpSampleViewModel @Inject constructor(
 
             else -> false
         }}
-
-        subscribeItemChanged()
-    }
-
-    private fun initializePanel() {
-        slidingUpPanelLayoutUsecase.initialize()
-
-        Single.fromCallable { playerRepository.getRandomTrack() }
-                .subscribeOn(schedulerFactory.io())
-                .observeOn(schedulerFactory.ui())
-                .doOnSuccess {
-                    playerController.trackChangeSubject.onNext(it)
-
-                    if (slidingUpPanelLayoutUsecase.currentPanelState.isHidden()) {
-                        slidingUpPanelLayoutUsecase.collapse()
-                    }
-                }
-                .subscribe()
-                .addTo(disposable)
     }
 
     private fun subscribeItemChanged() {
         listUpdateSubject
                 .doOnNext { listAdapter.submitList(it) }
                 .subscribe()
-                .addTo(disposable)
+                .addTo(disposables)
+    }
+
+    private fun initializePanel() {
+        slidingUpPanelLayoutUsecase.initialize()
+
+        slidingUpSampleBundle.panelState?.let { slidingUpPanelLayoutUsecase.currentPanelState = it }
+
+        slidingUpPanelLayoutUsecase.slidePanelStateSubject
+                .subscribe { slidingUpSampleBundle.panelState = it }
+                .addTo(disposables)
+    }
+
+    private fun initializeTrack() {
+        if (playerController.latestTrack == null) {
+            slidingUpPanelLayoutUsecase.hidden()
+
+            Single.fromCallable { playerRepository.getRandomTrack() }
+                    .subscribeOn(schedulerFactory.io())
+                    .observeOn(schedulerFactory.ui())
+                    .doOnSuccess {
+                        playerController.post(it)
+
+                        collapsingPanelIfHidden()
+                    }
+                    .subscribe()
+                    .addTo(disposables)
+        }
+    }
+
+    private fun collapsingPanelIfHidden() {
+        slidingUpPanelLayoutUsecase.currentPanelState
+                .takeIf { state -> state.isHidden() }
+                ?.let { slidingUpPanelLayoutUsecase.collapse() }
+    }
+
+    private fun initializePagingItem() {
+        slidingUpSampleBundle.pagingItems
+                ?.let { updateItem(it) }
+                ?: run { refresh() }
     }
 
     override fun isShowErrorView(): ObservableBoolean = isShowErrorView
@@ -131,13 +166,22 @@ class SlideUpSampleViewModel @Inject constructor(
                 .observeOn(schedulerFactory.ui())
                 .doOnSuccess {
                     isShowErrorView.set(false)
-
-                    it.map(listAdapterExampleFactory::create).run { listUpdateSubject.onNext(this) }
+                    updateItem(it)
                 }
                 .doOnError {
                     isShowErrorView.set(true)
                 }
                 .subscribe()
-                .addTo(disposable)
+                .addTo(disposables)
+    }
+
+    private fun updateItem(pagingItems: List<PagingItem>) {
+        pagingItems
+                .asSequence()
+                .map(listAdapterExampleFactory::create)
+                .toList()
+                .let { listUpdateSubject.onNext(it) }
+
+        slidingUpSampleBundle.pagingItems = pagingItems
     }
 }

@@ -31,11 +31,11 @@ import java.util.*
  * @author Doohyun
  * @since 2019. 01. 15
  */
-class CountablePositionalPagingManager<T>
-private constructor(
+class CountablePositionalPagingManager<T> private constructor(
         private val disposables: CompositeDisposable,
         private val schedulerFactory: SchedulerFactory,
-        private val dataRepository: DataRepository<T>) : PositionalPagingManager<T>() {
+        private val dataRepository: DataRepository<T>
+) : PositionalPagingManager<T>() {
 
     private var totalCount: Int? = null
 
@@ -133,8 +133,12 @@ private constructor(
         fun getCountablePositionalRs(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
     }
 
-    class Factory(private val disposables: CompositeDisposable, private val schedulerFactory: SchedulerFactory) {
-        fun <T> create(dataRepository: DataRepository<T>): CountablePositionalPagingManager<T> {
+    class Factory(private val schedulerFactory: SchedulerFactory) {
+
+        fun <T> create(
+                dataRepository: DataRepository<T>,
+                disposables: CompositeDisposable
+        ): CountablePositionalPagingManager<T> {
             return CountablePositionalPagingManager(disposables, schedulerFactory, dataRepository)
         }
     }

@@ -17,6 +17,7 @@
 package nlab.practice.jetpack.ui.home
 
 import androidx.databinding.ObservableArrayList
+import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
@@ -40,13 +41,14 @@ class HomeViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
         containerFragmentCallback: ContainerFragmentCallback,
         homeItemDecoration: HomeItemDecoration,
+        homeHeaderViewModel: HomeHeaderViewModel,
         @Named(ContextInjectionType.ACTIVITY) private val activityNavUsecase: ActivityNavUsecase,
         @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
         private val fragmentNavUsecase: FragmentNavUsecase,
-        private val homeHeaderViewModel: HomeHeaderViewModel,
         private val homeItemViewModelFactory: HomeItemViewModelFactory,
         private val testMenuRepository: TestMenuRepository,
-        private val recyclerViewUsecase: RecyclerViewUsecase) {
+        private val recyclerViewUsecase: RecyclerViewUsecase
+) {
 
     val headers = ObservableArrayList<HomeHeaderViewModel>()
 
@@ -56,20 +58,22 @@ class HomeViewModel @Inject constructor(
         itemDecorations.add(homeItemDecoration)
     }
 
+    private val disposables = CompositeDisposable()
+
     init {
-        headers.add(homeHeaderViewModel)
-        initializeTimer(fragmentLifeCycleBinder)
-        refreshItems()
-
-        containerFragmentCallback.onBottomNavReselected(this::scrollToZeroIfEmptyChild)
-    }
-
-    private fun initializeTimer(fragmentLifeCycleBinder: FragmentLifeCycleBinder) {
-        homeHeaderViewModel.startTimer()
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+            homeHeaderViewModel.startTimer()
+        }
 
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+            disposables.clear()
             homeHeaderViewModel.stopTimer()
         }
+
+        containerFragmentCallback.onBottomNavReselected(this::scrollToZeroIfEmptyChild)
+
+        headers.add(homeHeaderViewModel)
+        refreshItems()
     }
 
     private fun scrollToZeroIfEmptyChild(): Boolean {

@@ -28,7 +28,7 @@ import nlab.practice.jetpack.R
  */
 class SnackBarHelper(
         private val resourceProvider: ResourceProvider,
-        private val viewSupplier: ()-> View?
+        private val viewSupplier: () -> View?
 ) {
 
     private val targetView: View?

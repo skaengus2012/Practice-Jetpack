@@ -16,170 +16,179 @@
   -->
 
 <layout>
-	<data>
-		<import type="nlab.practice.jetpack.R"/>
+    <data>
+        <import type="nlab.practice.jetpack.R"/>
 
-		<variable
-			name="viewModel"
-			type="nlab.practice.jetpack.ui.slide.SlidingMainViewModel"/>
-	</data>
+        <variable
+            name="viewModel"
+            type="nlab.practice.jetpack.ui.slide.SlidingMainViewModel"/>
+    </data>
 
-	<androidx.constraintlayout.widget.ConstraintLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@color/black"
-		android:clickable="true"
-		android:focusable="true">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-		<TextView
-			android:id="@+id/title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="20dp"
-			android:text="@string/slide_up_panel_title"
-			android:textColor="@color/white"
-			android:textSize="12sp"
-			app:layout_constraintBottom_toTopOf="@id/cover"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:clickable="true"
+            android:focusable="true">
 
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/leftGuide"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_begin="20dp"/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/slide_up_panel_title"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/cover"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/rightGuide"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_end="20dp"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/leftGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp"/>
 
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/bottomGuide"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			app:layout_constraintGuide_end="45dp"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/rightGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20dp"/>
 
-		<ImageButton
-			android:layout_width="45dp"
-			android:layout_height="45dp"
-			android:background="?selectableItemBackgroundBorderless"
-			android:contentDescription="@string/slide_up_cover_collapsed"
-			android:onClick="@{() -> viewModel.onPanelCollapse()}"
-			android:padding="8.5dp"
-			android:scaleType="fitXY"
-			app:layout_constraintBottom_toTopOf="@id/cover"
-			app:layout_constraintEnd_toStartOf="@id/rightGuide"
-			app:layout_constraintTop_toTopOf="parent"
-			app:srcCompat="@drawable/ic_vertical_align_bottom_white_24dp"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottomGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="45dp"/>
 
-		<ImageView
-			android:id="@+id/cover"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_marginTop="20dp"
-			android:contentDescription="@string/slide_cover"
-			android:scaleType="fitXY"
-			app:imageUrl="@{viewModel.currentTrack.image}"
-			app:layout_constraintDimensionRatio="1:1"
-			app:layout_constraintEnd_toEndOf="@id/rightGuide"
-			app:layout_constraintStart_toStartOf="@id/leftGuide"
-			app:layout_constraintTop_toBottomOf="@id/title"
-			app:placeHolder="@{R.drawable.common_img_track_default}"
-			tools:src="@drawable/common_img_track_default"/>
+            <ImageButton
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/slide_up_cover_collapsed"
+                android:onClick="@{() -> viewModel.onPanelCollapse()}"
+                android:padding="8.5dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toTopOf="@id/cover"
+                app:layout_constraintEnd_toStartOf="@id/rightGuide"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_vertical_align_bottom_white_24dp"/>
 
-		<TextView
-			android:id="@+id/trackTitle"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="25dp"
-			android:singleLine="true"
-			android:text="@{viewModel.currentTrack.title}"
-			android:textColor="#99ffffff"
-			android:textSize="25sp"
-			android:textStyle="bold"
-			app:layout_constraintEnd_toStartOf="@id/rightGuide"
-			app:layout_constraintStart_toEndOf="@id/leftGuide"
-			app:layout_constraintTop_toBottomOf="@id/cover"
-			tools:text="트랙 제목"/>
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/slide_cover"
+                android:scaleType="fitXY"
+                app:imageUrl="@{viewModel.currentTrack.image}"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@id/rightGuide"
+                app:layout_constraintStart_toStartOf="@id/leftGuide"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:placeHolder="@{R.drawable.common_img_track_default}"
+                tools:src="@drawable/common_img_track_default"/>
 
-		<TextView
-			android:id="@+id/artist"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="5dp"
-			android:singleLine="true"
-			android:text="@{viewModel.artist}"
-			android:textColor="@color/white"
-			android:textSize="19sp"
-			app:layout_constraintEnd_toStartOf="@id/rightGuide"
-			app:layout_constraintStart_toEndOf="@id/leftGuide"
-			app:layout_constraintTop_toBottomOf="@id/trackTitle"
-			tools:text="가수명"/>
+            <TextView
+                android:id="@+id/trackTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:singleLine="true"
+                android:text="@{viewModel.currentTrack.title}"
+                android:textColor="#99ffffff"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/rightGuide"
+                app:layout_constraintStart_toEndOf="@id/leftGuide"
+                app:layout_constraintTop_toBottomOf="@id/cover"
+                tools:text="트랙 제목"/>
 
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/leftPlayGuide"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_begin="58dp"/>
+            <TextView
+                android:id="@+id/artist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:text="@{viewModel.artist}"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toStartOf="@id/rightGuide"
+                app:layout_constraintStart_toEndOf="@id/leftGuide"
+                app:layout_constraintTop_toBottomOf="@id/trackTitle"
+                tools:text="가수명"/>
 
-		<androidx.constraintlayout.widget.Guideline
-			android:id="@+id/rightPlayGuide"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_end="58dp"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/leftPlayGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="58dp"/>
 
-		<ImageButton
-			android:id="@id/btnPrev"
-			android:layout_width="50dp"
-			android:layout_height="50dp"
-			android:background="?selectableItemBackgroundBorderless"
-			android:contentDescription="@string/slide_up_panel_prev_btn_description"
-			android:onClick="@{() -> viewModel.onPrev()}"
-			android:scaleType="fitXY"
-			app:layout_constraintBottom_toBottomOf="@id/bottomGuide"
-			app:layout_constraintEnd_toStartOf="@id/btnPlay"
-			app:layout_constraintHorizontal_chainStyle="spread_inside"
-			app:layout_constraintStart_toEndOf="@id/leftPlayGuide"
-			app:layout_constraintTop_toBottomOf="@id/artist"
-			app:srcCompat="@drawable/ic_skip_previous_white_24dp"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/rightPlayGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="58dp"/>
 
-		<ImageButton
-			android:id="@id/btnPlay"
-			android:layout_width="60dp"
-			android:layout_height="60dp"
-			android:background="?selectableItemBackgroundBorderless"
-			android:contentDescription="@string/slide_up_panel_play_btn_description"
-			android:onClick="@{() -> viewModel.onPlay()}"
-			android:scaleType="fitXY"
-			app:layout_constraintBottom_toBottomOf="@id/bottomGuide"
-			app:layout_constraintEnd_toStartOf="@id/btnNext"
-			app:layout_constraintStart_toEndOf="@id/btnPrev"
-			app:layout_constraintTop_toBottomOf="@id/artist"
-			app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
+            <ImageButton
+                android:id="@id/btnPrev"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/slide_up_panel_prev_btn_description"
+                android:onClick="@{() -> viewModel.onPrev()}"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/bottomGuide"
+                app:layout_constraintEnd_toStartOf="@id/btnPlay"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toEndOf="@id/leftPlayGuide"
+                app:layout_constraintTop_toBottomOf="@id/artist"
+                app:srcCompat="@drawable/ic_skip_previous_white_24dp"/>
 
-		<ImageButton
-			android:id="@id/btnNext"
-			android:layout_width="50dp"
-			android:layout_height="50dp"
-			android:background="?selectableItemBackgroundBorderless"
-			android:contentDescription="@string/slide_up_panel_next_btn_description"
-			android:onClick="@{() -> viewModel.onNext()}"
-			android:scaleType="fitXY"
-			app:layout_constraintBottom_toBottomOf="@id/bottomGuide"
-			app:layout_constraintEnd_toStartOf="@id/rightPlayGuide"
-			app:layout_constraintStart_toEndOf="@id/btnPlay"
-			app:layout_constraintTop_toBottomOf="@id/artist"
-			app:srcCompat="@drawable/ic_skip_next_white_24dp"/>
-	</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@id/btnPlay"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/slide_up_panel_play_btn_description"
+                android:onClick="@{() -> viewModel.onPlay()}"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/bottomGuide"
+                app:layout_constraintEnd_toStartOf="@id/btnNext"
+                app:layout_constraintStart_toEndOf="@id/btnPrev"
+                app:layout_constraintTop_toBottomOf="@id/artist"
+                app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
+
+            <ImageButton
+                android:id="@id/btnNext"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/slide_up_panel_next_btn_description"
+                android:onClick="@{() -> viewModel.onNext()}"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@id/bottomGuide"
+                app:layout_constraintEnd_toStartOf="@id/rightPlayGuide"
+                app:layout_constraintStart_toEndOf="@id/btnPlay"
+                app:layout_constraintTop_toBottomOf="@id/artist"
+                app:srcCompat="@drawable/ic_skip_next_white_24dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
