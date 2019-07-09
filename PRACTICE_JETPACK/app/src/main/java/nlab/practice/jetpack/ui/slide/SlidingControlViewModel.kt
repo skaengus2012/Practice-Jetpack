@@ -69,6 +69,6 @@ class SlidingControlViewModel @Inject constructor(
     }
 
     fun onPanelLayoutClick() {
-        slidingUpPanelLayoutUsecase?.expand()
+        slidingUpPanelLayoutUsecase?.postExpandState()
     }
 }

@@ -81,11 +81,7 @@ class SlideUpSampleViewModel @Inject constructor(
 
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
-            subscribeItemChanged()
-
-            initializePanel()
-            initializeTrack()
-            initializePagingItem()
+            doOnCreate()
 
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
@@ -102,14 +98,30 @@ class SlideUpSampleViewModel @Inject constructor(
             disposables.clear()
         }
 
-        activityCallback.onBackPressed { when {
-            slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
-                slidingUpPanelLayoutUsecase.collapse()
-                true
-            }
+        activityCallback.onBackPressed {
+            when {
+                slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
+                    slidingUpPanelLayoutUsecase.postCollapseState()
+                    true
+                }
 
-            else -> false
-        }}
+                else -> false
+            }
+        }
+    }
+
+    private fun doOnCreate() {
+        subscribeItemChanged()
+
+        schedulerFactory.ui()
+                .scheduleDirect {
+                    // 패널의 상태가 내부에서 뷰가 재생성될 때 다음 제대로 등장하지 않음
+                    // 또한, Panel 에 대한 명령이 바로 처리가 되지 않기 때문에 POST 처리가 필요.
+                    initializePanel()
+                    initializeTrack()
+                    initializePagingItem()
+                }
+                .addTo(disposables)
     }
 
     private fun subscribeItemChanged() {
@@ -131,7 +143,7 @@ class SlideUpSampleViewModel @Inject constructor(
 
     private fun initializeTrack() {
         if (playerController.latestTrack == null) {
-            slidingUpPanelLayoutUsecase.hidden()
+            slidingUpPanelLayoutUsecase.postHiddenState()
 
             Single.fromCallable { playerRepository.getRandomTrack() }
                     .subscribeOn(schedulerFactory.io())
@@ -149,7 +161,7 @@ class SlideUpSampleViewModel @Inject constructor(
     private fun collapsingPanelIfHidden() {
         slidingUpPanelLayoutUsecase.currentPanelState
                 .takeIf { state -> state.isHidden() }
-                ?.let { slidingUpPanelLayoutUsecase.collapse() }
+                ?.let { slidingUpPanelLayoutUsecase.postCollapseState() }
     }
 
     private fun initializePagingItem() {

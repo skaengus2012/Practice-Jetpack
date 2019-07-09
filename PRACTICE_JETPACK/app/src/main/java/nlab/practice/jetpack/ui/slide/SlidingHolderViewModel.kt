@@ -19,6 +19,7 @@ package nlab.practice.jetpack.ui.slide
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
@@ -34,6 +35,7 @@ import kotlin.math.min
  */
 class SlidingHolderViewModel @Inject constructor(
         fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+        private val schedulerFactory: SchedulerFactory,
         private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
         private val slideHolderViewUsecase: SlidingHolderViewUsecase,
         private val slidingHolderTransitionUsecase: SlidingHolderTransitionUsecase
@@ -42,14 +44,23 @@ class SlidingHolderViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_ACTIVITY_CREATED) { initialize() }
+        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_ACTIVITY_CREATED) { doOnActivityCreated() }
         fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) { disposables.clear() }
     }
 
-    private fun initialize() {
+    private fun doOnActivityCreated() {
         subscribeSlideOffset()
         subscribeSlideState()
 
+        schedulerFactory.ui()
+                .scheduleDirect {
+                    initializeSlideOffset()
+                    slidingHolderTransitionUsecase.replaceMainFragment()
+                }
+                .addTo(disposables)
+    }
+
+    private fun initializeSlideOffset() {
         slidingUpPanelLayoutUsecase?.currentPanelState?.let {
             when(it) {
                 SlidingUpPanelLayout.PanelState.EXPANDED -> slideHolderViewUsecase.onExpandState()
@@ -59,8 +70,6 @@ class SlidingHolderViewModel @Inject constructor(
                 else -> {}
             }
         }
-
-        slidingHolderTransitionUsecase.replaceMainFragment()
     }
 
     private fun subscribeSlideOffset() {

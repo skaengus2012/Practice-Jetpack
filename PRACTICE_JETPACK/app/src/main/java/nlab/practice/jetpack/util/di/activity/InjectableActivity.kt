@@ -17,6 +17,7 @@
 package nlab.practice.jetpack.util.di.activity
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
@@ -113,6 +114,12 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
             apply(ActivityLifeCycle.ON_DESTROY)
             clear()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+
+        activityCallbackBinder.onSaveInstanceStateCommand?.invoke(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {

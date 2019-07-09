@@ -62,7 +62,7 @@ class SlidingMainViewModel @Inject constructor(
     }
 
     fun onPanelCollapse() {
-        slidingUpPanelLayoutUsecase?.collapse()
+        slidingUpPanelLayoutUsecase?.postCollapseState()
     }
 
     fun onPlay() {

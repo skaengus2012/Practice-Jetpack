@@ -59,15 +59,15 @@ class SlidingUpPanelLayoutUsecase(private val viewSupplier: () -> SlidingUpPanel
         })
     }
 
-    fun expand() {
+    fun postExpandState() {
         slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
     }
 
-    fun collapse() {
+    fun postCollapseState() {
         slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
 
-    fun hidden() {
+    fun postHiddenState() {
         slidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Module
 import dagger.Provides
+import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ViewSupplier
 import nlab.practice.jetpack.util.di.activity.ActivityScope
 import nlab.practice.jetpack.util.di.fragment.FragmentScope
