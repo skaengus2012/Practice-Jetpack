@@ -19,6 +19,7 @@ package nlab.practice.jetpack.util.di.activity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
+import nlab.practice.jetpack.ui.landscape.LandScapeActivity
 import nlab.practice.jetpack.ui.main.MainHolderActivity
 import nlab.practice.jetpack.ui.main.MainHolderModule
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
@@ -59,4 +60,10 @@ abstract class ActivityBindModule {
         SlideUpSampleActivity.Module::class
     ])
     abstract fun slideUpSampleActivity(): SlideUpSampleActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [
+        ActivityCommonModule::class
+    ])
+    abstract fun landScapeActivity(): LandScapeActivity
 }

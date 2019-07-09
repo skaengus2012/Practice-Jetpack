@@ -105,6 +105,6 @@
 	<string name="center_scroll_to_last">LAST</string>
 
 	<!-- 가로모드 대응 처리 튜토리얼 -->
-	<string name="landscape_mode_title">가로모드 대응</string>
+	<string name="landscape_mode_title">가로모드 대응 (세로모드)</string>
 
 </resources>
