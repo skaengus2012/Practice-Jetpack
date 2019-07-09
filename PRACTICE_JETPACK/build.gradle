@@ -22,7 +22,6 @@ buildscript {
     ext.dagger_version ='2.22.1'
     ext.glide_version = '4.9.0'
     ext.androidx_paging_version = '2.1.0'
-    ext.jetifier_version = '1.0.0-beta02'
     ext.rx_binding_version = '2.2.0'
 
     repositories {
@@ -33,7 +32,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.android.tools.build.jetifier:jetifier-processor:$jetifier_version"
     }
 }
 
