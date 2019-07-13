@@ -45,6 +45,7 @@
 				android:layout_height="match_parent"
 				android:clipToPadding="false"
 				android:paddingTop="15dp"
+				android:paddingBottom="60dp"
 				android:visibility="@{viewModel.showErrorView ? View.GONE : View.VISIBLE}"
 				app:list_adapter="@{viewModel.listAdapter}"
 				app:list_config="@{viewModel.recyclerViewConfig}"/>

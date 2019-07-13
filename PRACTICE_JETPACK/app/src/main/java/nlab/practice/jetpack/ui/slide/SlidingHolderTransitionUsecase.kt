@@ -36,9 +36,12 @@ class SlidingHolderTransitionUsecase(
         get() = containerViewSupplier()
 
     fun replaceMainFragment() {
-        fragmentManager.beginTransaction()
-                .replace(containerView.id, resolveMainFragment(), PageType.MAIN)
-                .commitNow()
+        val notHasFragment = fragmentManager.findFragmentById(containerView.id) == null
+        if (notHasFragment) {
+            fragmentManager.beginTransaction()
+                    .replace(containerView.id, resolveMainFragment(), PageType.MAIN)
+                    .commitNow()
+        }
     }
 
     private fun resolveMainFragment() = fragmentMap[PageType.MAIN]?.get() ?: createMainFragment()

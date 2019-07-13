@@ -53,7 +53,7 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideActivityCallbackBinder(): ActivityCallback = ActivityCallback()
+    fun provideActivityCallbackBinder() = ActivityCallback()
 
     @ActivityScope
     @Provides

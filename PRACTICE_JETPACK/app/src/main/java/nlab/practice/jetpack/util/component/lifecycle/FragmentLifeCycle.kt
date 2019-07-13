@@ -33,7 +33,8 @@ enum class FragmentLifeCycle {
     ON_STOP,
     ON_DESTROY_VIEW,
     ON_DESTROY,
-    ON_DETACH
+    ON_DETACH,
+    FINISH
 }
 
 typealias FragmentLifeCycleBinder = LifeCycleBinder<FragmentLifeCycle>

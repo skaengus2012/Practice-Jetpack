@@ -142,12 +142,15 @@ abstract class InjectableFragment : BaseFragment() {
 
     @CallSuper
     override fun onBackPressed(): Boolean {
-        return fragmentCallbackBinder.onBackPressedCommand?.invoke()?:false
+        return fragmentCallbackBinder.onBackPressedCommand?.invoke() ?: false
     }
 
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
+        if (!isStateSaved) {
+            lifeCycleBinder.apply(FragmentLifeCycle.FINISH)
+        }
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY)
     }
