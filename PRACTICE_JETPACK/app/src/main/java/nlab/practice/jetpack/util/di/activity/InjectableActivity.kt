@@ -116,12 +116,6 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-
-        activityCallbackBinder.onSaveInstanceStateCommand?.invoke(outState)
-    }
-
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
 

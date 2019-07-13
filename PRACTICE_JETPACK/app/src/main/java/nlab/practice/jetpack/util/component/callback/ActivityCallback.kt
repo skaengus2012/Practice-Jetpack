@@ -31,18 +31,12 @@ class ActivityCallback {
     var onRestoreInstanceStateCommand: ((savedInstanceState: Bundle?) -> Unit)? = null
         private set
 
-    var onSaveInstanceStateCommand: ((outState: Bundle?) -> Unit)? = null
-
     fun onBackPressed(action: () -> Boolean) {
        onBackPressedCommand = action
     }
 
     fun onRestoreInstanceState(action: (savedInstanceState: Bundle?) -> Unit) {
         onRestoreInstanceStateCommand = action
-    }
-
-    fun onSaveInstanceState(action: (outState: Bundle?) -> Unit) {
-        onSaveInstanceStateCommand = action
     }
 }
 

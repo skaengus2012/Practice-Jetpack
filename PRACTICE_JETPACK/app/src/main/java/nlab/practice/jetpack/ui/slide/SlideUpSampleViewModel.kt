@@ -101,7 +101,7 @@ class SlideUpSampleViewModel @Inject constructor(
         activityCallback.onBackPressed {
             when {
                 slidingUpPanelLayoutUsecase.currentPanelState.isExpanded() -> {
-                    slidingUpPanelLayoutUsecase.postCollapseState()
+                    slidingUpPanelLayoutUsecase.collapsed()
                     true
                 }
 
@@ -143,7 +143,7 @@ class SlideUpSampleViewModel @Inject constructor(
 
     private fun initializeTrack() {
         if (playerController.latestTrack == null) {
-            slidingUpPanelLayoutUsecase.postHiddenState()
+            slidingUpPanelLayoutUsecase.hidden()
 
             Single.fromCallable { playerRepository.getRandomTrack() }
                     .subscribeOn(schedulerFactory.io())
@@ -161,7 +161,7 @@ class SlideUpSampleViewModel @Inject constructor(
     private fun collapsingPanelIfHidden() {
         slidingUpPanelLayoutUsecase.currentPanelState
                 .takeIf { state -> state.isHidden() }
-                ?.let { slidingUpPanelLayoutUsecase.postCollapseState() }
+                ?.let { slidingUpPanelLayoutUsecase.collapsed() }
     }
 
     private fun initializePagingItem() {
