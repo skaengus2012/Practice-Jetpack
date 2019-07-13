@@ -20,7 +20,6 @@ import android.app.Application
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import nlab.practice.jetpack.repository.RepositoryModule
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.SchedulerFactoryImpl
@@ -37,17 +36,10 @@ import javax.inject.Singleton
 /**
  * @author Doohyun
  */
-@Module(
-        subcomponents = [
-            ActivityBindComponent::class,
-            FragmentBindComponent::class
-        ],
-
-        includes = [
-            RepositoryModule::class,
-            BundleModule::class
-        ]
-)
+@Module(subcomponents = [
+    ActivityBindComponent::class,
+    FragmentBindComponent::class
+])
 class AppModule {
 
     @Singleton

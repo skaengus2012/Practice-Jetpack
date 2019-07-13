@@ -16,11 +16,15 @@
 
 package nlab.practice.jetpack.repository
 
+import dagger.Reusable
+import javax.inject.Inject
+
 /**
  * @author Doohyun
  * @since 2019. 01. 23
  */
-class ImagePoolRepository {
+@Reusable
+class ImagePoolRepository @Inject constructor() {
 
     private val images = listOf("https://spark.adobe.com/images/landing/examples/blizzard-album-cover.jpg",
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjYcpib3ce6YBXVlVPkbOK7j7lK_Q7qUM8whmojc3GBbTCibvL",

@@ -16,12 +16,15 @@
 
 package nlab.practice.jetpack.repository
 
+import dagger.Reusable
 import nlab.practice.jetpack.repository.model.History
+import javax.inject.Inject
 
 /**
  * @author Doohyun
  */
-class HistoryRepository {
+@Reusable
+class HistoryRepository @Inject constructor(){
 
     val items = listOf(
             History("Anko", false,

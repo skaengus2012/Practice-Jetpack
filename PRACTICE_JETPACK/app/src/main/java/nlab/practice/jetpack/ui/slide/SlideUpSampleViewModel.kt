@@ -54,7 +54,7 @@ class SlideUpSampleViewModel @Inject constructor(
         private val playerRepository: PlayerRepository,
         private val playerController: PlayController,
         private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
-        private val slidingUpSampleBundle: SlidingUpSampleBundle,
+        private val slidingUpSampleBundle: SlideUpSampleBundle,
         layoutManagerFactory: LayoutManagerFactory,
         itemDecoration: ListAdapterExampleItemDecoration,
         lifeCycleBinder: ActivityLifeCycleBinder,

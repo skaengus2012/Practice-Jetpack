@@ -23,6 +23,8 @@ import nlab.practice.jetpack.util.RandomTestExecutor
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalRs
 import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Paging 에서 데이터 소스 타입에 따라 MOCK 데이터 출력
@@ -33,9 +35,10 @@ import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositi
  *
  * @author Doohyun
  */
-class PagingItemRepository(private val imagePoolRepository: ImagePoolRepository) :
-        CountablePositionalPagingManager.DataRepository<PagingItem>,
-        UnboundedPositionalPagingManager.DataRepository<PagingItem> {
+@Singleton
+class PagingItemRepository @Inject constructor(
+        private val imagePoolRepository: ImagePoolRepository
+) : CountablePositionalPagingManager.DataRepository<PagingItem>, UnboundedPositionalPagingManager.DataRepository<PagingItem> {
 
     private val items = ArrayList<PagingItem>()
 

@@ -16,10 +16,14 @@
 
 package nlab.practice.jetpack.repository
 
+import dagger.Reusable
+import javax.inject.Inject
+
 /**
  * @author Doohyun
  */
-class LyricsRepository {
+@Reusable
+class LyricsRepository @Inject constructor(){
 
     fun getLyrics(): List<String> = ("Ah, ah, \n" +
             "We come from the land of the ice and snow, \n" +

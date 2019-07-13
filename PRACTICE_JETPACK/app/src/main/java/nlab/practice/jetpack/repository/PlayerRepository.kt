@@ -16,14 +16,17 @@
 
 package nlab.practice.jetpack.repository
 
+import dagger.Reusable
 import nlab.practice.jetpack.repository.model.Track
 import nlab.practice.jetpack.util.RandomTestExecutor
+import javax.inject.Inject
 import kotlin.random.Random
 
 /**
  * @author Doohyun
  */
-class PlayerRepository(private val imageRepository: ImagePoolRepository) {
+@Reusable
+class PlayerRepository @Inject constructor(private val imageRepository: ImagePoolRepository) {
 
     private val randomIndex = Random.nextInt(imageRepository.getSize())
 

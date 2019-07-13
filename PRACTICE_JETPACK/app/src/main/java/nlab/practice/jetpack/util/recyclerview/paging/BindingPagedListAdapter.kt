@@ -32,7 +32,8 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 class BindingPagedListAdapter<T: BindingItemViewModel> (
         callback: DiffCallback<T>? = null,
         val bottomMoreItem: BindingItemViewModel? = null,
-        @LayoutRes val placeholderResId: Int = 0) : PagedListAdapter<T, BindingItemViewHolder>(callback?: DiffCallbackEx()) {
+        @LayoutRes val placeholderResId: Int = 0
+) : PagedListAdapter<T, BindingItemViewHolder>(callback?: DiffCallbackEx()) {
 
     var isShowBottomProgress = false
     set(value) {

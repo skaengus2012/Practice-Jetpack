@@ -54,8 +54,8 @@ class CountablePositionalPagingTest {
         rangeCallback = mock(LoadRangeCallback::class.java) as LoadRangeCallback<NonePageableItem>
 
         pagingManager = CountablePositionalPagingManager
-                .Factory(disposables, mock(SchedulerFactory::class.java))
-                .create(repository)
+                .Factory(mock(SchedulerFactory::class.java))
+                .create(repository, disposables)
     }
 
     private fun delayLoadTime() {

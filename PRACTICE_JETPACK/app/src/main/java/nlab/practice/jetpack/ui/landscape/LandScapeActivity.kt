@@ -16,9 +16,7 @@
 
 package nlab.practice.jetpack.ui.landscape
 
-import android.app.Activity
 import android.os.Bundle
-import dagger.Module
 import dagger.Provides
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.ui.main.MainNavController

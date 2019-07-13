@@ -35,25 +35,26 @@ import javax.inject.Inject
  */
 class AnkoFirstViewModel @Inject constructor(
         private val schedulerFactory: SchedulerFactory,
-        ankoFirstDataBundle: AnkoFirstDataBundle,
+        ankoFirstBundle: AnkoFirstBundle,
         lifeCycleBinder: ActivityLifeCycleBinder,
-        resourceProvider: ResourceProvider) {
+        resourceProvider: ResourceProvider
+) {
 
     private val disposables = CompositeDisposable()
 
     val message : ObservableField<String> = ObservableField()
 
     init {
-        (ankoFirstDataBundle.message?: resourceProvider.getString(R.string.anko_first_message)).run {
+        (ankoFirstBundle.message?: resourceProvider.getString(R.string.anko_first_message)).run {
             message.set(toString())
         }
 
         lifeCycleBinder.bindUntil(ActivityLifeCycle.FINISH) {
-            ankoFirstDataBundle.message = null
+            ankoFirstBundle.message = null
         }
 
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
-            message.get()?.run { ankoFirstDataBundle.message = this }
+            message.get()?.run { ankoFirstBundle.message = this }
             disposables.clear()
         }
     }

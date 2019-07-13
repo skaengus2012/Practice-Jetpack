@@ -16,15 +16,18 @@
 
 package nlab.practice.jetpack.repository
 
+import dagger.Reusable
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.util.ResourceProvider
+import javax.inject.Inject
 
 /**
  * @author Doohyun
  * @since 2018. 12. 13
  */
-class TestMenuRepository(private val resourceProvider: ResourceProvider) {
+@Reusable
+class TestMenuRepository @Inject constructor(private val resourceProvider: ResourceProvider) {
 
     fun getAnkoFirstViewMenu(): TestMenu = TestMenu(
             title = resourceProvider.getString(R.string.test_menu_anko_first),

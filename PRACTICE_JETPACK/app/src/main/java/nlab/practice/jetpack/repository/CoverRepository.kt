@@ -16,13 +16,16 @@
 
 package nlab.practice.jetpack.repository
 
+import dagger.Reusable
 import io.reactivex.Single
 import nlab.practice.jetpack.repository.model.Cover
+import javax.inject.Inject
 
 /**
  * @author Doohyun
  */
-class CoverRepository {
+@Reusable
+class CoverRepository @Inject constructor(){
 
     fun getCover(): Single<Cover> = Single.fromCallable {
         Cover(
