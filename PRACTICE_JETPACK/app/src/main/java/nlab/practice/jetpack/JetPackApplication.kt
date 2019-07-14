@@ -45,8 +45,8 @@ class JetPackApplication : MultiDexApplication(), AppComponent.Supplier, HasActi
 
     private fun initializeDI() {
         _appComponent = DaggerAppComponent.builder()
-                .setApplication(this)
-                .build()
+            .setApplication(this)
+            .build()
     }
 
     private fun initializeRxErrorHandler() {

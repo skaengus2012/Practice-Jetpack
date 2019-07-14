@@ -44,9 +44,9 @@ object GlidePreLollipopTlsSetupDelegate {
 
     fun registerComponents(registry: Registry) {
         val clientBuilder = OkHttpClient.Builder()
-                .followRedirects(true)
-                .followSslRedirects(true)
-                .retryOnConnectionFailure(true)
+            .followRedirects(true)
+            .followSslRedirects(true)
+            .retryOnConnectionFailure(true)
 
         val factory = OkHttpUrlLoader.Factory(enableTls12OnPreLollipop(clientBuilder).build())
 
@@ -58,7 +58,8 @@ object GlidePreLollipopTlsSetupDelegate {
             try {
 
                 val trustManagerFactory = TrustManagerFactory.getInstance(
-                        TrustManagerFactory.getDefaultAlgorithm())
+                    TrustManagerFactory.getDefaultAlgorithm()
+                )
                 trustManagerFactory.init(null as KeyStore?)
                 val trustManagers = trustManagerFactory.trustManagers
                 if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
@@ -74,8 +75,8 @@ object GlidePreLollipopTlsSetupDelegate {
                 client.sslSocketFactory(Tls12SocketFactory(sc.socketFactory), trustManager)
 
                 val cs = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-                        .tlsVersions(TlsVersion.TLS_1_2)
-                        .build()
+                    .tlsVersions(TlsVersion.TLS_1_2)
+                    .build()
 
                 val specs = arrayListOf<ConnectionSpec>()
                 specs.add(cs)

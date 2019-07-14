@@ -37,8 +37,9 @@ import javax.inject.Singleton
  */
 @Singleton
 class PagingItemRepository @Inject constructor(
-        private val imagePoolRepository: ImagePoolRepository
-) : CountablePositionalPagingManager.DataRepository<PagingItem>, UnboundedPositionalPagingManager.DataRepository<PagingItem> {
+    private val imagePoolRepository: ImagePoolRepository
+) : CountablePositionalPagingManager.DataRepository<PagingItem>,
+    UnboundedPositionalPagingManager.DataRepository<PagingItem> {
 
     private val items = ArrayList<PagingItem>()
 
@@ -59,10 +60,10 @@ class PagingItemRepository @Inject constructor(
         RandomTestExecutor.delay(maxTime = 1500)
 
         val resultSubList: List<PagingItem> = Observable.fromIterable(items)
-                .skip(offset.toLong())
-                .take(limit.toLong())
-                .toList()
-                .blockingGet()
+            .skip(offset.toLong())
+            .take(limit.toLong())
+            .toList()
+            .blockingGet()
 
         // 가상의 에러 방출
         RandomTestExecutor.error(20)
@@ -74,10 +75,10 @@ class PagingItemRepository @Inject constructor(
         RandomTestExecutor.delay(maxTime = 1500)
 
         val resultSubList = Observable.fromIterable(items)
-                .skip(offset.toLong())
-                .take(limit.toLong())
-                .toList()
-                .blockingGet()
+            .skip(offset.toLong())
+            .take(limit.toLong())
+            .toList()
+            .blockingGet()
 
         // 가상의 에러 방출
         RandomTestExecutor.error(20)
@@ -89,8 +90,9 @@ class PagingItemRepository @Inject constructor(
 }
 
 class PagingItemRs(
-        private val _totalCount: Int,
-        private val _items: List<PagingItem>): CountablePositionalRs<PagingItem> {
+    private val _totalCount: Int,
+    private val _items: List<PagingItem>
+) : CountablePositionalRs<PagingItem> {
 
     override fun getTotalCount(): Int = _totalCount
 

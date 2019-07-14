@@ -45,7 +45,7 @@ class SlideUpSampleActivity : InjectableActivity(), SlidingUpPanelActivity.Owner
 
     override fun onCreateBinding(savedInstanceState: Bundle?) {
         val binding: ActivitySlideUpSampleBinding =
-                DataBindingUtil.setContentView(this, R.layout.activity_slide_up_sample)
+            DataBindingUtil.setContentView(this, R.layout.activity_slide_up_sample)
 
         binding.viewModel = viewModel
     }

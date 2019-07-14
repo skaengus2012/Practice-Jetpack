@@ -24,12 +24,12 @@ import nlab.practice.jetpack.util.recyclerview.isVisiblePosition
 /**
  * @author Doohyun
  */
-class CenterSmoothScrollLayoutManager (
-        context: Context,
-        scrollerSpeed : Float,
-        factor: Float,
-        @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
-        reverseLayout: Boolean = false
+class CenterSmoothScrollLayoutManager(
+    context: Context,
+    scrollerSpeed: Float,
+    factor: Float,
+    @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL,
+    reverseLayout: Boolean = false
 ) : LinearLayoutManager(context, orientation, reverseLayout) {
 
     private val visibleScrollerFactory = CenterLinearSmoothScrollerFactory(context, scrollerSpeed, factor)

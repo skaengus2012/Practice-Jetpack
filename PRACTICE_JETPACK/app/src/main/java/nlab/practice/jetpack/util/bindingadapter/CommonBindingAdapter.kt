@@ -37,7 +37,7 @@ fun bindOnTouchListener(view: View, onTouchListener: View.OnTouchListener) {
 fun setAnimationVisibility(view: View, targetVisibility: Int) {
     val isEqualsVisibility = (view.visibility == targetVisibility)
     if (!isEqualsVisibility) {
-        val animateListener = object: SimpleAnimatorListener() {
+        val animateListener = object : SimpleAnimatorListener() {
             override fun onAnimationEnd(animation: Animator?) {
                 view.visibility = targetVisibility
             }

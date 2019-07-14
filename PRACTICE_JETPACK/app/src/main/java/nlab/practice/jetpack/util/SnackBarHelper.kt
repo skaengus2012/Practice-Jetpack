@@ -27,22 +27,23 @@ import nlab.practice.jetpack.R
  * @author Doohyun
  */
 class SnackBarHelper(
-        private val resourceProvider: ResourceProvider,
-        private val viewSupplier: () -> View?
+    private val resourceProvider: ResourceProvider,
+    private val viewSupplier: () -> View?
 ) {
 
     private val targetView: View?
         get() = viewSupplier()
 
     fun showSnackBar(
-            @StringRes message: Int,
-            duration: Int = Snackbar.LENGTH_SHORT,
-            @StringRes actionMessage: Int? = null,
-            actionBehavior: (() -> Unit)? = null) = targetView?.run {
+        @StringRes message: Int,
+        duration: Int = Snackbar.LENGTH_SHORT,
+        @StringRes actionMessage: Int? = null,
+        actionBehavior: (() -> Unit)? = null
+    ) = targetView?.run {
         Snackbar.make(this, message, duration)
-                .decorate()
-                .setActionInternal(actionMessage, actionBehavior)
-                .show()
+            .decorate()
+            .setActionInternal(actionMessage, actionBehavior)
+            .show()
     }
 
     private fun Snackbar.setActionInternal(@StringRes actionMessage: Int?, actionBehavior: (() -> Unit)?): Snackbar {

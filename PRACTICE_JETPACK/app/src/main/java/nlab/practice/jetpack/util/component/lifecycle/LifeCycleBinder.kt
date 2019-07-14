@@ -33,9 +33,9 @@ class LifeCycleBinder<T> {
 
     inline fun bindUntil(code: T, crossinline action: () -> Unit) {
         subject.filter { it == code }
-                .doOnNext { action() }
-                .subscribe()
-                .addTo(disposables)
+            .doOnNext { action() }
+            .subscribe()
+            .addTo(disposables)
     }
 
     fun apply(event: T) = subject.onNext(event)

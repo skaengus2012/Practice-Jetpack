@@ -39,10 +39,14 @@ class HomeFragment : InjectableFragment(), ContainerFragment.Owner {
 
     lateinit var binding: FragmentHomeBinding
 
-    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateBindingView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return FragmentHomeBinding.inflate(inflater, container, false)
-                .apply { binding = this }
-                .root
+            .apply { binding = this }
+            .root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

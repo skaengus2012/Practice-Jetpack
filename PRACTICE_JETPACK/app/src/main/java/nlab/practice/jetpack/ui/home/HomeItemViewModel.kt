@@ -29,8 +29,9 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  */
 @AutoFactory
 class HomeItemViewModel(
-        private val testMenu: TestMenu,
-        private val navigateAction: () -> Unit) : BindingItemViewModel() {
+    private val testMenu: TestMenu,
+    private val navigateAction: () -> Unit
+) : BindingItemViewModel() {
 
     override fun getLayoutRes(): Int = R.layout.view_home_item
 

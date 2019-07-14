@@ -29,9 +29,10 @@ private const val SKIP_RANGE = 5
  * @since 2019. 06. 24
  */
 class LyricsSmoothScrollerHelper private constructor(
-        private val viewModel: CenterScrollViewModel,
-        private val recyclerViewUsecase: RecyclerViewUsecase,
-        private val schedulerFactory: SchedulerFactory) {
+    private val viewModel: CenterScrollViewModel,
+    private val recyclerViewUsecase: RecyclerViewUsecase,
+    private val schedulerFactory: SchedulerFactory
+) {
 
     fun scrolling(position: Int) {
         val firstRange = recyclerViewUsecase.findFirstVisiblePosition() - SKIP_RANGE
@@ -43,8 +44,7 @@ class LyricsSmoothScrollerHelper private constructor(
             lastRange < position -> max(0, position - SKIP_RANGE)
 
             else -> null
-        }?.let {
-            directPosition
+        }?.let { directPosition
             ->
             recyclerViewUsecase.scrollToPosition(directPosition)
         }
@@ -57,8 +57,9 @@ class LyricsSmoothScrollerHelper private constructor(
     }
 
     class Factory @Inject constructor(
-            private val recyclerViewUsecase: RecyclerViewUsecase,
-            private val schedulerFactory: SchedulerFactory) {
+        private val recyclerViewUsecase: RecyclerViewUsecase,
+        private val schedulerFactory: SchedulerFactory
+    ) {
 
         fun create(viewModel: CenterScrollViewModel): LyricsSmoothScrollerHelper {
             return LyricsSmoothScrollerHelper(viewModel, recyclerViewUsecase, schedulerFactory)

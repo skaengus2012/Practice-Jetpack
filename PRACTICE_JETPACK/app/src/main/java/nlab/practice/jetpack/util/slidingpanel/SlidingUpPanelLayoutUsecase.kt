@@ -51,10 +51,11 @@ class SlidingUpPanelLayoutUsecase(private val viewSupplier: () -> SlidingUpPanel
             }
 
             override fun onPanelStateChanged(
-                    panel: View?,
-                    previousState: SlidingUpPanelLayout.PanelState?,
-                    newState: SlidingUpPanelLayout.PanelState?) {
-                newState?.run {  slidePanelStateSubject.onNext(this) }
+                panel: View?,
+                previousState: SlidingUpPanelLayout.PanelState?,
+                newState: SlidingUpPanelLayout.PanelState?
+            ) {
+                newState?.run { slidePanelStateSubject.onNext(this) }
             }
         })
     }

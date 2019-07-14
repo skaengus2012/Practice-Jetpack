@@ -41,6 +41,6 @@ interface ActivityBindComponent {
         @BindsInstance
         fun setActivity(activity: Activity): Builder
 
-        fun build() : ActivityBindComponent
+        fun build(): ActivityBindComponent
     }
 }

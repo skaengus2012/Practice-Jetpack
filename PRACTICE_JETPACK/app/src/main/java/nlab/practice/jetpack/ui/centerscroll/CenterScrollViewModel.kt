@@ -35,12 +35,13 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class CenterScrollViewModel @Inject constructor(
-        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
-        layoutManagerFactory: LayoutManagerFactory,
-        lyricsSmoothScrollHelperFactory: LyricsSmoothScrollerHelper.Factory,
-        private val schedulerFactory: SchedulerFactory,
-        private val lyricsRepository: LyricsRepository,
-        private val recyclerViewUsecase: RecyclerViewUsecase) {
+    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    layoutManagerFactory: LayoutManagerFactory,
+    lyricsSmoothScrollHelperFactory: LyricsSmoothScrollerHelper.Factory,
+    private val schedulerFactory: SchedulerFactory,
+    private val lyricsRepository: LyricsRepository,
+    private val recyclerViewUsecase: RecyclerViewUsecase
+) {
 
     val items = ObservableArrayList<LyricsItemViewModel>()
 
@@ -87,28 +88,28 @@ class CenterScrollViewModel @Inject constructor(
 
     private fun subscribeScrollEvent() {
         recyclerViewUsecase.scrollStateChanges()
-                .subscribe { isScrolling = (it != RecyclerView.SCROLL_STATE_IDLE) }
-                .addTo(disposables)
+            .subscribe { isScrolling = (it != RecyclerView.SCROLL_STATE_IDLE) }
+            .addTo(disposables)
     }
 
     private fun subscribeLyricsIndexChanged() {
         Observable.interval(3, TimeUnit.SECONDS)
-                .observeOn(schedulerFactory.ui())
-                .subscribe {
-                    if (isSkip) {
-                        isSkip = false
-                    } else {
-                        updateProgress()
-                    }
+            .observeOn(schedulerFactory.ui())
+            .subscribe {
+                if (isSkip) {
+                    isSkip = false
+                } else {
+                    updateProgress()
                 }
-                .addTo(disposables)
+            }
+            .addTo(disposables)
     }
 
     private fun updateProgress() {
         val updateIndex = getCurrentSelectedIndex()
-                ?.let { it + 1 }
-                ?.takeIf { it < items.size }
-                ?: 0
+            ?.let { it + 1 }
+            ?.takeIf { it < items.size }
+            ?: 0
 
         updateSelectedWithScroll(updateIndex)
     }

@@ -22,8 +22,8 @@ package nlab.practice.jetpack.util.component.callback
  * @author Doohyun
  */
 class FragmentCallback {
-    var onBackPressedCommand: (()-> Boolean)? = null
-    private set
+    var onBackPressedCommand: (() -> Boolean)? = null
+        private set
 
     fun onBackPressed(action: () -> Boolean) {
         onBackPressedCommand = action

@@ -29,10 +29,11 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class HomeItemDecoration @Inject constructor(
-        private val resourceProvider: ResourceProvider): RecyclerView.ItemDecoration()  {
+    private val resourceProvider: ResourceProvider
+) : RecyclerView.ItemDecoration() {
 
-    private val bottomMargin : Int by lazy { resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_bottom) }
-    private val sizeMargin : Int by lazy { resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_horizontal) }
+    private val bottomMargin: Int by lazy { resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_bottom) }
+    private val sizeMargin: Int by lazy { resourceProvider.getDimensionPixelSize(R.dimen.home_page_item_margin_horizontal) }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)

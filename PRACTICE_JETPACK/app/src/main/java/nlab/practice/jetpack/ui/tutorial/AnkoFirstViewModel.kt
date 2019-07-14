@@ -34,18 +34,18 @@ import javax.inject.Inject
  * @since 2018. 11. 23
  */
 class AnkoFirstViewModel @Inject constructor(
-        private val schedulerFactory: SchedulerFactory,
-        ankoFirstBundle: AnkoFirstBundle,
-        lifeCycleBinder: ActivityLifeCycleBinder,
-        resourceProvider: ResourceProvider
+    private val schedulerFactory: SchedulerFactory,
+    ankoFirstBundle: AnkoFirstBundle,
+    lifeCycleBinder: ActivityLifeCycleBinder,
+    resourceProvider: ResourceProvider
 ) {
 
     private val disposables = CompositeDisposable()
 
-    val message : ObservableField<String> = ObservableField()
+    val message: ObservableField<String> = ObservableField()
 
     init {
-        (ankoFirstBundle.message?: resourceProvider.getString(R.string.anko_first_message)).run {
+        (ankoFirstBundle.message ?: resourceProvider.getString(R.string.anko_first_message)).run {
             message.set(toString())
         }
 
@@ -62,9 +62,9 @@ class AnkoFirstViewModel @Inject constructor(
 
     fun changeTextDelayTime(message: String, second: Long = 0L) {
         Observable.timer(second, TimeUnit.SECONDS)
-                .observeOn(schedulerFactory.ui())
-                .doOnNext { this.message.set(message) }
-                .subscribe()
-                .addTo(disposables)
+            .observeOn(schedulerFactory.ui())
+            .doOnNext { this.message.set(message) }
+            .subscribe()
+            .addTo(disposables)
     }
 }

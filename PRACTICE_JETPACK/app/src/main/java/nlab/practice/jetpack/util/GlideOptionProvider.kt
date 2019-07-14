@@ -26,10 +26,10 @@ object GlideOptionProvider {
 
     @JvmStatic
     fun forPagingItem() = RequestOptions()
-            .centerCrop()
-            .override(200)
+        .centerCrop()
+        .override(200)
 
     @JvmStatic
     fun forBigSizeCenterCrop() = RequestOptions()
-            .centerCrop()
+        .centerCrop()
 }

@@ -29,22 +29,26 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  *
  * @author Doohyun
  */
-class BindingPagedListAdapter<T: BindingItemViewModel> (
-        callback: DiffCallback<T>? = null,
-        val bottomMoreItem: BindingItemViewModel? = null,
-        @LayoutRes val placeholderResId: Int = 0
-) : PagedListAdapter<T, BindingItemViewHolder>(callback?: DiffCallbackEx()) {
+class BindingPagedListAdapter<T : BindingItemViewModel>(
+    callback: DiffCallback<T>? = null,
+    val bottomMoreItem: BindingItemViewModel? = null,
+    @LayoutRes val placeholderResId: Int = 0
+) : PagedListAdapter<T, BindingItemViewHolder>(callback ?: DiffCallbackEx()) {
 
     var isShowBottomProgress = false
-    set(value) {
-        field = value
-        notifyItemChanged(super.getItemCount())
+        set(value) {
+            field = value
+            notifyItemChanged(super.getItemCount())
+        }
+
+    override fun getItemCount(): Int = super.getItemCount() + if (isNeedMoreBottom()) {
+        1
+    } else {
+        0
     }
 
-    override fun getItemCount(): Int = super.getItemCount() + if (isNeedMoreBottom()) { 1 } else { 0 }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingItemViewHolder =
-            BindingItemViewHolder.create(parent, viewType)
+        BindingItemViewHolder.create(parent, viewType)
 
     override fun onBindViewHolder(holder: BindingItemViewHolder, position: Int) {
         if (isNeedOnlyCommonCase()) {
@@ -60,7 +64,7 @@ class BindingPagedListAdapter<T: BindingItemViewModel> (
     }
 
     override fun getItemViewType(position: Int): Int = if (isNeedOnlyCommonCase()) {
-        getItem(position)?.getLayoutRes()?:placeholderResId
+        getItem(position)?.getLayoutRes() ?: placeholderResId
     } else {
         val itemCount = super.getItemCount()
         if (position < itemCount) {
@@ -83,7 +87,7 @@ class BindingPagedListAdapter<T: BindingItemViewModel> (
         return isUsePlaceholder || isNoneUseBottomMoreItem
     }
 
-    private fun isNeedMoreBottom() : Boolean {
+    private fun isNeedMoreBottom(): Boolean {
         return placeholderResId == 0 && bottomMoreItem != null && isShowBottomProgress
     }
 }

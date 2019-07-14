@@ -51,7 +51,7 @@ class FragmentNavUsecase(private val navSupplier: () -> ChildNavController?) {
     }
 
     fun navDragDrop() {
-        navController?.addFragment(ItemTouchHelperFragment::class.fragmentTag()) { ItemTouchHelperFragment()}
+        navController?.addFragment(ItemTouchHelperFragment::class.fragmentTag()) { ItemTouchHelperFragment() }
     }
 
     fun navCenterScrolling() {

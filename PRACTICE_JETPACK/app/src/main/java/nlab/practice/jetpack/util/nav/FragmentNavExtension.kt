@@ -39,10 +39,11 @@ fun <T : Fragment> KClass<T>.fragmentTag(): String = this.java.name
  * 만약 Fragment 가 없다면, [defaultProvider] 로부터 Fragment 를 생성하여 add 한다.
  */
 inline fun FragmentManager.findFragmentByTag(
-        @IdRes containerResId: Int,
-        tag: String,
-        fragmentTransaction: FragmentTransaction,
-        crossinline defaultProvider: () -> Fragment): Fragment {
+    @IdRes containerResId: Int,
+    tag: String,
+    fragmentTransaction: FragmentTransaction,
+    crossinline defaultProvider: () -> Fragment
+): Fragment {
 
     return findFragmentByTag(tag) ?: defaultProvider().apply {
         // NOTE : replace 는 Fragment 를 떼고 붙임. add 시, Fragment 자체에는 어떤 영향도 없음

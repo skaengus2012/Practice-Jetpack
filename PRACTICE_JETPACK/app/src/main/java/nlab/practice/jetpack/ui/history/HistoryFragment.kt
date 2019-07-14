@@ -39,10 +39,14 @@ class HistoryFragment : InjectableFragment() {
 
     lateinit var binding: FragmentHistoryBinding
 
-    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateBindingView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return FragmentHistoryBinding.inflate(inflater, container, false)
-                .apply { binding = this }
-                .root
+            .apply { binding = this }
+            .root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -61,10 +65,9 @@ class HistoryFragment : InjectableFragment() {
 
         @Provides
         fun provideHistoryItemViewFactory(
-                resourceProvider: ResourceProvider): HistoryItemViewModelFactory = HistoryItemViewModelFactory{
-
+            resourceProvider: ResourceProvider
+        ): HistoryItemViewModelFactory = HistoryItemViewModelFactory {
             resourceProvider
         }
-
     }
 }

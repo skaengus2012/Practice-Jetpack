@@ -43,10 +43,13 @@ class ItemTouchHelperFragment : InjectableFragment() {
     lateinit var binding: FragmentItemTouchHelperBinding
 
     override fun onCreateBindingView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return FragmentItemTouchHelperBinding.inflate(inflater, container, false)
-                .apply { binding = this }
-                .root
+            .apply { binding = this }
+            .root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,25 +67,25 @@ class ItemTouchHelperFragment : InjectableFragment() {
 
         @FragmentScope
         @Provides
-        fun provideDragTouchHelperCallback(): VerticalDragItemTouchHelperCallback
-                = VerticalDragItemTouchHelperCallback(true)
+        fun provideDragTouchHelperCallback(): VerticalDragItemTouchHelperCallback =
+            VerticalDragItemTouchHelperCallback(true)
 
         @FragmentScope
         @Provides
         @Named(NAME_VERTICAL_DRAG)
-        fun provideDragItemTouchHelper(dragItemTouchHelper: VerticalDragItemTouchHelperCallback): ItemTouchHelper
-                = ItemTouchHelper(dragItemTouchHelper)
+        fun provideDragItemTouchHelper(dragItemTouchHelper: VerticalDragItemTouchHelperCallback): ItemTouchHelper =
+            ItemTouchHelper(dragItemTouchHelper)
 
         @FragmentScope
         @Provides
-        fun provideSwipeDeleteTouchHelperCallback(): SwipeDeleteTouchEventHelperCallback
-                = SwipeDeleteTouchEventHelperCallback(ItemTouchHelper.START)
+        fun provideSwipeDeleteTouchHelperCallback(): SwipeDeleteTouchEventHelperCallback =
+            SwipeDeleteTouchEventHelperCallback(ItemTouchHelper.START)
 
         @FragmentScope
         @Provides
         @Named(NAME_SWIPE_DELETE)
-        fun provideSwipeDeleteItemTouchHelper(swipeItemTouchHelper: SwipeDeleteTouchEventHelperCallback) : ItemTouchHelper
-                = ItemTouchHelper(swipeItemTouchHelper)
+        fun provideSwipeDeleteItemTouchHelper(swipeItemTouchHelper: SwipeDeleteTouchEventHelperCallback): ItemTouchHelper =
+            ItemTouchHelper(swipeItemTouchHelper)
 
         /**
          * NOTE. Multi-binding 사용 못함
@@ -94,8 +97,9 @@ class ItemTouchHelperFragment : InjectableFragment() {
         @FragmentScope
         @Provides
         fun provideItemTouchHelpers(
-                @Named(NAME_VERTICAL_DRAG) dragHelper: ItemTouchHelper,
-                @Named(NAME_SWIPE_DELETE) swipeHelper: ItemTouchHelper): Set<ItemTouchHelper> {
+            @Named(NAME_VERTICAL_DRAG) dragHelper: ItemTouchHelper,
+            @Named(NAME_SWIPE_DELETE) swipeHelper: ItemTouchHelper
+        ): Set<ItemTouchHelper> {
             return setOf(dragHelper, swipeHelper)
         }
     }
@@ -103,7 +107,7 @@ class ItemTouchHelperFragment : InjectableFragment() {
     /**
      * ItemTouchHelper 멀티 바인딩을 위한 키셋 정의
      */
-    companion object  {
+    companion object {
         private const val NAME_VERTICAL_DRAG = "NAME_VERTICAL_DRAG"
         private const val NAME_SWIPE_DELETE = "NAME_SWIPE_DELETE"
     }

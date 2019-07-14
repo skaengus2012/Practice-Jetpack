@@ -19,16 +19,17 @@ package nlab.practice.jetpack.ui.centerscroll
 import androidx.databinding.Bindable
 import nlab.practice.jetpack.BR
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
-import javax.inject.Inject
 
 /**
  * @author Doohyun
  * @since 2019. 06. 24
  */
-class LyricsItemViewModel (
-        val index: Int, val text: String?, val onClickAction: (position: Int) -> Unit) : BindingItemViewModel() {
+class LyricsItemViewModel(
+    val index: Int,
+    val text: String?,
+    val onClickAction: (position: Int) -> Unit
+) : BindingItemViewModel() {
 
     @Bindable
     var selected: Boolean = false

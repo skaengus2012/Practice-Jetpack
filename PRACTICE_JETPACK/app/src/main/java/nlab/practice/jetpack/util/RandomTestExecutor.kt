@@ -26,7 +26,7 @@ import kotlin.random.Random
  */
 object RandomTestExecutor {
 
-    fun error(percent: Int = 50) =  Random.nextInt(100).takeIf { it <= percent }?.run {
+    fun error(percent: Int = 50) = Random.nextInt(100).takeIf { it <= percent }?.run {
         throw RuntimeException()
     }
 

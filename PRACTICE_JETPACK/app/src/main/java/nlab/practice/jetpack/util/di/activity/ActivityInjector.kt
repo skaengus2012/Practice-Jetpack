@@ -28,9 +28,9 @@ import dagger.android.AndroidInjector
 object ActivityInjector : AndroidInjector<Activity> {
 
     override fun inject(activity: Activity?) {
-       activity?.let { it as InjectableActivity }
-               ?.activityBindComponent
-               ?.activityInjector()
-               ?.maybeInject(activity)
+        activity?.let { it as InjectableActivity }
+            ?.activityBindComponent
+            ?.activityInjector()
+            ?.maybeInject(activity)
     }
 }

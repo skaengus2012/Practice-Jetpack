@@ -35,10 +35,14 @@ class SlidingControlFragment : InjectableFragment() {
 
     lateinit var binding: FragmentSlidingControlBinding
 
-    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateBindingView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return FragmentSlidingControlBinding.inflate(inflater, container, false)
-                .apply { binding = this }
-                .root
+            .apply { binding = this }
+            .root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

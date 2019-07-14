@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @author Doohyun
  */
-abstract class AbsGenericItemAdapter<T, VIEW_HOLDER: AbsGenericItemAdapter.GenericItemViewHolder<T>> :
-        RecyclerView.Adapter<VIEW_HOLDER>() {
+abstract class AbsGenericItemAdapter<T, VIEW_HOLDER : AbsGenericItemAdapter.GenericItemViewHolder<T>> :
+    RecyclerView.Adapter<VIEW_HOLDER>() {
 
     var items: MutableList<T>? = null
     var headers: MutableList<T>? = null

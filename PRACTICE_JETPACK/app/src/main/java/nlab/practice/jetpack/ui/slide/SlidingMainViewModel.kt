@@ -30,9 +30,9 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class SlidingMainViewModel @Inject constructor(
-        private val playController: PlayController,
-        private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
-        lifeCycleBinder: FragmentLifeCycleBinder
+    private val playController: PlayController,
+    private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
+    lifeCycleBinder: FragmentLifeCycleBinder
 ) {
 
     private val disposables = CompositeDisposable()
@@ -53,12 +53,12 @@ class SlidingMainViewModel @Inject constructor(
 
     private fun loadCurrentTrack() {
         playController.trackChangedObservable
-                .doOnNext {
-                    currentTrack.set(it)
-                    artist.set("Suzy")
-                }
-                .subscribe()
-                .addTo(disposables)
+            .doOnNext {
+                currentTrack.set(it)
+                artist.set("Suzy")
+            }
+            .subscribe()
+            .addTo(disposables)
     }
 
     fun onPanelCollapse() {

@@ -25,12 +25,13 @@ import javax.inject.Inject
  * @author Doohyun
  */
 @Reusable
-class CoverRepository @Inject constructor(){
+class CoverRepository @Inject constructor() {
 
     fun getCover(): Single<Cover> = Single.fromCallable {
         Cover(
-                title = "이번주 트와이스 답은\n정해져 있고 넌 좋아만 하면 돼",
-                imageUrl = "http://image.chosun.com/sitedata/image/201702/24/2017022400691_0.jpg")
+            title = "이번주 트와이스 답은\n정해져 있고 넌 좋아만 하면 돼",
+            imageUrl = "http://image.chosun.com/sitedata/image/201702/24/2017022400691_0.jpg"
+        )
     }
 
 }

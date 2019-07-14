@@ -25,14 +25,14 @@ import android.os.Bundle
  */
 class ActivityCallback {
 
-    var onBackPressedCommand: (()-> Boolean)? = null
+    var onBackPressedCommand: (() -> Boolean)? = null
         private set
 
     var onRestoreInstanceStateCommand: ((savedInstanceState: Bundle?) -> Unit)? = null
         private set
 
     fun onBackPressed(action: () -> Boolean) {
-       onBackPressedCommand = action
+        onBackPressedCommand = action
     }
 
     fun onRestoreInstanceState(action: (savedInstanceState: Bundle?) -> Unit) {

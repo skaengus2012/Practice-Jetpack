@@ -40,7 +40,7 @@ class CollapsingToolbarActivity : InjectableActivity() {
 
     override fun onCreateBinding(savedInstanceState: Bundle?) {
         val binding: ActivityCollapsingToolbarBinding =
-                DataBindingUtil.setContentView(this, R.layout.activity_collapsing_toolbar)
+            DataBindingUtil.setContentView(this, R.layout.activity_collapsing_toolbar)
         binding.viewModel = viewModel
     }
 
@@ -54,8 +54,9 @@ class CollapsingToolbarActivity : InjectableActivity() {
         @ActivityScope
         @Provides
         fun getToolbarItemVisibilityUsecase(activity: Activity) = ToolbarItemVisibilityUsecase(
-                {activity.appbarLayout},
-                {activity.collapsingToolbar})
+            { activity.appbarLayout },
+            { activity.collapsingToolbar }
+        )
 
     }
 }

@@ -21,7 +21,11 @@ import nlab.practice.jetpack.util.recyclerview.Different
 /**
  * @author Doohyun
  */
-data class PagingItem(val itemId: Int, val title: String, val imageUrl: String? = null) : Different<PagingItem> {
+data class PagingItem(
+    val itemId: Int,
+    val title: String,
+    val imageUrl: String? = null
+) : Different<PagingItem> {
 
     override fun areItemsTheSame(newItem: PagingItem): Boolean = (itemId == newItem.itemId)
 

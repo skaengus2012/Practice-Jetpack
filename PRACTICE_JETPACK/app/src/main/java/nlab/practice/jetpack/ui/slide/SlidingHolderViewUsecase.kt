@@ -22,8 +22,9 @@ import android.view.View
  * @author Doohyun
  */
 class SlidingHolderViewUsecase(
-        private val containerViewSupplier: () -> View,
-        private val miniPlayerViewSupplier: () -> View?) {
+    private val containerViewSupplier: () -> View,
+    private val miniPlayerViewSupplier: () -> View?
+) {
 
     private val containerView: View
         get() = containerViewSupplier()

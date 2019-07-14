@@ -28,9 +28,9 @@ object FragmentInjector : AndroidInjector<Fragment> {
 
     override fun inject(fragment: Fragment?) {
         fragment?.let { it as InjectableFragment }
-                ?.fragmentBindComponent
-                ?.activityInjector()
-                ?.maybeInject(fragment)
+            ?.fragmentBindComponent
+            ?.activityInjector()
+            ?.maybeInject(fragment)
     }
 
 }

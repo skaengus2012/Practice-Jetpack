@@ -51,12 +51,12 @@ abstract class InjectableFragment : BaseFragment() {
 
     private fun initializeDI() {
         activity?.application
-                ?.let { it as? AppComponent.Supplier }
-                ?.getAppComponent()
-                ?.fragmentBindComponent()
-                ?.setOwner(this)
-                ?.build()
-                ?.run { fragmentBindComponent = this }
+            ?.let { it as? AppComponent.Supplier }
+            ?.getAppComponent()
+            ?.fragmentBindComponent()
+            ?.setOwner(this)
+            ?.build()
+            ?.run { fragmentBindComponent = this }
 
         AndroidSupportInjection.inject(this)
     }
@@ -78,7 +78,11 @@ abstract class InjectableFragment : BaseFragment() {
         lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE)
     }
 
-    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    final override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE_VIEW)
 
         return onCreateBindingView(inflater, container, savedInstanceState)
@@ -89,7 +93,11 @@ abstract class InjectableFragment : BaseFragment() {
      *
      * onCreateView 에서 lifecycle 을 제공해야하기때문에 해당 메소드로 대체
      */
-    abstract fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    abstract fun onCreateBindingView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View?
 
     @CallSuper
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @author Doohyun
  */
 data class RecyclerViewConfig(
-        var layoutManager: RecyclerView.LayoutManager? = null,
-        val itemDecorations: MutableList<RecyclerView.ItemDecoration> = ArrayList(),
-        val itemTouchHelperSuppliers: MutableList<ItemTouchHelper> = ArrayList()
+    var layoutManager: RecyclerView.LayoutManager? = null,
+    val itemDecorations: MutableList<RecyclerView.ItemDecoration> = ArrayList(),
+    val itemTouchHelperSuppliers: MutableList<ItemTouchHelper> = ArrayList()
 )

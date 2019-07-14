@@ -46,13 +46,13 @@ class HomeModule {
 
     @FragmentScope
     @Provides
-    fun provideNavUsecase(navController: ChildNavController) : FragmentNavUsecase = FragmentNavUsecase {
+    fun provideNavUsecase(navController: ChildNavController): FragmentNavUsecase = FragmentNavUsecase {
         navController
     }
 
     @FragmentScope
     @Provides
-    fun provideRecyclerViewUsecase(fragment: HomeFragment) : RecyclerViewUsecase = RecyclerViewUsecase {
+    fun provideRecyclerViewUsecase(fragment: HomeFragment): RecyclerViewUsecase = RecyclerViewUsecase {
         fragment.lvContents
     }
 }

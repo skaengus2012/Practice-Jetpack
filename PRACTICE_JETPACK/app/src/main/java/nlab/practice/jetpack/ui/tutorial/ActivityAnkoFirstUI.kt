@@ -49,14 +49,14 @@ class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFir
                 textColor = color(android.R.color.white)
                 textSize = 20f
                 setTypeface(typeface, Typeface.BOLD)
-            }.lparams (width = wrapContent, height = wrapContent){
+            }.lparams(width = wrapContent, height = wrapContent) {
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
                 topToTop = PARENT_ID
                 bottomToTop = R.id.guideline_common_horizontal
             }.binder { it.message }.drive { text = it.get() }
 
-            guideline{
+            guideline {
                 id = R.id.guideline_common_horizontal
             }.lparams(width = wrapContent, height = wrapContent) {
                 orientation = HORIZONTAL
@@ -68,22 +68,22 @@ class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFir
                 orientation = LinearLayout.VERTICAL
 
                 getTextChangeButton(ctx, R.string.anko_first_btn_change_text)
-                        .lparams(width = matchParent, height = wrapContent) {
-                            bottomMargin = dip(5)
-                            leftMargin = dip(20)
-                            rightMargin = dip(20)
-                        }
-                        .binder()
-                        .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change), 0) }
+                    .lparams(width = matchParent, height = wrapContent) {
+                        bottomMargin = dip(5)
+                        leftMargin = dip(20)
+                        rightMargin = dip(20)
+                    }
+                    .binder()
+                    .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change), 0) }
 
                 getTextChangeButton(ctx, R.string.anko_first_btn_change_text_delay)
-                        .lparams(width = matchParent, height = wrapContent) {
-                            topMargin = dip(5f)
-                            leftMargin = dip(20)
-                            rightMargin = dip(20)
-                        }
-                        .binder()
-                        .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change_delay), 5) }
+                    .lparams(width = matchParent, height = wrapContent) {
+                        topMargin = dip(5f)
+                        leftMargin = dip(20)
+                        rightMargin = dip(20)
+                    }
+                    .binder()
+                    .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change_delay), 5) }
 
             }.lparams(width = matchConstraint, height = matchConstraint) {
                 startToStart = PARENT_ID
@@ -95,7 +95,7 @@ class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFir
 
     }.view
 
-    private fun ViewManager.getTextChangeButton(ctx: Context, @StringRes labelRes: Int) : Button = button(labelRes) {
+    private fun ViewManager.getTextChangeButton(ctx: Context, @StringRes labelRes: Int): Button = button(labelRes) {
         minimumHeight = dip(40)
 
         backgroundColor = ctx.color(android.R.color.black)

@@ -39,16 +39,16 @@ import javax.inject.Named
  * @author Doohyun
  */
 class HomeViewModel @Inject constructor(
-        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
-        containerFragmentCallback: ContainerFragmentCallback,
-        homeItemDecoration: HomeItemDecoration,
-        homeHeaderViewModel: HomeHeaderViewModel,
-        @Named(ContextInjectionType.ACTIVITY) private val activityNavUsecase: ActivityNavUsecase,
-        @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
-        private val fragmentNavUsecase: FragmentNavUsecase,
-        private val homeItemViewModelFactory: HomeItemViewModelFactory,
-        private val testMenuRepository: TestMenuRepository,
-        private val recyclerViewUsecase: RecyclerViewUsecase
+    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    containerFragmentCallback: ContainerFragmentCallback,
+    homeItemDecoration: HomeItemDecoration,
+    homeHeaderViewModel: HomeHeaderViewModel,
+    @Named(ContextInjectionType.ACTIVITY) private val activityNavUsecase: ActivityNavUsecase,
+    @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
+    private val fragmentNavUsecase: FragmentNavUsecase,
+    private val homeItemViewModelFactory: HomeItemViewModelFactory,
+    private val testMenuRepository: TestMenuRepository,
+    private val recyclerViewUsecase: RecyclerViewUsecase
 ) {
 
     val headers = ObservableArrayList<HomeHeaderViewModel>()
@@ -87,14 +87,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createItems(): List<HomeItemViewModel> = listOf(
-            createAnkoFirstViewMenu(),
-            createPagingTestMenu(),
-            createListAdapterMenu(),
-            createDragDropMenu(),
-            createCollapsingToolbarExMenu(),
-            createSlideUpPanelExMenu(),
-            createCenterScrollExMenu(),
-            createLandScapeModeMenu()
+        createAnkoFirstViewMenu(),
+        createPagingTestMenu(),
+        createListAdapterMenu(),
+        createDragDropMenu(),
+        createCollapsingToolbarExMenu(),
+        createSlideUpPanelExMenu(),
+        createCenterScrollExMenu(),
+        createLandScapeModeMenu()
     )
 
     private fun createViewModel(testMenu: TestMenu, onClickAction: () -> Unit): HomeItemViewModel {

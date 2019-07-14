@@ -35,10 +35,13 @@ class SlidingMainFragment : InjectableFragment() {
     lateinit var viewModel: SlidingMainViewModel
 
     override fun onCreateBindingView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return FragmentSlidingMainBinding.inflate(inflater, container, false)
-                .apply { binding = this }
-                .root
+            .apply { binding = this }
+            .root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

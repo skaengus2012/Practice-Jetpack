@@ -27,8 +27,8 @@ import io.reactivex.subjects.BehaviorSubject
  * @since 2019. 04. 05
  */
 class ToolbarItemVisibilityUsecase(
-        private val appbarLayoutProvider: () -> AppBarLayout,
-        private val collapsingToolbarLayoutProvider: () -> CollapsingToolbarLayout
+    private val appbarLayoutProvider: () -> AppBarLayout,
+    private val collapsingToolbarLayoutProvider: () -> CollapsingToolbarLayout
 ) {
 
     private val collapsingLayout: CollapsingToolbarLayout
@@ -42,8 +42,7 @@ class ToolbarItemVisibilityUsecase(
     fun initialize(initVisibility: Boolean) {
         scrimVisibilityChangeSubject.onNext(initVisibility)
 
-        appbarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener {
-            _, offset
+        appbarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, offset
             ->
             onOffSetChanged(offset)
         })
@@ -58,8 +57,8 @@ class ToolbarItemVisibilityUsecase(
             val isShowToolbarItem = (collapsingHeight + offset < collapsingTriggerHeight)
 
             scrimVisibilityChangeSubject.value
-                    ?.takeIf { it != isShowToolbarItem}
-                    ?.run { scrimVisibilityChangeSubject.onNext(isShowToolbarItem) }
+                ?.takeIf { it != isShowToolbarItem }
+                ?.run { scrimVisibilityChangeSubject.onNext(isShowToolbarItem) }
         }
     }
 }

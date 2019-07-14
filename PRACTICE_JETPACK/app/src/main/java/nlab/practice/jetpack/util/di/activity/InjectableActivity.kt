@@ -64,9 +64,9 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
 
     private fun initializeDI() {
         activityBindComponent = (application as AppComponent.Supplier).getAppComponent()
-                .activityBindComponent()
-                .setActivity(this)
-                .build()
+            .activityBindComponent()
+            .setActivity(this)
+            .build()
 
         AndroidInjection.inject(this)
     }
@@ -123,7 +123,7 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
     }
 
     final override fun onBackPressed() {
-        val isSuperMethodCall = !(activityCallbackBinder.onBackPressedCommand?.invoke()?: false)
+        val isSuperMethodCall = !(activityCallbackBinder.onBackPressedCommand?.invoke() ?: false)
         if (isSuperMethodCall) {
             super.onBackPressed()
         }

@@ -32,15 +32,16 @@ import org.jetbrains.anko.imageResource
 
 @BindingAdapter(value = ["imageUrl", "glideOptions", "errorDrawable", "placeHolder"], requireAll = false)
 fun setImageUrl(
-        view: ImageView,
-        imageUrl: String?,
-        options: RequestOptions?,
-        @DrawableRes errorDrawableRes: Int,
-        @DrawableRes placeholderRes: Int) {
+    view: ImageView,
+    imageUrl: String?,
+    options: RequestOptions?,
+    @DrawableRes errorDrawableRes: Int,
+    @DrawableRes placeholderRes: Int
+) {
 
     val glideRequest = GlideApp.with(view.context)
-            .load(imageUrl)
-            .apply(options?: RequestOptions())
+        .load(imageUrl)
+        .apply(options ?: RequestOptions())
 
     errorDrawableRes.takeIf { it != 0 }?.run { glideRequest.error(this) }
     placeholderRes.takeIf { it != 0 }?.run { glideRequest.placeholder(this) }

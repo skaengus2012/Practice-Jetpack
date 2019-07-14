@@ -33,11 +33,12 @@ private typealias ViewModelList = List<BindingItemViewModel>
 
 @BindingAdapter(value = ["list_items", "list_headers", "list_footers", "list_config"], requireAll = false)
 fun bindRecyclerView(
-        recyclerView: RecyclerView,
-        items: ViewModelList? = null,
-        headers: ViewModelList? = null,
-        footers: ViewModelList?  = null,
-        config: RecyclerViewConfig? = null) {
+    recyclerView: RecyclerView,
+    items: ViewModelList? = null,
+    headers: ViewModelList? = null,
+    footers: ViewModelList? = null,
+    config: RecyclerViewConfig? = null
+) {
     // 어댑터 세팅
     if (recyclerView.adapter == null) {
         recyclerView.adapter = BindingItemAdapter()
@@ -54,9 +55,10 @@ fun bindRecyclerView(
 
 @BindingAdapter(value = ["list_adapter", "list_config"], requireAll = false)
 fun bindRecyclerViewAdapter(
-        recyclerView: RecyclerView,
-        adapter: RecyclerView.Adapter<*>,
-        config: RecyclerViewConfig? = null) {
+    recyclerView: RecyclerView,
+    adapter: RecyclerView.Adapter<*>,
+    config: RecyclerViewConfig? = null
+) {
     recyclerView.adapter = adapter
     bindConfig(recyclerView, config)
 }
@@ -73,11 +75,11 @@ private fun bindConfig(recyclerView: RecyclerView, config: RecyclerViewConfig?) 
 
         // 아이템 데코레이션 정의
         (0 until itemDecorations.size)
-                .forEach {  recyclerView.addItemDecoration(itemDecorations[it], it) }
+            .forEach { recyclerView.addItemDecoration(itemDecorations[it], it) }
 
         // 아이템 터치 헬퍼 정의
         (0 until itemTouchHelperSuppliers.size)
-                .forEach { itemTouchHelperSuppliers[it].attachToRecyclerView(recyclerView) }
+            .forEach { itemTouchHelperSuppliers[it].attachToRecyclerView(recyclerView) }
     }
 
     // 레이아웃 매니저 정의

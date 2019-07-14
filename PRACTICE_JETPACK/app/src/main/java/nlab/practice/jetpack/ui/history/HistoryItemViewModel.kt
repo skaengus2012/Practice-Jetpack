@@ -29,11 +29,11 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  */
 @AutoFactory
 class HistoryItemViewModel(
-        @Provided resourceProvider: ResourceProvider,
-        private val history: History
-): BindingItemViewModel() {
+    @Provided resourceProvider: ResourceProvider,
+    private val history: History
+) : BindingItemViewModel() {
 
-    private val resultMessage = when(history.isSuccess) {
+    private val resultMessage = when (history.isSuccess) {
         true -> R.string.history_success
         false -> R.string.history_failed
     }.run { resourceProvider.getString(this).toString() }

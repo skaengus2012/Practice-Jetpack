@@ -31,7 +31,7 @@ private typealias SlidingUpPanelLayoutSupplier = ViewSupplier<SlidingUpPanelLayo
 /**
  * SlidingUpPanelLayout 을 사용하는 Activity 가 사용할 객체를 소유한 클래스
  */
-class SlidingUpPanelActivity @Inject constructor(val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase){
+class SlidingUpPanelActivity @Inject constructor(val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase) {
 
     interface Owner {
         fun getSlidingUpPanelDelegate(): SlidingUpPanelActivity
@@ -55,9 +55,9 @@ class SlidingUpPanelFragmentModule {
     @Provides
     fun provideSlidingUpPanelLayoutUsecase(fragment: Fragment): SlidingUpPanelLayoutUsecase? {
         return fragment.activity
-                ?.let { it as? SlidingUpPanelActivity.Owner }
-                ?.getSlidingUpPanelDelegate()
-                ?.slidingUpPanelLayoutUsecase
+            ?.let { it as? SlidingUpPanelActivity.Owner }
+            ?.getSlidingUpPanelDelegate()
+            ?.slidingUpPanelLayoutUsecase
     }
 
 }

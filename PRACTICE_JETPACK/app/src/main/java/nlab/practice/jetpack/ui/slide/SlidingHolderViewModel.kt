@@ -34,11 +34,11 @@ import kotlin.math.min
  * @since 2019. 04. 18
  */
 class SlidingHolderViewModel @Inject constructor(
-        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
-        private val schedulerFactory: SchedulerFactory,
-        private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
-        private val slideHolderViewUsecase: SlidingHolderViewUsecase,
-        private val slidingHolderTransitionUsecase: SlidingHolderTransitionUsecase
+    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    private val schedulerFactory: SchedulerFactory,
+    private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
+    private val slideHolderViewUsecase: SlidingHolderViewUsecase,
+    private val slidingHolderTransitionUsecase: SlidingHolderTransitionUsecase
 ) {
 
     private val disposables = CompositeDisposable()
@@ -53,46 +53,47 @@ class SlidingHolderViewModel @Inject constructor(
         subscribeSlideState()
 
         schedulerFactory.ui()
-                .scheduleDirect {
-                    initializeSlideOffset()
-                    slidingHolderTransitionUsecase.replaceMainFragment()
-                }
-                .addTo(disposables)
+            .scheduleDirect {
+                initializeSlideOffset()
+                slidingHolderTransitionUsecase.replaceMainFragment()
+            }
+            .addTo(disposables)
     }
 
     private fun initializeSlideOffset() {
         slidingUpPanelLayoutUsecase?.currentPanelState?.let {
-            when(it) {
+            when (it) {
                 SlidingUpPanelLayout.PanelState.EXPANDED -> slideHolderViewUsecase.onExpandState()
 
                 SlidingUpPanelLayout.PanelState.COLLAPSED -> slideHolderViewUsecase.onCollapseState()
 
-                else -> {}
+                else -> {
+                }
             }
         }
     }
 
     private fun subscribeSlideOffset() {
         slidingUpPanelLayoutUsecase?.slideOffsetSubject
-                ?.doOnNext {
-                    offset
-                    ->
-                    slideHolderViewUsecase.setContainerAlphaValue(min((offset * 2), 1.0f))
-                    slideHolderViewUsecase.setMiniPlayerAlphaValue(max(1 - (offset * 7), 0.0f))
-                }
-                ?.subscribe()
-                ?.addTo(disposables)
+            ?.doOnNext { offset
+                ->
+                slideHolderViewUsecase.setContainerAlphaValue(min((offset * 2), 1.0f))
+                slideHolderViewUsecase.setMiniPlayerAlphaValue(max(1 - (offset * 7), 0.0f))
+            }
+            ?.subscribe()
+            ?.addTo(disposables)
     }
 
     private fun subscribeSlideState() {
         slidingUpPanelLayoutUsecase?.slidePanelStateSubject
-                ?.subscribe {
-                    when {
-                        it.isExpanded() ->  slideHolderViewUsecase.bringToFrontContainer()
-                        it.isCollapsed() ->  slideHolderViewUsecase.bringToFrontMiniPlayer()
-                        else -> {}
+            ?.subscribe {
+                when {
+                    it.isExpanded() -> slideHolderViewUsecase.bringToFrontContainer()
+                    it.isCollapsed() -> slideHolderViewUsecase.bringToFrontMiniPlayer()
+                    else -> {
                     }
                 }
-                ?.addTo(disposables)
+            }
+            ?.addTo(disposables)
     }
 }

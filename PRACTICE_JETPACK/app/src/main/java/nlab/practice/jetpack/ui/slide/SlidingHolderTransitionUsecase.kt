@@ -26,8 +26,8 @@ import java.lang.ref.WeakReference
  * @author Doohyun
  */
 class SlidingHolderTransitionUsecase(
-        private val fragmentManager: FragmentManager,
-        private val containerViewSupplier: () -> View
+    private val fragmentManager: FragmentManager,
+    private val containerViewSupplier: () -> View
 ) {
 
     private val fragmentMap: MutableMap<String, WeakReference<Fragment>> = HashMap()
@@ -39,8 +39,8 @@ class SlidingHolderTransitionUsecase(
         val notHasFragment = fragmentManager.findFragmentById(containerView.id) == null
         if (notHasFragment) {
             fragmentManager.beginTransaction()
-                    .replace(containerView.id, resolveMainFragment(), PageType.MAIN)
-                    .commitNow()
+                .replace(containerView.id, resolveMainFragment(), PageType.MAIN)
+                .commitNow()
         }
     }
 

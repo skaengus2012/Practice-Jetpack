@@ -42,10 +42,14 @@ class SlidingHolderFragment : InjectableFragment() {
 
     lateinit var binding: FragmentSlidingHolderBinding
 
-    override fun onCreateBindingView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateBindingView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return FragmentSlidingHolderBinding.inflate(inflater, container, false)
-                .apply { binding = this }
-                .root
+            .apply { binding = this }
+            .root
     }
 
     @dagger.Module
@@ -54,8 +58,8 @@ class SlidingHolderFragment : InjectableFragment() {
         @FragmentScope
         @Provides
         fun provideSlideHolderViewUsecase(fragment: Fragment): SlidingHolderViewUsecase {
-            return SlidingHolderViewUsecase(containerViewSupplier = {fragment.fragmentContainer},
-                    miniPlayerViewSupplier = { fragment.view?.findViewById(R.id.fragmentSlideControl) })
+            return SlidingHolderViewUsecase(containerViewSupplier = { fragment.fragmentContainer },
+                miniPlayerViewSupplier = { fragment.view?.findViewById(R.id.fragmentSlideControl) })
         }
 
         @FragmentScope

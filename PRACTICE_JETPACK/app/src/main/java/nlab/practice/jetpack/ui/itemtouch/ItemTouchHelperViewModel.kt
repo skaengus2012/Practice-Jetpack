@@ -41,18 +41,17 @@ import kotlin.collections.ArrayList
  * @since 2019. 02. 25
  */
 class ItemTouchHelperViewModel @Inject constructor(
-        fragmentLifeCycleBinder: FragmentLifeCycleBinder,
-        private val activityCommonUsecase: ActivityCommonUsecase,
-        private val pagingItemRepository: PagingItemRepository,
-        private val schedulerFactory: SchedulerFactory,
-        private val dragCallback: VerticalDragItemTouchHelperCallback,
-        private val swipeCallback: SwipeDeleteTouchEventHelperCallback,
-        private val touchHelpers: Set<@JvmSuppressWildcards ItemTouchHelper>,
-        private val itemModelFactory: ItemTouchHelperItemViewModelFactory
+    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    private val activityCommonUsecase: ActivityCommonUsecase,
+    private val pagingItemRepository: PagingItemRepository,
+    private val schedulerFactory: SchedulerFactory,
+    private val dragCallback: VerticalDragItemTouchHelperCallback,
+    private val swipeCallback: SwipeDeleteTouchEventHelperCallback,
+    private val touchHelpers: Set<@JvmSuppressWildcards ItemTouchHelper>,
+    private val itemModelFactory: ItemTouchHelperItemViewModelFactory
 ) : ListErrorPageViewModel {
 
-    private val itemUpdateSubject: BehaviorSubject<List<ItemTouchHelperItemViewModel>>
-            = BehaviorSubject.createDefault(emptyList())
+    private val itemUpdateSubject = BehaviorSubject.createDefault<List<ItemTouchHelperItemViewModel>>(emptyList())
 
     private val isShowErrorView = ObservableBoolean(false)
 
@@ -82,43 +81,43 @@ class ItemTouchHelperViewModel @Inject constructor(
 
     private fun subscribeItems() {
         itemUpdateSubject.observeOn(schedulerFactory.ui())
-                .doOnNext { listAdapter.submitList(it) }
-                .subscribe()
-                .addTo(disposables)
+            .doOnNext { listAdapter.submitList(it) }
+            .subscribe()
+            .addTo(disposables)
     }
 
     private fun subscribeDragEvent() {
         dragCallback.eventSubject
-                .observeOn(schedulerFactory.ui())
-                .doOnNext { swapItems(it.fromPosition, it.toPosition) }
-                .subscribe()
-                .addTo(disposables)
+            .observeOn(schedulerFactory.ui())
+            .doOnNext { swapItems(it.fromPosition, it.toPosition) }
+            .subscribe()
+            .addTo(disposables)
     }
 
     private fun subscribeSwipeDeleteEvent() {
         swipeCallback.eventSubject
-                .observeOn(schedulerFactory.ui())
-                .doOnNext { removeItems(it.position) }
-                .subscribe()
-                .addTo(disposables)
+            .observeOn(schedulerFactory.ui())
+            .doOnNext { removeItems(it.position) }
+            .subscribe()
+            .addTo(disposables)
     }
 
     private fun loadItems() {
         pagingItemRepository.getItems(0, 300)
-                .subscribeOn(schedulerFactory.io())
-                .flatMapPublisher { Flowable.fromIterable(it) }
-                .map { itemModelFactory.create(it) }
-                .toList()
-                .doOnSuccess {
-                    itemUpdateSubject.onNext(it)
+            .subscribeOn(schedulerFactory.io())
+            .flatMapPublisher { Flowable.fromIterable(it) }
+            .map { itemModelFactory.create(it) }
+            .toList()
+            .doOnSuccess {
+                itemUpdateSubject.onNext(it)
 
-                    if (isShowErrorView.get()) {
-                        isShowErrorView.set(false)
-                    }
+                if (isShowErrorView.get()) {
+                    isShowErrorView.set(false)
                 }
-                .doOnError { isShowErrorView.set(true) }
-                .subscribe()
-                .addTo(disposables)
+            }
+            .doOnError { isShowErrorView.set(true) }
+            .subscribe()
+            .addTo(disposables)
     }
 
     private fun swapItems(fromPosition: Int, toPosition: Int) = itemUpdateSubject.value?.run {
@@ -127,8 +126,8 @@ class ItemTouchHelperViewModel @Inject constructor(
         val isValidSize = fromPosition < currentSize && toPosition < currentSize
         if (isValidSize) {
             ArrayList(this)
-                    .apply { Collections.swap(this, fromPosition, toPosition) }
-                    .run { itemUpdateSubject.onNext(this) }
+                .apply { Collections.swap(this, fromPosition, toPosition) }
+                .run { itemUpdateSubject.onNext(this) }
         }
     }
 
@@ -136,8 +135,8 @@ class ItemTouchHelperViewModel @Inject constructor(
         val isValidSize = targetIndex < size
         if (isValidSize) {
             ArrayList(this)
-                    .apply { removeAt(targetIndex) }
-                    .run { itemUpdateSubject.onNext(this) }
+                .apply { removeAt(targetIndex) }
+                .run { itemUpdateSubject.onNext(this) }
         }
     }
 

@@ -48,18 +48,18 @@ import javax.inject.Inject
  * @since 2019. 04. 18
  */
 class SlideUpSampleViewModel @Inject constructor(
-        private val listAdapterExampleFactory: ListAdapterExampleItemViewModelFactory,
-        private val pagingRepository: PagingItemRepository,
-        private val schedulerFactory: SchedulerFactory,
-        private val playerRepository: PlayerRepository,
-        private val playerController: PlayController,
-        private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
-        private val slidingUpSampleBundle: SlideUpSampleBundle,
-        layoutManagerFactory: LayoutManagerFactory,
-        itemDecoration: ListAdapterExampleItemDecoration,
-        lifeCycleBinder: ActivityLifeCycleBinder,
-        activityCallback: ActivityCallback,
-        activityCommonUsecase: ActivityCommonUsecase
+    private val listAdapterExampleFactory: ListAdapterExampleItemViewModelFactory,
+    private val pagingRepository: PagingItemRepository,
+    private val schedulerFactory: SchedulerFactory,
+    private val playerRepository: PlayerRepository,
+    private val playerController: PlayController,
+    private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
+    private val slidingUpSampleBundle: SlideUpSampleBundle,
+    layoutManagerFactory: LayoutManagerFactory,
+    itemDecoration: ListAdapterExampleItemDecoration,
+    lifeCycleBinder: ActivityLifeCycleBinder,
+    activityCallback: ActivityCallback,
+    activityCommonUsecase: ActivityCommonUsecase
 ) : ListErrorPageViewModel {
 
     companion object {
@@ -77,7 +77,8 @@ class SlideUpSampleViewModel @Inject constructor(
 
     private val isShowErrorView = ObservableBoolean(false)
 
-    private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> = BehaviorSubject.createDefault(ArrayList())
+    private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> =
+        BehaviorSubject.createDefault(ArrayList())
 
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
@@ -114,21 +115,21 @@ class SlideUpSampleViewModel @Inject constructor(
         subscribeItemChanged()
 
         schedulerFactory.ui()
-                .scheduleDirect {
-                    // 패널의 상태가 내부에서 뷰가 재생성될 때 다음 제대로 등장하지 않음
-                    // 또한, Panel 에 대한 명령이 바로 처리가 되지 않기 때문에 POST 처리가 필요.
-                    initializePanel()
-                    initializeTrack()
-                    initializePagingItem()
-                }
-                .addTo(disposables)
+            .scheduleDirect {
+                // 패널의 상태가 내부에서 뷰가 재생성될 때 다음 제대로 등장하지 않음
+                // 또한, Panel 에 대한 명령이 바로 처리가 되지 않기 때문에 POST 처리가 필요.
+                initializePanel()
+                initializeTrack()
+                initializePagingItem()
+            }
+            .addTo(disposables)
     }
 
     private fun subscribeItemChanged() {
         listUpdateSubject
-                .doOnNext { listAdapter.submitList(it) }
-                .subscribe()
-                .addTo(disposables)
+            .doOnNext { listAdapter.submitList(it) }
+            .subscribe()
+            .addTo(disposables)
     }
 
     private fun initializePanel() {
@@ -137,8 +138,8 @@ class SlideUpSampleViewModel @Inject constructor(
         slidingUpSampleBundle.panelState?.let { slidingUpPanelLayoutUsecase.currentPanelState = it }
 
         slidingUpPanelLayoutUsecase.slidePanelStateSubject
-                .subscribe { slidingUpSampleBundle.panelState = it }
-                .addTo(disposables)
+            .subscribe { slidingUpSampleBundle.panelState = it }
+            .addTo(disposables)
     }
 
     private fun initializeTrack() {
@@ -146,53 +147,53 @@ class SlideUpSampleViewModel @Inject constructor(
             slidingUpPanelLayoutUsecase.hidden()
 
             Single.fromCallable { playerRepository.getRandomTrack() }
-                    .subscribeOn(schedulerFactory.io())
-                    .observeOn(schedulerFactory.ui())
-                    .doOnSuccess {
-                        playerController.post(it)
+                .subscribeOn(schedulerFactory.io())
+                .observeOn(schedulerFactory.ui())
+                .doOnSuccess {
+                    playerController.post(it)
 
-                        collapsingPanelIfHidden()
-                    }
-                    .subscribe()
-                    .addTo(disposables)
+                    collapsingPanelIfHidden()
+                }
+                .subscribe()
+                .addTo(disposables)
         }
     }
 
     private fun collapsingPanelIfHidden() {
         slidingUpPanelLayoutUsecase.currentPanelState
-                .takeIf { state -> state.isHidden() }
-                ?.let { slidingUpPanelLayoutUsecase.collapsed() }
+            .takeIf { state -> state.isHidden() }
+            ?.let { slidingUpPanelLayoutUsecase.collapsed() }
     }
 
     private fun initializePagingItem() {
         slidingUpSampleBundle.pagingItems
-                ?.let { updateItem(it) }
-                ?: run { refresh() }
+            ?.let { updateItem(it) }
+            ?: run { refresh() }
     }
 
     override fun isShowErrorView(): ObservableBoolean = isShowErrorView
 
     override fun refresh() {
         pagingRepository.getItems(0, 100)
-                .subscribeOn(schedulerFactory.io())
-                .observeOn(schedulerFactory.ui())
-                .doOnSuccess {
-                    isShowErrorView.set(false)
-                    updateItem(it)
-                }
-                .doOnError {
-                    isShowErrorView.set(true)
-                }
-                .subscribe()
-                .addTo(disposables)
+            .subscribeOn(schedulerFactory.io())
+            .observeOn(schedulerFactory.ui())
+            .doOnSuccess {
+                isShowErrorView.set(false)
+                updateItem(it)
+            }
+            .doOnError {
+                isShowErrorView.set(true)
+            }
+            .subscribe()
+            .addTo(disposables)
     }
 
     private fun updateItem(pagingItems: List<PagingItem>) {
         pagingItems
-                .asSequence()
-                .map(listAdapterExampleFactory::create)
-                .toList()
-                .let { listUpdateSubject.onNext(it) }
+            .asSequence()
+            .map(listAdapterExampleFactory::create)
+            .toList()
+            .let { listUpdateSubject.onNext(it) }
 
         slidingUpSampleBundle.pagingItems = pagingItems
     }

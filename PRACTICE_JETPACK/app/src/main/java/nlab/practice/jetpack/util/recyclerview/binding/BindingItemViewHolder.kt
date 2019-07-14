@@ -30,18 +30,18 @@ import nlab.practice.jetpack.util.recyclerview.AbsGenericItemAdapter
  *
  * @author Doohyun
  */
-class BindingItemViewHolder(private val viewDataBinding: ViewDataBinding) :
-        AbsGenericItemAdapter.GenericItemViewHolder<BindingItemViewModel>(viewDataBinding.root) {
+class BindingItemViewHolder(private val viewDataBinding: ViewDataBinding)
+    : AbsGenericItemAdapter.GenericItemViewHolder<BindingItemViewModel>(viewDataBinding.root) {
 
     var currentViewModel: BindingItemViewModel? = null
 
     // ItemViewModel 에서 View 관련 레퍼런스 사용 시, 필요한 Usecase 를 정의한 컴포넌트
     private val itemViewUsecaseFactory: ItemViewUsecaseFactory by lazy {
         DaggerItemViewUsecaseFactory
-                .builder()
-                .setViewHoler(this)
-                .setView(viewDataBinding.root)
-                .build()
+            .builder()
+            .setViewHoler(this)
+            .setView(viewDataBinding.root)
+            .build()
     }
 
     override fun onBind(item: BindingItemViewModel) {
@@ -61,7 +61,7 @@ class BindingItemViewHolder(private val viewDataBinding: ViewDataBinding) :
             val layoutInflater = LayoutInflater.from(parent.context)
 
             val viewDataBinding =
-                    DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
+                DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
 
             return BindingItemViewHolder(viewDataBinding)
         }

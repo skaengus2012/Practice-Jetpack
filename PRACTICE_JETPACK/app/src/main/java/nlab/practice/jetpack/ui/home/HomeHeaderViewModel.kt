@@ -34,8 +34,8 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class HomeHeaderViewModel @Inject constructor(
-        resourceProvider: ResourceProvider,
-        private val schedulerFactory: SchedulerFactory
+    resourceProvider: ResourceProvider,
+    private val schedulerFactory: SchedulerFactory
 ) : BindingItemViewModel() {
 
     private var timerDisposable: Disposable? = null
@@ -53,12 +53,12 @@ class HomeHeaderViewModel @Inject constructor(
 
     fun startTimer() {
         timerDisposable = Observable.timer(100, TimeUnit.MILLISECONDS)
-                .repeat()
-                .map { getCurrentTimeDateFormat() }
-                .observeOn(schedulerFactory.ui())
-                .filter { it != currentTimeString }
-                .doOnNext { currentTimeString = it }
-                .subscribe()
+            .repeat()
+            .map { getCurrentTimeDateFormat() }
+            .observeOn(schedulerFactory.ui())
+            .filter { it != currentTimeString }
+            .doOnNext { currentTimeString = it }
+            .subscribe()
     }
 
     fun stopTimer() {
@@ -66,6 +66,6 @@ class HomeHeaderViewModel @Inject constructor(
     }
 
     private fun getCurrentTimeDateFormat(): String = TimeBuilder.Create()
-            .getStringFormat(dateFormat.toString())
-            .blockingGet("")
+        .getStringFormat(dateFormat.toString())
+        .blockingGet("")
 }

@@ -42,17 +42,17 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class CollapsingToolbarViewModel @Inject constructor(
-        lifeCycleBinder : ActivityLifeCycleBinder,
-        private val activityUsecase: ActivityCommonUsecase,
-        private val toolbarUsecase: ToolbarItemVisibilityUsecase,
-        private val schedulerFactory: SchedulerFactory,
-        private val coverRepository: CoverRepository,
-        private val pagingItemRepository: PagingItemRepository,
-        private val resourceProvider: ResourceProvider,
-        private val toastHelper: ToastHelper,
-        private val snackBarHelper: SnackBarHelper,
-        private val itemViewModelFactory: CollapsingPagingItemViewModelFactory
-) : ListErrorPageViewModel  {
+    lifeCycleBinder: ActivityLifeCycleBinder,
+    private val activityUsecase: ActivityCommonUsecase,
+    private val toolbarUsecase: ToolbarItemVisibilityUsecase,
+    private val schedulerFactory: SchedulerFactory,
+    private val coverRepository: CoverRepository,
+    private val pagingItemRepository: PagingItemRepository,
+    private val resourceProvider: ResourceProvider,
+    private val toastHelper: ToastHelper,
+    private val snackBarHelper: SnackBarHelper,
+    private val itemViewModelFactory: CollapsingPagingItemViewModelFactory
+) : ListErrorPageViewModel {
 
     val coverImage: ObservableField<String> = ObservableField()
 
@@ -85,34 +85,37 @@ class CollapsingToolbarViewModel @Inject constructor(
 
     private fun observeEvent() {
         listUpdateSubject
-                .subscribe { listAdapter.submitList(it) }
-                .addTo(disposables)
+            .subscribe { listAdapter.submitList(it) }
+            .addTo(disposables)
 
         toolbarUsecase.scrimVisibilityChangeSubject
-                .subscribe { isShowCollapsingScrim.set(it) }
-                .addTo(disposables)
+            .subscribe { isShowCollapsingScrim.set(it) }
+            .addTo(disposables)
     }
 
     private fun loadCover() = coverRepository.getCover()
-            .subscribeOn(schedulerFactory.io())
-            .observeOn(schedulerFactory.ui())
-            .map {{
+        .subscribeOn(schedulerFactory.io())
+        .observeOn(schedulerFactory.ui())
+        .map {
+            {
                 coverImage.set(it.imageUrl)
                 coverText.set(it.title)
-            }}
+            }
+        }
 
     private fun loadItems() = pagingItemRepository.getItems(0, 100)
-            .subscribeOn(schedulerFactory.io())
-            .observeOn(schedulerFactory.ui())
-            .map { it.withIndex().map {
-                (index, item)
+        .subscribeOn(schedulerFactory.io())
+        .observeOn(schedulerFactory.ui())
+        .map {
+            it.withIndex().map { (index, item)
                 ->
                 itemViewModelFactory.create(item) {
                     val messageRes = resourceProvider.getString(R.string.collapsing_toolbar_ex_item_click)
                     toastHelper.showToast(String.format(messageRes.toString(), index))
                 }
-            } }
-            .map {{listUpdateSubject.onNext(it)}}
+            }
+        }
+        .map { { listUpdateSubject.onNext(it) } }
 
     override fun isShowErrorView(): ObservableBoolean = showErrorState
 
@@ -120,20 +123,19 @@ class CollapsingToolbarViewModel @Inject constructor(
         loadFinished.set(false)
 
         Single.merge(loadCover(), loadItems())
-                .toList()
-                .observeOn(schedulerFactory.ui())
-                .doOnSuccess {
-                    executors
-                    ->
-                    executors.forEach { it() }
-                }
-                .doOnSuccess {
-                    showErrorState.set(false)
-                    loadFinished.set(true)
-                }
-                .doOnError { showErrorState.set(true) }
-                .subscribe()
-                .addTo(disposables)
+            .toList()
+            .observeOn(schedulerFactory.ui())
+            .doOnSuccess { executors
+                ->
+                executors.forEach { it() }
+            }
+            .doOnSuccess {
+                showErrorState.set(false)
+                loadFinished.set(true)
+            }
+            .doOnError { showErrorState.set(true) }
+            .subscribe()
+            .addTo(disposables)
     }
 
     fun onBackPress() = activityUsecase.onBackPressed()

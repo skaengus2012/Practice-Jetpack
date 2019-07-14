@@ -36,10 +36,10 @@ object SlidingBindingAdapter {
             view.setImageDrawable(null)
         } else {
             GlideApp.with(view.context)
-                    .asBitmap()
-                    .load(imgUrl)
-                    .transform(BlurTransformation(3, 25))
-                    .into(view)
+                .asBitmap()
+                .load(imgUrl)
+                .transform(BlurTransformation(3, 25))
+                .into(view)
         }
 
     }

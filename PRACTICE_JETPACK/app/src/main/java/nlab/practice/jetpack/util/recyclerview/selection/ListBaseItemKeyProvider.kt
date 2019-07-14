@@ -25,13 +25,13 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @author Doohyun
  */
-class ListBaseItemKeyProvider<T>: ItemKeyProvider<T>(SCOPE_CACHED) {
+class ListBaseItemKeyProvider<T> : ItemKeyProvider<T>(SCOPE_CACHED) {
 
     private val positionToKeys = SparseArray<T>()
 
     private val keyToPositionGroup = HashMap<T, Int>()
 
-    override fun getPosition(key: T): Int = keyToPositionGroup[key]?: RecyclerView.NO_POSITION
+    override fun getPosition(key: T): Int = keyToPositionGroup[key] ?: RecyclerView.NO_POSITION
 
     override fun getKey(position: Int): T? = positionToKeys[position]
 

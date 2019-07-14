@@ -30,8 +30,9 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  */
 @AutoFactory
 class ItemTouchHelperItemViewModel constructor(
-        @Provided private val dragItemTouchHelper: ItemTouchHelper,
-        private val pagingItem: PagingItem) : BindingItemViewModel() {
+    @Provided private val dragItemTouchHelper: ItemTouchHelper,
+    private val pagingItem: PagingItem
+) : BindingItemViewModel() {
 
     override fun getLayoutRes(): Int = R.layout.view_dragging_handle_item
 
@@ -39,12 +40,14 @@ class ItemTouchHelperItemViewModel constructor(
 
     fun getImageUrl(): String? = pagingItem.imageUrl
 
-    fun startDrag(action: Int) : Boolean = if (action == MotionEvent.ACTION_DOWN) {
+    fun startDrag(action: Int): Boolean = if (action == MotionEvent.ACTION_DOWN) {
         itemViewUsecaseFactory
-                ?.itemViewTouchHelperUsecaseFactory()
-                ?.create(dragItemTouchHelper)
-                ?.startDrag()
+            ?.itemViewTouchHelperUsecaseFactory()
+            ?.create(dragItemTouchHelper)
+            ?.startDrag()
 
         true
-    } else { false }
+    } else {
+        false
+    }
 }

@@ -40,10 +40,11 @@ class CenterScrollerFragment : InjectableFragment() {
     lateinit var viewModel: CenterScrollViewModel
 
     override fun onCreateBindingView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         return FragmentCenterScrollBinding.inflate(inflater, container, false)
-                .apply { binding = this }
-                .root
+            .apply { binding = this }
+            .root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -27,8 +27,9 @@ import com.google.auto.factory.Provided
  */
 @AutoFactory
 class ItemViewTouchHelperUsecase(
-        @Provided private val viewHolder: RecyclerView.ViewHolder,
-        private val itemViewTouchHelper: ItemTouchHelper) {
+    @Provided private val viewHolder: RecyclerView.ViewHolder,
+    private val itemViewTouchHelper: ItemTouchHelper
+) {
 
     fun startDrag() {
         itemViewTouchHelper.startDrag(viewHolder)

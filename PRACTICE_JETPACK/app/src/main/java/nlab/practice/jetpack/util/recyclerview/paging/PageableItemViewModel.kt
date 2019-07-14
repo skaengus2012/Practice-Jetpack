@@ -24,9 +24,9 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  *
  * @author Doohyun
  */
-abstract class PageableItemViewModel<T: Different<T>> constructor(val item: T):
-        BindingItemViewModel(),
-        Different<PageableItemViewModel<T>> {
+abstract class PageableItemViewModel<T : Different<T>> constructor(val item: T) :
+    BindingItemViewModel(),
+    Different<PageableItemViewModel<T>> {
 
     override fun areItemsTheSame(newItem: PageableItemViewModel<T>): Boolean = item.areItemsTheSame(newItem.item)
 
