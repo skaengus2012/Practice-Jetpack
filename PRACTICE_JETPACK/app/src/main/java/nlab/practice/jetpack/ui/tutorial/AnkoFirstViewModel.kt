@@ -25,6 +25,8 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
+import nlab.practice.jetpack.util.lifecycle.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -35,26 +37,24 @@ import javax.inject.Inject
  */
 class AnkoFirstViewModel @Inject constructor(
     private val schedulerFactory: SchedulerFactory,
-    ankoFirstBundle: AnkoFirstBundle,
+    savedStateProvider: SavedStateProvider,
     lifeCycleBinder: ActivityLifeCycleBinder,
     resourceProvider: ResourceProvider
 ) {
 
     private val disposables = CompositeDisposable()
 
+    private val savedState = savedStateProvider.create<AnkoFirstSavedState>()
+
     val message: ObservableField<String> = ObservableField()
 
     init {
-        (ankoFirstBundle.message ?: resourceProvider.getString(R.string.anko_first_message)).run {
+        (savedState.message ?: resourceProvider.getString(R.string.anko_first_message)).run {
             message.set(toString())
         }
 
-        lifeCycleBinder.bindUntil(ActivityLifeCycle.FINISH) {
-            ankoFirstBundle.message = null
-        }
-
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
-            message.get()?.run { ankoFirstBundle.message = this }
+            message.get()?.run { savedState.message = this }
             disposables.clear()
         }
     }

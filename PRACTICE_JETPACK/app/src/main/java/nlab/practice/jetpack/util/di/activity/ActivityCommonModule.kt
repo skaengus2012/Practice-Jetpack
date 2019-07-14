@@ -16,15 +16,17 @@
 
 package nlab.practice.jetpack.util.di.activity
 
-import android.app.Activity
 import dagger.Module
 import dagger.Provides
+import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivitySavedStateProvider
+import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.nav.ContextInjectionType
 import nlab.practice.jetpack.util.nav.DefaultActivityNavUsecase
@@ -45,11 +47,11 @@ class ActivityCommonModule {
     @Named(ContextInjectionType.ACTIVITY)
     @ActivityScope
     @Provides
-    fun provideActivityNavUsecase(activity: Activity): ActivityNavUsecase = DefaultActivityNavUsecase(activity)
+    fun provideActivityNavUsecase(activity: BaseActivity): ActivityNavUsecase = DefaultActivityNavUsecase(activity)
 
     @ActivityScope
     @Provides
-    fun provideActivityCommonUsecase(activity: Activity) = ActivityCommonUsecase(activity)
+    fun provideActivityCommonUsecase(activity: BaseActivity) = ActivityCommonUsecase(activity)
 
     @ActivityScope
     @Provides
@@ -57,11 +59,20 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideLayoutManager(activity: Activity): LayoutManagerFactory = LayoutManagerFactory(activity)
+    fun provideLayoutManager(activity: BaseActivity): LayoutManagerFactory = LayoutManagerFactory(activity)
 
     @ActivityScope
     @Provides
-    fun provideSnackBarHelper(activity: Activity, resourceProvider: ResourceProvider) = SnackBarHelper(resourceProvider) {
+    fun provideSavedStateProvider(activity: BaseActivity): SavedStateProvider {
+        return ActivitySavedStateProvider(activity)
+    }
+
+    @ActivityScope
+    @Provides
+    fun provideSnackBarHelper(
+        activity: BaseActivity,
+        resourceProvider: ResourceProvider
+    ) = SnackBarHelper(resourceProvider) {
         val isNoneFinishing = !activity.isFinishing
         if (isNoneFinishing) {
             activity.findViewById(android.R.id.content)

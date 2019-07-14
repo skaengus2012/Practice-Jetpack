@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.ui.slide
+package nlab.practice.jetpack.ui.tutorial
 
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import nlab.practice.jetpack.repository.model.PagingItem
-import javax.inject.Inject
+import nlab.practice.jetpack.util.lifecycle.SavedState
 import javax.inject.Singleton
-
 
 /**
  * @author Doohyun
  */
 @Singleton
-class SlideUpSampleBundle @Inject constructor() {
-    var pagingItems: List<PagingItem>? = null
-
-    var panelState: SlidingUpPanelLayout.PanelState? = null
-
-    fun clear() {
-        pagingItems = null
-        panelState = null
-    }
+class AnkoFirstSavedState : SavedState() {
+    var message: String? = null
 }

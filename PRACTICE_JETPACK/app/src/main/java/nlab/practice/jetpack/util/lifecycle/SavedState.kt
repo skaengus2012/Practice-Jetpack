@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.component.lifecycle
+package nlab.practice.jetpack.util.lifecycle
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 /**
- * Fragment LifeCycle 종류 정의
- *
  * @author Doohyun
  */
-enum class FragmentLifeCycle {
-    ON_ATTACH,
-    ON_CREATE,
-    ON_CREATE_VIEW,
-    ON_ACTIVITY_CREATED,
-    ON_VIEW_CREATED,
-    ON_START,
-    ON_RESUME,
-    ON_PAUSE,
-    ON_STOP,
-    ON_DESTROY_VIEW,
-    ON_DESTROY,
-    ON_DETACH
-}
+abstract class SavedState : ViewModel() {
 
-typealias FragmentLifeCycleBinder = LifeCycleBinder<FragmentLifeCycle>
+    class Factory(
+        private val modelFunction: (m: Class<*>) -> Any
+    ) : ViewModelProvider.Factory {
+
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return modelFunction(modelClass) as T
+        }
+    }
+}

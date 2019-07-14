@@ -24,6 +24,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.util.SchedulerFactory
 import java.util.*
+import javax.inject.Inject
 
 /**
  * 전체 사이즈 조회 후, 그 기반으로 Position 을 체크하는 Paging Manager 정의
@@ -132,7 +133,7 @@ class CountablePositionalPagingManager<T> private constructor(
         fun getCountablePositionalRs(offset: Int, limit: Int): Single<out CountablePositionalRs<T>>
     }
 
-    class Factory(private val schedulerFactory: SchedulerFactory) {
+    class Factory @Inject constructor(private val schedulerFactory: SchedulerFactory) {
 
         fun <T> create(
             dataRepository: DataRepository<T>,

@@ -21,6 +21,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.util.SchedulerFactory
+import javax.inject.Inject
 
 /**
  *  전체 사이즈를 알 수 없는 경우, Position 만으로 데이터를 처리하는 Manager
@@ -74,7 +75,7 @@ class UnboundedPositionalPagingManager<T> private constructor(
         fun getItems(offset: Int, limit: Int): Single<List<T>>
     }
 
-    class Factory(private val schedulerFactory: SchedulerFactory) {
+    class Factory @Inject constructor(private val schedulerFactory: SchedulerFactory) {
         fun <T> create(
             dataRepository: DataRepository<T>,
             disposables: CompositeDisposable

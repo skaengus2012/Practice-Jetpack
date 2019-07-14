@@ -35,6 +35,8 @@ import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
+import nlab.practice.jetpack.util.lifecycle.create
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
@@ -54,7 +56,7 @@ class SlideUpSampleViewModel @Inject constructor(
     private val playerRepository: PlayerRepository,
     private val playerController: PlayController,
     private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
-    private val slidingUpSampleBundle: SlideUpSampleBundle,
+    savedStateProvider: SavedStateProvider,
     layoutManagerFactory: LayoutManagerFactory,
     itemDecoration: ListAdapterExampleItemDecoration,
     lifeCycleBinder: ActivityLifeCycleBinder,
@@ -80,6 +82,8 @@ class SlideUpSampleViewModel @Inject constructor(
     private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> =
         BehaviorSubject.createDefault(ArrayList())
 
+    private val savedState = savedStateProvider.create<SlideUpSampleSavedState>()
+
     init {
         lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
             doOnCreate()
@@ -88,8 +92,6 @@ class SlideUpSampleViewModel @Inject constructor(
         }
 
         lifeCycleBinder.bindUntil(ActivityLifeCycle.FINISH) {
-            slidingUpSampleBundle.clear()
-
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
 
@@ -135,10 +137,10 @@ class SlideUpSampleViewModel @Inject constructor(
     private fun initializePanel() {
         slidingUpPanelLayoutUsecase.initialize()
 
-        slidingUpSampleBundle.panelState?.let { slidingUpPanelLayoutUsecase.currentPanelState = it }
+        savedState.panelState?.let { slidingUpPanelLayoutUsecase.currentPanelState = it }
 
         slidingUpPanelLayoutUsecase.slidePanelStateSubject
-            .subscribe { slidingUpSampleBundle.panelState = it }
+            .subscribe { savedState.panelState = it }
             .addTo(disposables)
     }
 
@@ -166,7 +168,7 @@ class SlideUpSampleViewModel @Inject constructor(
     }
 
     private fun initializePagingItem() {
-        slidingUpSampleBundle.pagingItems
+        savedState.pagingItems
             ?.let { updateItem(it) }
             ?: run { refresh() }
     }
@@ -195,6 +197,6 @@ class SlideUpSampleViewModel @Inject constructor(
             .toList()
             .let { listUpdateSubject.onNext(it) }
 
-        slidingUpSampleBundle.pagingItems = pagingItems
+        savedState.pagingItems = pagingItems
     }
 }

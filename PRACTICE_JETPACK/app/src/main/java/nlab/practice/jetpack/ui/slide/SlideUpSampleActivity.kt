@@ -16,7 +16,6 @@
 
 package nlab.practice.jetpack.ui.slide
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import dagger.Provides
@@ -57,7 +56,7 @@ class SlideUpSampleActivity : InjectableActivity(), SlidingUpPanelActivity.Owner
 
         @ActivityScope
         @Provides
-        fun provideSlidingUpPanelLayout(activity: Activity) = ViewSupplier { activity.slidingLayout }
+        fun provideSlidingUpPanelLayout(activity: SlideUpSampleActivity) = ViewSupplier { activity.slidingLayout }
 
         @ActivityScope
         @Provides

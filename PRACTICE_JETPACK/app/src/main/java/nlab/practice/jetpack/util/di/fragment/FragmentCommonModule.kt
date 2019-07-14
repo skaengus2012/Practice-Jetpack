@@ -19,13 +19,14 @@ package nlab.practice.jetpack.util.di.fragment
 import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.component.ActivityCommonUsecase
 import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentSavedStateProvider
+import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import javax.inject.Named
@@ -73,6 +74,12 @@ class FragmentCommonModule {
     @FragmentScope
     @Provides
     fun provideLayoutManagerFactory(fragment: Fragment) = LayoutManagerFactory(fragment.activity!!)
+
+    @FragmentScope
+    @Provides
+    fun provideSavedStateProvider(fragment: Fragment): SavedStateProvider {
+        return FragmentSavedStateProvider(fragment)
+    }
 
     @FragmentScope
     @Provides

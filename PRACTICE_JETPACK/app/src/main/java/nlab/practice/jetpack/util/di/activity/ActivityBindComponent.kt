@@ -20,6 +20,7 @@ import android.app.Activity
 import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.DispatchingAndroidInjector
+import nlab.practice.jetpack.util.BaseActivity
 
 /**
  * Activity Binding 을 담당하는 Component
@@ -39,7 +40,7 @@ interface ActivityBindComponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun setActivity(activity: Activity): Builder
+        fun setActivity(activity: BaseActivity): Builder
 
         fun build(): ActivityBindComponent
     }

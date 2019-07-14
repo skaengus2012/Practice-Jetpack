@@ -53,7 +53,7 @@ class CollapsingToolbarActivity : InjectableActivity() {
 
         @ActivityScope
         @Provides
-        fun getToolbarItemVisibilityUsecase(activity: Activity) = ToolbarItemVisibilityUsecase(
+        fun getToolbarItemVisibilityUsecase(activity: CollapsingToolbarActivity) = ToolbarItemVisibilityUsecase(
             { activity.appbarLayout },
             { activity.collapsingToolbar }
         )

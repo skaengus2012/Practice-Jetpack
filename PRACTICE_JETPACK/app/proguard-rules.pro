@@ -20,6 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class * extends androidx.lifecycle.ViewModel { *; }
 -dontwarn com.google.auto.factory.**
 -dontwarn com.google.googlejavaformat.**
 -dontwarn com.google.common.**
@@ -28,6 +29,11 @@
 -dontwarn okhttp3.**
 -dontwarn okio.**
 -dontwarn org.objenesis.**
+
+# Slidinguppanel
+-dontwarn com.sothree.**
+-keep class com.sothree.**
+-keep interface com.sothree.**
 
 # Test
 -dontwarn org.mockito.**
