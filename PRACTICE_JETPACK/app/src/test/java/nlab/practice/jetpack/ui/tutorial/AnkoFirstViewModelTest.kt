@@ -26,7 +26,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.mockito.Mockito.`when`
 
 private const val MOCK_MESSAGE_FIRST = "Hello"
@@ -36,7 +36,7 @@ private const val MOCK_MESSAGE_CHANGE_TEXT_DELAYED = "CHANGE TEXT - DELAYED"
 /**
  * Test for AnkoFirstViewModel
  *
- * 사용 케이스
+ * 유즈 케이스
  *
  * 0. 초기상태 텍스트
  * 1. 텍스트 변경
@@ -76,7 +76,7 @@ class AnkoFirstViewModelTest {
     }
 
     @Test
-    fun initializeTest() {
+    fun checkInitialize() {
         assertEquals(createViewModel().message.get(), MOCK_MESSAGE_FIRST)
     }
 

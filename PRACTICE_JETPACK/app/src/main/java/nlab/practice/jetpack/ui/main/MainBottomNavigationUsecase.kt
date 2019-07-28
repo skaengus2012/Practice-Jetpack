@@ -25,11 +25,14 @@ import nlab.practice.jetpack.ui.history.HistoryFragment
 import nlab.practice.jetpack.util.nav.fragmentTag
 
 /**
- * Main 에서 표시된 BottomNavigationView 의 컨트롤러
+ * BottomNavigationView 의 경우 상태변경 콜백이 먼저 들어오고, 추 후 값이 변경되는 구조.
+ *
+ * Two-way Binding 을 할 수 없기 때문에 Usecase 형태로 기능을 제공
  *
  * @author Doohyun
  */
-class MainBottomNavUsecase(
+@Deprecated("TDD 형태로 다시 제작하길 희망")
+class MainBottomNavigationUsecase(
         private val navController: MainNavController,
         private val viewSupplier: () -> BottomNavigationView
 ) : BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {

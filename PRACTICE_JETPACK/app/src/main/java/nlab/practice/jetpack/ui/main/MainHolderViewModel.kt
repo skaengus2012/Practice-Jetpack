@@ -16,7 +16,11 @@
 
 package nlab.practice.jetpack.ui.main
 
-import androidx.databinding.BaseObservable
+import androidx.annotation.IdRes
+import androidx.databinding.ObservableInt
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import nlab.practice.jetpack.util.RxBaseObservables
 import nlab.practice.jetpack.util.di.activity.ActivityCallback
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
@@ -30,19 +34,49 @@ import javax.inject.Inject
 class MainHolderViewModel @Inject constructor(
     activityLifeCycleBinder: ActivityLifecycleBinder,
     activityCallback: ActivityCallback,
-    private val mainNavUsecase: MainBottomNavUsecase): BaseObservable() {
+    navUseCase: MainBottomNavUseCase
+) {
+    val selectedBottomNavId = ObservableInt()
+
+    private val disposables = CompositeDisposable()
 
     init {
-        activityLifeCycleBinder.bindUntil(ActivityLifecycle.ON_CREATE) { executeOnCreate() }
+        activityLifeCycleBinder.bindUntil(ActivityLifecycle.ON_CREATE) { doOnCreate() }
+        activityLifeCycleBinder.bindUntil(ActivityLifecycle.ON_DESTROY) { doOnDestroy() }
         activityCallback.onBackPressed(this::executeOnBackPressed)
         activityCallback.onRestoreInstanceState { executeOnRestoreInstanceState() }
+
+        RxBaseObservables.of(selectedBottomNavId)
+            .toObservable()
+            .subscribe { onChangeBottomTab() }
+            .addTo(disposables)
     }
 
-    private fun executeOnCreate() {
-        mainNavUsecase.initialize()
+    private fun doOnCreate() {
+        if (selectedBottomNavId.get() == 0) {
+          //  navPage(MainBottomTabType.MENU_HOME)
+        }
     }
 
-    private fun executeOnBackPressed(): Boolean = when {
+    private fun doOnDestroy() {
+        disposables.clear()
+    }
+
+    private fun onChangeBottomTab() {
+        val currentTab = selectedBottomNavId.get()
+    }
+
+    private fun navPage(@IdRes menuRes: Int) {
+        selectedBottomNavId.set(menuRes)
+    }
+
+    private fun executeOnBackPressed(): Boolean {
+        return false
+    }
+
+
+    /**
+    when {
         // 현재 Primary 화면의 OnBackPressed 의 처리 결과에 따라 이 후 작업 결정
         mainNavUsecase.onBackPressedInPrimaryNav() -> true
 
@@ -54,10 +88,10 @@ class MainHolderViewModel @Inject constructor(
 
         // 그 외 거짓
         else -> false
-    }
+    }*/
 
     private fun executeOnRestoreInstanceState() {
-        mainNavUsecase.refreshPage()
+      //  mainNavUsecase.refreshPage()
     }
 
 }
