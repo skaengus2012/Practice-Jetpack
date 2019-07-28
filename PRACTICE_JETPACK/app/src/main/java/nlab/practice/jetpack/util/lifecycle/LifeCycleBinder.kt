@@ -14,22 +14,33 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.component
+package nlab.practice.jetpack.util.lifecycle
 
-import android.app.Activity
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.subjects.PublishSubject
 
 /**
- * Activity 기본 유스케이스 정의
+ * LifeCycle 중계기
  *
  * @author Doohyun
  */
-class ActivityCommonUsecase(private val activity: Activity) {
+class LifeCycleBinder<T> {
 
-    fun onBackPressed() {
-        activity.onBackPressed()
+    val disposables = CompositeDisposable()
+
+    val subject: PublishSubject<T> = PublishSubject.create()
+
+    inline fun bindUntil(code: T, crossinline action: () -> Unit) {
+        subject.filter { it == code }
+            .doOnNext { action() }
+            .subscribe()
+            .addTo(disposables)
     }
 
-    fun overridePendingTransition(enterAnim: Int, exitAnim: Int) {
-        activity.overridePendingTransition(enterAnim, exitAnim)
+    fun apply(event: T) = subject.onNext(event)
+
+    fun clear() {
+        disposables.clear()
     }
 }

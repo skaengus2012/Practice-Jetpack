@@ -21,10 +21,9 @@ import dagger.Module
 import dagger.Provides
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
-import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.component.callback.FragmentCallback
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
-import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
+import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.FragmentSavedStateProvider
 import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
 import nlab.practice.jetpack.util.nav.*
@@ -53,7 +52,8 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideActivityCommonUsecase(fragment: Fragment) = ActivityCommonUsecase(fragment.activity!!)
+    fun provideActivityCommonUsecase(fragment: Fragment) =
+        ActivityCommonUsecase(fragment.activity!!)
 
     @Named(ContextInjectionType.ACTIVITY)
     @FragmentScope
@@ -69,7 +69,8 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideLifeCycleBinder(): FragmentLifeCycleBinder = LifeCycleBinder()
+    fun provideLifeCycleBinder(): FragmentLifeCycleBinder =
+        LifeCycleBinder()
 
     @FragmentScope
     @Provides

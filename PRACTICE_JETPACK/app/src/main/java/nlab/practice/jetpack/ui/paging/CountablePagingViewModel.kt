@@ -32,9 +32,9 @@ import nlab.practice.jetpack.repository.model.PagingItem
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
-import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager

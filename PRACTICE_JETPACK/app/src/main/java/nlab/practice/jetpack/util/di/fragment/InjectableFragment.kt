@@ -24,10 +24,9 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import dagger.android.support.AndroidSupportInjection
 import nlab.practice.jetpack.util.BaseFragment
-import nlab.practice.jetpack.util.component.callback.FragmentCallback
 import nlab.practice.jetpack.util.di.AppComponent
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import javax.inject.Inject
 
 /**

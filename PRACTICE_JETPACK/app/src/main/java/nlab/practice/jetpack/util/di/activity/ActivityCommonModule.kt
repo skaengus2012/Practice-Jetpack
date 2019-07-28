@@ -21,10 +21,8 @@ import dagger.Provides
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
-import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.component.callback.ActivityCallback
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
-import nlab.practice.jetpack.util.component.lifecycle.LifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.ActivitySavedStateProvider
 import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
@@ -42,7 +40,8 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideLifeCycleBinder(): ActivityLifeCycleBinder = LifeCycleBinder()
+    fun provideLifeCycleBinder(): ActivityLifeCycleBinder =
+        LifeCycleBinder()
 
     @Named(ContextInjectionType.ACTIVITY)
     @ActivityScope
@@ -51,7 +50,8 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideActivityCommonUsecase(activity: BaseActivity) = ActivityCommonUsecase(activity)
+    fun provideActivityCommonUsecase(activity: BaseActivity) =
+        ActivityCommonUsecase(activity)
 
     @ActivityScope
     @Provides

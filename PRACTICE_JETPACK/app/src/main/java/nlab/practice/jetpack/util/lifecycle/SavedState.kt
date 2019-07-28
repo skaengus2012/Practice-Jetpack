@@ -24,9 +24,7 @@ import androidx.lifecycle.ViewModelProvider
  */
 abstract class SavedState : ViewModel() {
 
-    class Factory(
-        private val modelFunction: (m: Class<*>) -> Any
-    ) : ViewModelProvider.Factory {
+    class Factory(private val modelFunction: (m: Class<*>) -> Any) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

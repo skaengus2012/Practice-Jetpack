@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.component.lifecycle
+package nlab.practice.jetpack.util.lifecycle
 
 /**
  * Fragment LifeCycle 종류 정의

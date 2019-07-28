@@ -20,8 +20,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import nlab.practice.jetpack.util.slidingpanel.isCollapsed
 import nlab.practice.jetpack.util.slidingpanel.isExpanded

@@ -14,33 +14,18 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.component.lifecycle
-
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.subjects.PublishSubject
+package nlab.practice.jetpack.util.di.fragment
 
 /**
- * LifeCycle 중계기
+ * Fragment 의 Callback 에 대한 연결자 정의
  *
  * @author Doohyun
  */
-class LifeCycleBinder<T> {
+class FragmentCallback {
+    var onBackPressedCommand: (() -> Boolean)? = null
+        private set
 
-    val disposables = CompositeDisposable()
-
-    val subject: PublishSubject<T> = PublishSubject.create()
-
-    inline fun bindUntil(code: T, crossinline action: () -> Unit) {
-        subject.filter { it == code }
-            .doOnNext { action() }
-            .subscribe()
-            .addTo(disposables)
-    }
-
-    fun apply(event: T) = subject.onNext(event)
-
-    fun clear() {
-        disposables.clear()
+    fun onBackPressed(action: () -> Boolean) {
+        onBackPressedCommand = action
     }
 }

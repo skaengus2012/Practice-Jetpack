@@ -25,9 +25,9 @@ import io.reactivex.subjects.BehaviorSubject
 import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
 import nlab.practice.jetpack.util.recyclerview.touch.SwipeDeleteTouchEventHelperCallback

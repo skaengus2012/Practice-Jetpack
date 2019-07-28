@@ -21,8 +21,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.model.Track
 import nlab.practice.jetpack.util.PlayController
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import javax.inject.Inject
 

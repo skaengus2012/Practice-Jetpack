@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.component.callback
+package nlab.practice.jetpack.util.di.activity
+
+import android.app.Activity
 
 /**
- * Fragment 의 Callback 에 대한 연결자 정의
+ * Activity 기본 유스케이스 정의
  *
  * @author Doohyun
  */
-class FragmentCallback {
-    var onBackPressedCommand: (() -> Boolean)? = null
-        private set
+class ActivityCommonUsecase(private val activity: Activity) {
 
-    fun onBackPressed(action: () -> Boolean) {
-        onBackPressedCommand = action
+    fun onBackPressed() {
+        activity.onBackPressed()
+    }
+
+    fun overridePendingTransition(enterAnim: Int, exitAnim: Int) {
+        activity.overridePendingTransition(enterAnim, exitAnim)
     }
 }

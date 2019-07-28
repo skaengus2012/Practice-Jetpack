@@ -20,11 +20,10 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import dagger.android.AndroidInjection
 
-import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import javax.inject.Inject
 
 /**

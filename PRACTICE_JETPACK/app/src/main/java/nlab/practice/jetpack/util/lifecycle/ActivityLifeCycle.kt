@@ -14,30 +14,21 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.component.callback
-
-import android.os.Bundle
+package nlab.practice.jetpack.util.lifecycle
 
 /**
- * Activity 의 Callback 에 대한 연결자 정의
+ * Activity LifeCycle 종류 정의
  *
  * @author Doohyun
  */
-class ActivityCallback {
-
-    var onBackPressedCommand: (() -> Boolean)? = null
-        private set
-
-    var onRestoreInstanceStateCommand: ((savedInstanceState: Bundle?) -> Unit)? = null
-        private set
-
-    fun onBackPressed(action: () -> Boolean) {
-        onBackPressedCommand = action
-    }
-
-    fun onRestoreInstanceState(action: (savedInstanceState: Bundle?) -> Unit) {
-        onRestoreInstanceStateCommand = action
-    }
+enum class ActivityLifeCycle {
+    ON_CREATE,
+    ON_START,
+    ON_RESUME,
+    ON_PAUSE,
+    ON_STOP,
+    ON_DESTROY,
+    FINISH
 }
 
-
+typealias ActivityLifeCycleBinder = LifeCycleBinder<ActivityLifeCycle>

@@ -23,8 +23,8 @@ import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
 import nlab.practice.jetpack.util.lifecycle.create
 import java.util.concurrent.TimeUnit

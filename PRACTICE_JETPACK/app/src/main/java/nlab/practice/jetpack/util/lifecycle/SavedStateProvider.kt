@@ -25,7 +25,6 @@ import kotlin.reflect.KClass
  * @author Doohyun
  */
 interface SavedStateProvider {
-
     fun <T : SavedState> create(
         clazz: KClass<T>,
         factory: SavedState.Factory? = null

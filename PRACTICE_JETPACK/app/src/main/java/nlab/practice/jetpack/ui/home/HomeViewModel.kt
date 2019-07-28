@@ -25,8 +25,8 @@ import nlab.practice.jetpack.ui.landscape.LandScapeActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase

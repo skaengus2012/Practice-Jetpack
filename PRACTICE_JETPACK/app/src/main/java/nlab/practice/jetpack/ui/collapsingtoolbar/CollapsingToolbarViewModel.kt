@@ -31,9 +31,9 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.ToastHelper
-import nlab.practice.jetpack.util.component.ActivityCommonUsecase
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
+import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import javax.inject.Inject

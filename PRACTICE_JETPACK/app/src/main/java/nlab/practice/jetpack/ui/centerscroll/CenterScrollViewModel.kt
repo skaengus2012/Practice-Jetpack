@@ -23,8 +23,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.LyricsRepository
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycle
-import nlab.practice.jetpack.util.component.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
