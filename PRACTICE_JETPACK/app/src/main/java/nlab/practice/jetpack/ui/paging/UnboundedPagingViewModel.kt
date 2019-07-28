@@ -33,7 +33,7 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
@@ -57,7 +57,7 @@ class UnboundedPagingViewModel @Inject constructor(
     pagingManagerFactory: UnboundedPositionalPagingManager.Factory
 ) : PagingViewModel {
 
-    private val subTitle = ObservableField(resourceProvider.getString(R.string.paging_unbounded_sub_title).toString())
+    private val subTitle = ObservableField(resourceProvider.getText(R.string.paging_unbounded_sub_title).toString())
 
     private val isShowRefreshProgressBar = ObservableBoolean(false)
 
@@ -82,14 +82,14 @@ class UnboundedPagingViewModel @Inject constructor(
 
         listAdapter = BindingPagedListAdapter(bottomMoreItem = bottomMoreViewModel)
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
             subscribePagedList()
             subscribeLoadStart()
             subscribeLoadComplete()
             subscribeLoadError()
         }
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
             disposables.clear()
         }
     }
@@ -159,7 +159,7 @@ class UnboundedPagingViewModel @Inject constructor(
 
     override fun isShowRefreshProgressBar(): ObservableBoolean = isShowRefreshProgressBar
 
-    override fun getBannerText(): String = resourceProvider.getString(R.string.paging_banner_to_countable).toString()
+    override fun getBannerText(): String = resourceProvider.getText(R.string.paging_banner_to_countable).toString()
 
     override fun isShowErrorView(): ObservableBoolean = isShowErrorView
 

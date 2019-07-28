@@ -18,13 +18,13 @@ package nlab.practice.jetpack.ui.slide
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import nlab.practice.jetpack.repository.model.PagingItem
-import nlab.practice.jetpack.util.lifecycle.SavedState
+import nlab.practice.jetpack.util.lifecycle.LifecycleState
 
 
 /**
  * @author Doohyun
  */
-class SlideUpSampleSavedState : SavedState() {
+class SlideUpSampleSavedState : LifecycleState() {
     var pagingItems: List<PagingItem>? = null
     var panelState: SlidingUpPanelLayout.PanelState? = null
 }

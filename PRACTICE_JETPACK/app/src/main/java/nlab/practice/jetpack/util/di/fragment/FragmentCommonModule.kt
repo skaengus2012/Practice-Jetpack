@@ -25,7 +25,7 @@ import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.FragmentSavedStateProvider
-import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
+import nlab.practice.jetpack.util.lifecycle.LifecycleStateProvider
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import javax.inject.Named
@@ -78,7 +78,7 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideSavedStateProvider(fragment: Fragment): SavedStateProvider {
+    fun provideSavedStateProvider(fragment: Fragment): LifecycleStateProvider {
         return FragmentSavedStateProvider(fragment)
     }
 

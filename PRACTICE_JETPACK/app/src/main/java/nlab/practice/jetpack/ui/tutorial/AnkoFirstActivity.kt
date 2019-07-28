@@ -17,7 +17,13 @@
 package nlab.practice.jetpack.ui.tutorial
 
 import android.os.Bundle
+import dagger.Module
+import dagger.Provides
+import nlab.practice.jetpack.util.di.activity.ActivityScope
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
+import nlab.practice.jetpack.util.lifecycle.LifecycleStateProvider
+import nlab.practice.jetpack.util.lifecycle.LifecycleStateProviders
+import nlab.practice.jetpack.util.lifecycle.get
 import org.jetbrains.anko.setContentView
 import javax.inject.Inject
 
@@ -38,6 +44,16 @@ class AnkoFirstActivity : InjectableActivity() {
 
             // 일부로 viewModel 을 나중에 세팅함 -> viewModel set 에 대한 테스트 진행을 위해
             it.setViewModel(viewModel)
+        }
+    }
+
+    @dagger.Module
+    class Module {
+
+        @ActivityScope
+        @Provides
+        fun provideLifecycleState(activity: AnkoFirstActivity): AnkoFirstState {
+            return LifecycleStateProviders.of(activity).get()
         }
     }
 }

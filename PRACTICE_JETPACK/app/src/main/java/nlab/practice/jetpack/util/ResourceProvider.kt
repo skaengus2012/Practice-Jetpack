@@ -31,10 +31,10 @@ import androidx.core.content.ContextCompat
 class ResourceProvider(private val context: Context) {
     fun getColor(@ColorRes colorRes: Int) : Int = ContextCompat.getColor(context, colorRes)
 
-    fun getString(@StringRes stringRes: Int): CharSequence = context.getString(stringRes)
+    fun getText(@StringRes stringRes: Int): CharSequence = context.getString(stringRes)
 
-    fun getString(@StringRes stringFormatRes: Int, vararg arguments: Any?): String{
-        val format = getString(stringFormatRes)
+    fun getString(@StringRes stringFormatRes: Int, vararg arguments: Any): String {
+        val format = getText(stringFormatRes)
 
         return String.format(format.toString(), *arguments)
     }

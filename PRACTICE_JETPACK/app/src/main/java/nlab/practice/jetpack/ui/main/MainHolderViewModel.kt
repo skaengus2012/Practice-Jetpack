@@ -18,8 +18,8 @@ package nlab.practice.jetpack.ui.main
 
 import androidx.databinding.BaseObservable
 import nlab.practice.jetpack.util.di.activity.ActivityCallback
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
 import javax.inject.Inject
 
 /**
@@ -28,12 +28,12 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class MainHolderViewModel @Inject constructor(
-    activityLifeCycleBinder: ActivityLifeCycleBinder,
+    activityLifeCycleBinder: ActivityLifecycleBinder,
     activityCallback: ActivityCallback,
     private val mainNavUsecase: MainBottomNavUsecase): BaseObservable() {
 
     init {
-        activityLifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) { executeOnCreate() }
+        activityLifeCycleBinder.bindUntil(ActivityLifecycle.ON_CREATE) { executeOnCreate() }
         activityCallback.onBackPressed(this::executeOnBackPressed)
         activityCallback.onRestoreInstanceState { executeOnRestoreInstanceState() }
     }

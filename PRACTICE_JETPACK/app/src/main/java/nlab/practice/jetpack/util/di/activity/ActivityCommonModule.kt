@@ -21,10 +21,10 @@ import dagger.Provides
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.ActivitySavedStateProvider
-import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
+import nlab.practice.jetpack.util.lifecycle.LifecycleStateProvider
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.nav.ContextInjectionType
 import nlab.practice.jetpack.util.nav.DefaultActivityNavUsecase
@@ -40,7 +40,7 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideLifeCycleBinder(): ActivityLifeCycleBinder =
+    fun provideLifeCycleBinder(): ActivityLifecycleBinder =
         LifeCycleBinder()
 
     @Named(ContextInjectionType.ACTIVITY)
@@ -63,7 +63,7 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideSavedStateProvider(activity: BaseActivity): SavedStateProvider {
+    fun provideSavedStateProvider(activity: BaseActivity): LifecycleStateProvider {
         return ActivitySavedStateProvider(activity)
     }
 

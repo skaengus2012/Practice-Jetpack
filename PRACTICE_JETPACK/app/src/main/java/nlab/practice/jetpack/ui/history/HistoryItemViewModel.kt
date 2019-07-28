@@ -36,7 +36,7 @@ class HistoryItemViewModel(
     private val resultMessage = when (history.isSuccess) {
         true -> R.string.history_success
         false -> R.string.history_failed
-    }.run { resourceProvider.getString(this).toString() }
+    }.run { resourceProvider.getText(this).toString() }
 
     override fun getLayoutRes(): Int = R.layout.view_history_item
 

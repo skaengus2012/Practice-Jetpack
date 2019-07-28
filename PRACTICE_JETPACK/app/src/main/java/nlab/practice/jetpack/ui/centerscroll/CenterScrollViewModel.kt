@@ -23,7 +23,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.LyricsRepository
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
@@ -60,12 +60,12 @@ class CenterScrollViewModel @Inject constructor(
     init {
         initializeLyrics()
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
             subscribeScrollEvent()
             subscribeLyricsIndexChanged()
         }
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
             disposables.clear()
         }
     }

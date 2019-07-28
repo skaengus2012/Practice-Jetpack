@@ -16,32 +16,20 @@
 
 package nlab.practice.jetpack.util
 
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Android Scheduler 등의 의존성 제거를 위한 Scheduler Factory
- *
  * @author Doohyun
  */
-interface SchedulerFactory {
-    fun single(): Scheduler
-    fun io(): Scheduler
-    fun ui(): Scheduler
-    fun computation(): Scheduler
-    fun trampoline(): Scheduler
-}
-
-class SchedulerFactoryImpl : SchedulerFactory {
+class TestSchedulerFactory : SchedulerFactory {
 
     override fun single() = Schedulers.single()
 
-    override fun io() = Schedulers.io()
+    override fun io() = Schedulers.trampoline()
 
-    override fun ui(): Scheduler = AndroidSchedulers.mainThread()
+    override fun ui() = Schedulers.trampoline()
 
-    override fun computation() = Schedulers.computation()
+    override fun computation() = Schedulers.trampoline()
 
     override fun trampoline() = Schedulers.trampoline()
 }

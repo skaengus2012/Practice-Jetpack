@@ -43,7 +43,8 @@ abstract class ActivityBindModule {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [
-        ActivityCommonModule::class
+        ActivityCommonModule::class,
+        AnkoFirstActivity.Module::class
     ])
     abstract fun ankoFirstActivity(): AnkoFirstActivity
 

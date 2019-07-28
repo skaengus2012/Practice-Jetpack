@@ -16,12 +16,11 @@
 
 package nlab.practice.jetpack
 
-import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.ui.main.MainBottomNavUsecase
 import nlab.practice.jetpack.ui.main.MainHolderViewModel
 import nlab.practice.jetpack.util.di.activity.ActivityCallback
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
@@ -31,8 +30,7 @@ import org.mockito.Mockito.mock
  */
 class MainHolderTest {
 
-    private val activityLifeCycleBinder =
-        ActivityLifeCycleBinder(CompositeDisposable())
+    private val activityLifeCycleBinder = ActivityLifecycleBinder()
     private val activityCallbackDelegate = ActivityCallback()
 
     private lateinit var mainBottomNavUsecase: MainBottomNavUsecase
@@ -47,6 +45,6 @@ class MainHolderTest {
         val mainViewModel =
                 MainHolderViewModel(activityLifeCycleBinder, activityCallbackDelegate, mainBottomNavUsecase)
 
-        activityLifeCycleBinder.apply(ActivityLifeCycle.ON_CREATE)
+        activityLifeCycleBinder.apply(ActivityLifecycle.ON_CREATE)
     }
 }

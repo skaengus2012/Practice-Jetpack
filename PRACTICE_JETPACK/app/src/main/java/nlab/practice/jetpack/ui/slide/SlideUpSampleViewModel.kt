@@ -33,10 +33,10 @@ import nlab.practice.jetpack.util.PlayController
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
 import nlab.practice.jetpack.util.di.activity.ActivityCallback
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
-import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
-import nlab.practice.jetpack.util.lifecycle.create
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
+import nlab.practice.jetpack.util.lifecycle.LifecycleStateProvider
+import nlab.practice.jetpack.util.lifecycle.get
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
@@ -56,10 +56,10 @@ class SlideUpSampleViewModel @Inject constructor(
     private val playerRepository: PlayerRepository,
     private val playerController: PlayController,
     private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase,
-    savedStateProvider: SavedStateProvider,
+    savedStateProvider: LifecycleStateProvider,
     layoutManagerFactory: LayoutManagerFactory,
     itemDecoration: ListAdapterExampleItemDecoration,
-    lifeCycleBinder: ActivityLifeCycleBinder,
+    lifeCycleBinder: ActivityLifecycleBinder,
     activityCallback: ActivityCallback,
     activityCommonUsecase: ActivityCommonUsecase
 ) : ListErrorPageViewModel {
@@ -82,20 +82,20 @@ class SlideUpSampleViewModel @Inject constructor(
     private val listUpdateSubject: BehaviorSubject<List<ListAdapterExampleItemViewModel>> =
         BehaviorSubject.createDefault(ArrayList())
 
-    private val savedState = savedStateProvider.create<SlideUpSampleSavedState>()
+    private val savedState = savedStateProvider.get<SlideUpSampleSavedState>()
 
     init {
-        lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
+        lifeCycleBinder.bindUntil(ActivityLifecycle.ON_CREATE) {
             doOnCreate()
 
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
 
-        lifeCycleBinder.bindUntil(ActivityLifeCycle.FINISH) {
+        lifeCycleBinder.bindUntil(ActivityLifecycle.FINISH) {
             activityCommonUsecase.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
 
-        lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
+        lifeCycleBinder.bindUntil(ActivityLifecycle.ON_DESTROY) {
             collapsingPanelIfHidden()
 
             disposables.clear()

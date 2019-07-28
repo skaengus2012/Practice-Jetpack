@@ -21,7 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.model.Track
 import nlab.practice.jetpack.util.PlayController
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import javax.inject.Inject
@@ -42,11 +42,11 @@ class SlidingMainViewModel @Inject constructor(
     val artist = ObservableField<String>()
 
     init {
-        lifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        lifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
             loadCurrentTrack()
         }
 
-        lifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+        lifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
             disposables.clear()
         }
     }

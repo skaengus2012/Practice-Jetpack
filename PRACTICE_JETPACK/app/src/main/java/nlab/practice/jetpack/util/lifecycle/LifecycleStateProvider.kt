@@ -24,29 +24,31 @@ import kotlin.reflect.KClass
 /**
  * @author Doohyun
  */
-interface SavedStateProvider {
-    fun <T : SavedState> create(
-        clazz: KClass<T>,
-        factory: SavedState.Factory? = null
-    ): T
+interface LifecycleStateProvider {
+    fun <T : LifecycleState> get(clazz: KClass<T>, factory: LifecycleState.Factory? = null): T
 }
 
-inline fun <reified T : SavedState> SavedStateProvider.create(
-    factory: SavedState.Factory? = null
+inline fun <reified T : LifecycleState> LifecycleStateProvider.get(
+    factory: LifecycleState.Factory? = null
 ): T {
-    return create(T::class, factory)
+    return get(T::class, factory)
 }
 
-class ActivitySavedStateProvider(private val activity: FragmentActivity) : SavedStateProvider {
+object LifecycleStateProviders {
+    fun of(activity: FragmentActivity): LifecycleStateProvider = ActivitySavedStateProvider(activity)
+    fun of(fragment: Fragment): LifecycleStateProvider = FragmentSavedStateProvider(fragment)
+}
 
-    override fun <T : SavedState> create(clazz: KClass<T>, factory: SavedState.Factory?): T {
+class ActivitySavedStateProvider(private val activity: FragmentActivity) : LifecycleStateProvider {
+
+    override fun <T : LifecycleState> get(clazz: KClass<T>, factory: LifecycleState.Factory?): T {
         return ViewModelProviders.of(activity, factory).get(clazz.java)
     }
 }
 
-class FragmentSavedStateProvider(private val fragment: Fragment) : SavedStateProvider {
+class FragmentSavedStateProvider(private val fragment: Fragment) : LifecycleStateProvider {
 
-    override fun <T : SavedState> create(clazz: KClass<T>, factory: SavedState.Factory?): T {
+    override fun <T : LifecycleState> get(clazz: KClass<T>, factory: LifecycleState.Factory?): T {
         return ViewModelProviders.of(fragment, factory).get(clazz.java)
     }
 }

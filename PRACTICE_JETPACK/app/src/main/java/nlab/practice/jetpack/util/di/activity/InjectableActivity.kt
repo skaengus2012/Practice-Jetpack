@@ -22,8 +22,8 @@ import dagger.android.AndroidInjection
 
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
 import javax.inject.Inject
 
 /**
@@ -40,7 +40,7 @@ abstract class InjectableActivity : BaseActivity() {
         private set
 
     @Inject
-    lateinit var lifeCycleBinder: ActivityLifeCycleBinder
+    lateinit var lifeCycleBinder: ActivityLifecycleBinder
 
     @Inject
     lateinit var activityCallbackBinder: ActivityCallback
@@ -52,7 +52,7 @@ abstract class InjectableActivity : BaseActivity() {
 
         onCreateBinding(savedInstanceState)
 
-        lifeCycleBinder.apply(ActivityLifeCycle.ON_CREATE)
+        lifeCycleBinder.apply(ActivityLifecycle.ON_CREATE)
     }
 
     abstract fun onCreateBinding(savedInstanceState: Bundle?)
@@ -74,35 +74,35 @@ abstract class InjectableActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
 
-        lifeCycleBinder.apply(ActivityLifeCycle.ON_START)
+        lifeCycleBinder.apply(ActivityLifecycle.ON_START)
     }
 
     @CallSuper
     override fun onResume() {
         super.onResume()
 
-        lifeCycleBinder.apply(ActivityLifeCycle.ON_RESUME)
+        lifeCycleBinder.apply(ActivityLifecycle.ON_RESUME)
     }
 
     @CallSuper
     override fun onPause() {
         super.onPause()
 
-        lifeCycleBinder.apply(ActivityLifeCycle.ON_PAUSE)
+        lifeCycleBinder.apply(ActivityLifecycle.ON_PAUSE)
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
 
-        lifeCycleBinder.apply(ActivityLifeCycle.ON_STOP)
+        lifeCycleBinder.apply(ActivityLifecycle.ON_STOP)
     }
 
     @CallSuper
     override fun finish() {
         super.finish()
 
-        lifeCycleBinder.apply(ActivityLifeCycle.FINISH)
+        lifeCycleBinder.apply(ActivityLifecycle.FINISH)
     }
 
     @CallSuper
@@ -110,7 +110,7 @@ abstract class InjectableActivity : BaseActivity() {
         super.onDestroy()
 
         with(lifeCycleBinder) {
-            apply(ActivityLifeCycle.ON_DESTROY)
+            apply(ActivityLifecycle.ON_DESTROY)
             clear()
         }
     }

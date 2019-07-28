@@ -40,7 +40,7 @@ class HomeHeaderViewModel @Inject constructor(
 
     private var timerDisposable: Disposable? = null
 
-    private val dateFormat: CharSequence = resourceProvider.getString(R.string.home_time_format)
+    private val dateFormat: CharSequence = resourceProvider.getText(R.string.home_time_format)
 
     @Bindable
     var currentTimeString: String = getCurrentTimeDateFormat()

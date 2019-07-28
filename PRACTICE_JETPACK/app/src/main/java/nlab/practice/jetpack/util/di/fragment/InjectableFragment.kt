@@ -25,7 +25,7 @@ import androidx.annotation.CallSuper
 import dagger.android.support.AndroidSupportInjection
 import nlab.practice.jetpack.util.BaseFragment
 import nlab.practice.jetpack.util.di.AppComponent
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import javax.inject.Inject
 
@@ -71,14 +71,14 @@ abstract class InjectableFragment : BaseFragment() {
 
         super.onAttach(context)
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_ATTACH)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_ATTACH)
     }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_CREATE)
     }
 
 
@@ -87,7 +87,7 @@ abstract class InjectableFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE_VIEW)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_CREATE_VIEW)
 
         return onCreateBindingView(inflater, container, savedInstanceState)
     }
@@ -107,49 +107,49 @@ abstract class InjectableFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_ACTIVITY_CREATED)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_ACTIVITY_CREATED)
     }
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_VIEW_CREATED)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_VIEW_CREATED)
     }
 
     @CallSuper
     override fun onStart() {
         super.onStart()
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_START)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_START)
     }
 
     @CallSuper
     override fun onResume() {
         super.onResume()
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_RESUME)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_RESUME)
     }
 
     @CallSuper
     override fun onPause() {
         super.onPause()
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_PAUSE)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_PAUSE)
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_STOP)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_STOP)
     }
 
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY_VIEW)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_DESTROY_VIEW)
     }
 
     @CallSuper
@@ -161,13 +161,13 @@ abstract class InjectableFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_DESTROY)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_DESTROY)
     }
 
     override fun onDetach() {
         super.onDetach()
 
-        lifeCycleBinder.apply(FragmentLifeCycle.ON_DETACH)
+        lifeCycleBinder.apply(FragmentLifecycle.ON_DETACH)
         lifeCycleBinder.clear()
     }
 }

@@ -20,7 +20,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import nlab.practice.jetpack.util.slidingpanel.isCollapsed
@@ -44,8 +44,8 @@ class SlidingHolderViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_ACTIVITY_CREATED) { doOnActivityCreated() }
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) { disposables.clear() }
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_ACTIVITY_CREATED) { doOnActivityCreated() }
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) { disposables.clear() }
     }
 
     private fun doOnActivityCreated() {

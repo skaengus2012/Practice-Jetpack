@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.lifecycle
+package nlab.practice.jetpack.ui.tutorial
+
+import nlab.practice.jetpack.util.lifecycle.LifecycleState
 
 /**
- * Activity LifeCycle 종류 정의
- *
  * @author Doohyun
  */
-enum class ActivityLifeCycle {
-    ON_CREATE,
-    ON_START,
-    ON_RESUME,
-    ON_PAUSE,
-    ON_STOP,
-    ON_DESTROY,
-    FINISH
+class AnkoFirstState : LifecycleState() {
+    var message: String? = null
 }
-
-typealias ActivityLifeCycleBinder = LifeCycleBinder<ActivityLifeCycle>

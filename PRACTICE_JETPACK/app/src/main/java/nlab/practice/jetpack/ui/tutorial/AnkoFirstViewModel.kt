@@ -22,11 +22,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.RxBaseObservables
 import nlab.practice.jetpack.util.SchedulerFactory
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
-import nlab.practice.jetpack.util.lifecycle.SavedStateProvider
-import nlab.practice.jetpack.util.lifecycle.create
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -36,34 +35,37 @@ import javax.inject.Inject
  * @since 2018. 11. 23
  */
 class AnkoFirstViewModel @Inject constructor(
+    lifeCycleBinder: ActivityLifecycleBinder,
     private val schedulerFactory: SchedulerFactory,
-    savedStateProvider: SavedStateProvider,
-    lifeCycleBinder: ActivityLifeCycleBinder,
-    resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val lifecycleState: AnkoFirstState
 ) {
 
     private val disposables = CompositeDisposable()
 
-    private val savedState = savedStateProvider.create<AnkoFirstSavedState>()
-
     val message: ObservableField<String> = ObservableField()
 
     init {
-        (savedState.message ?: resourceProvider.getString(R.string.anko_first_message)).run {
-            message.set(toString())
-        }
+        message.set(lifecycleState.message ?: resourceProvider.getString(R.string.anko_first_message))
 
-        lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
-            message.get()?.run { savedState.message = this }
+        RxBaseObservables.of(message)
+            .toObservable()
+            .subscribe { lifecycleState.message = message.get() }
+            .addTo(disposables)
+
+        lifeCycleBinder.bindUntil(ActivityLifecycle.ON_DESTROY) {
             disposables.clear()
         }
     }
 
+    fun changeText() {
+        message.set(resourceProvider.getString(R.string.anko_first_btn_change_text))
+    }
 
-    fun changeTextDelayTime(message: String, second: Long = 0L) {
-        Observable.timer(second, TimeUnit.SECONDS)
+    fun changeTextDelayTime() {
+        Observable.timer(3, TimeUnit.SECONDS, schedulerFactory.computation())
             .observeOn(schedulerFactory.ui())
-            .doOnNext { this.message.set(message) }
+            .doOnNext { message.set(resourceProvider.getString(R.string.anko_first_btn_change_text_delay)) }
             .subscribe()
             .addTo(disposables)
     }

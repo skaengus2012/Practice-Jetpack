@@ -46,7 +46,7 @@ class HomeTest {
     @Before
     fun setup() {
         resourceProvider = mock(ResourceProvider::class.java).apply {
-            `when`( this.getString(R.string.home_time_format)).thenReturn(HOME_TIME_FORMAT_STRING)
+            `when`( this.getText(R.string.home_time_format)).thenReturn(HOME_TIME_FORMAT_STRING)
         }
 
         schedulerFactory = mock(SchedulerFactory::class.java).apply {

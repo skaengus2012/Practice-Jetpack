@@ -30,7 +30,7 @@ import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
 import nlab.practice.jetpack.util.di.fragment.FragmentCallback
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
@@ -80,12 +80,12 @@ class ListAdapterExampleViewModel @Inject constructor(
     }
 
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
             initializeList()
             subscribeSelection()
         }
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
             disposables.clear()
         }
 

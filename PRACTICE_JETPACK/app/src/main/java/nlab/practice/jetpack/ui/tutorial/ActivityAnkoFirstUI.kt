@@ -74,7 +74,7 @@ class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFir
                         rightMargin = dip(20)
                     }
                     .binder()
-                    .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change), 0) }
+                    .onClick { it.changeText() }
 
                 getTextChangeButton(ctx, R.string.anko_first_btn_change_text_delay)
                     .lparams(width = matchParent, height = wrapContent) {
@@ -83,7 +83,7 @@ class ActivityAnkoFirstUI : DataBindingAnkoComponent<AnkoFirstViewModel, AnkoFir
                         rightMargin = dip(20)
                     }
                     .binder()
-                    .onClick { it.changeTextDelayTime(string(R.string.anko_first_message_change_delay), 5) }
+                    .onClick { it.changeTextDelayTime() }
 
             }.lparams(width = matchConstraint, height = matchConstraint) {
                 startToStart = PARENT_ID

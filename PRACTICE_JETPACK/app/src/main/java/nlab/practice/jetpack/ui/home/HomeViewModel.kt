@@ -25,7 +25,7 @@ import nlab.practice.jetpack.ui.landscape.LandScapeActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
@@ -62,11 +62,11 @@ class HomeViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
             homeHeaderViewModel.startTimer()
         }
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
             disposables.clear()
             homeHeaderViewModel.stopTimer()
         }

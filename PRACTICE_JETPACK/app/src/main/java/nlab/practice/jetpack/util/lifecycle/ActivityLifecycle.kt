@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.ui.tutorial
-
-import nlab.practice.jetpack.util.lifecycle.SavedState
-import javax.inject.Singleton
+package nlab.practice.jetpack.util.lifecycle
 
 /**
+ * Activity LifeCycle 종류 정의
+ *
  * @author Doohyun
  */
-@Singleton
-class AnkoFirstSavedState : SavedState() {
-    var message: String? = null
+enum class ActivityLifecycle {
+    ON_CREATE,
+    ON_START,
+    ON_RESUME,
+    ON_PAUSE,
+    ON_STOP,
+    ON_DESTROY,
+    FINISH
 }
+
+typealias ActivityLifecycleBinder = LifeCycleBinder<ActivityLifecycle>

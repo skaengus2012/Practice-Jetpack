@@ -32,8 +32,8 @@ import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycle
-import nlab.practice.jetpack.util.lifecycle.ActivityLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
+import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import javax.inject.Inject
@@ -42,7 +42,7 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class CollapsingToolbarViewModel @Inject constructor(
-    lifeCycleBinder: ActivityLifeCycleBinder,
+    lifeCycleBinder: ActivityLifecycleBinder,
     private val activityUsecase: ActivityCommonUsecase,
     private val toolbarUsecase: ToolbarItemVisibilityUsecase,
     private val schedulerFactory: SchedulerFactory,
@@ -73,12 +73,12 @@ class CollapsingToolbarViewModel @Inject constructor(
     init {
         refresh()
 
-        lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_CREATE) {
+        lifeCycleBinder.bindUntil(ActivityLifecycle.ON_CREATE) {
             observeEvent()
             toolbarUsecase.initialize(false)
         }
 
-        lifeCycleBinder.bindUntil(ActivityLifeCycle.ON_DESTROY) {
+        lifeCycleBinder.bindUntil(ActivityLifecycle.ON_DESTROY) {
             disposables.clear()
         }
     }
@@ -110,7 +110,7 @@ class CollapsingToolbarViewModel @Inject constructor(
             it.withIndex().map { (index, item)
                 ->
                 itemViewModelFactory.create(item) {
-                    val messageRes = resourceProvider.getString(R.string.collapsing_toolbar_ex_item_click)
+                    val messageRes = resourceProvider.getText(R.string.collapsing_toolbar_ex_item_click)
                     toastHelper.showToast(String.format(messageRes.toString(), index))
                 }
             }

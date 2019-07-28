@@ -33,7 +33,7 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
@@ -69,7 +69,7 @@ class CountablePagingViewModel @Inject constructor(
     private var isRefreshing = false
 
     private val subTitle = ObservableField<String>()
-    private val subTitleFormat = resourceProvider.getString(R.string.paging_countable_sub_title_format)
+    private val subTitleFormat = resourceProvider.getText(R.string.paging_countable_sub_title_format)
 
     private val pagingManager = pagingManagerFactory.create(pagingItemRepository, disposables)
     private val singleScheduler = schedulerFactory.single()
@@ -77,14 +77,14 @@ class CountablePagingViewModel @Inject constructor(
     init {
         loadTitle()
 
-        lifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        lifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
             subscribePagedList()
             subscribeTotalCountChanged()
             subscribeLoadFinish()
             subscribeLoadError()
         }
 
-        lifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+        lifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
             disposables.clear()
         }
     }
@@ -95,7 +95,7 @@ class CountablePagingViewModel @Inject constructor(
 
     override fun getSubTitle(): ObservableField<String> = subTitle
 
-    override fun getBannerText(): String = resourceProvider.getString(R.string.paging_banner_to_unbounded).toString()
+    override fun getBannerText(): String = resourceProvider.getText(R.string.paging_banner_to_unbounded).toString()
 
     override fun onClickBackButton() = activityCommonUsecase.onBackPressed()
 

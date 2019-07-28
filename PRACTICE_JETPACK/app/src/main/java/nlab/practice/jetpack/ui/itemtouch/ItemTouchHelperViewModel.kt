@@ -26,7 +26,7 @@ import nlab.practice.jetpack.repository.PagingItemRepository
 import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
@@ -62,13 +62,13 @@ class ItemTouchHelperViewModel @Inject constructor(
     val recyclerViewConfig = createRecyclerViewConfig()
 
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_VIEW_CREATED) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
             subscribeItems()
             subscribeDragEvent()
             subscribeSwipeDeleteEvent()
         }
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifeCycle.ON_DESTROY_VIEW) {
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
             disposables.clear()
         }
 

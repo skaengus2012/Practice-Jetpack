@@ -50,8 +50,8 @@ class UnboundedPositionalPagingTest {
         rangeCallback = mock(LoadRangeCallback::class.java) as LoadRangeCallback<NonePageableItem>
 
         pagingManager = UnboundedPositionalPagingManager
-                .Factory(disposables, mock(SchedulerFactory::class.java))
-                .create(repository)
+                .Factory(mock(SchedulerFactory::class.java))
+                .create(repository, disposables)
     }
 
     @Test
