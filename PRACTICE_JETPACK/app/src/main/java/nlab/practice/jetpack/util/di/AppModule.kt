@@ -31,7 +31,6 @@ import nlab.practice.jetpack.util.nav.ContextInjectionType
 import nlab.practice.jetpack.util.nav.DefaultActivityNavUsecase
 import nlab.practice.jetpack.util.nav.IntentProvider
 import javax.inject.Named
-import javax.inject.Singleton
 
 /**
  * @author Doohyun
@@ -42,7 +41,7 @@ import javax.inject.Singleton
 ])
 class AppModule {
 
-    @Singleton
+    @Reusable
     @Provides
     fun provideResource(application: Application): ResourceProvider = ResourceProvider(application.applicationContext)
 
@@ -65,4 +64,7 @@ class AppModule {
     fun provideActivityNavUsecae(application: Application): ActivityNavUsecase {
         return DefaultActivityNavUsecase (application.baseContext)
     }
+
+    @Provides
+    fun provideAdroidInjector() = AndroidInjectorEx()
 }

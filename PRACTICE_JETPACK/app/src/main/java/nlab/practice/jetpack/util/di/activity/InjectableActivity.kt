@@ -17,16 +17,12 @@
 package nlab.practice.jetpack.util.di.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.CallSuper
-import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+
 import nlab.practice.jetpack.util.component.callback.ActivityCallback
 import nlab.practice.jetpack.util.BaseActivity
 import nlab.practice.jetpack.util.di.AppComponent
-import nlab.practice.jetpack.util.di.fragment.FragmentInjector
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycle
 import nlab.practice.jetpack.util.component.lifecycle.ActivityLifeCycleBinder
 import javax.inject.Inject
@@ -39,7 +35,7 @@ import javax.inject.Inject
  * @author Doohyun
  * @since 2018. 12. 20
  */
-abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
+abstract class InjectableActivity : BaseActivity() {
 
     lateinit var activityBindComponent: ActivityBindComponent
         private set
@@ -69,6 +65,10 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
             .build()
 
         AndroidInjection.inject(this)
+    }
+
+    fun bindInjection() {
+        activityBindComponent.activityInjector().maybeInject(this)
     }
 
     @CallSuper
@@ -128,6 +128,4 @@ abstract class InjectableActivity : BaseActivity(), HasSupportFragmentInjector {
             super.onBackPressed()
         }
     }
-
-    final override fun supportFragmentInjector(): AndroidInjector<Fragment> = FragmentInjector
 }

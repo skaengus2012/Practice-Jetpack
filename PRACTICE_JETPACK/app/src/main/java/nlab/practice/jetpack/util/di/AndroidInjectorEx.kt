@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.di.activity
+package nlab.practice.jetpack.util.di
 
-import android.app.Activity
 import dagger.android.AndroidInjector
+import nlab.practice.jetpack.util.di.activity.InjectableActivity
+import nlab.practice.jetpack.util.di.fragment.InjectableFragment
 
 
 /**
@@ -25,12 +26,13 @@ import dagger.android.AndroidInjector
  *
  * @author Doohyun
  */
-object ActivityInjector : AndroidInjector<Activity> {
-
-    override fun inject(activity: Activity?) {
-        activity?.let { it as InjectableActivity }
-            ?.activityBindComponent
-            ?.activityInjector()
-            ?.maybeInject(activity)
+class AndroidInjectorEx : AndroidInjector<Any> {
+    override fun inject(target: Any?) {
+        if (target != null) {
+            when (target) {
+                is InjectableActivity -> target.bindInjection()
+                is InjectableFragment -> target.bindInjection()
+            }
+        }
     }
 }

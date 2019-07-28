@@ -61,6 +61,10 @@ abstract class InjectableFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
     }
 
+    fun bindInjection() {
+        fragmentBindComponent.fragmentInjector().maybeInject(this)
+    }
+
     @CallSuper
     override fun onAttach(context: Context?) {
         // 권고사항 : Dagger Reference 에서는 onAttach 시점 전, DI 를 하기를 권장
@@ -77,6 +81,7 @@ abstract class InjectableFragment : BaseFragment() {
 
         lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE)
     }
+
 
     final override fun onCreateView(
         inflater: LayoutInflater,
