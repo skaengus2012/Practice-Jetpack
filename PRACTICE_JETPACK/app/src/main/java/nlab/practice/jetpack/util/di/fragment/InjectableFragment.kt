@@ -64,6 +64,10 @@ abstract class InjectableFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
     }
 
+    fun bindInjection() {
+        fragmentBindComponent.fragmentInjector().maybeInject(this)
+    }
+
     final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         initializeDI()
         lifeCycleBinder.apply(FragmentLifeCycle.ON_CREATE_VIEW)

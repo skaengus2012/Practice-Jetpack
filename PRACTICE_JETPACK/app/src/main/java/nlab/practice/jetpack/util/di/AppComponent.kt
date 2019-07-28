@@ -21,6 +21,7 @@ import dagger.Component
 import javax.inject.Singleton
 import dagger.BindsInstance
 import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import nlab.practice.jetpack.JetPackApplication
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
@@ -47,8 +48,6 @@ interface AppComponent {
     interface Supplier {
         fun getAppComponent(): AppComponent
     }
-
-    fun inject(application: JetPackApplication)
 
     fun activityBindComponent(): ActivityBindComponent.Builder
 
