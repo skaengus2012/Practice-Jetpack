@@ -31,7 +31,7 @@ import dagger.android.DispatchingAndroidInjector
 ])
 interface FragmentBindComponent {
 
-    fun activityInjector(): DispatchingAndroidInjector<Fragment>
+    fun fragmentInjector(): DispatchingAndroidInjector<Fragment>
 
     /**
      * 공통으로 써야하는 정보가 있다면 이 곳에서 파라미터로 받을 것.

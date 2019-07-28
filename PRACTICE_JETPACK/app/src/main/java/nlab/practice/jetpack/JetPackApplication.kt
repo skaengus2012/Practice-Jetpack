@@ -16,24 +16,22 @@
 
 package nlab.practice.jetpack
 
-import android.app.Activity
 import androidx.multidex.MultiDexApplication
-import dagger.android.AndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import io.reactivex.plugins.RxJavaPlugins
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.di.DaggerAppComponent
-import nlab.practice.jetpack.util.di.activity.ActivityInjector
+import nlab.practice.jetpack.util.di.AndroidInjectorEx
 import timber.log.Timber
-
-private const val TAG = "JetPackApplication"
 
 /**
  * @author Doohyun
  */
-class JetPackApplication : MultiDexApplication(), AppComponent.Supplier, HasActivityInjector {
+class JetPackApplication : MultiDexApplication(), AppComponent.Supplier, HasAndroidInjector {
 
     private lateinit var _appComponent: AppComponent
+
+    private val activityInjector = AndroidInjectorEx()
 
     override fun onCreate() {
         super.onCreate()
@@ -51,11 +49,11 @@ class JetPackApplication : MultiDexApplication(), AppComponent.Supplier, HasActi
 
     private fun initializeRxErrorHandler() {
         RxJavaPlugins.setErrorHandler {
-            Timber.tag(TAG).e(it, "initRxJavaErrorHandler ${it.localizedMessage}")
+            Timber.e(it, "initRxJavaErrorHandler ${it.localizedMessage}")
         }
     }
 
     override fun getAppComponent(): AppComponent = _appComponent
 
-    override fun activityInjector(): AndroidInjector<Activity> = ActivityInjector
+    override fun androidInjector() = activityInjector
 }
