@@ -19,7 +19,7 @@ package nlab.practice.jetpack.ui.landscape
 import android.os.Bundle
 import dagger.Provides
 import nlab.practice.jetpack.R
-import nlab.practice.jetpack.ui.main.MainNavController
+import nlab.practice.jetpack.ui.main.MainHolderNavController
 import nlab.practice.jetpack.util.di.activity.ActivityScope
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
 
@@ -39,8 +39,8 @@ class LandScapeActivity : InjectableActivity() {
 
         @ActivityScope
         @Provides
-        fun provideFragmentNavController(activity: LandScapeActivity): MainNavController {
-            return MainNavController(activity.supportFragmentManager, R.id.layout_container)
+        fun provideFragmentNavController(activity: LandScapeActivity): MainHolderNavController {
+            return MainHolderNavController(activity.supportFragmentManager, R.id.layout_container)
         }
     }
 

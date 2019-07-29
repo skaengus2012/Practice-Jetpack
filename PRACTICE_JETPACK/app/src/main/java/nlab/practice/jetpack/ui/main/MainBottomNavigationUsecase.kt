@@ -33,8 +33,8 @@ import nlab.practice.jetpack.util.nav.fragmentTag
  */
 @Deprecated("TDD 형태로 다시 제작하길 희망")
 class MainBottomNavigationUsecase(
-        private val navController: MainNavController,
-        private val viewSupplier: () -> BottomNavigationView
+    private val navController: MainHolderNavController,
+    private val viewSupplier: () -> BottomNavigationView
 ) : BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
 
     companion object {

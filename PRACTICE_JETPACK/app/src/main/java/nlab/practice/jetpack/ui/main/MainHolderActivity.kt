@@ -18,8 +18,11 @@ package nlab.practice.jetpack.ui.main
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import dagger.Provides
+import kotlinx.android.synthetic.main.activity_main_holder.*
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.databinding.ActivityMainHolderBinding
+import nlab.practice.jetpack.util.di.activity.ActivityScope
 import nlab.practice.jetpack.util.di.activity.InjectableActivity
 import javax.inject.Inject
 
@@ -40,5 +43,28 @@ class MainHolderActivity : InjectableActivity() {
     override fun onCreateBinding(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_holder)
         binding.viewModel = viewModel
+    }
+
+    @dagger.Module
+    class Module {
+
+        @ActivityScope
+        @Provides
+        fun provideNavController(activity: MainHolderActivity): MainHolderNavController {
+            return MainHolderNavController(activity.supportFragmentManager,  R.id.layout_container)
+        }
+
+        @ActivityScope
+        @Provides
+        fun provideBottomNavUsecase(activity: MainHolderActivity): MainBottomNavigationViewUseCase {
+            return MainBottomNavigationViewUseCaseImpl { activity.bottom_navigation }
+        }
+
+        @ActivityScope
+        @Provides
+        fun provideMainNavController(): MainNavController {
+            return MainNavController()
+        }
+
     }
 }

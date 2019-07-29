@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.ui.main
+package nlab.practice.jetpack.util
+
+import org.mockito.Mockito
 
 /**
- * @author Doohyun
- * @since 2019. 07. 30
+ * Mockito 의 일반 any 가 nullable 상태로 방출.
+ * nonnull 데이터를 내기 위해 다음과 같이 처리
  */
-class MainNavController(
-
-) {
-
-    fun navHome() {
-
-    }
-
-    fun navHistory() {
-
-    }
-
-    fun executePrimaryChildBackPressed(): Boolean {
-        return false
-    }
-
+@Suppress("UNCHECKED_CAST")
+fun <T> anyNonNull(): T {
+    Mockito.any<T>()
+    return null as T
 }

@@ -17,10 +17,8 @@
 package nlab.practice.jetpack.ui.main
 
 import androidx.annotation.IdRes
-import androidx.databinding.ObservableInt
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import nlab.practice.jetpack.util.RxBaseObservables
 import nlab.practice.jetpack.util.di.activity.ActivityCallback
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
@@ -34,9 +32,9 @@ import javax.inject.Inject
 class MainHolderViewModel @Inject constructor(
     activityLifeCycleBinder: ActivityLifecycleBinder,
     activityCallback: ActivityCallback,
-    navUseCase: MainBottomNavUseCase
+    private val bottomNavigationViewUseCase: MainBottomNavigationViewUseCase,
+    private val navController: MainNavController
 ) {
-    val selectedBottomNavId = ObservableInt()
 
     private val disposables = CompositeDisposable()
 
@@ -45,16 +43,35 @@ class MainHolderViewModel @Inject constructor(
         activityLifeCycleBinder.bindUntil(ActivityLifecycle.ON_DESTROY) { doOnDestroy() }
         activityCallback.onBackPressed(this::executeOnBackPressed)
         activityCallback.onRestoreInstanceState { executeOnRestoreInstanceState() }
-
-        RxBaseObservables.of(selectedBottomNavId)
-            .toObservable()
-            .subscribe { onChangeBottomTab() }
-            .addTo(disposables)
     }
 
     private fun doOnCreate() {
-        if (selectedBottomNavId.get() == 0) {
-          //  navPage(MainBottomTabType.MENU_HOME)
+        navigateTab(bottomNavigationViewUseCase.selectedItemId)
+
+        subscribeBottomTabEvent()
+
+    }
+
+    private fun subscribeBottomTabEvent() {
+        val validItemIds = setOf(MainBottomNavMenuType.MENU_HOME, MainBottomNavMenuType.MENU_HISTORY)
+
+        bottomNavigationViewUseCase.onSelected { it in validItemIds }
+            .subscribe { navigateTab(it) }
+            .addTo(disposables)
+
+        bottomNavigationViewUseCase.onReSelected()
+            .subscribe {
+                if (navController.executePrimaryChildBackPressed()) {
+
+                }
+            }
+            .addTo(disposables)
+    }
+
+    private fun navigateTab(@IdRes itemId: Int) {
+        when(itemId) {
+            MainBottomNavMenuType.MENU_HOME -> navController.navHome()
+            MainBottomNavMenuType.MENU_HISTORY -> navController.navHistory()
         }
     }
 
@@ -62,33 +79,16 @@ class MainHolderViewModel @Inject constructor(
         disposables.clear()
     }
 
-    private fun onChangeBottomTab() {
-        val currentTab = selectedBottomNavId.get()
-    }
+    private fun executeOnBackPressed(): Boolean = when {
+        navController.executePrimaryChildBackPressed() -> true
 
-    private fun navPage(@IdRes menuRes: Int) {
-        selectedBottomNavId.set(menuRes)
-    }
-
-    private fun executeOnBackPressed(): Boolean {
-        return false
-    }
-
-
-    /**
-    when {
-        // 현재 Primary 화면의 OnBackPressed 의 처리 결과에 따라 이 후 작업 결정
-        mainNavUsecase.onBackPressedInPrimaryNav() -> true
-
-        // 현재 메뉴가 Home 이 아닐 경우 홈으로 이동
-        !mainNavUsecase.isHome() -> {
-            mainNavUsecase.navHome()
+        bottomNavigationViewUseCase.selectedItemId != MainBottomNavMenuType.MENU_HOME -> {
+            navController.navHome()
             true
         }
 
-        // 그 외 거짓
         else -> false
-    }*/
+    }
 
     private fun executeOnRestoreInstanceState() {
       //  mainNavUsecase.refreshPage()

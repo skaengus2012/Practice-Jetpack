@@ -23,16 +23,16 @@ import io.reactivex.Observable
  * @author Doohyun
  * @since 2019. 07. 29
  */
-interface MainBottomNavUseCase {
+interface MainBottomNavigationViewUseCase {
     var selectedItemId: Int
 
     fun onSelected(validItemIdPredicate: (itemId: Int) -> Boolean): Observable<Int>
     fun onReSelected(): Observable<Int>
 }
 
-class MainBottomNavUseCaseImpl(
+class MainBottomNavigationViewUseCaseImpl(
     private val viewSupplier: () -> BottomNavigationView
-) : MainBottomNavUseCase {
+) : MainBottomNavigationViewUseCase {
 
     private val view: BottomNavigationView
         get() = viewSupplier()
