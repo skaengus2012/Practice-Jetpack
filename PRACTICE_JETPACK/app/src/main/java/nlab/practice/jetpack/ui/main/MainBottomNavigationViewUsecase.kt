@@ -23,7 +23,7 @@ import io.reactivex.Observable
  * @author Doohyun
  * @since 2019. 07. 29
  */
-class MainBottomNavigationViewUseCase(private val viewSupplier: () -> BottomNavigationView) {
+class MainBottomNavigationViewUsecase(private val viewSupplier: () -> BottomNavigationView) {
 
     private val view: BottomNavigationView
         get() = viewSupplier()

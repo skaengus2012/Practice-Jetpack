@@ -31,7 +31,7 @@ import nlab.practice.jetpack.util.nav.ChildNavController
  * @author Doohyun
  */
 interface ContainerFragment {
-    fun getChildNavController(): ChildNavController
+    val childNavController: ChildNavController
     fun onBottomNavReselected(): Boolean
     fun onBackPressed(): Boolean
 
@@ -40,19 +40,21 @@ interface ContainerFragment {
     }
 }
 
-internal class ContainerFragmentImpl internal constructor(
-        private val fragment: Fragment,
-        private val _childNavController: ChildNavController,
-        private val callback: ContainerFragmentCallback) : ContainerFragment {
+class ContainerFragmentImpl(
+    private val fragment: Fragment,
+    private val _childNavController: ChildNavController,
+    private val callback: ContainerFragmentCallback
+) : ContainerFragment {
 
-    override fun getChildNavController(): ChildNavController = _childNavController
+    override val childNavController: ChildNavController
+        get() = _childNavController
 
     override fun onBottomNavReselected(): Boolean = callback.bottomNavReselectedCommand?.invoke()?:false
 
     override fun onBackPressed(): Boolean {
-        val currentPrimaryOnBackPressedResult = _childNavController.getPrimaryNavFragment()
-                ?.let { it as? BaseFragment }
-                ?.run { onBackPressed() }?: false
+        val currentPrimaryOnBackPressedResult = childNavController.getPrimaryNavFragment()
+            ?.let { it as? BaseFragment }
+            ?.run { onBackPressed() }?: false
 
         return if (currentPrimaryOnBackPressedResult) {
             true
@@ -81,9 +83,9 @@ class ContainerFragmentModule {
     @FragmentScope
     @Provides
     fun provideContainerFragment(
-            fragment: Fragment,
-            navController: ChildNavController,
-            containerFragmentCallback: ContainerFragmentCallback
+        fragment: Fragment,
+        navController: ChildNavController,
+        containerFragmentCallback: ContainerFragmentCallback
     ): ContainerFragment {
         return ContainerFragmentImpl(fragment, navController, containerFragmentCallback)
     }

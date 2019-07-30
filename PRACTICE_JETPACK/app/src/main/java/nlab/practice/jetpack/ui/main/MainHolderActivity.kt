@@ -50,8 +50,8 @@ class MainHolderActivity : InjectableActivity() {
 
         @ActivityScope
         @Provides
-        fun provideBottomNavigationViewUseCase(activity: MainHolderActivity): MainBottomNavigationViewUseCase {
-            return MainBottomNavigationViewUseCase { activity.bottom_navigation }
+        fun provideBottomNavigationViewUsecase(activity: MainHolderActivity): MainBottomNavigationViewUsecase {
+            return MainBottomNavigationViewUsecase { activity.bottom_navigation }
         }
 
         @ActivityScope

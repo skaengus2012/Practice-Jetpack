@@ -32,7 +32,7 @@ import javax.inject.Inject
 class MainHolderViewModel @Inject constructor(
     activityLifeCycleBinder: ActivityLifecycleBinder,
     activityCallback: ActivityCallback,
-    private val bottomNavigationViewUseCase: MainBottomNavigationViewUseCase,
+    private val bottomNavigationViewUsecase: MainBottomNavigationViewUsecase,
     private val navController: MainNavController
 ) {
 
@@ -46,7 +46,7 @@ class MainHolderViewModel @Inject constructor(
     }
 
     private fun doOnCreate() {
-        navigateTab(bottomNavigationViewUseCase.selectedItemId)
+        navigateTab(bottomNavigationViewUsecase.selectedItemId)
 
         subscribeBottomTabEvent()
     }
@@ -54,14 +54,14 @@ class MainHolderViewModel @Inject constructor(
     private fun subscribeBottomTabEvent() {
         val validItemIds = setOf(MainBottomNavMenuType.MENU_HOME, MainBottomNavMenuType.MENU_HISTORY)
 
-        bottomNavigationViewUseCase.onSelected { it in validItemIds }
+        bottomNavigationViewUsecase.onSelected { it in validItemIds }
             .subscribe { navigateTab(it) }
             .addTo(disposables)
 
-        bottomNavigationViewUseCase.onReSelected()
+        bottomNavigationViewUsecase.onReSelected()
             .subscribe {
                 if (!navController.invokeContainerReselected()) {
-                    navController.clearContainerChilds()
+                    navController.clearContainerChildren()
                 }
             }
             .addTo(disposables)
@@ -81,7 +81,7 @@ class MainHolderViewModel @Inject constructor(
     private fun doOnBackPressed(): Boolean = when {
         navController.invokeContainerBackPressed() -> true
 
-        bottomNavigationViewUseCase.selectedItemId != MainBottomNavMenuType.MENU_HOME -> {
+        bottomNavigationViewUsecase.selectedItemId != MainBottomNavMenuType.MENU_HOME -> {
             navController.navHome()
             true
         }
@@ -90,7 +90,7 @@ class MainHolderViewModel @Inject constructor(
     }
 
     private fun doOnRestoreSavedState() {
-        bottomNavigationViewUseCase.selectedItemId
+        bottomNavigationViewUsecase.selectedItemId
             .takeIf { it != MainBottomNavMenuType.MENU_HOME }
             ?.let { navigateTab(it) }
     }

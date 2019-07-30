@@ -34,11 +34,11 @@ class ChildFragmentModule {
     @Provides
     fun provideFragmentNavUsecase(fragment: Fragment): FragmentNavUsecase = FragmentNavUsecase {
         fragment.activity
-                ?.let { it as? MainHolderActivity }
-                ?.supportFragmentManager
-                ?.primaryNavigationFragment
-                ?.let { it as? ContainerFragment.Owner }
-                ?.getContainerDelegate()
-                ?.getChildNavController()
+            ?.let { it as? MainHolderActivity }
+            ?.supportFragmentManager
+            ?.primaryNavigationFragment
+            ?.let { it as? ContainerFragment.Owner }
+            ?.getContainerDelegate()
+            ?.childNavController
     }
 }

@@ -52,8 +52,8 @@ class MainNavController(
         return primaryContainer?.onBottomNavReselected() ?: false
     }
 
-    fun clearContainerChilds() {
-        primaryContainer?.getChildNavController()?.clearFragments()
+    fun clearContainerChildren() {
+        primaryContainer?.childNavController?.clearFragments()
     }
 
     fun invokeContainerBackPressed(): Boolean {
