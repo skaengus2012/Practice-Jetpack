@@ -69,11 +69,4 @@ class TestMenuRepository @Inject constructor(private val resourceProvider: Resou
         cardTitle = resourceProvider.getText(R.string.test_center_scroll_recycler_description),
         cardColorRes = R.color.home_item_color_7
     )
-
-    fun getLandScapeModeMenu() = TestMenu(
-        title = resourceProvider.getText(R.string.test_landscape_mode_title),
-        cardTitle = resourceProvider.getText(R.string.test_landscape_mode_description),
-        cardColorRes = R.color.home_item_color_8
-    )
-
 }

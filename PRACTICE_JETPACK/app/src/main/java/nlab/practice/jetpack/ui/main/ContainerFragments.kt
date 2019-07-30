@@ -83,7 +83,8 @@ class ContainerFragmentModule {
     fun provideContainerFragment(
             fragment: Fragment,
             navController: ChildNavController,
-            containerFragmentCallback: ContainerFragmentCallback): ContainerFragment {
+            containerFragmentCallback: ContainerFragmentCallback
+    ): ContainerFragment {
         return ContainerFragmentImpl(fragment, navController, containerFragmentCallback)
     }
 }

@@ -42,8 +42,6 @@
 	<string name="test_slide_up_panel_ex_description">SlideUpPanel 연습</string>
 	<string name="test_center_scroll_recycler_title">Recycler View 가 Center scroll 이 가능하도록하는 프토토타입</string>
 	<string name="test_center_scroll_recycler_description">Center Scroll 연습</string>
-	<string name="test_landscape_mode_title">MVVM 에서 가로모드 대응해보기</string>
-	<string name="test_landscape_mode_description">가로모드 대응</string>
 
 	<!-- bottom menu -->
 	<string name="bottom_nav_home">Home</string>
@@ -103,8 +101,5 @@
 	<string name="center_scroll_recycler_title">Center Scroll 연습</string>
 	<string name="center_scroll_to_first">FIRST</string>
 	<string name="center_scroll_to_last">LAST</string>
-
-	<!-- 가로모드 대응 처리 튜토리얼 -->
-	<string name="landscape_mode_title">가로모드 대응 (세로모드)</string>
 
 </resources>

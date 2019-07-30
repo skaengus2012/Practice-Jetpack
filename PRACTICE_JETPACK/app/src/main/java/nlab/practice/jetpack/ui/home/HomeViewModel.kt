@@ -21,7 +21,6 @@ import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
-import nlab.practice.jetpack.ui.landscape.LandScapeActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
@@ -93,8 +92,7 @@ class HomeViewModel @Inject constructor(
         createDragDropMenu(),
         createCollapsingToolbarExMenu(),
         createSlideUpPanelExMenu(),
-        createCenterScrollExMenu(),
-        createLandScapeModeMenu()
+        createCenterScrollExMenu()
     )
 
     private fun createViewModel(testMenu: TestMenu, onClickAction: () -> Unit): HomeItemViewModel {
@@ -127,10 +125,6 @@ class HomeViewModel @Inject constructor(
 
     private fun createCenterScrollExMenu() = createViewModel(testMenuRepository.getCenterScrollRecyclerView()) {
         fragmentNavUsecase.navCenterScrolling()
-    }
-
-    private fun createLandScapeModeMenu() = createViewModel(testMenuRepository.getLandScapeModeMenu()) {
-        activityNavUsecase.startActivity<LandScapeActivity>(intentProvider)
     }
 
     private fun refreshItems() {

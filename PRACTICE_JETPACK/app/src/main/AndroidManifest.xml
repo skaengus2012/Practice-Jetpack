@@ -43,31 +43,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.tutorial.AnkoFirstActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.tutorial.AnkoFirstActivity"/>
 
         <activity
             android:name=".ui.collapsingtoolbar.CollapsingToolbarActivity"
-            android:theme="@style/CollapsingToolbarTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
 
-        <activity android:name=".ui.slide.SlideUpSampleActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".ui.landscape.LandScapeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.slide.SlideUpSampleActivity"/>
 
     </application>
 
