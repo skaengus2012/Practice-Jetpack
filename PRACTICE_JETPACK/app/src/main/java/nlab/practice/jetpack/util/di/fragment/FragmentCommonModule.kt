@@ -22,7 +22,7 @@ import dagger.Provides
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SnackBarHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.FragmentSavedStateProvider
 import nlab.practice.jetpack.util.lifecycle.LifecycleStateProvider
@@ -69,7 +69,7 @@ class FragmentCommonModule {
 
     @FragmentScope
     @Provides
-    fun provideLifeCycleBinder(): FragmentLifeCycleBinder =
+    fun provideLifeCycleBinder(): FragmentLifecycleBinder =
         LifeCycleBinder()
 
     @FragmentScope

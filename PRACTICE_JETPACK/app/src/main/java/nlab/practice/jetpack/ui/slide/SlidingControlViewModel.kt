@@ -22,7 +22,7 @@ import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.model.Track
 import nlab.practice.jetpack.util.PlayController
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ import javax.inject.Inject
  * @since 2019. 04. 18
  */
 class SlidingControlViewModel @Inject constructor(
-    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
     private val playController: PlayController
 ) {

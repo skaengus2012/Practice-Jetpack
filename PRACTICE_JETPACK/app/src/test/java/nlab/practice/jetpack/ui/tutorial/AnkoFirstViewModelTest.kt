@@ -18,8 +18,8 @@ package nlab.practice.jetpack.ui.tutorial
 
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
-import nlab.practice.jetpack.util.TestSchedulerFactory
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
+import nlab.practice.jetpack.util.testSchedulerFactoryOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,7 +50,7 @@ class AnkoFirstViewModelTest {
 
     private val lifecycleBinder = ActivityLifecycleBinder()
 
-    private val schedulerFactory = TestSchedulerFactory()
+    private val schedulerFactory = testSchedulerFactoryOf()
 
     private val lifecycleState = AnkoFirstState()
 

@@ -34,7 +34,7 @@ import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalDataLoadState
 import nlab.practice.jetpack.util.recyclerview.paging.positional.UnboundedPositionalPagingManager
@@ -46,7 +46,7 @@ import kotlin.random.Random
  * @since 2019. 01. 29
  */
 class UnboundedPagingViewModel @Inject constructor(
-    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     private val pagingItemRepository: PagingItemRepository,
     private val pagingItemViewModelFactory: PagingItemPracticeViewModelFactory,
     private val activityCommonUsecase: ActivityCommonUsecase,

@@ -26,7 +26,7 @@ import dagger.android.support.AndroidSupportInjection
 import nlab.practice.jetpack.util.BaseFragment
 import nlab.practice.jetpack.util.di.AppComponent
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import javax.inject.Inject
 
 /**
@@ -39,11 +39,10 @@ import javax.inject.Inject
  */
 abstract class InjectableFragment : BaseFragment() {
 
-    lateinit var fragmentBindComponent: FragmentBindComponent
-        private set
+    private lateinit var fragmentBindComponent: FragmentBindComponent
 
     @Inject
-    lateinit var lifeCycleBinder: FragmentLifeCycleBinder
+    lateinit var lifeCycleBinder: FragmentLifecycleBinder
 
     @Inject
     lateinit var fragmentCallbackBinder: FragmentCallback

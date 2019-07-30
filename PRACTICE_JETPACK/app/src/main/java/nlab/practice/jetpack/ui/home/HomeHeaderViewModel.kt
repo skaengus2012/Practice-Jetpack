@@ -40,7 +40,7 @@ class HomeHeaderViewModel @Inject constructor(
 
     private var timerDisposable: Disposable? = null
 
-    private val dateFormat: CharSequence = resourceProvider.getText(R.string.home_time_format)
+    private val dateFormat: String = resourceProvider.getString(R.string.home_time_format)
 
     @Bindable
     var currentTimeString: String = getCurrentTimeDateFormat()
@@ -52,7 +52,7 @@ class HomeHeaderViewModel @Inject constructor(
     override fun getLayoutRes(): Int = R.layout.view_home_header
 
     fun startTimer() {
-        timerDisposable = Observable.timer(100, TimeUnit.MILLISECONDS)
+        timerDisposable = Observable.timer(100, TimeUnit.MILLISECONDS, schedulerFactory.computation())
             .repeat()
             .map { getCurrentTimeDateFormat() }
             .observeOn(schedulerFactory.ui())
@@ -66,6 +66,6 @@ class HomeHeaderViewModel @Inject constructor(
     }
 
     private fun getCurrentTimeDateFormat(): String = TimeBuilder.Create()
-        .getStringFormat(dateFormat.toString())
+        .getStringFormat(dateFormat)
         .blockingGet("")
 }

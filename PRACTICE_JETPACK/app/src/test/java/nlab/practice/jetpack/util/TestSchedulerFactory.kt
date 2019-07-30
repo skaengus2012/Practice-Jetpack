@@ -16,20 +16,35 @@
 
 package nlab.practice.jetpack.util
 
+import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 
 /**
- * @author Doohyun
+ * Unit Test 용 SchedulerFactory 생산
+ *
+ * PRESET
+ *
+ * single = single
+ * io = trampoline
+ * ui = trampoline
+ * computation = trampoline
+ * trampoline = trampoline
  */
-class TestSchedulerFactory : SchedulerFactory {
+fun testSchedulerFactoryOf(
+    single: Scheduler = Schedulers.single(),
+    io: Scheduler = Schedulers.trampoline(),
+    ui: Scheduler = Schedulers.trampoline(),
+    computation: Scheduler = Schedulers.trampoline(),
+    trampoline: Scheduler = Schedulers.trampoline()
+) = object : SchedulerFactory {
 
-    override fun single() = Schedulers.single()
+    override fun single() = single
 
-    override fun io() = Schedulers.trampoline()
+    override fun io() = io
 
-    override fun ui() = Schedulers.trampoline()
+    override fun ui() = ui
 
-    override fun computation() = Schedulers.trampoline()
+    override fun computation() = computation
 
-    override fun trampoline() = Schedulers.trampoline()
+    override fun trampoline() = trampoline
 }

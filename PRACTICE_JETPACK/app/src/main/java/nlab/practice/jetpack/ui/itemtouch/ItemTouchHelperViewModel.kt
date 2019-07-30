@@ -27,7 +27,7 @@ import nlab.practice.jetpack.ui.common.viewmodel.ListErrorPageViewModel
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
 import nlab.practice.jetpack.util.recyclerview.touch.SwipeDeleteTouchEventHelperCallback
@@ -41,7 +41,7 @@ import kotlin.collections.ArrayList
  * @since 2019. 02. 25
  */
 class ItemTouchHelperViewModel @Inject constructor(
-    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     private val activityCommonUsecase: ActivityCommonUsecase,
     private val pagingItemRepository: PagingItemRepository,
     private val schedulerFactory: SchedulerFactory,

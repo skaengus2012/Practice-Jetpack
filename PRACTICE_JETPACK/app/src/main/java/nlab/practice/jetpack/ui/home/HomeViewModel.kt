@@ -25,7 +25,7 @@ import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
@@ -38,7 +38,7 @@ import javax.inject.Named
  * @author Doohyun
  */
 class HomeViewModel @Inject constructor(
-    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     containerFragmentCallback: ContainerFragmentCallback,
     homeItemDecoration: HomeItemDecoration,
     homeHeaderViewModel: HomeHeaderViewModel,

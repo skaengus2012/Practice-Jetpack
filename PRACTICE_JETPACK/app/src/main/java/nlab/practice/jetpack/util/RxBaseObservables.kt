@@ -41,8 +41,8 @@ class RxBaseObservables private constructor(baseObservable: androidx.databinding
     fun toObservable(): Observable<Event> = subject
 
     data class Event(
-        private val sender: androidx.databinding.Observable?,
-        private val propertyId: Int
+        val sender: androidx.databinding.Observable?,
+        val propertyId: Int
     )
 
 }

@@ -31,7 +31,7 @@ import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
 import nlab.practice.jetpack.util.di.fragment.FragmentCallback
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemListAdapter
@@ -46,7 +46,7 @@ class ListAdapterExampleViewModel @Inject constructor(
     layoutManagerFactory: LayoutManagerFactory,
     itemDecoration: ListAdapterExampleItemDecoration,
     fragmentCallback: FragmentCallback,
-    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     private val selectionTrackerUsecase: SelectionTrackerUsecase,
     private val schedulerFactory: SchedulerFactory,
     private val pagingItemRepository: PagingItemRepository,

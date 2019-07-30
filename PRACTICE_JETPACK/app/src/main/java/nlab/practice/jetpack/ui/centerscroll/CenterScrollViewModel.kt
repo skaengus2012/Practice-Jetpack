@@ -24,7 +24,7 @@ import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.LyricsRepository
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
@@ -35,7 +35,7 @@ import javax.inject.Inject
  * @author Doohyun
  */
 class CenterScrollViewModel @Inject constructor(
-    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     layoutManagerFactory: LayoutManagerFactory,
     lyricsSmoothScrollHelperFactory: LyricsSmoothScrollerHelper.Factory,
     private val schedulerFactory: SchedulerFactory,

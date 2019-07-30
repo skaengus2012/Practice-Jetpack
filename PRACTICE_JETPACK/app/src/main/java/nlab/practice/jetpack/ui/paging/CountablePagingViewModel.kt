@@ -34,7 +34,7 @@ import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityCommonUsecase
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import nlab.practice.jetpack.util.recyclerview.paging.BindingPagedListAdapter
 import nlab.practice.jetpack.util.recyclerview.paging.positional.CountablePositionalPagingManager
@@ -46,7 +46,7 @@ import kotlin.random.Random
  * @author Doohyun
  */
 class CountablePagingViewModel @Inject constructor(
-    lifeCycleBinder: FragmentLifeCycleBinder,
+    lifeCycleBinder: FragmentLifecycleBinder,
     pagingManagerFactory: CountablePositionalPagingManager.Factory,
     private val activityCommonUsecase: ActivityCommonUsecase,
     private val pagingItemRepository: PagingItemRepository,

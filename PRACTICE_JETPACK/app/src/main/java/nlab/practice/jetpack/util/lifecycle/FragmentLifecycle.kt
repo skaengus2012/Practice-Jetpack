@@ -36,4 +36,4 @@ enum class FragmentLifecycle {
     ON_DETACH
 }
 
-typealias FragmentLifeCycleBinder = LifeCycleBinder<FragmentLifecycle>
+typealias FragmentLifecycleBinder = LifeCycleBinder<FragmentLifecycle>

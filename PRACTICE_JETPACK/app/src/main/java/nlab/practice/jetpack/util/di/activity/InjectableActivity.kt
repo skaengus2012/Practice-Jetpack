@@ -36,8 +36,7 @@ import javax.inject.Inject
  */
 abstract class InjectableActivity : BaseActivity() {
 
-    lateinit var activityBindComponent: ActivityBindComponent
-        private set
+    private lateinit var activityBindComponent: ActivityBindComponent
 
     @Inject
     lateinit var lifeCycleBinder: ActivityLifecycleBinder

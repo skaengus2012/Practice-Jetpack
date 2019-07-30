@@ -21,7 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.util.SchedulerFactory
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import nlab.practice.jetpack.util.slidingpanel.isCollapsed
 import nlab.practice.jetpack.util.slidingpanel.isExpanded
@@ -34,7 +34,7 @@ import kotlin.math.min
  * @since 2019. 04. 18
  */
 class SlidingHolderViewModel @Inject constructor(
-    fragmentLifeCycleBinder: FragmentLifeCycleBinder,
+    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     private val schedulerFactory: SchedulerFactory,
     private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
     private val slideHolderViewUsecase: SlidingHolderViewUsecase,

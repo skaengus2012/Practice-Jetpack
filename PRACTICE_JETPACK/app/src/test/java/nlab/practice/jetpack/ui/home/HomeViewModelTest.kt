@@ -21,9 +21,14 @@ package nlab.practice.jetpack.ui.home
  *
  * 유즈 케이스
  *
- * 1. 사용해야할
+ * 1. 생명주기에 따라 Item 목록이 채워졌는지 확인 필요.
+ * 2. Timer 시작 종료에 대한 처리 테스트 (타이머 자체는 따로 테스트 필요)
+ * 3. 아이템 목록 추가에 대한 선택 액션 테스트
+ *
  * @author Doohyun
  */
 class HomeViewModelTest {
+
+
 
 }

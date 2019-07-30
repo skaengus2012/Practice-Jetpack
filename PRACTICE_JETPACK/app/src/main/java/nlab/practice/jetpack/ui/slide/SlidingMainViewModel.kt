@@ -22,7 +22,7 @@ import io.reactivex.rxkotlin.addTo
 import nlab.practice.jetpack.repository.model.Track
 import nlab.practice.jetpack.util.PlayController
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifeCycleBinder
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.slidingpanel.SlidingUpPanelLayoutUsecase
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class SlidingMainViewModel @Inject constructor(
     private val playController: PlayController,
     private val slidingUpPanelLayoutUsecase: SlidingUpPanelLayoutUsecase?,
-    lifeCycleBinder: FragmentLifeCycleBinder
+    lifeCycleBinder: FragmentLifecycleBinder
 ) {
 
     private val disposables = CompositeDisposable()
