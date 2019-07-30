@@ -40,7 +40,8 @@ import org.mockito.Mockito.*
  * 1. onCreate 시점 현재 BottomNavigationView 가 설정된 페이지에 대한 업데이트 처리가 필요함.
  * 2. onSelected 시점 액션 테스트
  * 3. onReSelected 시점 액션 테스트
- * 4. onBackPressedIfPrimaryChildHasStack 시점 테스트
+ * 4. onBackPressedIfContainerBackPressedTrue 시점 테스트
+ * 5. onRestoreInstanceState 고려 필요 -> BottomNavigationView 의 경우 복구 시, 바로 현재 menuId 를 알려주지 않음
  *
  * @author Doohyun
  */
@@ -100,13 +101,29 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun reSelectBottomTab() {
+    fun reselectedBottomTabIfChildHasStack() {
+        `when`(navController.invokeContainerReselected()).thenReturn(true)
+
         createViewModel()
         postActivityLifecycle()
 
         reSelectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
 
-        verify(navController, times(1)).executePrimaryChildBackPressed()
+        verify(navController, times(1)).invokeContainerReselected()
+        verify(navController, never()).clearContainerChilds()
+    }
+
+    @Test
+    fun reselectedBottomTabIfChildEmptyStack() {
+        `when`(navController.invokeContainerReselected()).thenReturn(false)
+
+        createViewModel()
+        postActivityLifecycle()
+
+        reSelectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
+
+        verify(navController, times(1)).invokeContainerReselected()
+        verify(navController, times(1)).clearContainerChilds()
     }
 
     private fun postActivityLifecycle() {
@@ -116,21 +133,21 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun onBackPressedIfPrimaryChildHasStack() {
-        `when`(navController.executePrimaryChildBackPressed()).thenReturn(true)
+    fun onBackPressedIfContainerBackPressedTrue() {
+        `when`(navController.invokeContainerBackPressed()).thenReturn(true)
 
         createViewModel()
 
         val backPressedResult = activityCallback.onBackPressedCommand!!.invoke()
         assertEquals(true, backPressedResult)
-        verify(navController, times(1)).executePrimaryChildBackPressed()
+        verify(navController, times(1)).invokeContainerBackPressed()
         verify(bottomNavigationViewUseCase, never()).selectedItemId
         verify(navController, never()).navHome()
     }
 
     @Test
-    fun onBackPressedIfPrimaryChildHasEmptyAndCurrentNotHome() {
-        `when`(navController.executePrimaryChildBackPressed()).thenReturn(false)
+    fun onBackPressedIfContainerBackPressedFalseAndCurrentNotHome() {
+        `when`(navController.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUseCase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HISTORY)
 
         createViewModel()
@@ -142,13 +159,46 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun onBackPressedIfPrimaryChildHasEmptyAndCurrentHome() {
-        `when`(navController.executePrimaryChildBackPressed()).thenReturn(false)
+    fun onBackPressedIfContainerBackPressedFalseAndCurrentHome() {
+        `when`(navController.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUseCase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HOME)
 
         createViewModel()
 
         val backPressedResult = activityCallback.onBackPressedCommand!!.invoke()
         assertEquals(false, backPressedResult)
+    }
+
+    @Test
+    fun onRestoreSavedStateAtHistoryTab() {
+        var menuIds = MainBottomNavMenuType.MENU_HOME
+
+        `when`(bottomNavigationViewUseCase.selectedItemId).then { menuIds }
+        createViewModel()
+
+        lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
+
+        menuIds = MainBottomNavMenuType.MENU_HISTORY
+        activityCallback.onRestoreInstanceStateCommand?.invoke()
+
+        verify(bottomNavigationViewUseCase, never()).selectedItemId = anyInt()
+        verify(navController, times(1)).navHome()
+        verify(navController, times(1)).navHistory()
+    }
+
+    @Test
+    fun onRestoreSavedStateAtHomeTab() {
+        var menuIds = MainBottomNavMenuType.MENU_HOME
+
+        `when`(bottomNavigationViewUseCase.selectedItemId).then { menuIds }
+        createViewModel()
+
+        lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
+
+        menuIds = MainBottomNavMenuType.MENU_HOME
+        activityCallback.onRestoreInstanceStateCommand?.invoke()
+
+        verify(bottomNavigationViewUseCase, never()).selectedItemId = anyInt()
+        verify(navController, times(1)).navHome()
     }
 }

@@ -118,7 +118,7 @@ abstract class InjectableActivity : BaseActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        activityCallbackBinder.onRestoreInstanceStateCommand?.invoke(savedInstanceState)
+        activityCallbackBinder.onRestoreInstanceStateCommand?.invoke()
     }
 
     final override fun onBackPressed() {

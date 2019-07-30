@@ -23,29 +23,18 @@ import io.reactivex.Observable
  * @author Doohyun
  * @since 2019. 07. 29
  */
-interface MainBottomNavigationViewUseCase {
-    var selectedItemId: Int
-
-    fun onSelected(validItemIdPredicate: (itemId: Int) -> Boolean): Observable<Int>
-    fun onReSelected(): Observable<Int>
-}
-
-class MainBottomNavigationViewUseCaseImpl(
-    private val viewSupplier: () -> BottomNavigationView
-) : MainBottomNavigationViewUseCase {
+class MainBottomNavigationViewUseCase(private val viewSupplier: () -> BottomNavigationView) {
 
     private val view: BottomNavigationView
         get() = viewSupplier()
 
-    override var selectedItemId: Int
+    var selectedItemId: Int
         get() = view.selectedItemId
-         set(value) {
-             view.selectedItemId = value
-         }
+        set(value) {
+            view.selectedItemId = value
+        }
 
-    override fun onSelected(
-        validItemIdPredicate: (itemId: Int) -> Boolean
-    ): Observable<Int> = Observable.create { emitter ->
+    fun onSelected(validItemIdPredicate: (itemId: Int) -> Boolean): Observable<Int> = Observable.create { emitter ->
 
         view.setOnNavigationItemSelectedListener {
             val testResult = validItemIdPredicate(it.itemId)
@@ -58,7 +47,7 @@ class MainBottomNavigationViewUseCaseImpl(
 
     }
 
-    override fun onReSelected(): Observable<Int> = Observable.create { emitter ->
+    fun onReSelected(): Observable<Int> = Observable.create { emitter ->
 
         view.setOnNavigationItemReselectedListener {
             emitter.onNext(it.itemId)

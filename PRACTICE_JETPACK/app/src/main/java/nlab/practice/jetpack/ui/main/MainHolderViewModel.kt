@@ -41,15 +41,14 @@ class MainHolderViewModel @Inject constructor(
     init {
         activityLifeCycleBinder.bindUntil(ActivityLifecycle.ON_CREATE) { doOnCreate() }
         activityLifeCycleBinder.bindUntil(ActivityLifecycle.ON_DESTROY) { doOnDestroy() }
-        activityCallback.onBackPressed(this::executeOnBackPressed)
-        activityCallback.onRestoreInstanceState { executeOnRestoreInstanceState() }
+        activityCallback.onBackPressed { doOnBackPressed() }
+        activityCallback.onRestoreInstanceState { doOnRestoreSavedState() }
     }
 
     private fun doOnCreate() {
         navigateTab(bottomNavigationViewUseCase.selectedItemId)
 
         subscribeBottomTabEvent()
-
     }
 
     private fun subscribeBottomTabEvent() {
@@ -61,8 +60,8 @@ class MainHolderViewModel @Inject constructor(
 
         bottomNavigationViewUseCase.onReSelected()
             .subscribe {
-                if (navController.executePrimaryChildBackPressed()) {
-
+                if (!navController.invokeContainerReselected()) {
+                    navController.clearContainerChilds()
                 }
             }
             .addTo(disposables)
@@ -79,8 +78,8 @@ class MainHolderViewModel @Inject constructor(
         disposables.clear()
     }
 
-    private fun executeOnBackPressed(): Boolean = when {
-        navController.executePrimaryChildBackPressed() -> true
+    private fun doOnBackPressed(): Boolean = when {
+        navController.invokeContainerBackPressed() -> true
 
         bottomNavigationViewUseCase.selectedItemId != MainBottomNavMenuType.MENU_HOME -> {
             navController.navHome()
@@ -90,8 +89,9 @@ class MainHolderViewModel @Inject constructor(
         else -> false
     }
 
-    private fun executeOnRestoreInstanceState() {
-      //  mainNavUsecase.refreshPage()
+    private fun doOnRestoreSavedState() {
+        bottomNavigationViewUseCase.selectedItemId
+            .takeIf { it != MainBottomNavMenuType.MENU_HOME }
+            ?.let { navigateTab(it) }
     }
-
 }

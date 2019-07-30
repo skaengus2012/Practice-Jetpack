@@ -50,20 +50,14 @@ class MainHolderActivity : InjectableActivity() {
 
         @ActivityScope
         @Provides
-        fun provideNavController(activity: MainHolderActivity): MainHolderNavController {
-            return MainHolderNavController(activity.supportFragmentManager,  R.id.layout_container)
+        fun provideBottomNavigationViewUseCase(activity: MainHolderActivity): MainBottomNavigationViewUseCase {
+            return MainBottomNavigationViewUseCase { activity.bottom_navigation }
         }
 
         @ActivityScope
         @Provides
-        fun provideBottomNavUsecase(activity: MainHolderActivity): MainBottomNavigationViewUseCase {
-            return MainBottomNavigationViewUseCaseImpl { activity.bottom_navigation }
-        }
-
-        @ActivityScope
-        @Provides
-        fun provideMainNavController(): MainNavController {
-            return MainNavController()
+        fun provideMainNavController(activity: MainHolderActivity): MainNavController {
+            return MainNavController(activity.supportFragmentManager, R.id.layout_container)
         }
 
     }
