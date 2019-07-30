@@ -82,7 +82,7 @@ class MainHolderViewModel @Inject constructor(
         navController.invokeContainerBackPressed() -> true
 
         bottomNavigationViewUsecase.selectedItemId != MainBottomNavMenuType.MENU_HOME -> {
-            navController.navHome()
+            bottomNavigationViewUsecase.selectedItemId = MainBottomNavMenuType.MENU_HOME
             true
         }
 

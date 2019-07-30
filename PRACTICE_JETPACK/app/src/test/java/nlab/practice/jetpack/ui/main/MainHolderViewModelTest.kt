@@ -155,7 +155,7 @@ class MainHolderViewModelTest {
         val backPressedResult = activityCallback.onBackPressedCommand!!.invoke()
         assertEquals(true, backPressedResult)
         verify(bottomNavigationViewUsecase, times(1)).selectedItemId
-        verify(navController, times(1)).navHome()
+        verify(bottomNavigationViewUsecase, times(1)).selectedItemId = MainBottomNavMenuType.MENU_HOME
     }
 
     @Test
