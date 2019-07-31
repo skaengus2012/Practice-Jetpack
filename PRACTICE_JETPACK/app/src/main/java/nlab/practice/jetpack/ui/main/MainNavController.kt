@@ -19,10 +19,7 @@ package nlab.practice.jetpack.ui.main
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import nlab.practice.jetpack.ui.history.HistoryFragment
-import nlab.practice.jetpack.ui.home.HomeFragment
 import nlab.practice.jetpack.util.nav.findFragmentByTag
-import nlab.practice.jetpack.util.nav.fragmentTag
 import nlab.practice.jetpack.util.nav.isNeedChangePrimaryNavigationFragment
 
 /**
@@ -30,37 +27,17 @@ import nlab.practice.jetpack.util.nav.isNeedChangePrimaryNavigationFragment
  * @since 2019. 07. 30
  */
 class MainNavController(
-    private val fragmentManager: FragmentManager,
-    @IdRes private val containerResId: Int
+    val fragmentManager: FragmentManager,
+    @IdRes val containerResId: Int
 ) {
-    private val primaryContainer: ContainerFragment?
+    val primaryContainer: ContainerFragment?
         get(): ContainerFragment? {
             return fragmentManager.primaryNavigationFragment
                 ?.let { it as? ContainerFragment.Owner }
                 ?.getContainerDelegate()
         }
 
-    fun navHome() {
-        replacePrimaryFragment(HomeFragment::class.fragmentTag()) { HomeFragment() }
-    }
-
-    fun navHistory() {
-        replacePrimaryFragment(HistoryFragment::class.fragmentTag()) { HistoryFragment() }
-    }
-
-    fun invokeContainerReselected(): Boolean {
-        return primaryContainer?.onBottomNavReselected() ?: false
-    }
-
-    fun clearContainerChildren() {
-        primaryContainer?.childNavController?.clearFragments()
-    }
-
-    fun invokeContainerBackPressed(): Boolean {
-        return primaryContainer?.onBackPressed() ?: false
-    }
-
-    private inline fun replacePrimaryFragment(
+    inline fun replacePrimaryFragment(
         tag: String,
         crossinline fragmentProvider: () -> Fragment
     ) {

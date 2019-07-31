@@ -57,7 +57,7 @@ class MainHolderViewModelTest {
     private val reSelectTabSubject = PublishSubject.create<Int>()
 
     @Mock
-    lateinit var navController: MainNavController
+    lateinit var containerUsecase: PrimaryContainerUsecase
 
     @Mock
     lateinit var bottomNavigationViewUsecase: MainBottomNavigationViewUsecase
@@ -73,7 +73,7 @@ class MainHolderViewModelTest {
             lifecycleBinder,
             activityCallback,
             bottomNavigationViewUsecase,
-            navController
+            containerUsecase
         )
     }
 
@@ -84,7 +84,7 @@ class MainHolderViewModelTest {
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         verify(bottomNavigationViewUsecase, never()).selectedItemId = anyInt()
-        verify(navController, times(1)).navHome()
+        verify(containerUsecase, times(1)).navHome()
     }
 
     @Test
@@ -95,47 +95,47 @@ class MainHolderViewModelTest {
         selectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
         selectTabSubject.onNext(MainBottomNavMenuType.MENU_HISTORY)
 
-        verify(navController, times(1)).navHome()
-        verify(navController, times(2)).navHistory()
+        verify(containerUsecase, times(1)).navHome()
+        verify(containerUsecase, times(2)).navHistory()
     }
 
     @Test
     fun reselectedBottomTabIfChildHasStack() {
-        `when`(navController.invokeContainerReselected()).thenReturn(true)
+        `when`(containerUsecase.invokeContainerReselected()).thenReturn(true)
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         reSelectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
 
-        verify(navController, times(1)).invokeContainerReselected()
-        verify(navController, never()).clearContainerChildren()
+        verify(containerUsecase, times(1)).invokeContainerReselected()
+        verify(containerUsecase, never()).clearContainerChildren()
     }
 
     @Test
     fun reselectedBottomTabIfChildEmptyStack() {
-        `when`(navController.invokeContainerReselected()).thenReturn(false)
+        `when`(containerUsecase.invokeContainerReselected()).thenReturn(false)
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         reSelectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
 
-        verify(navController, times(1)).invokeContainerReselected()
-        verify(navController, times(1)).clearContainerChildren()
+        verify(containerUsecase, times(1)).invokeContainerReselected()
+        verify(containerUsecase, times(1)).clearContainerChildren()
     }
 
     @Test
     fun onBackPressedIfContainerBackPressedTrue() {
-        `when`(navController.invokeContainerBackPressed()).thenReturn(true)
+        `when`(containerUsecase.invokeContainerBackPressed()).thenReturn(true)
 
         assertEquals(true, activityCallback.onBackPressedCommand!!.invoke())
-        verify(navController, times(1)).invokeContainerBackPressed()
+        verify(containerUsecase, times(1)).invokeContainerBackPressed()
         verify(bottomNavigationViewUsecase, never()).selectedItemId
-        verify(navController, never()).navHome()
+        verify(containerUsecase, never()).navHome()
     }
 
     @Test
     fun onBackPressedIfContainerBackPressedFalseAndCurrentNotHome() {
-        `when`(navController.invokeContainerBackPressed()).thenReturn(false)
+        `when`(containerUsecase.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HISTORY)
 
         assertEquals(true, activityCallback.onBackPressedCommand!!.invoke())
@@ -145,7 +145,7 @@ class MainHolderViewModelTest {
 
     @Test
     fun onBackPressedIfContainerBackPressedFalseAndCurrentHome() {
-        `when`(navController.invokeContainerBackPressed()).thenReturn(false)
+        `when`(containerUsecase.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HOME)
 
         assertEquals(false, activityCallback.onBackPressedCommand!!.invoke())
@@ -163,8 +163,8 @@ class MainHolderViewModelTest {
         activityCallback.onRestoreInstanceStateCommand?.invoke()
 
         verify(bottomNavigationViewUsecase, never()).selectedItemId = anyInt()
-        verify(navController, times(1)).navHome()
-        verify(navController, times(1)).navHistory()
+        verify(containerUsecase, times(1)).navHome()
+        verify(containerUsecase, times(1)).navHistory()
     }
 
     @Test
@@ -179,6 +179,6 @@ class MainHolderViewModelTest {
         activityCallback.onRestoreInstanceStateCommand?.invoke()
 
         verify(bottomNavigationViewUsecase, never()).selectedItemId = anyInt()
-        verify(navController, times(1)).navHome()
+        verify(containerUsecase, times(1)).navHome()
     }
 }

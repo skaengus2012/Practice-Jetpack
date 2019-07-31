@@ -33,7 +33,7 @@ class MainHolderViewModel @Inject constructor(
     activityLifeCycleBinder: ActivityLifecycleBinder,
     activityCallback: ActivityCallback,
     private val bottomNavigationViewUsecase: MainBottomNavigationViewUsecase,
-    private val navController: MainNavController
+    private val containerUsecase: PrimaryContainerUsecase
 ) {
 
     private val disposables = CompositeDisposable()
@@ -60,8 +60,8 @@ class MainHolderViewModel @Inject constructor(
 
         bottomNavigationViewUsecase.onReSelected()
             .subscribe {
-                if (!navController.invokeContainerReselected()) {
-                    navController.clearContainerChildren()
+                if (!containerUsecase.invokeContainerReselected()) {
+                    containerUsecase.clearContainerChildren()
                 }
             }
             .addTo(disposables)
@@ -69,8 +69,8 @@ class MainHolderViewModel @Inject constructor(
 
     private fun navigateTab(@IdRes itemId: Int) {
         when(itemId) {
-            MainBottomNavMenuType.MENU_HOME -> navController.navHome()
-            MainBottomNavMenuType.MENU_HISTORY -> navController.navHistory()
+            MainBottomNavMenuType.MENU_HOME -> containerUsecase.navHome()
+            MainBottomNavMenuType.MENU_HISTORY -> containerUsecase.navHistory()
         }
     }
 
@@ -79,7 +79,7 @@ class MainHolderViewModel @Inject constructor(
     }
 
     private fun doOnBackPressed(): Boolean = when {
-        navController.invokeContainerBackPressed() -> true
+        containerUsecase.invokeContainerBackPressed() -> true
 
         bottomNavigationViewUsecase.selectedItemId != MainBottomNavMenuType.MENU_HOME -> {
             bottomNavigationViewUsecase.selectedItemId = MainBottomNavMenuType.MENU_HOME
