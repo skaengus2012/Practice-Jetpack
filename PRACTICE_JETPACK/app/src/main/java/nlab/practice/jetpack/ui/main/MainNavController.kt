@@ -30,12 +30,6 @@ class MainNavController(
     val fragmentManager: FragmentManager,
     @IdRes val containerResId: Int
 ) {
-    val primaryContainer: ContainerFragment?
-        get(): ContainerFragment? {
-            return fragmentManager.primaryNavigationFragment
-                ?.let { it as? ContainerFragment.Owner }
-                ?.getContainerDelegate()
-        }
 
     inline fun replacePrimaryFragment(
         tag: String,

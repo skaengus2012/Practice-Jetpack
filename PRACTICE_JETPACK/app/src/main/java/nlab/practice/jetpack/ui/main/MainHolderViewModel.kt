@@ -33,7 +33,8 @@ class MainHolderViewModel @Inject constructor(
     activityLifeCycleBinder: ActivityLifecycleBinder,
     activityCallback: ActivityCallback,
     private val bottomNavigationViewUsecase: MainBottomNavigationViewUsecase,
-    private val containerUsecase: PrimaryContainerUsecase
+    private val containerUsecase: PrimaryContainerUsecase,
+    private val navUsecase: MainNavUsecase
 ) {
 
     private val disposables = CompositeDisposable()
@@ -69,8 +70,8 @@ class MainHolderViewModel @Inject constructor(
 
     private fun navigateTab(@IdRes itemId: Int) {
         when(itemId) {
-            MainBottomNavMenuType.MENU_HOME -> containerUsecase.navHome()
-            MainBottomNavMenuType.MENU_HISTORY -> containerUsecase.navHistory()
+            MainBottomNavMenuType.MENU_HOME -> navUsecase.navHome()
+            MainBottomNavMenuType.MENU_HISTORY -> navUsecase.navHistory()
         }
     }
 

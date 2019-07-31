@@ -60,6 +60,9 @@ class MainHolderViewModelTest {
     lateinit var containerUsecase: PrimaryContainerUsecase
 
     @Mock
+    lateinit var navUsecase: MainNavUsecase
+
+    @Mock
     lateinit var bottomNavigationViewUsecase: MainBottomNavigationViewUsecase
 
     private lateinit var viewModel: MainHolderViewModel
@@ -73,7 +76,8 @@ class MainHolderViewModelTest {
             lifecycleBinder,
             activityCallback,
             bottomNavigationViewUsecase,
-            containerUsecase
+            containerUsecase,
+            navUsecase
         )
     }
 
@@ -84,7 +88,7 @@ class MainHolderViewModelTest {
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         verify(bottomNavigationViewUsecase, never()).selectedItemId = anyInt()
-        verify(containerUsecase, times(1)).navHome()
+        verify(navUsecase, times(1)).navHome()
     }
 
     @Test
@@ -95,8 +99,8 @@ class MainHolderViewModelTest {
         selectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
         selectTabSubject.onNext(MainBottomNavMenuType.MENU_HISTORY)
 
-        verify(containerUsecase, times(1)).navHome()
-        verify(containerUsecase, times(2)).navHistory()
+        verify(navUsecase, times(1)).navHome()
+        verify(navUsecase, times(2)).navHistory()
     }
 
     @Test
@@ -130,7 +134,7 @@ class MainHolderViewModelTest {
         assertEquals(true, activityCallback.onBackPressedCommand!!.invoke())
         verify(containerUsecase, times(1)).invokeContainerBackPressed()
         verify(bottomNavigationViewUsecase, never()).selectedItemId
-        verify(containerUsecase, never()).navHome()
+        verify(navUsecase, never()).navHome()
     }
 
     @Test
@@ -163,8 +167,8 @@ class MainHolderViewModelTest {
         activityCallback.onRestoreInstanceStateCommand?.invoke()
 
         verify(bottomNavigationViewUsecase, never()).selectedItemId = anyInt()
-        verify(containerUsecase, times(1)).navHome()
-        verify(containerUsecase, times(1)).navHistory()
+        verify(navUsecase, times(1)).navHome()
+        verify(navUsecase, times(1)).navHistory()
     }
 
     @Test
@@ -179,6 +183,6 @@ class MainHolderViewModelTest {
         activityCallback.onRestoreInstanceStateCommand?.invoke()
 
         verify(bottomNavigationViewUsecase, never()).selectedItemId = anyInt()
-        verify(containerUsecase, times(1)).navHome()
+        verify(navUsecase, times(1)).navHome()
     }
 }

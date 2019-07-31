@@ -60,5 +60,11 @@ class MainHolderActivity : InjectableActivity() {
             return MainNavController(activity.supportFragmentManager, R.id.layout_container)
         }
 
+        @ActivityScope
+        @Provides
+        fun providePrimaryContainerUsecase(activity: MainHolderActivity): PrimaryContainerUsecase {
+            return PrimaryContainerUsecase(activity.supportFragmentManager)
+        }
+
     }
 }

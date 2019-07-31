@@ -16,28 +16,19 @@
 
 package nlab.practice.jetpack.ui.main
 
-import nlab.practice.jetpack.ui.history.HistoryFragment
-import nlab.practice.jetpack.ui.home.HomeFragment
-import nlab.practice.jetpack.util.di.activity.ActivityScope
-import nlab.practice.jetpack.util.nav.fragmentTag
-import javax.inject.Inject
+import androidx.fragment.app.FragmentManager
 
 /**
  * @author Doohyun
  */
-@ActivityScope
-class PrimaryContainerUsecase @Inject constructor(private val navController: MainNavController) {
+class PrimaryContainerUsecase(private val fragmentManager: FragmentManager) {
 
     private val primaryContainer: ContainerFragment?
-        get() = navController.primaryContainer
-
-    fun navHome() {
-        navController.replacePrimaryFragment(HomeFragment::class.fragmentTag()) { HomeFragment() }
-    }
-
-    fun navHistory() {
-        navController.replacePrimaryFragment(HistoryFragment::class.fragmentTag()) { HistoryFragment() }
-    }
+        get(): ContainerFragment? {
+            return fragmentManager.primaryNavigationFragment
+                ?.let { it as? ContainerFragment.Owner }
+                ?.getContainerDelegate()
+        }
 
     fun invokeContainerReselected(): Boolean {
         return primaryContainer?.onBottomNavReselected() ?: false
