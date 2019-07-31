@@ -30,6 +30,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.junit.Assert.*
 import org.junit.Before
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -50,7 +51,7 @@ private const val MOCK_TYPE_TEST_MENU_PAGING                    = "SLIDE"
  * 1. 생명주기에 따라 Item 목록이 채워졌는지 확인 필요.
  * 2. Timer 시작 종료에 대한 처리 테스트 (타이머 자체는 따로 테스트 필요)
  * 3. 아이템 목록 추가에 대한 선택 액션 테스트
- * 4. BottomNavigation 에 의해 스크롤/ 자식뷰 제거가 되는지 확인
+ * 4. BottomNavigation 에 의해 스크롤/ 자식뷰 제거가 되는지 확인 (자식이 존재한다면, false 로 넘겨 MainHolder 가 처리할 수 있어야함)
  * 5. RecyclerView 의 설정이 제대로 되어있는지 확인
  *
  * @author Doohyun
@@ -144,13 +145,19 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun onBottomNavigationReselectHasChild() {
+    fun onBottomNavigationReselectIfHasChild() {
+        `when`(fragmentNavUsecase.hasChild()).thenReturn(true)
 
+        assert(!containerFragmentCallback.bottomNavReselectedCommand!!.invoke())
+        verify(recyclerViewUsecase, never()).scrollToPosition(anyInt())
     }
 
     @Test
-    fun onBottomNavigationReselectEmptyChild() {
+    fun onBottomNavigationReselectIfEmptyChild() {
+        `when`(fragmentNavUsecase.hasChild()).thenReturn(false)
 
+        assert(containerFragmentCallback.bottomNavReselectedCommand!!.invoke())
+        verify(recyclerViewUsecase, times(1)).smoothScrollToPosition(0)
     }
 
 }

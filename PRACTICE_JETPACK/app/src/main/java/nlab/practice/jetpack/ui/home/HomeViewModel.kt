@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
     fragmentLifeCycleBinder: FragmentLifecycleBinder,
     containerFragmentCallback: ContainerFragmentCallback,
     homeItemDecoration: HomeItemDecoration,
-    homeHeaderViewModel: HomeHeaderViewModel,
+    private val homeHeaderViewModel: HomeHeaderViewModel,
     @Named(ContextInjectionType.ACTIVITY) private val activityNavUsecase: ActivityNavUsecase,
     @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
     private val fragmentNavUsecase: FragmentNavUsecase,
@@ -60,19 +60,21 @@ class HomeViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) {
-            homeHeaderViewModel.startTimer()
-        }
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) { doOnViewCreated() }
+        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) { doOnDestroyView() }
 
-        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) {
-            disposables.clear()
-            homeHeaderViewModel.stopTimer()
-        }
+        containerFragmentCallback.onBottomNavReselected { scrollToZeroIfEmptyChild() }
 
-        containerFragmentCallback.onBottomNavReselected(this::scrollToZeroIfEmptyChild)
+        initializeItems()
+    }
 
-        headers.add(homeHeaderViewModel)
-        refreshItems()
+    private fun doOnViewCreated() {
+        homeHeaderViewModel.startTimer()
+    }
+
+    private fun doOnDestroyView() {
+        homeHeaderViewModel.stopTimer()
+        disposables.clear()
     }
 
     private fun scrollToZeroIfEmptyChild(): Boolean {
@@ -82,6 +84,11 @@ class HomeViewModel @Inject constructor(
         }
 
         return isNeedScrollToZero
+    }
+
+    private fun initializeItems() {
+        headers.add(homeHeaderViewModel)
+        items.addAll(createItems())
     }
 
     private fun createItems(): List<HomeItemViewModel> = listOf(
@@ -124,10 +131,5 @@ class HomeViewModel @Inject constructor(
 
     private fun createCenterScrollExMenu() = createViewModel(testMenuRepository.getCenterScrollRecyclerView()) {
         fragmentNavUsecase.navCenterScrolling()
-    }
-
-    private fun refreshItems() {
-        items.clear()
-        items.addAll(createItems())
     }
 }
