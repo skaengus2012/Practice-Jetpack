@@ -62,24 +62,24 @@ class MainHolderViewModelTest {
     @Mock
     lateinit var bottomNavigationViewUsecase: MainBottomNavigationViewUsecase
 
-    private fun createViewModel() = MainHolderViewModel(
-        lifecycleBinder,
-        activityCallback,
-        bottomNavigationViewUsecase,
-        navController
-    )
+    private lateinit var viewModel: MainHolderViewModel
 
     @Before
     fun initialize() {
         `when`(bottomNavigationViewUsecase.onSelected(anyNonNull())).thenReturn(selectTabSubject)
         `when`(bottomNavigationViewUsecase.onReSelected()).thenReturn(reSelectTabSubject)
+
+        viewModel = MainHolderViewModel(
+            lifecycleBinder,
+            activityCallback,
+            bottomNavigationViewUsecase,
+            navController
+        )
     }
 
     @Test
     fun doOnCreateBehavior() {
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HOME)
-
-        createViewModel()
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
@@ -89,8 +89,7 @@ class MainHolderViewModelTest {
 
     @Test
     fun selectBottomTab() {
-        createViewModel()
-        postActivityLifecycle()
+        lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         selectTabSubject.onNext(MainBottomNavMenuType.MENU_HISTORY)
         selectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
@@ -104,8 +103,7 @@ class MainHolderViewModelTest {
     fun reselectedBottomTabIfChildHasStack() {
         `when`(navController.invokeContainerReselected()).thenReturn(true)
 
-        createViewModel()
-        postActivityLifecycle()
+        lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         reSelectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
 
@@ -117,8 +115,7 @@ class MainHolderViewModelTest {
     fun reselectedBottomTabIfChildEmptyStack() {
         `when`(navController.invokeContainerReselected()).thenReturn(false)
 
-        createViewModel()
-        postActivityLifecycle()
+        lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         reSelectTabSubject.onNext(MainBottomNavMenuType.MENU_HOME)
 
@@ -126,20 +123,11 @@ class MainHolderViewModelTest {
         verify(navController, times(1)).clearContainerChildren()
     }
 
-    private fun postActivityLifecycle() {
-        lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
-        lifecycleBinder.apply(ActivityLifecycle.ON_START)
-        lifecycleBinder.apply(ActivityLifecycle.ON_RESUME)
-    }
-
     @Test
     fun onBackPressedIfContainerBackPressedTrue() {
         `when`(navController.invokeContainerBackPressed()).thenReturn(true)
 
-        createViewModel()
-
-        val backPressedResult = activityCallback.onBackPressedCommand!!.invoke()
-        assertEquals(true, backPressedResult)
+        assertEquals(true, activityCallback.onBackPressedCommand!!.invoke())
         verify(navController, times(1)).invokeContainerBackPressed()
         verify(bottomNavigationViewUsecase, never()).selectedItemId
         verify(navController, never()).navHome()
@@ -150,10 +138,7 @@ class MainHolderViewModelTest {
         `when`(navController.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HISTORY)
 
-        createViewModel()
-
-        val backPressedResult = activityCallback.onBackPressedCommand!!.invoke()
-        assertEquals(true, backPressedResult)
+        assertEquals(true, activityCallback.onBackPressedCommand!!.invoke())
         verify(bottomNavigationViewUsecase, times(1)).selectedItemId
         verify(bottomNavigationViewUsecase, times(1)).selectedItemId = MainBottomNavMenuType.MENU_HOME
     }
@@ -163,10 +148,7 @@ class MainHolderViewModelTest {
         `when`(navController.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HOME)
 
-        createViewModel()
-
-        val backPressedResult = activityCallback.onBackPressedCommand!!.invoke()
-        assertEquals(false, backPressedResult)
+        assertEquals(false, activityCallback.onBackPressedCommand!!.invoke())
     }
 
     @Test
@@ -174,7 +156,6 @@ class MainHolderViewModelTest {
         var menuIds = MainBottomNavMenuType.MENU_HOME
 
         `when`(bottomNavigationViewUsecase.selectedItemId).then { menuIds }
-        createViewModel()
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
@@ -191,7 +172,6 @@ class MainHolderViewModelTest {
         var menuIds = MainBottomNavMenuType.MENU_HOME
 
         `when`(bottomNavigationViewUsecase.selectedItemId).then { menuIds }
-        createViewModel()
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 

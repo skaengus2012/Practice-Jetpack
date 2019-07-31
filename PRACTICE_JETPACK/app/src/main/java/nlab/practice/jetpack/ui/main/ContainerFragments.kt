@@ -49,12 +49,13 @@ class ContainerFragmentImpl(
     override val childNavController: ChildNavController
         get() = _childNavController
 
-    override fun onBottomNavReselected(): Boolean = callback.bottomNavReselectedCommand?.invoke()?:false
+    override fun onBottomNavReselected(): Boolean = callback.bottomNavReselectedCommand?.invoke() ?: false
 
     override fun onBackPressed(): Boolean {
         val currentPrimaryOnBackPressedResult = childNavController.getPrimaryNavFragment()
             ?.let { it as? BaseFragment }
-            ?.run { onBackPressed() }?: false
+            ?.run { onBackPressed() }
+            ?: false
 
         return if (currentPrimaryOnBackPressedResult) {
             true
@@ -66,7 +67,7 @@ class ContainerFragmentImpl(
 
 class ContainerFragmentCallback {
     var bottomNavReselectedCommand: (() -> Boolean)? = null
-    private set
+        private set
 
     fun onBottomNavReselected(callback: () -> Boolean) {
         bottomNavReselectedCommand = callback

@@ -20,9 +20,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.Provides
+import kotlinx.android.synthetic.main.fragment_home.*
+import nlab.practice.jetpack.R
 import nlab.practice.jetpack.databinding.FragmentHomeBinding
 import nlab.practice.jetpack.ui.main.ContainerFragment
+import nlab.practice.jetpack.ui.main.ContainerFragmentModule
+import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
+import nlab.practice.jetpack.util.nav.ChildNavController
+import nlab.practice.jetpack.util.nav.FragmentNavUsecase
+import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import javax.inject.Inject
 
 /**
@@ -56,4 +64,25 @@ class HomeFragment : InjectableFragment(), ContainerFragment.Owner {
     }
 
     override fun getContainerDelegate(): ContainerFragment = containerFragment
+
+    @dagger.Module(includes = [ContainerFragmentModule::class])
+    class Module {
+        @FragmentScope
+        @Provides
+        fun provideNavController(fragment: HomeFragment): ChildNavController {
+            return ChildNavController(fragment.childFragmentManager, R.id.layout_container)
+        }
+
+        @FragmentScope
+        @Provides
+        fun provideNavUsecase(navController: ChildNavController): FragmentNavUsecase = FragmentNavUsecase {
+            navController
+        }
+
+        @FragmentScope
+        @Provides
+        fun provideRecyclerViewUsecase(fragment: HomeFragment): RecyclerViewUsecase = RecyclerViewUsecase {
+            fragment.lvContents
+        }
+    }
 }

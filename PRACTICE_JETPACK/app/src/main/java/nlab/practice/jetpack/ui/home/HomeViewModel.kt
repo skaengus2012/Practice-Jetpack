@@ -45,7 +45,6 @@ class HomeViewModel @Inject constructor(
     @Named(ContextInjectionType.ACTIVITY) private val activityNavUsecase: ActivityNavUsecase,
     @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
     private val fragmentNavUsecase: FragmentNavUsecase,
-    private val homeItemViewModelFactory: HomeItemViewModelFactory,
     private val testMenuRepository: TestMenuRepository,
     private val recyclerViewUsecase: RecyclerViewUsecase
 ) {
@@ -55,7 +54,7 @@ class HomeViewModel @Inject constructor(
     val items = ObservableArrayList<HomeItemViewModel>()
 
     val recyclerViewConfig = RecyclerViewConfig().apply {
-        itemDecorations.add(homeItemDecoration)
+        itemDecorations += homeItemDecoration
     }
 
     private val disposables = CompositeDisposable()
@@ -96,7 +95,7 @@ class HomeViewModel @Inject constructor(
     )
 
     private fun createViewModel(testMenu: TestMenu, onClickAction: () -> Unit): HomeItemViewModel {
-        return homeItemViewModelFactory.create(testMenu, onClickAction)
+        return HomeItemViewModel(testMenu, onClickAction)
     }
 
     private fun createAnkoFirstViewMenu() = createViewModel(testMenuRepository.getAnkoFirstViewMenu()) {

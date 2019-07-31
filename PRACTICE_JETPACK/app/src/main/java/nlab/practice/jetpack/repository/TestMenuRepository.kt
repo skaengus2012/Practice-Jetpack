@@ -30,43 +30,43 @@ import javax.inject.Inject
 class TestMenuRepository @Inject constructor(private val resourceProvider: ResourceProvider) {
 
     fun getAnkoFirstViewMenu(): TestMenu = TestMenu(
-        title = resourceProvider.getText(R.string.test_menu_anko_first),
+        title = resourceProvider.getString(R.string.test_menu_anko_first),
         cardColorRes = R.color.home_item_color_1
     )
 
     fun getPagingTestMenu(): TestMenu = TestMenu(
-        title = resourceProvider.getText(R.string.test_menu_paging),
+        title = resourceProvider.getString(R.string.test_menu_paging),
         cardColorRes = R.color.home_item_color_2,
-        cardTitle = resourceProvider.getText(R.string.test_menu_paging_description)
+        cardTitle = resourceProvider.getString(R.string.test_menu_paging_description)
     )
 
     fun getListAdapterMenu(): TestMenu = TestMenu(
-        title = resourceProvider.getText(R.string.test_menu_listadater),
+        title = resourceProvider.getString(R.string.test_menu_listadater),
         cardColorRes = R.color.home_item_color_3,
-        cardTitle = resourceProvider.getText(R.string.test_menu_listadater_description)
+        cardTitle = resourceProvider.getString(R.string.test_menu_listadater_description)
     )
 
     fun getDragDropMenu(): TestMenu = TestMenu(
-        title = resourceProvider.getText(R.string.test_menu_item_touch),
-        cardTitle = resourceProvider.getText(R.string.test_menu_drag_drop_description),
+        title = resourceProvider.getString(R.string.test_menu_item_touch),
+        cardTitle = resourceProvider.getString(R.string.test_menu_drag_drop_description),
         cardColorRes = R.color.home_item_color_4
     )
 
     fun getCollapsingToolbarExMenu(): TestMenu = TestMenu(
-        title = resourceProvider.getText(R.string.test_menu_collapsing_toolbar),
-        cardTitle = resourceProvider.getText(R.string.test_menu_collapsing_toolbar_description),
+        title = resourceProvider.getString(R.string.test_menu_collapsing_toolbar),
+        cardTitle = resourceProvider.getString(R.string.test_menu_collapsing_toolbar_description),
         cardColorRes = R.color.home_item_color_5
     )
 
     fun getSlideUpPanelExMenus() = TestMenu(
-        title = resourceProvider.getText(R.string.test_slide_up_panel_ex_title),
-        cardTitle = resourceProvider.getText(R.string.test_slide_up_panel_ex_description),
+        title = resourceProvider.getString(R.string.test_slide_up_panel_ex_title),
+        cardTitle = resourceProvider.getString(R.string.test_slide_up_panel_ex_description),
         cardColorRes = R.color.home_item_color_6
     )
 
     fun getCenterScrollRecyclerView() = TestMenu(
-        title = resourceProvider.getText(R.string.test_center_scroll_recycler_title),
-        cardTitle = resourceProvider.getText(R.string.test_center_scroll_recycler_description),
+        title = resourceProvider.getString(R.string.test_center_scroll_recycler_title),
+        cardTitle = resourceProvider.getString(R.string.test_center_scroll_recycler_description),
         cardColorRes = R.color.home_item_color_7
     )
 }

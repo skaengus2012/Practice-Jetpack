@@ -22,7 +22,6 @@ import nlab.practice.jetpack.ui.centerscroll.CenterScrollerFragment
 import nlab.practice.jetpack.ui.itemtouch.ItemTouchHelperFragment
 import nlab.practice.jetpack.ui.history.HistoryFragment
 import nlab.practice.jetpack.ui.home.HomeFragment
-import nlab.practice.jetpack.ui.home.HomeModule
 import nlab.practice.jetpack.ui.listadapter.ListAdapterExampleFragment
 import nlab.practice.jetpack.ui.paging.CountablePagingFragment
 import nlab.practice.jetpack.ui.paging.PagingFragmentModule
@@ -43,7 +42,7 @@ abstract class FragmentBindModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [
         FragmentCommonModule::class,
-        HomeModule::class
+        HomeFragment.Module::class
     ])
     abstract fun homeFragment(): HomeFragment
 

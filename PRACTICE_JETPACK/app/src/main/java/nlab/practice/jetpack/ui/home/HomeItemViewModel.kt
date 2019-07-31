@@ -17,7 +17,6 @@
 package nlab.practice.jetpack.ui.home
 
 import androidx.databinding.Bindable
-import com.google.auto.factory.AutoFactory
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
@@ -27,7 +26,6 @@ import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
  *
  * @author Doohyun
  */
-@AutoFactory
 class HomeItemViewModel(
     private val testMenu: TestMenu,
     private val navigateAction: () -> Unit
@@ -39,13 +37,13 @@ class HomeItemViewModel(
     fun getTitleVisibleYn(): Boolean = testMenu.cardTitle != null
 
     @Bindable
-    fun getCardTitle(): CharSequence? = testMenu.cardTitle
+    fun getCardTitle(): String? = testMenu.cardTitle
 
     @Bindable
     fun getCardColor(): Int = testMenu.cardColorRes
 
     @Bindable
-    fun getTitle(): CharSequence = testMenu.title
+    fun getTitle(): String? = testMenu.title
 
     fun onClick() {
         navigateAction()
