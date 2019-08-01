@@ -24,6 +24,8 @@ import io.reactivex.disposables.Disposable
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.SchedulerFactory
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -35,6 +37,7 @@ import javax.inject.Inject
  */
 class HomeHeaderViewModel @Inject constructor(
     resourceProvider: ResourceProvider,
+    lifecycleBinder: FragmentLifecycleBinder,
     private val schedulerFactory: SchedulerFactory
 ) : BindingItemViewModel() {
 
@@ -51,7 +54,12 @@ class HomeHeaderViewModel @Inject constructor(
 
     override fun getLayoutRes(): Int = R.layout.view_home_header
 
-    fun startTimer() {
+    init {
+        lifecycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) { startTimer() }
+        lifecycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) { stopTimer() }
+    }
+
+    private fun startTimer() {
         timerDisposable = Observable.timer(100, TimeUnit.MILLISECONDS, schedulerFactory.computation())
             .repeat()
             .map { getCurrentTimeDateFormat() }
@@ -61,7 +69,7 @@ class HomeHeaderViewModel @Inject constructor(
             .subscribe()
     }
 
-    fun stopTimer() {
+    private fun stopTimer() {
         timerDisposable?.dispose()
     }
 

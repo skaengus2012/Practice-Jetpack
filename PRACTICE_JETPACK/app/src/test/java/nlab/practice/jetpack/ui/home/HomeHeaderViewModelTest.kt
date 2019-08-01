@@ -24,6 +24,8 @@ import nlab.practice.jetpack.BR
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.RxBaseObservables
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
+import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.testSchedulerFactoryOf
 import org.junit.Before
 import org.junit.Test
@@ -44,6 +46,7 @@ private const val MOCK_MESSAGE_HOME_TIME_FORMAT_STRING = "현재 시간 MM월 dd
  *
  * 1. 타이머의 텍스트 변경이 1분 단위로 변경되는가?
  * 2. stopTimer 가 요청된 후, 타이머가 멈췄는가?
+ * 3. 생명주기에 따라 timer 가 제대로 시작되고 종료되었는가?
  *
  * @author Doohyun
  * @since 2019. 07. 30
@@ -55,6 +58,8 @@ class HomeHeaderViewModelTest {
         computation = Schedulers.computation()
     )
 
+    private val lifecycleBinder = FragmentLifecycleBinder()
+
     @Mock
     lateinit var resourceProvider: ResourceProvider
 
@@ -64,11 +69,11 @@ class HomeHeaderViewModelTest {
     fun initialize() {
         `when`(resourceProvider.getString(R.string.home_time_format)).thenReturn(MOCK_MESSAGE_HOME_TIME_FORMAT_STRING)
 
-        viewModel = HomeHeaderViewModel(resourceProvider, schedulerFactory)
+        viewModel = HomeHeaderViewModel(resourceProvider, lifecycleBinder, schedulerFactory)
     }
 
-    @Test
-    fun startTimer() {
+    @Test(timeout = 60000L)
+    fun startTimerOnViewCreated() {
         val currentTimeText = viewModel.currentTimeString
 
         val expectedValue = TimeBuilder.Create(currentTimeText, MOCK_MESSAGE_HOME_TIME_FORMAT_STRING)
@@ -86,7 +91,7 @@ class HomeHeaderViewModelTest {
             .firstElement()
             .subscribe(testObserver)
 
-        viewModel.startTimer()
+        lifecycleBinder.apply(FragmentLifecycle.ON_VIEW_CREATED)
 
         with(testObserver) {
             awaitTerminalEvent()
@@ -95,10 +100,9 @@ class HomeHeaderViewModelTest {
     }
 
     @Test
-    fun stopTimer() {
-        viewModel.startTimer()
-
-        viewModel.stopTimer()
+    fun stopTimberOnDestroyView() {
+        lifecycleBinder.apply(FragmentLifecycle.ON_VIEW_CREATED)
+        lifecycleBinder.apply(FragmentLifecycle.ON_DESTROY_VIEW)
 
         val expectedValue = viewModel.currentTimeString
 
@@ -108,10 +112,10 @@ class HomeHeaderViewModelTest {
             .observeOn(schedulerFactory.ui())
             .subscribe(testObserver)
 
-
         testObserver.awaitTerminalEvent()
 
         assertEquals(expectedValue, viewModel.currentTimeString)
     }
+
 
 }

@@ -17,15 +17,12 @@
 package nlab.practice.jetpack.ui.home
 
 import androidx.databinding.ObservableArrayList
-import io.reactivex.disposables.CompositeDisposable
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
-import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
-import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
@@ -38,7 +35,6 @@ import javax.inject.Named
  * @author Doohyun
  */
 class HomeViewModel @Inject constructor(
-    fragmentLifeCycleBinder: FragmentLifecycleBinder,
     containerFragmentCallback: ContainerFragmentCallback,
     homeItemDecoration: HomeItemDecoration,
     private val homeHeaderViewModel: HomeHeaderViewModel,
@@ -57,24 +53,10 @@ class HomeViewModel @Inject constructor(
         itemDecorations += homeItemDecoration
     }
 
-    private val disposables = CompositeDisposable()
-
     init {
-        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_VIEW_CREATED) { doOnViewCreated() }
-        fragmentLifeCycleBinder.bindUntil(FragmentLifecycle.ON_DESTROY_VIEW) { doOnDestroyView() }
-
         containerFragmentCallback.onBottomNavReselected { scrollToZeroIfEmptyChild() }
 
         initializeItems()
-    }
-
-    private fun doOnViewCreated() {
-        homeHeaderViewModel.startTimer()
-    }
-
-    private fun doOnDestroyView() {
-        homeHeaderViewModel.stopTimer()
-        disposables.clear()
     }
 
     private fun scrollToZeroIfEmptyChild(): Boolean {
