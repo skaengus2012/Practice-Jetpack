@@ -16,7 +16,6 @@
 
 package nlab.practice.jetpack.ui.history
 
-import androidx.databinding.Bindable
 import com.google.auto.factory.AutoFactory
 import com.google.auto.factory.Provided
 import nlab.practice.jetpack.R
@@ -33,19 +32,19 @@ class HistoryItemViewModel(
     private val history: History
 ) : BindingItemViewModel() {
 
-    private val resultMessage = when (history.isSuccess) {
+    private val _resultMessage = when (history.isSuccess) {
         true -> R.string.history_success
         false -> R.string.history_failed
     }.run { resourceProvider.getString(this) }
 
+    val title: String
+        get() = history.title
+
+    val subTitle: String
+        get() = history.subTitle
+
+    val resultMessage: String
+        get() = _resultMessage
+
     override fun getLayoutRes(): Int = R.layout.view_history_item
-
-    @Bindable
-    fun getTitle(): String = history.title
-
-    @Bindable
-    fun getSubTitle(): String = history.subTitle
-
-    @Bindable
-    fun getResultMessage(): String = resultMessage
 }

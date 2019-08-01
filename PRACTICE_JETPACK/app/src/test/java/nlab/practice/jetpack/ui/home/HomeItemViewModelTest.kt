@@ -23,10 +23,6 @@ import org.mockito.*
 import org.junit.Assert.*
 import org.mockito.junit.MockitoJUnitRunner
 
-private const val MOCK_MESSAGE_TITLE = "MOCK_MESSAGE_TITLE"
-private const val MOCK_MESSAGE_CARD_TITLE = "MOCK_MESSAGE_CARD_TITLE"
-private const val MOCK_RESOURCE_COLOR = 5
-
 /**
  * Test for HomeItemViewModel
  *
@@ -38,49 +34,38 @@ class HomeItemViewModelTest {
     @Mock
     private lateinit var clickAction: () -> Unit
 
-    private val titleNotEmptyMenu = TestMenu(
-        title = MOCK_MESSAGE_TITLE,
-        cardColorRes = MOCK_RESOURCE_COLOR,
-        cardTitle = MOCK_MESSAGE_CARD_TITLE
-    )
-
-    private val titleEmptyMenu = TestMenu(
-        title = MOCK_MESSAGE_TITLE,
-        cardColorRes = MOCK_RESOURCE_COLOR,
-        cardTitle = ""
-    )
-
-    private val titleNullMenu = TestMenu(
-        title = MOCK_MESSAGE_TITLE,
-        cardColorRes = MOCK_RESOURCE_COLOR
+    private val sampleMenu = TestMenu(
+        title = "title",
+        cardColorRes = 5,
+        cardTitle = "cardTitle"
     )
 
     @Test
     fun checkMappings() {
-        with(HomeItemViewModel(titleNotEmptyMenu, clickAction)) {
-            assertEquals(MOCK_RESOURCE_COLOR, cardColor)
-            assertEquals(MOCK_MESSAGE_TITLE, title)
-            assertEquals(MOCK_MESSAGE_CARD_TITLE, cardTitle)
+        with(HomeItemViewModel(sampleMenu, clickAction)) {
+            assertEquals(sampleMenu.cardColorRes, cardColor)
+            assertEquals(sampleMenu.title, title)
+            assertEquals(sampleMenu.cardTitle, cardTitle)
             assertEquals(true, visibleCardTitle)
         }
 
-        with(HomeItemViewModel(titleEmptyMenu,  clickAction)) {
-            assertEquals(MOCK_RESOURCE_COLOR, cardColor)
-            assertEquals(MOCK_MESSAGE_TITLE, title)
+        with(HomeItemViewModel(sampleMenu.copy(cardTitle = ""), clickAction)) {
+            assertEquals(sampleMenu.cardColorRes, cardColor)
+            assertEquals(sampleMenu.title, title)
             assertEquals("", cardTitle)
             assertEquals(false, visibleCardTitle)
         }
 
-        with(HomeItemViewModel(titleNullMenu,  clickAction)) {
-            assertEquals(MOCK_RESOURCE_COLOR, cardColor)
-            assertEquals(MOCK_MESSAGE_TITLE, title)
+        with(HomeItemViewModel(sampleMenu.copy(cardTitle = null),  clickAction)) {
+            assertEquals(sampleMenu.cardColorRes, cardColor)
+            assertEquals(sampleMenu.title, title)
             assertNull(cardTitle)
             assertEquals(false, visibleCardTitle)
         }
     }
 
     @Test
-    fun onClick() = with(HomeItemViewModel(titleNotEmptyMenu, clickAction)) {
+    fun onClick() = with(HomeItemViewModel(sampleMenu, clickAction)) {
         onClick()
         Mockito.verify(clickAction, Mockito.times(1)).invoke()
     }
