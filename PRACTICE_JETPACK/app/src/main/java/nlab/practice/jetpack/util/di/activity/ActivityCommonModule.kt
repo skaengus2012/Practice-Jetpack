@@ -16,6 +16,7 @@
 
 package nlab.practice.jetpack.util.di.activity
 
+import android.app.Application
 import dagger.Module
 import dagger.Provides
 import nlab.practice.jetpack.util.BaseActivity
@@ -25,9 +26,7 @@ import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
 import nlab.practice.jetpack.util.lifecycle.LifeCycleBinder
 import nlab.practice.jetpack.util.lifecycle.ActivitySavedStateProvider
 import nlab.practice.jetpack.util.lifecycle.LifecycleStateProvider
-import nlab.practice.jetpack.util.nav.ActivityNavUsecase
-import nlab.practice.jetpack.util.nav.ContextInjectionType
-import nlab.practice.jetpack.util.nav.DefaultActivityNavUsecase
+import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.LayoutManagerFactory
 import javax.inject.Named
 
@@ -40,22 +39,16 @@ class ActivityCommonModule {
 
     @ActivityScope
     @Provides
-    fun provideLifeCycleBinder(): ActivityLifecycleBinder =
-        LifeCycleBinder()
+    fun provideLifeCycleBinder(): ActivityLifecycleBinder = LifeCycleBinder()
 
     @Named(ContextInjectionType.ACTIVITY)
     @ActivityScope
     @Provides
-    fun provideActivityNavUsecase(activity: BaseActivity): ActivityNavUsecase = DefaultActivityNavUsecase(activity)
+    fun provideActivityNavController(activity: BaseActivity): ActivityNavController = DefaultActivityNavController(activity)
 
     @ActivityScope
     @Provides
-    fun provideActivityCommonUsecase(activity: BaseActivity) =
-        ActivityCommonUsecase(activity)
-
-    @ActivityScope
-    @Provides
-    fun provideActivityCallbackBinder() = ActivityCallback()
+    fun provideActivityCommonUsecase(activity: BaseActivity) = ActivityCommonUsecase(activity)
 
     @ActivityScope
     @Provides
@@ -66,6 +59,14 @@ class ActivityCommonModule {
     fun provideSavedStateProvider(activity: BaseActivity): LifecycleStateProvider {
         return ActivitySavedStateProvider(activity)
     }
+
+    @ActivityScope
+    @Provides
+    fun provideActivityCallback() = ActivityCallback()
+
+    @ActivityScope
+    @Provides
+    fun provideActivityNavUsecase(activity: BaseActivity): ActivityNavUsecase = ActivityNavUsecaseImpl(activity)
 
     @ActivityScope
     @Provides

@@ -63,7 +63,7 @@ class HomeHeaderViewModelTest {
     @Mock
     lateinit var resourceProvider: ResourceProvider
 
-    lateinit var viewModel: HomeHeaderViewModel
+    private lateinit var viewModel: HomeHeaderViewModel
 
     @Before
     fun initialize() {

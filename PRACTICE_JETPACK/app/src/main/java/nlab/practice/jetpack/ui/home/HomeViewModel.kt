@@ -21,8 +21,6 @@ import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
-import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
-import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
@@ -38,7 +36,8 @@ class HomeViewModel @Inject constructor(
     containerFragmentCallback: ContainerFragmentCallback,
     homeItemDecoration: HomeItemDecoration,
     private val homeHeaderViewModel: HomeHeaderViewModel,
-    @Named(ContextInjectionType.ACTIVITY) private val activityNavUsecase: ActivityNavUsecase,
+    private val activityNavUsecase: ActivityNavUsecase,
+    @Named(ContextInjectionType.ACTIVITY) private val activityController: ActivityNavController,
     @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
     private val fragmentNavUsecase: FragmentNavUsecase,
     private val testMenuRepository: TestMenuRepository,
@@ -88,7 +87,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createAnkoFirstViewMenu() = createViewModel(testMenuRepository.getAnkoFirstViewMenu()) {
-        activityNavUsecase.startActivity<AnkoFirstActivity>(intentProvider)
+        activityNavUsecase.navAnko()
     }
 
     private fun createPagingTestMenu() = createViewModel(testMenuRepository.getPagingTestMenu()) {
@@ -104,11 +103,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createCollapsingToolbarExMenu() = createViewModel(testMenuRepository.getCollapsingToolbarExMenu()) {
-        activityNavUsecase.startActivity<CollapsingToolbarActivity>(intentProvider)
+        activityController.startActivity<CollapsingToolbarActivity>(intentProvider)
     }
 
     private fun createSlideUpPanelExMenu() = createViewModel(testMenuRepository.getSlideUpPanelExMenus()) {
-        activityNavUsecase.startActivity<SlideUpSampleActivity>(intentProvider)
+        activityNavUsecase.navSlide()
     }
 
     private fun createCenterScrollExMenu() = createViewModel(testMenuRepository.getCenterScrollRecyclerView()) {

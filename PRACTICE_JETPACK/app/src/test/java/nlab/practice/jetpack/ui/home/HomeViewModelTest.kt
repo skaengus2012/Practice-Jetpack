@@ -19,6 +19,7 @@ package nlab.practice.jetpack.ui.home
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
+import nlab.practice.jetpack.util.nav.ActivityNavController
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.nav.FragmentNavUsecase
 import nlab.practice.jetpack.util.nav.IntentProvider
@@ -37,7 +38,7 @@ private const val MOCK_TYPE_TEST_MENU_CENTER_SCROLL             = "CENTER_SCROLL
 private const val MOCK_TYPE_TEST_MENU_COLLAPSING_TOOLBAR        = "COLLAPSING_TOOLBAR"
 private const val MOCK_TYPE_TEST_MENU_DRAG_N_DROP               = "DRAG_N_DROP"
 private const val MOCK_TYPE_TEST_MENU_LIST_ADAPTER              = "LIST_ADAPTER"
-private const val MOCK_TYPE_TEST_MENU_PAGING                    = "SLIDE"
+private const val MOCK_TYPE_TEST_MENU_PAGING                    = "PAGING"
 
 
 /**
@@ -75,6 +76,9 @@ class HomeViewModelTest {
     lateinit var activityNavUsecase: ActivityNavUsecase
 
     @Mock
+    lateinit var activityNavController: ActivityNavController
+
+    @Mock
     lateinit var intentProvider: IntentProvider
 
     private lateinit var viewModel: HomeViewModel
@@ -94,6 +98,7 @@ class HomeViewModelTest {
             itemDecoration,
             headerViewModel,
             activityNavUsecase,
+            activityNavController,
             intentProvider,
             fragmentNavUsecase,
             testMenuRepository,
@@ -138,6 +143,24 @@ class HomeViewModelTest {
 
         assert(containerFragmentCallback.bottomNavReselectedCommand!!.invoke())
         verify(recyclerViewUsecase, times(1)).smoothScrollToPosition(0)
+    }
+
+    private fun actionItemClick(code: String) {
+        viewModel.items
+            .find { it.getTitle() == code }
+            ?.onClick()
+    }
+
+    @Test
+    fun onClickSlideItem() {
+        actionItemClick(MOCK_TYPE_TEST_MENU_SLIDE)
+        verify(activityNavUsecase, times(1)).navSlide()
+    }
+
+    @Test
+    fun onClickAnkoTutorialItem() {
+        actionItemClick(MOCK_TYPE_TEST_MENU_ANKO)
+        verify(activityNavUsecase, times(1)).navAnko()
     }
 
 }

@@ -14,29 +14,16 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.di.activity
+package nlab.practice.jetpack.util
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 
 /**
- * Activity 의 Callback 에 대한 연결자 정의
- *
  * @author Doohyun
+ * @since 2019. 08. 01
  */
-
-class ActivityCallback {
-
-    var onBackPressedCommand: (() -> Boolean)? = null
-        private set
-
-    var onRestoreInstanceStateCommand: (() -> Unit)? = null
-        private set
-
-    fun onBackPressed(action: () -> Boolean) {
-        onBackPressedCommand = action
-    }
-
-    fun onRestoreInstanceState(action: () -> Unit) {
-        onRestoreInstanceStateCommand = action
-    }
+object IntentUtil {
+    inline fun <reified T: Activity> createActivityIntent(context: Context) = Intent(context, T::class.java)
 }
-
-

@@ -46,8 +46,14 @@ class FragmentCommonModule {
     @Named(ContextInjectionType.ACTIVITY)
     @FragmentScope
     @Provides
+    fun provideActivityNavController(fragment: Fragment): ActivityNavController {
+        return DefaultActivityNavController(fragment.activity!!)
+    }
+
+    @FragmentScope
+    @Provides
     fun provideActivityNavUsecase(fragment: Fragment): ActivityNavUsecase {
-        return DefaultActivityNavUsecase(fragment.activity!!)
+        return ActivityNavUsecaseImpl(fragment.activity!!)
     }
 
     @FragmentScope
@@ -63,8 +69,8 @@ class FragmentCommonModule {
     @Named(ContextInjectionType.FRAGMENT)
     @FragmentScope
     @Provides
-    fun provideFragmentOwnerActivityNavUsecase(fragment: Fragment): ActivityNavUsecase {
-        return FragmentOwnerActivityNavUsecase(fragment)
+    fun provideFragmentOwnerActivityNavUsecase(fragment: Fragment): ActivityNavController {
+        return FragmentOwnerActivityNavController(fragment)
     }
 
     @FragmentScope

@@ -26,9 +26,9 @@ import nlab.practice.jetpack.util.SchedulerFactoryImpl
 import nlab.practice.jetpack.util.ToastHelper
 import nlab.practice.jetpack.util.di.activity.ActivityBindComponent
 import nlab.practice.jetpack.util.di.fragment.FragmentBindComponent
-import nlab.practice.jetpack.util.nav.ActivityNavUsecase
+import nlab.practice.jetpack.util.nav.ActivityNavController
 import nlab.practice.jetpack.util.nav.ContextInjectionType
-import nlab.practice.jetpack.util.nav.DefaultActivityNavUsecase
+import nlab.practice.jetpack.util.nav.DefaultActivityNavController
 import nlab.practice.jetpack.util.nav.IntentProvider
 import javax.inject.Named
 
@@ -61,8 +61,8 @@ class AppModule {
     @Named(ContextInjectionType.APPLICATION)
     @Reusable
     @Provides
-    fun provideActivityNavUsecae(application: Application): ActivityNavUsecase {
-        return DefaultActivityNavUsecase (application.baseContext)
+    fun provideActivityNavUsecae(application: Application): ActivityNavController {
+        return DefaultActivityNavController (application.baseContext)
     }
 
     @Provides

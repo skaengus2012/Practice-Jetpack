@@ -17,25 +17,26 @@
 package nlab.practice.jetpack.util.nav
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import androidx.fragment.app.Fragment
+import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
+import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
+import nlab.practice.jetpack.util.IntentUtil
 
 /**
  * @author Doohyun
+ * @since 2019. 08. 01
  */
 interface ActivityNavUsecase {
-    fun startActivity(intent: Intent)
+    fun navAnko()
+    fun navSlide()
 }
 
-class DefaultActivityNavUsecase(private val context: Context) : ActivityNavUsecase {
-    override fun startActivity(intent: Intent) = context.startActivity(intent)
-}
+class ActivityNavUsecaseImpl(private val activity: Activity) : ActivityNavUsecase {
 
-class FragmentOwnerActivityNavUsecase(private val fragment: Fragment) : ActivityNavUsecase {
-    override fun startActivity(intent: Intent) = fragment.startActivity(intent)
-}
+    override fun navAnko() {
+        activity.startActivity(IntentUtil.createActivityIntent<AnkoFirstActivity>(activity))
+    }
 
-inline fun <reified T : Activity> ActivityNavUsecase.startActivity(intentProvider: IntentProvider) {
-    intentProvider.createActivityIntent(T::class.java).run { startActivity(this) }
+    override fun navSlide() {
+        activity.startActivity(IntentUtil.createActivityIntent<SlideUpSampleActivity>(activity))
+    }
 }
