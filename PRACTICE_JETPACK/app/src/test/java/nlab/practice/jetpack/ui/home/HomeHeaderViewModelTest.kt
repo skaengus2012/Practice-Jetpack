@@ -42,8 +42,6 @@ private const val MOCK_MESSAGE_HOME_TIME_FORMAT_STRING = "현재 시간 MM월 dd
 /**
  * Test for HomeHeaderViewModel
  *
- * 유즈케이스
- *
  * 1. 타이머의 텍스트 변경이 1분 단위로 변경되는가?
  * 2. stopTimer 가 요청된 후, 타이머가 멈췄는가?
  * 3. 생명주기에 따라 timer 가 제대로 시작되고 종료되었는가?

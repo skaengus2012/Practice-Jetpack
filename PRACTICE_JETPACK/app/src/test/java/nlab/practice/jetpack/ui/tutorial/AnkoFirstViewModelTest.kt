@@ -36,8 +36,6 @@ private const val MOCK_MESSAGE_CHANGE_TEXT_DELAYED = "CHANGE TEXT - DELAYED"
 /**
  * Test for AnkoFirstViewModel
  *
- * 유즈 케이스
- *
  * 0. 초기상태 텍스트
  * 1. 텍스트 변경
  * 2. 딜레이 텍스트 변경

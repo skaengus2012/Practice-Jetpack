@@ -26,6 +26,9 @@ import org.mockito.junit.MockitoJUnitRunner
 /**
  * Test for HomeItemViewModel
  *
+ * 1. TestMenu 에 대한 아이템 맵핑 확인
+ * 2. onClick 시, 주입된 함수 실행 확인
+ *
  * @author Doohyun
  */
 @RunWith(MockitoJUnitRunner::class)

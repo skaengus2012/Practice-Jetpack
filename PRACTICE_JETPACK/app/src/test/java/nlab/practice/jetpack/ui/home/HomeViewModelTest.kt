@@ -42,8 +42,6 @@ private const val MOCK_TYPE_TEST_MENU_PAGING                    = "PAGING"
 /**
  * Test for HomeViewModel
  *
- * 유즈 케이스
- *
  * 1. 아이템 목록 추가에 대한 선택 액션 테스트
  * 2. BottomNavigation 에 의해 스크롤/ 자식뷰 제거가 되는지 확인 (자식이 존재한다면, false 로 넘겨 MainHolder 가 처리할 수 있어야함)
  * 3. RecyclerView 의 설정이 제대로 되어있는지 확인

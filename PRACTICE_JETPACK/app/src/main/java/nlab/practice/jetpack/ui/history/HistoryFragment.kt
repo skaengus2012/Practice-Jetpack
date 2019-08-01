@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import dagger.Provides
 import kotlinx.android.synthetic.main.fragment_history.*
 import nlab.practice.jetpack.databinding.FragmentHistoryBinding
-import nlab.practice.jetpack.util.ResourceProvider
+import nlab.practice.jetpack.util.di.fragment.FragmentScope
 import nlab.practice.jetpack.util.di.fragment.InjectableFragment
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import javax.inject.Inject
@@ -58,16 +58,8 @@ class HistoryFragment : InjectableFragment() {
     @dagger.Module
     class Module {
 
+        @FragmentScope
         @Provides
-        fun provideRecyclerViewUsecase(fragment: HistoryFragment): RecyclerViewUsecase = RecyclerViewUsecase {
-            fragment.lvContents
-        }
-
-        @Provides
-        fun provideHistoryItemViewFactory(
-            resourceProvider: ResourceProvider
-        ): HistoryItemViewModelFactory = HistoryItemViewModelFactory {
-            resourceProvider
-        }
+        fun provideRecyclerViewUsecase(fragment: HistoryFragment) = RecyclerViewUsecase { fragment.lvContents }
     }
 }

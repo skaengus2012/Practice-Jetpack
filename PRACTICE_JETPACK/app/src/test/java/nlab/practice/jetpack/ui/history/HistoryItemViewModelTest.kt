@@ -33,8 +33,6 @@ private const val MOCK_MESSAGE_FAILED = "연구 실패"
 /**
  * Test for HistoryItemViewModel
  *
- * 유즈케이스
- *
  * 1. 데이터 상태에 따라 제대로된 라벨이 표시되는지 확인 필요.
  *
  * @author Doohyun

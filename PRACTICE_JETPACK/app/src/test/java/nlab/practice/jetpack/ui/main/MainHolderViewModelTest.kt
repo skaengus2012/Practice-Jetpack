@@ -35,7 +35,6 @@ import org.mockito.Mockito.*
  *
  * 가장 중요하게 봐야할 점 -> 생명주기에 따라 정확한 메소드가 불렸는지가 중요.
  *
- * 유즈케이스
  * 0. 초기상태 테스트
  * 1. onCreate 시점 현재 BottomNavigationView 가 설정된 페이지에 대한 업데이트 처리가 필요함.
  * 2. onSelected 시점 액션 테스트

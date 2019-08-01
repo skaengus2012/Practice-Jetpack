@@ -26,8 +26,8 @@ import javax.inject.Inject
  */
 class HistoryViewModel @Inject constructor(
     historyRepository: HistoryRepository,
-    private val historyItemViewModelFactory: HistoryItemViewModelFactory
+    private val historyItemFactory: HistoryItemViewModel.Factory
 ) {
     val headers = SimpleItemViewModel(R.layout.view_history_header).run { listOf(this) }
-    val items = historyRepository.items.map { historyItemViewModelFactory.create(it) }
+    val items = historyRepository.items.map { historyItemFactory.create(it) }
 }

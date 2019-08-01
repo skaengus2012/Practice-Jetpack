@@ -16,11 +16,55 @@
 
 package nlab.practice.jetpack.ui.history
 
+import nlab.practice.jetpack.repository.HistoryRepository
+import nlab.practice.jetpack.repository.model.History
+import nlab.practice.jetpack.ui.common.viewmodel.SimpleItemViewModel
+import nlab.practice.jetpack.util.ResourceProvider
+import org.hamcrest.CoreMatchers.instanceOf
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito.*
+import org.junit.Assert.*
+import org.mockito.junit.MockitoJUnitRunner
+
 /**
  * Test for HistoryViewModel
  *
+ * 1. ViewModel 생성 시, 아이템이 제대로 추가되었는지 확인
+ *
  * @author Doohyun
  */
+@RunWith(MockitoJUnitRunner::class)
 class HistoryViewModelTest {
+
+    @Mock
+    lateinit var repository: HistoryRepository
+
+    @Mock
+    lateinit var resourceProvider: ResourceProvider
+
+    @Mock
+    lateinit var historyItemFactory: HistoryItemViewModel.Factory
+
+    @Before
+    fun initialize() {
+        `when`(repository.items).thenReturn(listOf(History(
+            title = "title",
+            subTitle = "subTitle",
+            isSuccess = false
+        )))
+
+        historyItemFactory = HistoryItemViewModel.Factory(resourceProvider)
+    }
+
+    @Test
+    fun setup() = with(HistoryViewModel(repository, historyItemFactory)) {
+        assertEquals(1, headers.size)
+        assertThat(headers[0], instanceOf(SimpleItemViewModel::class.java))
+        assertEquals(1, items.size)
+        assertThat(items[0], instanceOf(HistoryItemViewModel::class.java))
+    }
 
 }

@@ -16,19 +16,18 @@
 
 package nlab.practice.jetpack.ui.history
 
-import com.google.auto.factory.AutoFactory
-import com.google.auto.factory.Provided
+import dagger.Reusable
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.model.History
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
+import javax.inject.Inject
 
 /**
  * @author Doohyun
  */
-@AutoFactory
 class HistoryItemViewModel(
-    @Provided resourceProvider: ResourceProvider,
+    resourceProvider: ResourceProvider,
     private val history: History
 ) : BindingItemViewModel() {
 
@@ -47,4 +46,9 @@ class HistoryItemViewModel(
         get() = _resultMessage
 
     override fun getLayoutRes(): Int = R.layout.view_history_item
+
+    @Reusable
+    class Factory @Inject constructor(private val resourceProvider: ResourceProvider) {
+        fun create(history: History) = HistoryItemViewModel(resourceProvider, history)
+    }
 }
