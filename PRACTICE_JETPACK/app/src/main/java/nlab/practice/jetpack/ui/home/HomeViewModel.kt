@@ -19,13 +19,11 @@ package nlab.practice.jetpack.ui.home
 import androidx.databinding.ObservableArrayList
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.repository.model.TestMenu
-import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
 import nlab.practice.jetpack.util.nav.*
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewConfig
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * HomeFragment 에 대한 ViewModel
@@ -37,8 +35,6 @@ class HomeViewModel @Inject constructor(
     homeItemDecoration: HomeItemDecoration,
     private val homeHeaderViewModel: HomeHeaderViewModel,
     private val activityNavUsecase: ActivityNavUsecase,
-    @Named(ContextInjectionType.ACTIVITY) private val activityController: ActivityNavController,
-    @Named(ContextInjectionType.ACTIVITY) private val intentProvider: IntentProvider,
     private val fragmentNavUsecase: FragmentNavUsecase,
     private val testMenuRepository: TestMenuRepository,
     private val recyclerViewUsecase: RecyclerViewUsecase
@@ -103,7 +99,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun createCollapsingToolbarExMenu() = createViewModel(testMenuRepository.getCollapsingToolbarExMenu()) {
-        activityController.startActivity<CollapsingToolbarActivity>(intentProvider)
+        activityNavUsecase.navCollapsingToolbar()
     }
 
     private fun createSlideUpPanelExMenu() = createViewModel(testMenuRepository.getSlideUpPanelExMenus()) {

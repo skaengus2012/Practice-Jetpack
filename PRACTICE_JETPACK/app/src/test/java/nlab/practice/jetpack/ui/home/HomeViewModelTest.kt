@@ -19,10 +19,8 @@ package nlab.practice.jetpack.ui.home
 import nlab.practice.jetpack.repository.TestMenuRepository
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.ui.main.ContainerFragmentCallback
-import nlab.practice.jetpack.util.nav.ActivityNavController
 import nlab.practice.jetpack.util.nav.ActivityNavUsecase
 import nlab.practice.jetpack.util.nav.FragmentNavUsecase
-import nlab.practice.jetpack.util.nav.IntentProvider
 import nlab.practice.jetpack.util.recyclerview.RecyclerViewUsecase
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -75,12 +73,6 @@ class HomeViewModelTest {
     @Mock
     lateinit var activityNavUsecase: ActivityNavUsecase
 
-    @Mock
-    lateinit var activityNavController: ActivityNavController
-
-    @Mock
-    lateinit var intentProvider: IntentProvider
-
     private lateinit var viewModel: HomeViewModel
 
     @Before
@@ -98,8 +90,6 @@ class HomeViewModelTest {
             itemDecoration,
             headerViewModel,
             activityNavUsecase,
-            activityNavController,
-            intentProvider,
             fragmentNavUsecase,
             testMenuRepository,
             recyclerViewUsecase
@@ -161,6 +151,35 @@ class HomeViewModelTest {
     fun onClickAnkoTutorialItem() {
         actionItemClick(MOCK_TYPE_TEST_MENU_ANKO)
         verify(activityNavUsecase, times(1)).navAnko()
+    }
+
+    @Test
+    fun onClickCenterScrollItem() {
+        actionItemClick(MOCK_TYPE_TEST_MENU_CENTER_SCROLL)
+        verify(fragmentNavUsecase, times(1)).navCenterScrolling()
+    }
+
+    @Test
+    fun onClickCollapsingToolbarItem() {
+        actionItemClick(MOCK_TYPE_TEST_MENU_COLLAPSING_TOOLBAR)
+        verify(activityNavUsecase, times(1)).navCollapsingToolbar()
+    }
+
+    @Test
+    fun onClickDragDropItem() {
+        actionItemClick(MOCK_TYPE_TEST_MENU_DRAG_N_DROP)
+        verify(fragmentNavUsecase, times(1)).navDragDrop()
+    }
+
+    @Test
+    fun onClickListAdapterItem() {
+        actionItemClick(MOCK_TYPE_TEST_MENU_LIST_ADAPTER)
+        verify(fragmentNavUsecase, times(1)).navListAdapterExample()
+    }
+
+    fun onClickPagingItem() {
+        actionItemClick(MOCK_TYPE_TEST_MENU_PAGING)
+        verify(fragmentNavUsecase, times(1)).navCountablePaging()
     }
 
 }

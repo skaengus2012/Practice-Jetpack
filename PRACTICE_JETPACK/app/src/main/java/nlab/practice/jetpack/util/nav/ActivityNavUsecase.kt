@@ -17,6 +17,7 @@
 package nlab.practice.jetpack.util.nav
 
 import android.app.Activity
+import nlab.practice.jetpack.ui.collapsingtoolbar.CollapsingToolbarActivity
 import nlab.practice.jetpack.ui.slide.SlideUpSampleActivity
 import nlab.practice.jetpack.ui.tutorial.AnkoFirstActivity
 import nlab.practice.jetpack.util.IntentUtil
@@ -28,6 +29,7 @@ import nlab.practice.jetpack.util.IntentUtil
 interface ActivityNavUsecase {
     fun navAnko()
     fun navSlide()
+    fun navCollapsingToolbar()
 }
 
 class ActivityNavUsecaseImpl(private val activity: Activity) : ActivityNavUsecase {
@@ -38,5 +40,9 @@ class ActivityNavUsecaseImpl(private val activity: Activity) : ActivityNavUsecas
 
     override fun navSlide() {
         activity.startActivity(IntentUtil.createActivityIntent<SlideUpSampleActivity>(activity))
+    }
+
+    override fun navCollapsingToolbar() {
+        activity.startActivity(IntentUtil.createActivityIntent<CollapsingToolbarActivity>(activity))
     }
 }
