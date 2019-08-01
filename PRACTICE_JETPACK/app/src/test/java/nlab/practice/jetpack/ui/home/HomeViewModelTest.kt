@@ -137,7 +137,7 @@ class HomeViewModelTest {
 
     private fun actionItemClick(code: String) {
         viewModel.items
-            .find { it.getTitle() == code }
+            .find { it.title == code }
             ?.onClick()
     }
 

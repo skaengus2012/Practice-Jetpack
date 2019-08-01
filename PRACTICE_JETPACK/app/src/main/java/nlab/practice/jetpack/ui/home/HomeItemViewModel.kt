@@ -16,7 +16,6 @@
 
 package nlab.practice.jetpack.ui.home
 
-import androidx.databinding.Bindable
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.repository.model.TestMenu
 import nlab.practice.jetpack.util.recyclerview.binding.BindingItemViewModel
@@ -33,17 +32,17 @@ class HomeItemViewModel(
 
     override fun getLayoutRes(): Int = R.layout.view_home_item
 
-    @Bindable
-    fun getTitleVisibleYn(): Boolean = testMenu.cardTitle != null
+    val visibleCardTitle: Boolean
+        get() = testMenu.cardTitle?.isNotEmpty() ?: false
 
-    @Bindable
-    fun getCardTitle(): String? = testMenu.cardTitle
+    val cardTitle: String?
+        get() = testMenu.cardTitle
 
-    @Bindable
-    fun getCardColor(): Int = testMenu.cardColorRes
+    val cardColor: Int
+        get() = testMenu.cardColorRes
 
-    @Bindable
-    fun getTitle(): String? = testMenu.title
+    val title: String?
+        get() = testMenu.title
 
     fun onClick() {
         navigateAction()
