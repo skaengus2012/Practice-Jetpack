@@ -31,11 +31,10 @@ import nlab.practice.jetpack.util.recyclerview.selection.Selectable
  * @since 2019. 02. 07
  */
 @AutoFactory
-class ListAdapterExampleItemViewModel(
-        private val pagingItem: PagingItem) :
-        BindingItemViewModel(),
-        Different<ListAdapterExampleItemViewModel> by DifferentDelegate({ pagingItem }, { viewModel -> viewModel.pagingItem }),
-        Selectable<Long> {
+class ListAdapterExampleItemViewModel(private val pagingItem: PagingItem) :
+    BindingItemViewModel(),
+    Different<ListAdapterExampleItemViewModel> by DifferentDelegate(pagingItem, { it.pagingItem }),
+    Selectable<Long> {
 
     @Bindable
     var selectState = false

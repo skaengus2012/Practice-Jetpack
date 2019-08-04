@@ -24,10 +24,11 @@ import androidx.paging.PositionalDataSource
  *
  * @author Doohyun
  */
-data class PositionalEvent internal constructor(
-        @PositionalDataLoadState val state: String,
-        val initParams: PositionalDataSource.LoadInitialParams? = null,
-        val rangeParams: PositionalDataSource.LoadRangeParams? = null)
+data class PositionalEvent(
+    @PositionalDataLoadState val state: String,
+    val initParams: PositionalDataSource.LoadInitialParams? = null,
+    val rangeParams: PositionalDataSource.LoadRangeParams? = null
+)
 
 
 /**

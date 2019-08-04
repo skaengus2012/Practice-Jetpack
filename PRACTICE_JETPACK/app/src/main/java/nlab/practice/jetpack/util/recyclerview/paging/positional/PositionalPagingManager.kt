@@ -25,20 +25,32 @@ import io.reactivex.subjects.PublishSubject
  * @since 2019. 01. 15
  */
 abstract class PositionalPagingManager<T> {
+
     private var dataSource: PositionalDataSource<T>? = null
+
     val stateSubject: PublishSubject<PositionalEvent> = PublishSubject.create()
 
     private var retryLoadRangeCallback: (() -> Unit)? = null
 
-    abstract fun loadRange(params: PositionalDataSource.LoadRangeParams, callback: PositionalDataSource.LoadRangeCallback<T>)
-    abstract fun loadInitial(params: PositionalDataSource.LoadInitialParams, callback: PositionalDataSource.LoadInitialCallback<T>)
+    abstract fun loadRange(
+        params: PositionalDataSource.LoadRangeParams,
+        callback: PositionalDataSource.LoadRangeCallback<T>
+    )
+
+    abstract fun loadInitial(
+        params: PositionalDataSource.LoadInitialParams,
+        callback: PositionalDataSource.LoadInitialCallback<T>
+    )
 
     fun invalidate() {
         dataSource?.invalidate()
     }
 
     @MainThread
-    protected fun setRetry(params: PositionalDataSource.LoadRangeParams, callback: PositionalDataSource.LoadRangeCallback<T>) {
+    protected fun setRetry(
+        params: PositionalDataSource.LoadRangeParams,
+        callback: PositionalDataSource.LoadRangeCallback<T>
+    ) {
         retryLoadRangeCallback = { loadRange(params, callback) }
     }
 
@@ -58,8 +70,9 @@ abstract class PositionalPagingManager<T> {
         return newDataSource
     }
 
-    class PositionalDataSourceEx<T>
-    internal constructor(private val pagingManager: PositionalPagingManager<T>) : PositionalDataSource<T>() {
+    class PositionalDataSourceEx<T>(
+        private val pagingManager: PositionalPagingManager<T>
+    ) : PositionalDataSource<T>() {
 
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
             pagingManager.loadRange(params, callback)
