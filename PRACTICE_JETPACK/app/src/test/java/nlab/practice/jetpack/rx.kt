@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util
+package nlab.practice.jetpack
 
-import org.mockito.Mockito
+import io.reactivex.plugins.RxJavaPlugins
 
-/**
- * Mockito 의 일반 any 가 nullable 상태로 방출.
- * nonnull 데이터를 내기 위해 다음과 같이 처리
- */
-@Suppress("UNCHECKED_CAST")
-fun <T> anyNonNull(): T {
-    Mockito.any<T>()
-    return null as T
+fun ignoreRxDoOnError() {
+    RxJavaPlugins.setErrorHandler { }
 }

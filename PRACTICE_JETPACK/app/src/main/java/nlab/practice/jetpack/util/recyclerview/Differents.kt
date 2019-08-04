@@ -16,6 +16,7 @@
 
 package nlab.practice.jetpack.util.recyclerview
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 
 /**
@@ -34,6 +35,7 @@ class DiffCallbackEx<T> : DiffCallback<T>() {
         return ((oldItem as? Different<T>)?.areItemsTheSame(newItem)) ?: (oldItem === newItem)
     }
 
+    @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
         return ((oldItem as? Different<T>)?.areContentsTheSame(newItem)) ?: (oldItem == newItem)
     }

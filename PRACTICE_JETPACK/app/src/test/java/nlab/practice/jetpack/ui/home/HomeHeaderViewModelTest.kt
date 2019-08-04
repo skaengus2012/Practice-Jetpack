@@ -26,7 +26,7 @@ import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.RxBaseObservables
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycle
 import nlab.practice.jetpack.util.lifecycle.FragmentLifecycleBinder
-import nlab.practice.jetpack.util.testSchedulerFactoryOf
+import nlab.practice.jetpack.testSchedulerFactoryOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

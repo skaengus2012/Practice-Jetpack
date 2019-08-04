@@ -28,7 +28,7 @@ abstract class PositionalPagingManager<T> {
 
     private var dataSource: PositionalDataSource<T>? = null
 
-    val stateSubject: PublishSubject<PositionalEvent> = PublishSubject.create()
+    val stateSubject: PublishSubject<PositionalLoadEvent> = PublishSubject.create()
 
     private var retryLoadRangeCallback: (() -> Unit)? = null
 

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util
+package nlab.practice.jetpack
 
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
+import nlab.practice.jetpack.util.SchedulerFactory
 
 /**
  * Unit Test 용 SchedulerFactory 생산

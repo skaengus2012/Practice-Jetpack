@@ -24,12 +24,11 @@ import androidx.paging.PositionalDataSource
  *
  * @author Doohyun
  */
-data class PositionalEvent(
+data class PositionalLoadEvent(
     @PositionalDataLoadState val state: String,
     val initParams: PositionalDataSource.LoadInitialParams? = null,
     val rangeParams: PositionalDataSource.LoadRangeParams? = null
 )
-
 
 /**
  * 데이터의 조회 상태 열람
@@ -37,6 +36,7 @@ data class PositionalEvent(
 @StringDef(value = [
     PositionalDataLoadState.INIT_LOAD_START,
     PositionalDataLoadState.INIT_LOAD_FINISH,
+    PositionalDataLoadState.INIT_LOAD_FINISH_NO_DATA,
     PositionalDataLoadState.INIT_LOAD_ERROR,
     PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED,
     PositionalDataLoadState.LOAD_START,
@@ -49,6 +49,7 @@ annotation class PositionalDataLoadState {
         private const val TAG = "PositionalDataLoadState"
         const val INIT_LOAD_START = "${TAG}_init_start"
         const val INIT_LOAD_FINISH = "${TAG}_init_load_finish"
+        const val INIT_LOAD_FINISH_NO_DATA = "${TAG}_init_load_finish_no_data"
         const val INIT_LOAD_ERROR = "${TAG}_init_load_error"
         const val INIT_LOAD_DATA_SIZE_CHANGED = "${TAG}_init_load_size_changed"
         const val LOAD_START = "${TAG}_start"

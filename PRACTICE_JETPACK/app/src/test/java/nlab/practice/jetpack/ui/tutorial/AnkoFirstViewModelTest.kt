@@ -19,7 +19,7 @@ package nlab.practice.jetpack.ui.tutorial
 import nlab.practice.jetpack.R
 import nlab.practice.jetpack.util.ResourceProvider
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder
-import nlab.practice.jetpack.util.testSchedulerFactoryOf
+import nlab.practice.jetpack.testSchedulerFactoryOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

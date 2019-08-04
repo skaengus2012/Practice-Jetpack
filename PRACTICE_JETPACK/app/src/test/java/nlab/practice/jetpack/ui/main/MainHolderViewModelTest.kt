@@ -17,7 +17,7 @@
 package nlab.practice.jetpack.ui.main
 
 import io.reactivex.subjects.PublishSubject
-import nlab.practice.jetpack.util.anyNonNull
+import nlab.practice.jetpack.anyNonNull
 import nlab.practice.jetpack.util.di.activity.ActivityCallback
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycle
 import nlab.practice.jetpack.util.lifecycle.ActivityLifecycleBinder

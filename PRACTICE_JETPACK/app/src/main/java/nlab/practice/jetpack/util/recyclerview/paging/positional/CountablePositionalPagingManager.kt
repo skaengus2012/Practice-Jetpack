@@ -53,16 +53,16 @@ class CountablePositionalPagingManager<T> private constructor(
      * 그 이외 상황에 대해서는 subject 를 통해 적절히 처리가 필요함
      */
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-        stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
+        stateSubject.onNext(PositionalLoadEvent(PositionalDataLoadState.LOAD_START, rangeParams = params))
 
         dataRepository.getCountablePositionalRs(params.startPosition, params.loadSize)
             .doOnSuccess {
                 val isEqualsTotalCount = totalCount ?: -1 == it.getTotalCount()
                 if (isEqualsTotalCount) {
                     callback.onResult(it.getItems())
-                    PositionalEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params)
+                    PositionalLoadEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params)
                 } else {
-                    PositionalEvent(PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED, rangeParams = params)
+                    PositionalLoadEvent(PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED, rangeParams = params)
                 }.run { stateSubject.onNext(this) }
             }
             .observeOn(schedulerFactory.ui())
@@ -70,7 +70,7 @@ class CountablePositionalPagingManager<T> private constructor(
             .doOnError {
                 // FIXME retry 세팅 시, 외부 ui 스케줄러와 동기화를 맞춰야 하기 때문에 동시에 처리
                 setRetry(params, callback)
-                stateSubject.onNext(PositionalEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
+                stateSubject.onNext(PositionalLoadEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params))
             }
             .subscribe()
             .addTo(disposables)
@@ -83,7 +83,7 @@ class CountablePositionalPagingManager<T> private constructor(
      * 그 이외 상황에 대해서는 subject 를 통해 적절히 처리가 필요함
      */
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-        stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_START, initParams = params))
+        stateSubject.onNext(PositionalLoadEvent(PositionalDataLoadState.INIT_LOAD_START, initParams = params))
         dataRepository.getTotalCount()
             .doOnSuccess { totalCount
                 ->
@@ -96,14 +96,14 @@ class CountablePositionalPagingManager<T> private constructor(
                 }
             }
             .doOnError {
-                stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
+                stateSubject.onNext(PositionalLoadEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
             }
             .subscribe()
             .addTo(disposables)
     }
 
     private fun loadInitialEmpty(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-        PositionalEvent(PositionalDataLoadState.INIT_LOAD_FINISH, initParams = params)
+        PositionalLoadEvent(PositionalDataLoadState.INIT_LOAD_FINISH, initParams = params)
         callback.onResult(Collections.emptyList(), params.requestedStartPosition, 0)
     }
 
@@ -116,13 +116,13 @@ class CountablePositionalPagingManager<T> private constructor(
                 val isEqualsTotalCount = (it.getTotalCount() == totalCount)
                 if (isEqualsTotalCount) {
                     callback.onResult(it.getItems(), firstLoadPosition, it.getTotalCount())
-                    PositionalEvent(PositionalDataLoadState.INIT_LOAD_FINISH, initParams = params)
+                    PositionalLoadEvent(PositionalDataLoadState.INIT_LOAD_FINISH, initParams = params)
                 } else {
-                    PositionalEvent(PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED, initParams = params)
+                    PositionalLoadEvent(PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED, initParams = params)
                 }.run { stateSubject.onNext(this) }
             }
             .doOnError {
-                stateSubject.onNext(PositionalEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
+                stateSubject.onNext(PositionalLoadEvent(PositionalDataLoadState.INIT_LOAD_ERROR, initParams = params))
             }
             .subscribe()
             .addTo(disposables)
