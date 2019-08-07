@@ -74,12 +74,12 @@ class AnkoFirstViewModelTest {
     }
 
     @Test
-    fun checkInitialize() {
+    fun testInitialize() {
         assertEquals(createViewModel().message.get(), MOCK_MESSAGE_FIRST)
     }
 
     @Test
-    fun changeText() {
+    fun testChangeText() {
         with(createViewModel()) {
             changeText()
             assertEquals(message.get(), MOCK_MESSAGE_CHANGE_TEXT)
@@ -87,7 +87,7 @@ class AnkoFirstViewModelTest {
     }
 
     @Test
-    fun changeDelayTest() {
+    fun testChangeTextDelayTime() {
         with(createViewModel()) {
             changeTextDelayTime()
             assertEquals(message.get(), MOCK_MESSAGE_CHANGE_TEXT_DELAYED)
@@ -95,7 +95,7 @@ class AnkoFirstViewModelTest {
     }
 
     @Test
-    fun afterOrientationCheckState() {
+    fun when_OrientationChanged_expected_TextStateRemained() {
         createViewModel().changeText()
         assertEquals(createViewModel().message.get(), MOCK_MESSAGE_CHANGE_TEXT)
     }
