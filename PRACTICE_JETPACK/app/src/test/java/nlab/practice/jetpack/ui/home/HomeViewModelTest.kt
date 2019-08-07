@@ -97,14 +97,14 @@ class HomeViewModelTest {
     private fun createDummyTestMenu(type: String): TestMenu = TestMenu(type, 0, type)
 
     @Test
-    fun checkRecyclerViewDecorate() = with(viewModel.recyclerViewConfig) {
+    fun when_Init_expected_SetupRecyclerViewDecorate() = with(viewModel.recyclerViewConfig) {
         assertNull(layoutManager)
         assert(itemTouchHelperSuppliers.isEmpty())
         assert(itemDecoration in itemDecorations)
     }
 
     @Test
-    fun checkItems() {
+    fun when_Init_expected_SetupItems() {
         verify(testMenuRepository, times(1)).getSlideUpPanelExMenus()
         verify(testMenuRepository, times(1)).getAnkoFirstViewMenu()
         verify(testMenuRepository, times(1)).getCenterScrollRecyclerView()
@@ -118,7 +118,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun onBottomNavigationReselectIfHasChild() {
+    fun bottomNavReselected_NeverInvokeScrollToPosition_IfHasChildren() {
         `when`(fragmentNavUsecase.hasChild()).thenReturn(true)
 
         assert(!containerFragmentCallback.bottomNavReselectedCommand!!.invoke())
@@ -126,7 +126,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun onBottomNavigationReselectIfEmptyChild() {
+    fun bottomNavReselected_InvokeScrollToPosition_IfEmptyChildren() {
         `when`(fragmentNavUsecase.hasChild()).thenReturn(false)
 
         assert(containerFragmentCallback.bottomNavReselectedCommand!!.invoke())
@@ -140,42 +140,43 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun onClickSlideItem() {
+    fun when_OnClickSlideItem_expected_NavSlide() {
         actionItemClick(MOCK_TYPE_TEST_MENU_SLIDE)
         verify(activityNavUsecase, times(1)).navSlide()
     }
 
     @Test
-    fun onClickAnkoTutorialItem() {
+    fun when_OnClickAnkoItem_expected_NavAnko() {
         actionItemClick(MOCK_TYPE_TEST_MENU_ANKO)
         verify(activityNavUsecase, times(1)).navAnko()
     }
 
     @Test
-    fun onClickCenterScrollItem() {
+    fun when_OnClickCenterScrollItem_expected_NavCenterScrolling() {
         actionItemClick(MOCK_TYPE_TEST_MENU_CENTER_SCROLL)
         verify(fragmentNavUsecase, times(1)).navCenterScrolling()
     }
 
     @Test
-    fun onClickCollapsingToolbarItem() {
+    fun when_OnClickCollapsingToolbarItem_expected_NavCollapsingToolbar() {
         actionItemClick(MOCK_TYPE_TEST_MENU_COLLAPSING_TOOLBAR)
         verify(activityNavUsecase, times(1)).navCollapsingToolbar()
     }
 
     @Test
-    fun onClickDragDropItem() {
+    fun when_OnClickDragAndDropItem_expected_NavDragDrop() {
         actionItemClick(MOCK_TYPE_TEST_MENU_DRAG_N_DROP)
         verify(fragmentNavUsecase, times(1)).navDragDrop()
     }
 
     @Test
-    fun onClickListAdapterItem() {
+    fun when_OnClickListAdapterItem_expected_NavListAdapterExample() {
         actionItemClick(MOCK_TYPE_TEST_MENU_LIST_ADAPTER)
         verify(fragmentNavUsecase, times(1)).navListAdapterExample()
     }
 
-    fun onClickPagingItem() {
+    @Test
+    fun when_OnClickPagingItem_expected_NavCountablePaging() {
         actionItemClick(MOCK_TYPE_TEST_MENU_PAGING)
         verify(fragmentNavUsecase, times(1)).navCountablePaging()
     }

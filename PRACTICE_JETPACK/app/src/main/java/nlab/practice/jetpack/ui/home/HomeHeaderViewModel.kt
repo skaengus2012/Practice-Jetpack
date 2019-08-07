@@ -47,7 +47,7 @@ class HomeHeaderViewModel @Inject constructor(
 
     @Bindable
     var currentTimeString: String = getCurrentTimeDateFormat()
-        set(value) {
+        private set(value) {
             field = value
             notifyPropertyChanged(BR.currentTimeString)
         }
