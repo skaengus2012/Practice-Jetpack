@@ -33,19 +33,18 @@ import org.junit.Assert.*
 import org.junit.Before
 
 /**
- * Test for CountableDataSourceProvider
+ * Test for CountableDataSourceProvider.initLoad
  *
- * 1. 초기상태 데이터 조회
- * 1-1. 초기 상태 조회 시, 비어있을 경우
- * 1-2. 초기 상태 조회 시, totalCount 조회에서 에러
- * 1-3. 초기 상태 조회 시, load 조회에서 에러
- * 1-4. 초기 상태 조회 시, 정상적인 조회 체크
- * 1-5. 초기 상태 조회 시, 정사적인 조회를 하나 데이터 사이즈가 변경된 경우
+ * 1. 초기 조회 시, 비어있을 경우
+ * 2. 초기 조회 시, totalCount 조회에서 에러
+ * 3. 초기 조회 시, load 조회에서 에러
+ * 4. 초기 조회 시, 정상적인 조회 체크
+ * 5. 초기 조회 시, 정상적인 조회를 하나 데이터 사이즈가 변경된 경우
  *
  * @author Doohyun
  */
 @RunWith(MockitoJUnitRunner::class)
-class CountableDataSourceFactoryTest {
+class CountableDataSourceFactoryInitLoadTest {
 
     @Mock
     lateinit var repository: Repository<SimpleVO>
@@ -68,7 +67,7 @@ class CountableDataSourceFactoryTest {
     }
 
     @Test(timeout = 1000)
-    fun initLoadIfTotalEmpty() {
+    fun initLoad_PostNoDataCodeAndInvokeCallback_IfTotalCountIsZero() {
         `when`(repository.totalCountSingle()).thenReturn(Single.just(0))
 
         initLoadEmptyTemplate()
@@ -117,14 +116,14 @@ class CountableDataSourceFactoryTest {
     )
 
     @Test(timeout = 1000)
-    fun initLoadIfTotalCountError() {
+    fun initLoad_PostErrorCodeAndNeverInvokeCallback_IfTotalCountSingleIsError() {
         `when`(repository.totalCountSingle()).thenReturn(Single.error(Throwable()))
 
         initLoadErrorTemplate()
     }
 
     @Test(timeout = 1000)
-    fun initLoadIfLoadError() {
+    fun initLoad_PostErrorCodeAndNeverInvokeCallback_IfLoadSingleIsError() {
         `when`(repository.totalCountSingle()).thenReturn(Single.just(1))
         `when`(repository.loadSingle(anyInt(), anyInt())).thenReturn(Single.error(Throwable()))
 
@@ -159,7 +158,7 @@ class CountableDataSourceFactoryTest {
     }
 
     @Test(timeout = 1000)
-    fun initLoad() {
+    fun initLoad_PostFinishCodeAndInvokeCallback_IfBestCase() {
         initLoadTemplate(0, 100, 200, 1000)
 
         verify(initCallback, times(1)).onResult(
@@ -172,7 +171,7 @@ class CountableDataSourceFactoryTest {
     }
 
     @Test(timeout = 1000)
-    fun initLoadIfTotalCountChanged() {
+    fun initLoad_PostDataSizeChangedCodeAndNeverInvokeCallback_IfTotalCountIsChanged() {
         initLoadTemplate(0, 100, 200, 1000, 1002,
             listOf(PositionalDataLoadState.INIT_LOAD_START, PositionalDataLoadState.INIT_LOAD_DATA_SIZE_CHANGED))
 
@@ -218,6 +217,4 @@ class CountableDataSourceFactoryTest {
             assertValue(expectedStates)
         }
     }
-
-
 }

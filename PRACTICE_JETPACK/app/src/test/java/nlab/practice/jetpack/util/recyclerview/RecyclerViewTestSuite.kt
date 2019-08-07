@@ -16,6 +16,8 @@
 
 package nlab.practice.jetpack.util.recyclerview
 
+import nlab.practice.jetpack.util.recyclerview.paging.positional.CountableDataSourceFactoryInitLoadTest
+import nlab.practice.jetpack.util.recyclerview.paging.positional.CountableDataSourceFactoryLoadRangeTest
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -24,6 +26,8 @@ import org.junit.runners.Suite
  */
 @RunWith(Suite::class)
 @Suite.SuiteClasses(value = [
-    DifferentTest::class
+    DifferentTest::class,
+    CountableDataSourceFactoryInitLoadTest::class,
+    CountableDataSourceFactoryLoadRangeTest::class
 ])
 class RecyclerViewTestSuite
