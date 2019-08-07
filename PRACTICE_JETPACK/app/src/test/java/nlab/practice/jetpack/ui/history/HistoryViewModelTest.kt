@@ -60,7 +60,7 @@ class HistoryViewModelTest {
     }
 
     @Test
-    fun setup() = with(HistoryViewModel(repository, historyItemFactory)) {
+    fun when_Initialize_expected_headersAndItemsWillbeSetup() = with(HistoryViewModel(repository, historyItemFactory)) {
         assertEquals(1, headers.size)
         assertThat(headers[0], instanceOf(SimpleItemViewModel::class.java))
         assertEquals(1, items.size)

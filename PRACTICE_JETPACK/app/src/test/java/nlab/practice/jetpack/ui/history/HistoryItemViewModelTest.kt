@@ -56,7 +56,7 @@ class HistoryItemViewModelTest {
     }
 
     @Test
-    fun checkMappings() {
+    fun checkInformationMapping() {
         with(HistoryItemViewModel(resourceProvider, sampleHistory)) {
             assertEquals(sampleHistory.title, title)
             assertEquals(sampleHistory.subTitle, subTitle)
