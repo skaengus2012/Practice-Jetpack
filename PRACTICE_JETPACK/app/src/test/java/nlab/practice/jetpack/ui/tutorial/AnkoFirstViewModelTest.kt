@@ -74,12 +74,12 @@ class AnkoFirstViewModelTest {
     }
 
     @Test
-    fun testInitialize() {
+    fun checkInitializeMessage() {
         assertEquals(createViewModel().message.get(), MOCK_MESSAGE_FIRST)
     }
 
     @Test
-    fun testChangeText() {
+    fun when_OnClickChangeText_expected_MessageChangedToLabel() {
         with(createViewModel()) {
             changeText()
             assertEquals(message.get(), MOCK_MESSAGE_CHANGE_TEXT)
@@ -87,7 +87,7 @@ class AnkoFirstViewModelTest {
     }
 
     @Test
-    fun testChangeTextDelayTime() {
+    fun when_OnClickChangeTextDelayTime_expected_MessageChangedToLabel() {
         with(createViewModel()) {
             changeTextDelayTime()
             assertEquals(message.get(), MOCK_MESSAGE_CHANGE_TEXT_DELAYED)

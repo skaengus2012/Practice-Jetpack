@@ -44,7 +44,7 @@ class HomeItemViewModelTest {
     )
 
     @Test
-    fun checkMappings() {
+    fun checkInformationMapping() {
         with(HomeItemViewModel(sampleMenu, clickAction)) {
             assertEquals(sampleMenu.cardColorRes, cardColor)
             assertEquals(sampleMenu.title, title)
