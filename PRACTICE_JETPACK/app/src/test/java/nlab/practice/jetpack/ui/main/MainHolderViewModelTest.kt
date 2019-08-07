@@ -81,7 +81,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun doOnCreateBehavior() {
+    fun when_OnCreatedAndFirst_expected_NeverChangedBottomNavAndMoveHome() {
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HOME)
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
@@ -91,7 +91,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun selectBottomTab() {
+    fun when_TabBottomNavMenu_expected_MoveValidPage() {
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
 
         selectTabSubject.onNext(MainBottomNavMenuType.MENU_HISTORY)
@@ -103,7 +103,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun reselectedBottomTabIfChildHasStack() {
+    fun when_EmptyChildrenAndReselectedHome_expected_InvokeContainerReSelectedAndNeverClearChildren() {
         `when`(containerUsecase.invokeContainerReselected()).thenReturn(true)
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
@@ -115,7 +115,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun reselectedBottomTabIfChildEmptyStack() {
+    fun when_HasChildrenAndReselectedHome_expected_InvokeContainerReSelectedAndClearChildren() {
         `when`(containerUsecase.invokeContainerReselected()).thenReturn(false)
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)
@@ -127,7 +127,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun onBackPressedIfContainerBackPressedTrue() {
+    fun when_OnBackPressedAndResultTrue_expected_NeverGoHome() {
         `when`(containerUsecase.invokeContainerBackPressed()).thenReturn(true)
 
         assertEquals(true, activityCallback.onBackPressedCommand!!.invoke())
@@ -137,7 +137,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun onBackPressedIfContainerBackPressedFalseAndCurrentNotHome() {
+    fun when_OnBackPressedAndResultFalseAndCurrentNotHome_expected_GoHome() {
         `when`(containerUsecase.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HISTORY)
 
@@ -147,7 +147,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun onBackPressedIfContainerBackPressedFalseAndCurrentHome() {
+    fun when_OnBackPressedAndResultFalseAndCurrentHome_expected_CloseActivity() {
         `when`(containerUsecase.invokeContainerBackPressed()).thenReturn(false)
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HOME)
 
@@ -155,7 +155,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun onRestoreSavedStateAtHistoryTab() {
+    fun when_OnRestoredAndLatestNotHomeTab_expected_GoHistory() {
         var menuIds = MainBottomNavMenuType.MENU_HOME
 
         `when`(bottomNavigationViewUsecase.selectedItemId).then { menuIds }
@@ -171,7 +171,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun onRestoreSavedStateAtHomeTab() {
+    fun when_OnRestoredAndLatestHomeTab_expected_NotMoved() {
         var menuIds = MainBottomNavMenuType.MENU_HOME
 
         `when`(bottomNavigationViewUsecase.selectedItemId).then { menuIds }
