@@ -81,7 +81,7 @@ class MainHolderViewModelTest {
     }
 
     @Test
-    fun when_OnCreatedAndFirst_expected_NeverChangedBottomNavAndMoveHome() {
+    fun when_OnCreatedAndFirst_expected_NeverChangedBottomNavMenuAndShouldMoveHome() {
         `when`(bottomNavigationViewUsecase.selectedItemId).thenReturn(MainBottomNavMenuType.MENU_HOME)
 
         lifecycleBinder.apply(ActivityLifecycle.ON_CREATE)

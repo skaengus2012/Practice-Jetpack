@@ -71,7 +71,7 @@ class HomeHeaderViewModelTest {
     }
 
     @Test(timeout = 60000L)
-    fun startTimerOnViewCreated() {
+    fun when_AddingOneMinute_expected_CurrentTimeStringWillBeChanged() {
         val currentTimeText = viewModel.currentTimeString
 
         val expectedValue = TimeBuilder.Create(currentTimeText, MOCK_MESSAGE_HOME_TIME_FORMAT_STRING)
@@ -98,7 +98,7 @@ class HomeHeaderViewModelTest {
     }
 
     @Test
-    fun stopTimberOnDestroyView() {
+    fun when_AfterInvokeStopTimer_CurrentTimeStringIsNeverChanged() {
         lifecycleBinder.apply(FragmentLifecycle.ON_VIEW_CREATED)
         lifecycleBinder.apply(FragmentLifecycle.ON_DESTROY_VIEW)
 
