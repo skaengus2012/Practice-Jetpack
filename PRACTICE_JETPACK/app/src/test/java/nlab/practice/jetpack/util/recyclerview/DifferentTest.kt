@@ -39,7 +39,7 @@ class DifferentTest {
     private val copySupportPayloadTarget = supportPayloadTarget.copy()
 
     @Test
-    fun checkValidDifferent() {
+    fun checkCompareResultUsingDifferent() {
         assertTrue(differTarget.areContentsTheSame(copyDifferTarget))
         assertFalse(differTarget.areItemsTheSame(copyDifferTarget))
         assertNull(differTarget.getChangePayload(copyDifferTarget))
@@ -50,7 +50,7 @@ class DifferentTest {
     }
 
     @Test
-    fun checkDifferentHasItem() {
+    fun checkCompareResultUsingDifferentDelegate() {
         val item = DifferentHasItem(differTarget)
         val copyUseItem = DifferentHasItem(copyDifferTarget)
 
