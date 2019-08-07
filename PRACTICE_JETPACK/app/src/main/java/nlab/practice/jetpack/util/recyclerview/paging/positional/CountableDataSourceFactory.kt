@@ -39,7 +39,25 @@ class CountableDataSourceFactory<T>(
         get() = loadEventSubject
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        PositionalLoadEvent(PositionalDataLoadState.LOAD_START, rangeParams = params).post()
+
+        repository.loadSingle(params.startPosition, params.loadSize)
+            .observeOn(schedulerFactory.ui())
+            .doOnSuccess { response ->
+                val isEqualsTotalCount = currentTotalCount
+                    ?.let { response.totalCount == it }
+                    ?: false
+                if (isEqualsTotalCount) {
+                    PositionalLoadEvent(PositionalDataLoadState.LOAD_FINISH, rangeParams = params).post()
+                    callback.onResult(response.items)
+                } else {
+                    PositionalLoadEvent(PositionalDataLoadState.LOAD_DATA_SIZE_CHANGED, rangeParams = params).post()
+                }
+            }
+            .doOnError {
+                PositionalLoadEvent(PositionalDataLoadState.LOAD_ERROR, rangeParams = params).post()
+            }
+            .subscribe()
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
