@@ -26,8 +26,7 @@ import io.reactivex.Observable
 interface DataSourceFactory<T> {
     val loadEventObservable: Observable<PositionalLoadEvent>
 
-    fun createDataSource(): PositionalDataSource<T> =
-        InternalPositionalDataSourceEx(this)
+    fun createDataSource() = InternalPositionalDataSource(this)
 
     fun loadRange(
         params: PositionalDataSource.LoadRangeParams,
@@ -40,15 +39,24 @@ interface DataSourceFactory<T> {
     )
 }
 
-private class InternalPositionalDataSourceEx<T>(
+class InternalPositionalDataSource<T>(
     private val factory: DataSourceFactory<T>
 ) : PositionalDataSource<T>() {
+
+    private var latestLoadRangeAction: (() -> Unit)? = null
+
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-        factory.loadRange(params, callback)
+        { factory.loadRange(params, callback) }
+            .apply { latestLoadRangeAction = this }
+            .invoke()
     }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
         factory.loadInitial(params, callback)
+    }
+
+    fun retryLoadRange() {
+        latestLoadRangeAction?.invoke()
     }
 }
 

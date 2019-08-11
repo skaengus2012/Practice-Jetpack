@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.recyclerview.paging.positional
-
-import nlab.practice.jetpack.util.recyclerview.paging.PagedListItemPresenter
+package nlab.practice.jetpack.util.recyclerview.paging
 
 /**
  * @author Doohyun
  */
-class SimpleItem(private val simpleData: SimpleVO) : PagedListItemPresenter<SimpleVO> {
 
-    override val item: SimpleVO
-        get() = simpleData
+interface PagedListItemPresenter<T> {
+    val item: T
+}
+
+interface PagedListPresenterTypeTransformer<T> {
+    fun transform(data: T): PagedListItemPresenter<T>
+}
+
+inline fun <T> pagedListItemTransformerOf(
+    crossinline transForm: (T) -> PagedListItemPresenter<T>
+) = object : PagedListPresenterTypeTransformer<T> {
+
+    override fun transform(data: T): PagedListItemPresenter<T> {
+        return transForm.invoke(data)
+    }
 }

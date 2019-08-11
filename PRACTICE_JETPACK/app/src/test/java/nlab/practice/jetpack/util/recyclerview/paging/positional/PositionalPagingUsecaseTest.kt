@@ -18,17 +18,15 @@ package nlab.practice.jetpack.util.recyclerview.paging.positional
 
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subscribers.TestSubscriber
 import nlab.practice.jetpack.testSchedulerFactoryOf
-import org.junit.Before
+import nlab.practice.jetpack.util.recyclerview.paging.PagedListItemPresenter
+import nlab.practice.jetpack.util.recyclerview.paging.pagedListItemTransformerOf
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
-import java.util.concurrent.TimeUnit
 
 /**
  * Test for PositionalPagingUsecase
@@ -47,6 +45,9 @@ class PositionalPagingUsecaseTest {
     @Mock
     lateinit var dataSourceFactory: DataSourceFactory<SimpleVO>
 
+    @Mock
+    lateinit var loadCallback: PositionalDataSource.LoadRangeCallback<SimpleVO>
+
     private val config = PagedList.Config.Builder()
         .setInitialLoadSizeHint(100)
         .setPageSize(100)
@@ -56,44 +57,59 @@ class PositionalPagingUsecaseTest {
 
     private val schedulerFactory = testSchedulerFactoryOf()
 
-    private lateinit var pagingUsecase: PositionalPagingUsecase<SimpleVO>
+    private fun createPagingUsecase(
+        mocking: () -> Unit = {
+            `when`(dataSourceFactory.createDataSource()).thenAnswer { InternalPositionalDataSource(dataSourceFactory) }
+        }
+    ): PagingUsecase<SimpleVO> {
+        mocking.invoke()
 
-    @Before
-    fun initialize() {
-        `when`(dataSourceFactory.createDataSource()).thenAnswer { createDataSourceStub() }
-
-        pagingUsecase = PositionalPagingUsecase.Factory(
+        return PagingUsecase.Factory(
                 schedulerFactory,
                 dataSourceFactory
             )
-            .create { SimpleItem(it) }
-    }
-
-    private fun createDataSourceStub() = object : PositionalDataSource<SimpleVO>() {
-        override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<SimpleVO>) { }
-        override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<SimpleVO>) { }
+            .create(pagedListItemTransformerOf { SimpleItem(it) })
     }
 
     @Test
     fun when_SubscribePagedListFlowableAtFirst_expected_ObserveValueCountIsOne() {
-        pagingUsecase.createPagedListFlowable(config)
+        createPagingUsecase().createPagedListFlowable(config)
             .test()
             .assertValueCount(1)
     }
 
     @Test(timeout = 1000)
     fun when_SubscribePagedListFlowableAndInvalidate_expected_ObserveValueCountIsTwo() {
-        val testSubscriber = TestSubscriber<PagedList<PositionalPresenter<SimpleVO>>>()
+        val testSubscriber = TestSubscriber<PagedList<PagedListItemPresenter<SimpleVO>>>()
 
-        pagingUsecase.createPagedListFlowable(config)
-            .take(2)
-            .subscribe(testSubscriber)
+        with(createPagingUsecase()) {
+            createPagedListFlowable(config)
+                .take(2)
+                .subscribe(testSubscriber)
 
-        pagingUsecase.invalidate()
+            invalidate()
+        }
 
         with(testSubscriber) {
             awaitTerminalEvent()
             assertValueCount(2)
         }
+    }
+
+    @Test
+    fun when_InvokeLoadRangeOfDataSourceAndRetryOfPagedList_expected_InvokeCountOfLoadRangeDataSourceFactoryIsTwo() {
+        val dataSource = InternalPositionalDataSource(dataSourceFactory)
+
+        val param = PositionalDataSource.LoadRangeParams(100, 100)
+        dataSource.loadRange(param, loadCallback)
+
+        with(createPagingUsecase {
+            `when`(dataSourceFactory.createDataSource()).thenReturn(dataSource)
+        }) {
+            createPagedListFlowable(config).subscribe()
+            retryLoadRange()
+        }
+
+        verify(dataSourceFactory, times(2)).loadRange(param, loadCallback)
     }
 }

@@ -18,28 +18,29 @@ package nlab.practice.jetpack.util.recyclerview.paging.positional
 
 import androidx.paging.DataSource
 import androidx.paging.PagedList
-import androidx.paging.PositionalDataSource
 import androidx.paging.RxPagedListBuilder
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import nlab.practice.jetpack.util.SchedulerFactory
+import nlab.practice.jetpack.util.recyclerview.paging.PagedListItemPresenter
+import nlab.practice.jetpack.util.recyclerview.paging.PagedListPresenterTypeTransformer
 
 /**
  * @author Doohyun
  */
-class PositionalPagingUsecase<T> private constructor(
+class PagingUsecase<T> private constructor(
     private val schedulerFactory: SchedulerFactory,
     private val dataSourceFactory: DataSourceFactory<T>,
-    private val transformer: (T) -> PositionalPresenter<T>
+    private val transformer: PagedListPresenterTypeTransformer<T>
 ) {
 
     val loadEventObservable: Observable<PositionalLoadEvent>
         get() = dataSourceFactory.loadEventObservable
 
-    private var latestDataSource: PositionalDataSource<T>? = null
+    private var latestDataSource: InternalPositionalDataSource<T>? = null
 
-    fun createPagedListFlowable(config: PagedList.Config): Flowable<PagedList<PositionalPresenter<T>>> {
+    fun createPagedListFlowable(config: PagedList.Config): Flowable<PagedList<PagedListItemPresenter<T>>> {
         return RxPagedListBuilder(createDataSourceTransformerFactory(), config)
             .setFetchScheduler(schedulerFactory.io())
             .setNotifyScheduler(schedulerFactory.ui())
@@ -50,12 +51,16 @@ class PositionalPagingUsecase<T> private constructor(
         latestDataSource?.invalidate()
     }
 
-    private fun createDataSourceTransformerFactory() = object : DataSource.Factory<Int, PositionalPresenter<T>>() {
+    fun retryLoadRange() {
+        latestDataSource?.retryLoadRange()
+    }
 
-        override fun create(): DataSource<Int, PositionalPresenter<T>> {
+    private fun createDataSourceTransformerFactory() = object : DataSource.Factory<Int, PagedListItemPresenter<T>>() {
+
+        override fun create(): DataSource<Int, PagedListItemPresenter<T>> {
             return dataSourceFactory.createDataSource()
                 .apply { latestDataSource = this }
-                .map { transformer.invoke(it) }
+                .map { transformer.transform(it) }
         }
 
     }
@@ -65,12 +70,11 @@ class PositionalPagingUsecase<T> private constructor(
         private val dataSourceFactory: DataSourceFactory<T>
     ) {
         fun create(
-            transformer: (T) -> PositionalPresenter<T>
-        ) = PositionalPagingUsecase(schedulerFactory, dataSourceFactory, transformer)
+            transformer: PagedListPresenterTypeTransformer<T>
+        ) = PagingUsecase(
+            schedulerFactory,
+            dataSourceFactory,
+            transformer
+        )
     }
-
-}
-
-interface PositionalPresenter<T> {
-    val item: T
 }
