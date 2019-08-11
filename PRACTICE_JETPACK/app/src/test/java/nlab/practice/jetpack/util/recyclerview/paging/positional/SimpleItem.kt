@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package nlab.practice.jetpack.util.recyclerview
-
-import nlab.practice.jetpack.util.recyclerview.paging.positional.CountableDataSourceFactoryTest
-import nlab.practice.jetpack.util.recyclerview.paging.positional.PositionalPagingUsecaseTest
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+package nlab.practice.jetpack.util.recyclerview.paging.positional
 
 /**
  * @author Doohyun
  */
-@RunWith(Suite::class)
-@Suite.SuiteClasses(value = [
-    DifferentTest::class,
-    CountableDataSourceFactoryTest::class,
-    PositionalPagingUsecaseTest::class
-])
-class RecyclerViewTestSuite
+class SimpleItem(private val simpleData: SimpleVO) : PositionalPresenter<SimpleVO> {
+
+    override val item: SimpleVO
+        get() = simpleData
+}

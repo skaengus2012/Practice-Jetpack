@@ -24,6 +24,7 @@ import nlab.practice.jetpack.util.di.itemview.ItemViewUsecaseFactory
  * @author Doohyun
  */
 abstract class BindingItemViewModel: BaseObservable() {
+    // 필요하다면, 이쪽의 데이터 변경 시점을 통해 처리해볼 수 있음.
     var itemViewUsecaseFactory: ItemViewUsecaseFactory? = null
 
     @LayoutRes

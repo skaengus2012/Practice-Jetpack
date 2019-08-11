@@ -71,7 +71,7 @@ class HomeHeaderViewModelTest {
     }
 
     @Test(timeout = 60000L)
-    fun when_AddingOneMinute_expected_CurrentTimeStringWillBeChanged() {
+    fun when_PassedMinute_expected_CurrentTimeStringWillBeChanged() {
         val currentTimeText = viewModel.currentTimeString
 
         val expectedValue = TimeBuilder.Create(currentTimeText, MOCK_MESSAGE_HOME_TIME_FORMAT_STRING)
