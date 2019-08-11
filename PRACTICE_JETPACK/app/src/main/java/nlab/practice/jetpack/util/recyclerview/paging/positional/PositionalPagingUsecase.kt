@@ -18,6 +18,7 @@ package nlab.practice.jetpack.util.recyclerview.paging.positional
 
 import androidx.paging.DataSource
 import androidx.paging.PagedList
+import androidx.paging.PositionalDataSource
 import androidx.paging.RxPagedListBuilder
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -36,6 +37,8 @@ class PositionalPagingUsecase<T> private constructor(
     val loadEventObservable: Observable<PositionalLoadEvent>
         get() = dataSourceFactory.loadEventObservable
 
+    private var latestDataSource: PositionalDataSource<T>? = null
+
     fun createPagedListFlowable(config: PagedList.Config): Flowable<PagedList<PositionalPresenter<T>>> {
         return RxPagedListBuilder(createDataSourceTransformerFactory(), config)
             .setFetchScheduler(schedulerFactory.io())
@@ -43,18 +46,25 @@ class PositionalPagingUsecase<T> private constructor(
             .buildFlowable(BackpressureStrategy.BUFFER)
     }
 
+    fun invalidate() {
+        latestDataSource?.invalidate()
+    }
+
     private fun createDataSourceTransformerFactory() = object : DataSource.Factory<Int, PositionalPresenter<T>>() {
 
         override fun create(): DataSource<Int, PositionalPresenter<T>> {
-            return dataSourceFactory.createDataSource().map { transformer.invoke(it) }
+            return dataSourceFactory.createDataSource()
+                .apply { latestDataSource = this }
+                .map { transformer.invoke(it) }
         }
 
     }
 
-
-    class Factory<T>(private val schedulerFactory: SchedulerFactory){
+    class Factory<T>(
+        private val schedulerFactory: SchedulerFactory,
+        private val dataSourceFactory: DataSourceFactory<T>
+    ) {
         fun create(
-            dataSourceFactory: DataSourceFactory<T>,
             transformer: (T) -> PositionalPresenter<T>
         ) = PositionalPagingUsecase(schedulerFactory, dataSourceFactory, transformer)
     }
