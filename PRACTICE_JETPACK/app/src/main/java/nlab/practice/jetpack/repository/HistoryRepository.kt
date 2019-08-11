@@ -70,6 +70,17 @@ class HistoryRepository @Inject constructor() {
         History(
             "SlidingUpPanelLayout 연습", true,
             "뮤직 플레이어에서 주로 사용하는, 오픈소스에 대한 연구\n  * 모든 부분을 MVVM 으로 구현해봄\n  *  interface - Delegate 를 시도한 두번째 예제\n  *  개인앱 제작 시, 조금더 연구는 필요"
+        ),
+
+        History(
+            "가로화면 전환 데이터 유지", false,
+            "MVVM(AAC ViewModel 사용안하는 형태)의 상태에서 가로화면 전환과 데이터 유지에 대한 테스트\n  * AAC ViewModel 을 이용하여, 데이터 보관가능\n    단, 데이터만 보관하는 용도로만 사용\n  * 즉 OnCreate 시점에 ItemViewModel 을 만들어줘야함 (데이터가 있다면..)\n  * 화면이 너무 많기 때문에 모두 적용은 실패\n  * 페이징은 테스트용도만 제작해봄"
+        ),
+
+        History(
+            "TDD 코드 리팩토링", false,
+            "기존 코드에 대한 TDD 코드 제작\n  * 안드로이드와 관련된 코드가 추가되어선 안됨\n    테스트를 작성하며 개발하면 이 부분이 분명히 보일 것\n  * 유틸과 유틸을 하면 안되는 코드가 분명해짐\n" +
+                    "   (Mock 가능성 코드는 전역사용 금지\n  * 코드가 너무 많아 TDD 를 작성하여 리팩토링하는 것은 포기\n  * 새 개발부터 시작해볼 예정"
         )
     )
 
